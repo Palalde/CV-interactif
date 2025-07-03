@@ -14,7 +14,9 @@
   <body>
     <!-- FIXE A TOUTE LES PAGES -->
     <section class="fix-container">
+      <!-- TITRE -->
       <h1 class="main-title">CV</h1>
+      <!-- NAV -->
       <nav class="navbar">
         <button id="theme-toggle" aria-label="Changer le mode sombre/clair">
           🌙/☀️
@@ -24,6 +26,25 @@
           >CV classique</a
         >
       </nav>
+      <!-- RANGE SLIDER -->
+      <div class="range-slider-container">
+        <input
+          type="range"
+          min="1"
+          max="200"
+          step="1"
+          value="1"
+          class="range-slider"
+          id="myRange"
+        />
+        <div class="range-labels">
+          <span>Etudes</span>
+          <span>Trading</span>
+          <span>Leclerc</span>
+          <span>Code</span>
+        </div>
+        <div class="range-value" id="rangeValue">Valeur : Etudes</div>
+      </div>
     </section>
     <!-- HTML CHANGEANT-->
     <!-- FIXE A TOUTE LES PAGES -->
