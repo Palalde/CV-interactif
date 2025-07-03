@@ -4,3 +4,70 @@
   padding: 0;
   box-sizing: border-box;
 }
+/* VAR */
+:root {
+}
+.square {
+  border: 2px dashed #888;
+  background: #f9f9f9;
+}
+/* PAGE ENTIERE */
+html,
+body {
+  height: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+/* CONTAINER FIX */
+.fix-container {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-title {
+  width: 100vw;
+  text-align: center;
+}
+/* CONTENAIR CHANGEANT */
+.change-contenair {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+}
+
+.change-contenair {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: stretch;
+  min-height: 0;
+}
+/* BLOCS INTERIEURS */
+.change-test {
+  flex: 3 1 0;
+  min-height: 0;
+  max-height: 100%;
+  overflow: auto;
+}
+
+.competence-test {
+  flex: 1 1 0;
+  min-height: 0;
+  max-height: 100%;
+  overflow: auto;
+}
+/* FOOTER */
+.footer {
+  flex-shrink: 0;
+}
