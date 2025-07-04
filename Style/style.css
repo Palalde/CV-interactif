@@ -6,10 +6,12 @@
 }
 /* VAR */
 :root {
+  --background-dark: #1a1a2e;
+  --background-light: #f5f6fa;
 }
 .square {
   border: 2px dashed #888;
-  background: #f9f9f9;
+  background: var(--background-light);
 }
 /* PAGE ENTIERE */
 html,
@@ -18,6 +20,7 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
+  background-color: var(--background-dark);
 }
 
 body {
@@ -36,6 +39,7 @@ body {
 .main-title {
   width: 100vw;
   text-align: center;
+  border-radius: 25%;
 }
 /* CONTENAIR CHANGEANT */
 .change-contenair {
@@ -69,5 +73,8 @@ body {
 }
 /* FOOTER */
 .footer {
+  display: flex;
+  justify-content: center;
+
   flex-shrink: 0;
 }
