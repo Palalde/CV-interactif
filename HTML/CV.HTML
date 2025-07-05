@@ -25,10 +25,14 @@
         <h1 class="main-title">Paul Alessandrini</h1>
         <!-- NAV -->
         <nav class="navbar">
-          <button id="theme-toggle" aria-label="Changer le mode sombre/clair">
-            🌙/☀️
-          </button>
-          <a href="" target="" class="contact-info"> Contact / Info </a>
+          <label class="theme-switch">
+            <input type="checkbox" id="theme-toggle" />
+            <span class="slider">
+              <img src="../img/LOGO/sun.png" alt="Soleil" class="icon sun" />
+              <img src="../img/LOGO/moon.png" alt="Lune" class="icon moon" />
+            </span>
+          </label>
+          <a href="" target="" class="contact-info">Contact / Info</a>
           <a href="CV_Classique.pdf" target="_blank" class="classic-cv-link"
             >CV classique</a
           >
@@ -51,7 +55,6 @@
           <span>Leclerc</span>
           <span>Code</span>
         </div>
-        <div class="range-value" id="rangeValue">Valeur : Etudes</div>
       </div>
     </section>
     <!-- HTML CHANGEANT-->
