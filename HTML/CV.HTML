@@ -4,30 +4,38 @@
     <meta charset="UTF-8" />
     <title>CV Interactif - Paul Alessandrini</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../style/style.css" />
+
     <meta
       name="description"
       content="CV interactif de Paul Alessandrini, développeur web."
     />
     <meta name="author" content="Paul Alessandrini" />
+    <!-- CSS -->
+    <link rel="stylesheet" href="../style/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Inter:400,600,700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <!-- FIXE A TOUTE LES PAGES -->
     <section class="fix-container">
-      <!-- TITRE -->
-      <h1 class="main-title square">CV</h1>
-      <!-- NAV -->
-      <nav class="navbar square">
-        <button id="theme-toggle" aria-label="Changer le mode sombre/clair">
-          🌙/☀️
-        </button>
-        <a href="" target="" class="contact-info"> Contact / Info </a>
-        <a href="CV_Classique.pdf" target="_blank" class="classic-cv-link"
-          >CV classique</a
-        >
-      </nav>
+      <div class="header-row">
+        <!-- TITRE -->
+        <h1 class="main-title">Paul Alessandrini</h1>
+        <!-- NAV -->
+        <nav class="navbar">
+          <button id="theme-toggle" aria-label="Changer le mode sombre/clair">
+            🌙/☀️
+          </button>
+          <a href="" target="" class="contact-info"> Contact / Info </a>
+          <a href="CV_Classique.pdf" target="_blank" class="classic-cv-link"
+            >CV classique</a
+          >
+        </nav>
+      </div>
       <!-- RANGE SLIDER -->
-      <div class="range-slider-container square">
+      <div class="range-slider-container">
         <input
           type="range"
           min="1"
