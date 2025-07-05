@@ -9,11 +9,21 @@
 }
 /* VAR */
 :root {
+  /* darkmode */
   --background-general-dark: #1a1a2e;
-  --background-general-light: #f5f6fa;
   --background-surface-dark: #29295a;
+  --text-light: #f5f6fa;
+  /* lightmode*/
+  --text-dark: #1a1a2e;
+  --background-general-light: #f5f6fa;
   --background-surface-light: #e6e9f5;
+  /* autres */
   --background-transparent: rgba(0, 0, 0, 0);
+  --radius-main: 16px;
+  --radius-small: 7px;
+  --shadow-main: 0 2px 8px rgba(30, 30, 60, 0.1);
+  --gap-main: 16px;
+  --padding-main: 12px 20px;
 }
 .square {
   border: 2px dashed #888;
@@ -38,26 +48,28 @@ body {
 /*///////HEADER////////*/
 .header-row {
   display: flex;
-  justify-content: flex-start; /* Aligne tout à gauche */
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
   min-height: 56px;
-  padding: 12px 20px;
+  padding: var(--padding-main);
   background: var(--background-surface-dark);
-  box-shadow: 0 2px 12px 0 rgba(30, 30, 60, 0.1);
+  box-shadow: var(--shadow-main);
   margin-bottom: 18px;
-  gap: 16px; /* Garde un petit espace entre le titre et la nav */
+  gap: var(--gap-main);
+  border-radius: var(--radius-main);
   transition: padding 0.2s, min-height 0.2s;
 }
 /*TITRE*/
 .header-row h1 {
   font-size: 1.6rem;
-  color: var(--background-general-light);
+  color: var(--text-light);
   letter-spacing: 1px;
   font-weight: 700;
   margin: 0 18px 0 0;
   text-shadow: none;
   font-family: "Inter", Arial, Helvetica, sans-serif;
+  border-radius: var(--radius-main);
 }
 /*NAVBAR*/
 .header-row nav {
@@ -82,9 +94,9 @@ body {
   position: relative;
   width: 56px;
   height: 32px;
+  border-radius: var(--radius-main);
+  box-shadow: var(--shadow-main);
   background: var(--background-surface-light);
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(30, 30, 60, 0.1);
   transition: background 0.3s;
   display: flex;
   align-items: center;
@@ -142,11 +154,11 @@ body {
 /*link navbar*/
 .header-row nav a {
   text-decoration: none;
-  color: var(--background-general-light);
+  color: var(--text-light);
   font-weight: 600;
   font-size: 1rem;
+  border-radius: var(--radius-small);
   padding: 7px 14px;
-  border-radius: 7px;
   transition: background 0.2s, color 0.2s;
 }
 .header-row nav a:hover {
