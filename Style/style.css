@@ -196,6 +196,52 @@ body {
   background: var(--background-surface-light);
   color: var(--background-surface-dark);
 }
+
+/* NAVBAR ICON BLOCKS */
+.contact-info-block,
+.classic-cv-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-main);
+  background: transparent;
+  transition: background 0.2s;
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  position: relative;
+}
+
+.nav-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.15s;
+}
+
+.icon-contact.noir,
+.icon-pdf.noir {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.contact-info-block:hover .icon-contact.blanc,
+.classic-cv-block:hover .icon-pdf.blanc {
+  opacity: 0;
+}
+
+.contact-info-block:hover .icon-contact.noir,
+.classic-cv-block:hover .icon-pdf.noir {
+  opacity: 1;
+}
+
 /*/////// RANGE SLIDER///////*/
 .range-slider-container {
   width: 100%;
