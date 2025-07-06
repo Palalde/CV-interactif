@@ -24,6 +24,8 @@
   --shadow-main: 0 2px 8px rgba(30, 30, 60, 0.1);
   --gap-main: 16px;
   --padding-main: 12px 20px;
+  --nav-block-size: 44px;
+  --nav-icon-size: 40px;
 }
 .square {
   border: 2px dashed #888;
@@ -62,12 +64,11 @@ body {
 
 /* LOGO CV */
 .cv-logo {
-  height: 30px;
-  width: 30px;
+  height: 60px;
+  width: 60px;
   object-fit: contain;
   flex-shrink: 0;
   display: block;
-  zoom: 200%;
 }
 
 /*TITRE*/
@@ -113,7 +114,7 @@ body {
   display: flex;
   align-items: center;
   cursor: pointer;
-  height: 40px;
+  height: var(--nav-block-size);
   margin-right: 8px;
 }
 
@@ -203,8 +204,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: var(--nav-block-size);
+  height: var(--nav-block-size);
   border-radius: var(--radius-main);
   background: transparent;
   transition: background 0.2s;
@@ -215,8 +216,8 @@ body {
 }
 
 .nav-icon {
-  width: 40px;
-  height: 40px;
+  width: var(--nav-icon-size);
+  height: var(--nav-icon-size);
   object-fit: contain;
   display: block;
   position: absolute;
