@@ -384,6 +384,80 @@ body {
   flex-shrink: 0;
 }
 
+@media (max-width: 430px) {
+  /* HEADER */
+  .header-row {
+    padding: 0px;
+  }
+  .header-row nav {
+    gap: 2px;
+  }
+
+  /* LOGO CV */
+  .cv-logo {
+    width: 41.8px !important;
+    height: 41.8px !important;
+  }
+
+  /* TITRE */
+  .main-title-group {
+    min-width: 66px !important;
+    height: 35.2px !important;
+  }
+  .main-title-paul {
+    font-size: 0.88rem;
+    margin-left: 5.5px;
+  }
+  .main-title-alessandrini {
+    font-size: 0.825rem;
+    margin-left: 5.5px;
+  }
+
+  /* NAVBAR ICON BLOCKS */
+  .nav-search-btn,
+  .contact-info-block,
+  .classic-cv-block,
+  .theme-switch {
+    width: 35.2px !important;
+    height: 35.2px !important;
+    min-width: 35.2px !important;
+    min-height: 35.2px !important;
+    max-width: 35.2px !important;
+    max-height: 35.2px !important;
+  }
+  .nav-icon,
+  .loupe-blanc,
+  .loupe-noir {
+    width: 30.8px !important;
+    height: 30.8px !important;
+    min-width: 30.8px !important;
+    min-height: 30.8px !important;
+    max-width: 30.8px !important;
+    max-height: 30.8px !important;
+  }
+
+  /* DARK/LIGHT MODE SWITCH */
+  .theme-switch .slider {
+    width: 41.8px !important;
+    height: 24.2px !important;
+    min-width: 41.8px !important;
+    min-height: 24.2px !important;
+    max-width: 41.8px !important;
+    max-height: 24.2px !important;
+  }
+  .theme-switch .icon {
+    width: 15.4px !important;
+    height: 15.4px !important;
+    top: 2.2px !important;
+  }
+  .theme-switch .slider::before {
+    width: 17.6px !important;
+    height: 17.6px !important;
+    left: 2.2px !important;
+    top: 2.2px !important;
+  }
+}
+
 @media (max-width: 715px) {
   .header-search-bar {
     display: none !important;
