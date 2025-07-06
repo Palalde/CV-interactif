@@ -60,7 +60,9 @@ body {
   margin-bottom: 10px;
   gap: 12px;
   transition: padding 0.2s, min-height 0.2s;
+  position: relative;
 }
+
 /* LOGO+TITRE */
 .header-home-link {
   display: flex;
@@ -123,6 +125,7 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-left: auto;
 }
 /* dark/light mode */
 .theme-switch {
