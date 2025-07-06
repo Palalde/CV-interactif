@@ -383,3 +383,15 @@ body {
 
   flex-shrink: 0;
 }
+
+@media (max-width: 715px) {
+  .header-search-bar {
+    display: none !important;
+  }
+}
+
+@media (min-width: 715px) {
+  .nav-search-btn {
+    display: none !important;
+  }
+}
