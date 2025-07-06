@@ -51,26 +51,57 @@ body {
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  min-height: 56px;
-  padding: var(--padding-main);
+  min-height: 39px;
+  padding: 8px 14px;
   background: var(--background-surface-dark);
   box-shadow: var(--shadow-main);
-  margin-bottom: 18px;
-  gap: var(--gap-main);
-  border-radius: var(--radius-main);
+  margin-bottom: 10px;
+  gap: 12px;
   transition: padding 0.2s, min-height 0.2s;
 }
+
+/* LOGO CV */
+.cv-logo {
+  height: 30px;
+  width: 30px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
+  zoom: 200%;
+}
+
 /*TITRE*/
 .header-row h1 {
-  font-size: 1.6rem;
-  color: var(--text-light);
-  letter-spacing: 1px;
-  font-weight: 700;
-  margin: 0 18px 0 0;
-  text-shadow: none;
-  font-family: "Inter", Arial, Helvetica, sans-serif;
-  border-radius: var(--radius-main);
+  display: none;
 }
+/* TITRE GROUPE */
+.main-title-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 44px;
+  margin-right: 18px;
+  margin-left: -12px;
+  min-width: 90px;
+}
+
+.main-title-paul {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-light);
+  margin-bottom: 0;
+  line-height: 1.1;
+  letter-spacing: 1px;
+}
+
+.main-title-alessandrini {
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--text-light);
+  line-height: 1.1;
+  letter-spacing: 1px;
+}
+
 /*NAVBAR*/
 .header-row nav {
   display: flex;
