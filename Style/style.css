@@ -263,6 +263,7 @@ body {
 }
 
 /* NAVBAR ICON BLOCKS */
+.nav-search-btn,
 .contact-info-block,
 .classic-cv-block {
   display: flex;
@@ -291,17 +292,20 @@ body {
   transition: opacity 0.15s;
 }
 
+.icon-loupe.noir,
 .icon-contact.noir,
 .icon-pdf.noir {
   opacity: 0;
   pointer-events: none;
 }
 
+.nav-search-btn:hover .icon-loupe.blanc,
 .contact-info-block:hover .icon-contact.blanc,
 .classic-cv-block:hover .icon-pdf.blanc {
   opacity: 0;
 }
 
+.nav-search-btn:hover .icon-loupe.noir,
 .contact-info-block:hover .icon-contact.noir,
 .classic-cv-block:hover .icon-pdf.noir {
   opacity: 1;
