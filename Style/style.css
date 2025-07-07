@@ -129,7 +129,7 @@ body {
   box-shadow: var(--shadow-main);
   height: 38px;
   min-width: 300px;
-  max-width: 580px;
+  max-width: 480px;
   flex: 1 1 180px;
   padding: 0 6px;
 }
@@ -339,6 +339,14 @@ body {
   width: 100%;
   font-size: 0.9rem;
   color: var(--background-general-light);
+  align-items: center;
+}
+/* LOGO RANGESLIDER */
+.range-label-icon {
+  height: 44px;
+  width: 44px;
+  object-fit: contain;
+  display: block;
 }
 
 .range-value {
@@ -455,6 +463,12 @@ body {
     height: 17.6px !important;
     left: 2.2px !important;
     top: 2.2px !important;
+  }
+  /* RANGESLIDER */
+  /* Rangeslider Logo */
+  .range-label-icon {
+    height: 32px;
+    width: 32px;
   }
 }
 
