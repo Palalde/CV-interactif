@@ -601,10 +601,12 @@ body.light .header-row nav a:hover {
     background-size: 36px 36px;
   }
   .range-slider:hover::-webkit-slider-thumb,
-  .range-slider:focus:hover::-webkit-slider-thumb {
+  .range-slider:focus:hover::-webkit-slider-thumb,
+  .range-slider:active::-webkit-slider-thumb {
     background-size: 40px 40px;
   }
-  .range-slider:focus::-webkit-slider-thumb {
+  .range-slider:focus::-webkit-slider-thumb,
+  .range-slider:active::-webkit-slider-thumb {
     background-size: 40px 40px;
   }
   .range-slider::-moz-range-thumb {
@@ -613,10 +615,12 @@ body.light .header-row nav a:hover {
     background-size: 36px 36px;
   }
   .range-slider:hover::-moz-range-thumb,
-  .range-slider:focus:hover::-moz-range-thumb {
+  .range-slider:focus:hover::-moz-range-thumb,
+  .range-slider:active::-moz-range-thumb {
     background-size: 40px 40px;
   }
-  .range-slider:focus::-moz-range-thumb {
+  .range-slider:focus::-moz-range-thumb,
+  .range-slider:active::-moz-range-thumb {
     background-size: 40px 40px;
   }
   .range-slider::-ms-thumb {
@@ -625,10 +629,12 @@ body.light .header-row nav a:hover {
     background-size: 36px 36px;
   }
   .range-slider:hover::-ms-thumb,
-  .range-slider:focus:hover::-ms-thumb {
+  .range-slider:focus:hover::-ms-thumb,
+  .range-slider:active::-ms-thumb {
     background-size: 40px 40px;
   }
-  .range-slider:focus::-ms-thumb {
+  .range-slider:focus::-ms-thumb,
+  .range-slider:active::-ms-thumb {
     background-size: 40px 40px;
   }
 }
