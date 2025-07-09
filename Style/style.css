@@ -338,6 +338,7 @@ body {
   transition: opacity 0.2s;
   box-shadow: var(--shadow-main);
   margin-bottom: 4px;
+  margin-top: -4px;
   display: block;
 }
 
@@ -591,6 +592,7 @@ body.light .header-row nav a:hover {
   .range-slider {
     width: 98%;
     height: 7px;
+    margin-top: 0px;
   }
   /* Rangeslider Thumb */
   .range-slider::-webkit-slider-thumb {
