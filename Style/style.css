@@ -293,22 +293,22 @@ body {
   transition: opacity 0.15s;
 }
 
-.icon-loupe.noir,
-.icon-contact.noir,
-.icon-pdf.noir {
+.icon-loupe.second,
+.icon-contact.second,
+.icon-pdf.second {
   opacity: 0;
   pointer-events: none;
 }
 
-.nav-search-btn:hover .icon-loupe.blanc,
-.contact-info-block:hover .icon-contact.blanc,
-.classic-cv-block:hover .icon-pdf.blanc {
+.nav-search-btn:hover .icon-loupe.main,
+.contact-info-block:hover .icon-contact.main,
+.classic-cv-block:hover .icon-pdf.main {
   opacity: 0;
 }
 
-.nav-search-btn:hover .icon-loupe.noir,
-.contact-info-block:hover .icon-contact.noir,
-.classic-cv-block:hover .icon-pdf.noir {
+.nav-search-btn:hover .icon-loupe.second,
+.contact-info-block:hover .icon-contact.second,
+.classic-cv-block:hover .icon-pdf.second {
   opacity: 1;
 }
 
@@ -548,8 +548,8 @@ body.light .header-row nav a:hover {
     max-height: 35.2px !important;
   }
   .nav-icon,
-  .loupe-blanc,
-  .loupe-noir {
+  .loupe-main,
+  .loupe-second {
     width: 30.8px !important;
     height: 30.8px !important;
     min-width: 30.8px !important;
