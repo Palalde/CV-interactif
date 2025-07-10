@@ -352,21 +352,22 @@ body {
   background: var(--background-general-light)
     var(--thumb-img, url("../img/RANGESLIDER/DarkMode/EtudesBleu.png")) center
     center no-repeat;
-  background-size: 50px 50px;
+  background-size: 50px 50px !important;
   border: 3px solid var(--background-surface-dark);
   box-shadow: 0 2px 6px rgba(30, 30, 60, 0.15);
   cursor: pointer;
   transition: background 0.2s, border 0.2s;
 }
 .range-slider:hover::-webkit-slider-thumb,
-.range-slider:focus:hover::-webkit-slider-thumb {
-  background-size: 56px 56px;
+.range-slider:focus:hover::-webkit-slider-thumb,
+.range-slider:active::-webkit-slider-thumb {
+  background-size: 56px 56px !important;
 }
 .range-slider:focus::-webkit-slider-thumb {
   background: var(--background-surface-dark)
     var(--thumb-img, url("../img/RANGESLIDER/DarkMode/EtudesBlanc.png")) center
     center no-repeat;
-  background-size: 56px 56px;
+  background-size: 56px 56px !important;
   border: 3px solid var(--background-general-light);
 }
 
@@ -378,21 +379,22 @@ body {
   background: var(--background-general-light)
     var(--thumb-img, url("../img/RANGESLIDER/DarkMode/EtudesBleu.png")) center
     center no-repeat;
-  background-size: 50px 50px;
+  background-size: 50px 50px !important;
   border: 3px solid var(--background-surface-dark);
   box-shadow: 0 2px 6px rgba(30, 30, 60, 0.15);
   cursor: pointer;
   transition: background 0.2s, border 0.2s;
 }
 .range-slider:hover::-moz-range-thumb,
-.range-slider:focus:hover::-moz-range-thumb {
-  background-size: 56px 56px;
+.range-slider:focus:hover::-moz-range-thumb,
+.range-slider:active::-moz-range-thumb {
+  background-size: 56px 56px !important;
 }
 .range-slider:focus::-moz-range-thumb {
   background: var(--background-surface-dark)
     var(--thumb-img, url("../img/RANGESLIDER/DarkMode/EtudesBlanc.png")) center
     center no-repeat;
-  background-size: 56px 56px;
+  background-size: 56px 56px !important;
   border: 3px solid var(--background-general-light);
 }
 
@@ -404,21 +406,22 @@ body {
   background: var(--background-general-light)
     var(--thumb-img, url("../img/RANGESLIDER/DarkMode/EtudesBleu.png")) center
     center no-repeat;
-  background-size: 50px 50px;
+  background-size: 50px 50px !important;
   border: 3px solid var(--background-surface-dark);
   box-shadow: 0 2px 6px rgba(30, 30, 60, 0.15);
   cursor: pointer;
   transition: background 0.2s, border 0.2s;
 }
 .range-slider:hover::-ms-thumb,
-.range-slider:focus:hover::-ms-thumb {
-  background-size: 56px 56px;
+.range-slider:focus:hover::-ms-thumb,
+.range-slider:active::-ms-thumb {
+  background-size: 56px 56px !important;
 }
 .range-slider:focus::-ms-thumb {
   background: var(--background-surface-dark)
     var(--thumb-img, url("../img/RANGESLIDER/DarkMode/EtudesBlanc.png")) center
     center no-repeat;
-  background-size: 56px 56px;
+  background-size: 56px 56px !important;
   border: 3px solid var(--background-general-light);
 }
 
@@ -518,6 +521,7 @@ body.light .range-slider::-webkit-slider-thumb {
     var(--thumb-img, url("../img/RANGESLIDER/LightMode/EtudesBeige.png")) center
     center no-repeat;
   border: 3px solid var(--background-surface-light);
+  background-size: 50px 50px !important;
 }
 
 body.light .range-slider:focus::-webkit-slider-thumb {
@@ -525,26 +529,31 @@ body.light .range-slider:focus::-webkit-slider-thumb {
     var(--thumb-img, url("../img/RANGESLIDER/LightMode/EtudesNoir.png")) center
     center no-repeat;
   border: 3px solid var(--background-general-dark);
+  background-size: 56px 56px !important;
 }
 /* Firefox */
 body.light .range-slider::-moz-range-thumb {
   background: var(--background-general-dark);
   border: 3px solid var(--background-surface-light);
+  background-size: 50px 50px !important;
 }
 
 body.light .range-slider:focus::-moz-range-thumb {
   background: var(--background-surface-light);
   border: 3px solid var(--background-general-dark);
+  background-size: 56px 56px !important;
 }
 /* Edge/IE */
 body.light .range-slider::-ms-thumb {
   background: var(--background-general-dark);
   border: 3px solid var(--background-surface-light);
+  background-size: 50px 50px !important;
 }
 
 body.light .range-slider:focus::-ms-thumb {
   background: var(--background-surface-light);
   border: 3px solid var(--background-general-dark);
+  background-size: 56px 56px !important;
 }
 /* MEDIA QUERIES */
 /* ----------- MOBILE < 430px ----------- */
