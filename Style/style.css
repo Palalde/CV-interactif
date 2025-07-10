@@ -505,7 +505,47 @@ body.light .header-row nav a:hover {
   background: var(--background-general-dark);
   color: var(--background-surface-light);
 }
+/* RANGESLIDER */
+body.light .range-slider-container {
+  background: var(--background-surface-light);
+}
+body.light .range-slider {
+  background: var(--background-general-dark);
+}
+/* THUMB */
+body.light .range-slider::-webkit-slider-thumb {
+  background: var(--background-general-dark)
+    var(--thumb-img, url("../img/RANGESLIDER/LightMode/EtudesBeige.png")) center
+    center no-repeat;
+  border: 3px solid var(--background-surface-light);
+}
 
+body.light .range-slider:focus::-webkit-slider-thumb {
+  background: var(--background-surface-light)
+    var(--thumb-img, url("../img/RANGESLIDER/LightMode/EtudesNoir.png")) center
+    center no-repeat;
+  border: 3px solid var(--background-general-dark);
+}
+/* Firefox */
+body.light .range-slider::-moz-range-thumb {
+  background: var(--background-general-dark);
+  border: 3px solid var(--background-surface-light);
+}
+
+body.light .range-slider:focus::-moz-range-thumb {
+  background: var(--background-surface-light);
+  border: 3px solid var(--background-general-dark);
+}
+/* Edge/IE */
+body.light .range-slider::-ms-thumb {
+  background: var(--background-general-dark);
+  border: 3px solid var(--background-surface-light);
+}
+
+body.light .range-slider:focus::-ms-thumb {
+  background: var(--background-surface-light);
+  border: 3px solid var(--background-general-dark);
+}
 /* MEDIA QUERIES */
 /* ----------- MOBILE < 430px ----------- */
 @media (max-width: 430px) {
