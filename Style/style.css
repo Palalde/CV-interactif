@@ -350,8 +350,8 @@ body {
   height: 44px;
   border-radius: 50%;
   background: var(--background-general-light)
-    var(--thumb-img, url("../img/RANGESLIDER/EtudesNoir.png")) center center
-    no-repeat;
+    var(--thumb-img, url("../img/RANGESLIDER/DarkMode/EtudesBleu.png")) center
+    center no-repeat;
   background-size: 50px 50px;
   border: 3px solid var(--background-surface-dark);
   box-shadow: 0 2px 6px rgba(30, 30, 60, 0.15);
@@ -364,8 +364,8 @@ body {
 }
 .range-slider:focus::-webkit-slider-thumb {
   background: var(--background-surface-dark)
-    var(--thumb-img, url("../img/RANGESLIDER/EtudesBlanc.png")) center center
-    no-repeat;
+    var(--thumb-img, url("../img/RANGESLIDER/DarkMode/EtudesBlanc.png")) center
+    center no-repeat;
   background-size: 56px 56px;
   border: 3px solid var(--background-general-light);
 }
@@ -376,8 +376,8 @@ body {
   height: 44px;
   border-radius: 50%;
   background: var(--background-general-light)
-    var(--thumb-img, url("../img/RANGESLIDER/EtudesNoir.png")) center center
-    no-repeat;
+    var(--thumb-img, url("../img/RANGESLIDER/DarkMode/EtudesBleu.png")) center
+    center no-repeat;
   background-size: 50px 50px;
   border: 3px solid var(--background-surface-dark);
   box-shadow: 0 2px 6px rgba(30, 30, 60, 0.15);
@@ -390,8 +390,8 @@ body {
 }
 .range-slider:focus::-moz-range-thumb {
   background: var(--background-surface-dark)
-    var(--thumb-img, url("../img/RANGESLIDER/EtudesBlanc.png")) center center
-    no-repeat;
+    var(--thumb-img, url("../img/RANGESLIDER/DarkMode/EtudesBlanc.png")) center
+    center no-repeat;
   background-size: 56px 56px;
   border: 3px solid var(--background-general-light);
 }
@@ -402,8 +402,8 @@ body {
   height: 44px;
   border-radius: 50%;
   background: var(--background-general-light)
-    var(--thumb-img, url("../img/RANGESLIDER/EtudesNoir.png")) center center
-    no-repeat;
+    var(--thumb-img, url("../img/RANGESLIDER/DarkMode/EtudesBleu.png")) center
+    center no-repeat;
   background-size: 50px 50px;
   border: 3px solid var(--background-surface-dark);
   box-shadow: 0 2px 6px rgba(30, 30, 60, 0.15);
@@ -416,8 +416,8 @@ body {
 }
 .range-slider:focus::-ms-thumb {
   background: var(--background-surface-dark)
-    var(--thumb-img, url("../img/RANGESLIDER/EtudesBlanc.png")) center center
-    no-repeat;
+    var(--thumb-img, url("../img/RANGESLIDER/DarkMode/EtudesBlanc.png")) center
+    center no-repeat;
   background-size: 56px 56px;
   border: 3px solid var(--background-general-light);
 }

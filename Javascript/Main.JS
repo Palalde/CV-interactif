@@ -17,21 +17,21 @@ document.addEventListener('DOMContentLoaded', function() {
     // THUMB DYNAMIQUE
     function updateThumb(slider, isFocus) {
       const v = parseInt(slider.value, 10);
-      let img = "EtudesNoir.png";
+      let img = "EtudesBleu.png";
       let imgFocus = "EtudesBlanc.png";
       if (v >= 50 && v < 100) {
-        img = "TradingNoir.png";
+        img = "TradingBleu.png";
         imgFocus = "TradingBlanc.png";
       } else if (v >= 100 && v < 150) {
-        img = "LeclercNoir.png";
+        img = "LeclercBleu.png";
         imgFocus = "LeclercBlanc.png";
       } else if (v >= 150 && v <= 200) {
-        img = "CodeNoir.png";
+        img = "CodeBleu.png";
         imgFocus = "CodeBlanc.png";
       }
       const base = isFocus ? imgFocus : img;
       // Webkit
-      slider.style.setProperty('--thumb-img', `url("../img/RANGESLIDER/${base}")`);
+      slider.style.setProperty('--thumb-img', `url("../img/RANGESLIDER/DarkMode/${base}")`);
     }
 
     // Initial
