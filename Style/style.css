@@ -462,13 +462,6 @@ body {
   max-height: 100%;
   overflow: auto;
 }
-/* FOOTER */
-.footer {
-  display: flex;
-  justify-content: center;
-
-  flex-shrink: 0;
-}
 
 /* ///////LIGHTMODE/////// */
 
