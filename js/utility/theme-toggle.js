@@ -2,48 +2,48 @@ function updateNavIcons(isLight) {
   // LOGO
   document.querySelectorAll('.cv-logo').forEach(img => {
     img.src = isLight
-      ? '../img/NavIcon/LightMode/CvNoir.png'
-      : '../img/NavIcon/DarkMode/CvBlanc.png';
+      ? '../img/nav-icon/lightmode/cv-noir.png'
+      : '../img/nav-icon/darkmode/cv-blanc.png';
   });
   // SEARCH BAR
    document.querySelectorAll('.search-icon').forEach(img => {
     img.src = isLight
-      ? '../img/NavIcon/LightMode/LoupeBeige.png'
-      : '../img/NavIcon/DarkMode/LoupeBleu.png';
+      ? '../img/nav-icon/lightmode/loupe-beige.png'
+      : '../img/nav-icon/darkmode/loupe-bleu.png';
   });
   // NAV ICON
   // Loupe
   document.querySelectorAll('.icon-loupe.main').forEach(img => {
     img.src = isLight
-      ? '../img/NavIcon/LightMode/LoupeNoir.png'
-      : '../img/NavIcon/DarkMode/LoupeBlanc.png';
+      ? '../img/nav-icon/lightmode/loupe-noir.png'
+      : '../img/nav-icon/darkmode/loupe-blanc.png';
   });
   document.querySelectorAll('.icon-loupe.second').forEach(img => {
     img.src = isLight
-      ? '../img/NavIcon/LightMode/LoupeBeige.png'
-      : '../img/NavIcon/DarkMode/LoupeBleu.png';
+      ? '../img/nav-icon/lightmode/loupe-beige.png'
+      : '../img/nav-icon/darkmode/loupe-bleu.png';
   });
   // Contact
   document.querySelectorAll('.icon-contact.main').forEach(img => {
     img.src = isLight
-      ? '../img/NavIcon/LightMode/ContactNoir.png'
-      : '../img/NavIcon/DarkMode/ContactBlanc.png';
+      ? '../img/nav-icon/lightmode/contact-noir.png'
+      : '../img/nav-icon/darkmode/contact-blanc.png';
   });
   document.querySelectorAll('.icon-contact.second').forEach(img => {
     img.src = isLight
-      ? '../img/NavIcon/LightMode/ContactBeige.png'
-      : '../img/NavIcon/DarkMode/ContactBleu.png';
+      ? '../img/nav-icon/lightmode/contact-beige.png'
+      : '../img/nav-icon/darkmode/contact-bleu.png';
   });
   // PDF
   document.querySelectorAll('.icon-pdf.main').forEach(img => {
     img.src = isLight
-      ? '../img/NavIcon/LightMode/PdfNoir.png'
-      : '../img/NavIcon/DarkMode/PdfBlanc.png';
+      ? '../img/nav-icon/lightmode/pdf-noir.png'
+      : '../img/nav-icon/darkmode/pdf-blanc.png';
   });
   document.querySelectorAll('.icon-pdf.second').forEach(img => {
     img.src = isLight
-      ? '../img/NavIcon/LightMode/PdfBeige.png'
-      : '../img/NavIcon/DarkMode/PdfBleu.png';
+      ? '../img/nav-icon/lightmode/pdf-beige.png'
+      : '../img/nav-icon/darkmode/pdf-bleu.png';
   });
 }
 

@@ -350,7 +350,7 @@ body {
   height: 44px;
   border-radius: 50%;
   background: var(--background-general-light)
-    var(--thumb-img, url("../img/RANGESLIDER/DarkMode/EtudesBleu.png")) center
+    var(--thumb-img, url("../img/rangeslider/darkmode/etudes-bleu.png")) center
     center no-repeat;
   background-size: 50px 50px !important;
   border: 3px solid var(--background-surface-dark);
@@ -365,7 +365,7 @@ body {
 }
 .range-slider:focus::-webkit-slider-thumb {
   background: var(--background-surface-dark)
-    var(--thumb-img, url("../img/RANGESLIDER/DarkMode/EtudesBlanc.png")) center
+    var(--thumb-img, url("../img/rangeslider/darkmode/etudes-blanc.png")) center
     center no-repeat;
   background-size: 56px 56px !important;
   border: 3px solid var(--background-general-light);
@@ -373,13 +373,9 @@ body {
 
 /* Firefox */
 .range-slider::-moz-range-thumb {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
   background: var(--background-general-light)
-    var(--thumb-img, url("../img/RANGESLIDER/DarkMode/EtudesBleu.png")) center
+    var(--thumb-img, url("../img/rangeslider/darkmode/etudes-bleu.png")) center
     center no-repeat;
-  background-size: 50px 50px !important;
   border: 3px solid var(--background-surface-dark);
   box-shadow: 0 2px 6px rgba(30, 30, 60, 0.15);
   cursor: pointer;
@@ -392,7 +388,7 @@ body {
 }
 .range-slider:focus::-moz-range-thumb {
   background: var(--background-surface-dark)
-    var(--thumb-img, url("../img/RANGESLIDER/DarkMode/EtudesBlanc.png")) center
+    var(--thumb-img, url("../img/rangeslider/darkmode/etudes-blanc.png")) center
     center no-repeat;
   background-size: 56px 56px !important;
   border: 3px solid var(--background-general-light);
@@ -400,13 +396,9 @@ body {
 
 /* Edge/IE */
 .range-slider::-ms-thumb {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
   background: var(--background-general-light)
-    var(--thumb-img, url("../img/RANGESLIDER/DarkMode/EtudesBleu.png")) center
+    var(--thumb-img, url("../img/rangeslider/darkmode/etudes-bleu.png")) center
     center no-repeat;
-  background-size: 50px 50px !important;
   border: 3px solid var(--background-surface-dark);
   box-shadow: 0 2px 6px rgba(30, 30, 60, 0.15);
   cursor: pointer;
@@ -419,7 +411,7 @@ body {
 }
 .range-slider:focus::-ms-thumb {
   background: var(--background-surface-dark)
-    var(--thumb-img, url("../img/RANGESLIDER/DarkMode/EtudesBlanc.png")) center
+    var(--thumb-img, url("../img/rangeslider/darkmode/etudes-blanc.png")) center
     center no-repeat;
   background-size: 56px 56px !important;
   border: 3px solid var(--background-general-light);
@@ -511,15 +503,15 @@ body.light .range-slider {
 /* THUMB */
 body.light .range-slider::-webkit-slider-thumb {
   background: var(--background-general-dark)
-    var(--thumb-img, url("../img/RANGESLIDER/LightMode/EtudesBeige.png")) center
-    center no-repeat;
+    var(--thumb-img, url("../img/rangeslider/lightmode/etudes-beige.png"))
+    center center no-repeat;
   border: 3px solid var(--background-surface-light);
   background-size: 50px 50px !important;
 }
 
 body.light .range-slider:focus::-webkit-slider-thumb {
   background: var(--background-surface-light)
-    var(--thumb-img, url("../img/RANGESLIDER/LightMode/EtudesNoir.png")) center
+    var(--thumb-img, url("../img/rangeslider/lightmode/etudes-noir.png")) center
     center no-repeat;
   border: 3px solid var(--background-general-dark);
   background-size: 56px 56px !important;
@@ -684,6 +676,13 @@ body.light .range-slider:focus::-ms-thumb {
 /* ----------- MOBILE < 715px ----------- */
 @media (max-width: 715px) {
   .header-search-bar {
+    display: none !important;
+  }
+}
+
+/* ----------- DESKTOP >= 715px ----------- */
+@media (min-width: 715px) {
+  .nav-search-btn {
     display: none !important;
   }
 }

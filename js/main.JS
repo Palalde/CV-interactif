@@ -22,37 +22,37 @@ document.addEventListener('DOMContentLoaded', function() {
       if (isLight) {
         // Light mode mapping
         if (v >= 50 && v < 100) {
-          img = "TradingBeige.png";
-          imgFocus = "TradingNoir.png";
+          img = "trading-beige.png";
+          imgFocus = "trading-noir.png";
         } else if (v >= 100 && v < 150) {
-          img = "LeclercBeige.png";
-          imgFocus = "LeclercNoir.png";
+          img = "leclerc-beige.png";
+          imgFocus = "leclerc-noir.png";
         } else if (v >= 150 && v <= 200) {
-          img = "CodeBeige.png";
-          imgFocus = "CodeNoir.png";
+          img = "code-beige.png";
+          imgFocus = "code-noir.png";
         } else {
-          img = "EtudesBeige.png";
-          imgFocus = "EtudesNoir.png";
+          img = "etudes-beige.png";
+          imgFocus = "etudes-noir.png";
         }
       } else {
         // Dark mode mapping
         if (v >= 50 && v < 100) {
-          img = "TradingBleu.png";
-          imgFocus = "TradingBlanc.png";
+          img = "trading-bleu.png";
+          imgFocus = "trading-blanc.png";
         } else if (v >= 100 && v < 150) {
-          img = "LeclercBleu.png";
-          imgFocus = "LeclercBlanc.png";
+          img = "leclerc-bleu.png";
+          imgFocus = "leclerc-blanc.png";
         } else if (v >= 150 && v <= 200) {
-          img = "CodeBleu.png";
-          imgFocus = "CodeBlanc.png";
+          img = "code-bleu.png";
+          imgFocus = "code-blanc.png";
         } else {
-          img = "EtudesBleu.png";
-          imgFocus = "EtudesBlanc.png";
+          img = "etudes-bleu.png";
+          imgFocus = "etudes-blanc.png";
         }
       }
       const base = isFocus ? imgFocus : img;
-      const mode = isLight ? 'LightMode' : 'DarkMode';
-      slider.style.setProperty('--thumb-img', `url("../img/RANGESLIDER/${mode}/${base}")`);
+      const mode = isLight ? 'lightmode' : 'darkmode';
+      slider.style.setProperty('--thumb-img', `url("../img/rangeslider/${mode}/${base}")`);
     }
 
     // Initial
