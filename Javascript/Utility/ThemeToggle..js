@@ -1,6 +1,16 @@
 function updateNavIcons(isLight) {
+  // LOGO
+  document.querySelectorAll('.cv-logo').forEach(img => {
+    img.src = isLight
+      ? '../img/NavIcon/LightMode/CvNoir.png'
+      : '../img/NavIcon/DarkMode/CvBlanc.png';
+  });
   // SEARCH BAR
-  
+   document.querySelectorAll('.search-icon').forEach(img => {
+    img.src = isLight
+      ? '../img/NavIcon/LightMode/LoupeBeige.png'
+      : '../img/NavIcon/DarkMode/LoupeBleu.png';
+  });
   // NAV ICON
   // Loupe
   document.querySelectorAll('.icon-loupe.main').forEach(img => {
