@@ -12,11 +12,15 @@
   /* darkmode */
   --background-general-dark: #1a1a2e;
   --background-surface-dark: #29295a;
+  --background-leger-dark: #1e1e36;
+  --background-moyen-dark: #20203b;
   --text-light: #f5f6fa;
   /* lightmode*/
   --text-dark: #1a1a2e;
   --background-general-light: #f5f6fa;
   --background-surface-light: #e3dacb;
+  --background-leger-light: #f0ede3;
+  --background-moyen-light: #edead7;
 
   --background-transparent: rgba(0, 0, 0, 0);
   --radius-main: 16px;
@@ -455,6 +459,42 @@ body {
   overflow: auto;
 }
 
+/* CONTACT PAGE LAYOUT */
+.contact-bg-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+  gap: 12px;
+  padding: 8px 8px;
+  height: 100%;
+  min-height: 0;
+}
+
+.contact-main {
+  flex: 0 1 70%;
+  height: 100%;
+  min-height: 0;
+  background: var(--background-leger-dark);
+  border-radius: var(--radius-main);
+  box-shadow: var(--shadow-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-side {
+  flex: 0 1 30%;
+  height: 100%;
+  min-height: 0;
+  background: var(--background-moyen-dark);
+  border-radius: var(--radius-main);
+  box-shadow: var(--shadow-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* ///////LIGHTMODE/////// */
 
 body.light {
@@ -540,41 +580,12 @@ body.light .range-slider:focus::-ms-thumb {
   border: 3px solid var(--background-general-dark);
   background-size: 56px 56px !important;
 }
-
-/* CONTACT PAGE LAYOUT */
-.contact-bg-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  width: 100%;
-  gap: 12px;
-  padding: 8px 8px;
-  height: 100%;
-  min-height: 0;
+/* Contact */
+body.light .contact-main {
+  background: var(--background-leger-light);
 }
-
-.contact-main {
-  flex: 0 1 70%;
-  height: 100%;
-  min-height: 0;
-  background: var(--background-surface-dark);
-  border-radius: var(--radius-main);
-  box-shadow: var(--shadow-main);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.contact-side {
-  flex: 0 1 30%;
-  height: 100%;
-  min-height: 0;
-  background: var(--background-surface-light);
-  border-radius: var(--radius-main);
-  box-shadow: var(--shadow-main);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+body.light .contact-side {
+  background: var(--background-moyen-light);
 }
 
 /* MEDIA QUERIES */
