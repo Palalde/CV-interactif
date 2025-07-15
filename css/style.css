@@ -623,7 +623,7 @@ body.light {
   background-color: var(--background-general-light);
 }
 
-/* Header */
+/* Header lightmode*/
 body.light .header-row {
   background: var(--background-surface-light);
   box-shadow: var(--shadow-main);
@@ -634,7 +634,7 @@ body.light .main-title-alessandrini {
   color: var(--text-dark);
 }
 
-/* search bar */
+/* search bar lightmode*/
 body.light .header-search-bar {
   background: var(--background-general-dark);
 }
@@ -648,7 +648,7 @@ body.light .search-btn:hover {
   color: var(--background-surface-light);
 }
 
-/* link navbar */
+/* link navbar lightmode*/
 body.light .header-row nav a {
   color: var(--text-dark);
 }
@@ -658,7 +658,7 @@ body.light .header-row nav a:hover {
   color: var(--background-surface-light);
 }
 
-/* Range slider */
+/* Range slider lightmode */
 body.light .range-slider-container {
   background: var(--background-surface-light);
 }
@@ -684,7 +684,7 @@ body.light .range-slider:focus::-webkit-slider-thumb {
   background-size: 56px 56px !important;
 }
 
-/* Firefox */
+/* Firefox lightmode*/
 body.light .range-slider::-moz-range-thumb {
   background: var(--background-general-dark);
   border: 3px solid var(--background-surface-light);
@@ -697,7 +697,7 @@ body.light .range-slider:focus::-moz-range-thumb {
   background-size: 56px 56px !important;
 }
 
-/* Edge/IE */
+/* Edge/IE lightmode*/
 body.light .range-slider::-ms-thumb {
   background: var(--background-general-dark);
   border: 3px solid var(--background-surface-light);
