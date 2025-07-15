@@ -526,7 +526,7 @@ body {
   padding: 0;
 }
 
-/* INFOS CONTACT */
+/* CONTACT SIDE */
 .contact-side-content {
   display: flex;
   flex-direction: column;
@@ -614,6 +614,88 @@ body {
   filter: brightness(1.5);
   transform: scale(1.2);
   z-index: 2;
+}
+
+/* CONTACT MAIN */
+.contact-form {
+  width: 100%;
+  max-width: 98vw;
+  background: var(--background-leger-dark);
+  border-radius: var(--radius-main);
+  box-shadow: var(--shadow-main);
+  padding: 18px 8px 14px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.contact-form h2 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text-light);
+  margin-bottom: 4px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.form-group label {
+  font-size: 1rem;
+  color: var(--text-light);
+  font-weight: 500;
+  margin-bottom: 2px;
+  letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group textarea {
+  background: var(--background-moyen-dark);
+  color: var(--text-light);
+  border: 1.5px solid var(--background-surface-dark);
+  border-radius: var(--radius-small);
+  font-size: 1rem;
+  padding: 8px 8px;
+  outline: none;
+  transition: border 0.18s, background 0.18s;
+  resize: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--background-general-light);
+  background: var(--background-surface-dark);
+}
+
+.contact-form textarea {
+  min-height: 60px;
+}
+
+.contact-submit-btn {
+  background: var(--background-surface-dark);
+  color: var(--text-light);
+  border: none;
+  border-radius: var(--radius-small);
+  font-size: 1.08rem;
+  font-weight: 600;
+  padding: 9px 0;
+  cursor: pointer;
+  box-shadow: var(--shadow-main);
+  transition: background 0.18s, color 0.18s, transform 0.18s;
+  margin-top: 4px;
+  width: 50%;
+}
+
+.contact-submit-btn:hover,
+.contact-submit-btn:focus {
+  background: var(--background-general-light);
+  color: var(--background-surface-dark);
+  transform: scale(1.04);
 }
 
 /* =============================================
