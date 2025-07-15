@@ -985,7 +985,7 @@ body.light .contact-details li {
   .contact-side-content {
     flex-direction: row !important;
     align-items: center !important;
-    justify-content: center !important; /* Centrage horizontal des blocs */
+    justify-content: center !important;
     gap: 12px !important;
     padding: 10px !important;
     width: 100% !important;
