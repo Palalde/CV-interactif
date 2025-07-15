@@ -521,8 +521,7 @@ body {
   border-radius: var(--radius-main);
   box-shadow: var(--shadow-main);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   padding: 0;
 }
 
@@ -902,12 +901,25 @@ body.light .contact-details li {
 
   .contact-side-content {
     flex-direction: row !important;
-    align-items: flex-start !important;
-    justify-content: space-between !important;
+    align-items: center !important;
+    justify-content: center !important; /* Centrage horizontal des blocs */
     gap: 12px !important;
     padding: 10px !important;
-    margin-top: 12px;
     width: 100% !important;
+    height: 100%;
+  }
+
+  .portrait-container,
+  .contact-details,
+  .contact-links {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
   }
 
   /* Portrait */
@@ -939,8 +951,9 @@ body.light .contact-details li {
     flex-direction: column !important;
     align-items: center !important;
     width: auto !important;
-    margin-left: 24px;
-    flex: 1 1 auto !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    flex: 1 1 0 !important;
   }
 
   .contact-text {
