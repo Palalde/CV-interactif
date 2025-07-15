@@ -906,7 +906,7 @@ body.light .contact-details li {
     justify-content: space-between !important;
     gap: 12px !important;
     padding: 10px !important;
-    margin-top: auto;
+    margin-top: 12px;
     width: 100% !important;
   }
 
