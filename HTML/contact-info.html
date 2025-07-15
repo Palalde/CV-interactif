@@ -122,7 +122,46 @@
     </section>
     <!-- HTML CHANGEANT-->
     <section class="contact-bg-container">
-      <div class="contact-main"></div>
+      <div class="contact-main">
+        <form
+          class="contact-form"
+          action="mailto:paul.alessandrini@email.com"
+          method="POST"
+          enctype="text/plain"
+        >
+          <h2>Contactez-moi</h2>
+          <div class="form-group">
+            <label for="contact-name">Nom</label>
+            <input
+              type="text"
+              id="contact-name"
+              name="Nom"
+              required
+              autocomplete="name"
+            />
+          </div>
+          <div class="form-group">
+            <label for="contact-email">Email</label>
+            <input
+              type="email"
+              id="contact-email"
+              name="Email"
+              required
+              autocomplete="email"
+            />
+          </div>
+          <div class="form-group">
+            <label for="contact-message">Message</label>
+            <textarea
+              id="contact-message"
+              name="Message"
+              rows="5"
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="contact-submit-btn">Envoyer</button>
+        </form>
+      </div>
       <aside class="contact-side">
         <div class="contact-side-content">
           <div class="portrait-container">
