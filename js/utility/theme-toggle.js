@@ -45,6 +45,32 @@ function updateNavIcons(isLight) {
       ? '../img/nav-icon/lightmode/pdf-beige.png'
       : '../img/nav-icon/darkmode/pdf-bleu.png';
   });
+
+  // CONTACT SIDE ICONS
+  // Calendrier
+  document.querySelectorAll('.contact-icon[alt="Âge"]').forEach(img => {
+    img.src = isLight
+      ? '../img/contact/lightmode/calendrier-noir.png'
+      : '../img/contact/darkmode/calendrier-blanc.png';
+  });
+  // Ping
+  document.querySelectorAll('.contact-icon[alt="Localisation"]').forEach(img => {
+    img.src = isLight
+      ? '../img/contact/lightmode/ping-noir.png'
+      : '../img/contact/darkmode/ping-blanc.png';
+  });
+  // LinkedIn
+  document.querySelectorAll('.contact-icon.social-icon[alt="LinkedIn"]').forEach(img => {
+    img.src = isLight
+      ? '../img/contact/lightmode/linkedin-noir.png'
+      : '../img/contact/darkmode/linkedin-blanc.png';
+  });
+  // GitHub
+  document.querySelectorAll('.contact-icon.social-icon[alt="GitHub"]').forEach(img => {
+    img.src = isLight
+      ? '../img/contact/lightmode/github-noir.png'
+      : '../img/contact/darkmode/github-blanc.png';
+  });
 }
 
 // THEME TOGGLE
