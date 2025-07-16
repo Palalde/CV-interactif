@@ -643,7 +643,6 @@ body {
   max-width: 98vw;
   background: var(--background-leger-dark);
   border-radius: var(--radius-main);
-  box-shadow: var(--shadow-main);
   padding: 18px 8px 14px 8px;
   display: flex;
   flex-direction: column;
@@ -828,6 +827,44 @@ body.light .contact-name {
 
 body.light .contact-details li {
   color: var(--text-dark);
+}
+
+/* contact-form lightmode */
+body.light .contact-form {
+  background: var(--background-leger-light);
+  color: var(--text-dark);
+}
+
+body.light .contact-form h2 {
+  color: var(--text-dark);
+}
+
+body.light .form-group label {
+  color: var(--text-dark);
+}
+
+body.light .form-group input,
+body.light .form-group textarea {
+  background: var(--background-moyen-light);
+  color: var(--text-dark);
+  border: 1.5px solid var(--background-surface-light);
+}
+
+body.light .form-group input:focus,
+body.light .form-group textarea:focus {
+  border-color: var(--background-general-dark);
+  background: var(--background-surface-light);
+}
+
+body.light .contact-submit-btn {
+  background: var(--background-surface-light);
+  color: var(--text-dark);
+}
+
+body.light .contact-submit-btn:hover,
+body.light .contact-submit-btn:focus {
+  background: var(--background-general-dark);
+  color: var(--background-surface-light);
 }
 
 /* =============================================
