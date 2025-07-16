@@ -1022,8 +1022,8 @@ body.light .contact-submit-btn:focus {
   }
 }
 
-/* ----------- RESPONSIVE CONTACT (MOBILE OU HAUTEUR FAIBLE) ----------- */
-@media (max-height: 500px), (max-width: 430px) {
+/* ----------- RESPONSIVE CONTACT (HAUTEUR FAIBLE) ----------- */
+@media (max-width: 430px) {
   /* Structure globale */
   .contact-bg-container {
     flex-direction: column-reverse !important;
@@ -1121,5 +1121,104 @@ body.light .contact-submit-btn:focus {
   .social-icon {
     width: 36px;
     height: 36px;
+  }
+}
+
+/* ----------- CONTACT FORM ADAPTATION POUR PETITE HAUTEUR ----------- */
+@media (max-height: 670px) {
+  .contact-form {
+    padding: 10px 4px 8px 4px;
+    gap: 8px;
+    max-width: 98vw;
+  }
+  .contact-form h2 {
+    font-size: 1.05rem;
+    margin-bottom: 2px;
+  }
+  .form-group label {
+    font-size: 0.92rem;
+    margin-bottom: 1px;
+  }
+  .form-group input,
+  .form-group textarea {
+    font-size: 0.92rem;
+    padding: 6px 6px;
+  }
+  .contact-form textarea {
+    min-height: 40px;
+    max-height: 80px;
+  }
+  .contact-submit-btn {
+    font-size: 0.95rem;
+    padding: 7px 0;
+    margin-top: 2px;
+    width: 60%;
+  }
+}
+
+@media (max-height: 500px) {
+  .contact-form {
+    padding: 4px 2px 4px 2px;
+    gap: 5px;
+  }
+  .contact-form h2 {
+    font-size: 0.92rem;
+    margin-bottom: 1px;
+  }
+  .form-group label {
+    font-size: 0.88rem;
+  }
+  .form-group input,
+  .form-group textarea {
+    font-size: 0.88rem;
+    padding: 4px 4px;
+  }
+  .contact-form textarea {
+    min-height: 28px;
+    max-height: 50px;
+  }
+  .contact-submit-btn {
+    font-size: 0.9rem;
+    padding: 5px 0;
+    width: 70%;
+  }
+
+  /* contact-side  */
+  .contact-side-content {
+    gap: 6px;
+    padding: 4px 0 0 0;
+  }
+  .portrait-container {
+    margin-bottom: 0;
+  }
+  .portrait-image {
+    width: 60px !important;
+    height: 60px !important;
+    margin-bottom: 0 !important;
+  }
+  .contact-name {
+    font-size: 0.92rem;
+  }
+  .contact-details {
+    gap: 5px;
+    margin-bottom: 4px;
+  }
+  .contact-text {
+    font-size: 0.85rem;
+    gap: 6px;
+  }
+  .contact-icon {
+    width: 32px !important;
+    height: 32px !important;
+    margin-right: -6px !important;
+  }
+  .contact-links {
+    gap: 10px;
+    margin-top: 8px;
+    margin-bottom: 4px;
+  }
+  .social-icon {
+    width: 28px !important;
+    height: 28px !important;
   }
 }
