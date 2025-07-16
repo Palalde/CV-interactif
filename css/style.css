@@ -1157,6 +1157,12 @@ body.light .contact-submit-btn:focus {
 }
 
 @media (max-height: 500px) {
+  .contact-main,
+  .contact-side {
+    min-height: 250px !important;
+    height: 250px !important;
+  }
+  /* contact-main */
   .contact-form {
     padding: 4px 2px 4px 2px;
     gap: 5px;
