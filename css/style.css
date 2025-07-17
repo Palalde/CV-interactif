@@ -718,6 +718,81 @@ body {
   transform: scale(1.04);
 }
 
+/* Placeholder et IMG */
+.form-group.input-face {
+  position: relative;
+}
+.form-group.input-face input {
+  padding-left: 38px;
+}
+.form-group.input-face::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 71%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  background: url("../img/contact/darkmode/face-blanc.png") no-repeat center
+    center;
+  background-size: contain;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.form-group.input-contact {
+  position: relative;
+}
+.form-group.input-contact input {
+  padding-left: 38px;
+}
+.form-group.input-contact::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 71%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  background: url("../img/contact/darkmode/contact-blanc.png") no-repeat center
+    center;
+  background-size: contain;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.form-group.input-bulle {
+  position: relative;
+}
+.form-group.input-bulle textarea {
+  padding-left: 38px;
+}
+.form-group.input-bulle::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 6%;
+  width: 70px;
+  height: 70px;
+  background: url("../img/contact/darkmode/bulle-blanc.png") no-repeat center
+    center;
+  background-size: contain;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* webkit-autofill */
+.form-group input:-webkit-autofill,
+.form-group input:-webkit-autofill:focus,
+.form-group input:-webkit-autofill:hover,
+.form-group input:-webkit-autofill:active {
+  background: var(--background-moyen-dark) !important;
+  -webkit-text-fill-color: var(--text-light) !important;
+  font-family: "Inter", Arial, Helvetica, sans-serif !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--background-moyen-dark) inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 /* =============================================
    LIGHTMODE
    ============================================= */
@@ -865,6 +940,38 @@ body.light .contact-submit-btn:hover,
 body.light .contact-submit-btn:focus {
   background: var(--background-general-dark);
   color: var(--background-surface-light);
+}
+
+/* logo placholder lightmode */
+body.light .form-group.input-face::before {
+  background: url("../img/contact/lightmode/face-noir.png") no-repeat center
+    center;
+  background-size: contain;
+  opacity: 0.7;
+}
+body.light .form-group.input-contact::before {
+  background: url("../img/contact/lightmode/contact-noir.png") no-repeat center
+    center;
+  background-size: contain;
+  opacity: 0.7;
+}
+body.light .form-group.input-bulle::before {
+  background: url("../img/contact/lightmode/bulle-noir.png") no-repeat center
+    center;
+  background-size: contain;
+  opacity: 0.7;
+}
+
+/* Forcing autofill style in lightmode */
+body.light .form-group input:-webkit-autofill,
+body.light .form-group input:-webkit-autofill:focus,
+body.light .form-group input:-webkit-autofill:hover,
+body.light .form-group input:-webkit-autofill:active {
+  background: var(--background-moyen-light) !important;
+  -webkit-text-fill-color: var(--text-dark) !important;
+  font-family: "Inter", Arial, Helvetica, sans-serif !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--background-moyen-light) inset !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 /* =============================================
