@@ -464,6 +464,7 @@ body {
   flex-wrap: wrap;
 }
 /* CONTENAIR CHANGEANT */
+/*peut être pour plus tard
 .change-contenair {
   flex: 1 1 auto;
   display: flex;
@@ -472,23 +473,40 @@ body {
   align-items: stretch;
   min-height: 0;
 }
-/* BLOCS INTERIEURS */
 .change-test {
   flex: 3 1 0;
   min-height: 0;
   max-height: 100%;
   overflow: auto;
-}
+} 
 
 .competence-test {
   flex: 1 1 0;
   min-height: 0;
   max-height: 100%;
   overflow: auto;
+} */
+/* BLOC CHANGEANT */
+.content-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
 }
 
-/* FEUILLE CARREAUX BLEU */
-.feuille-carreaux {
+.content-slider {
+  display: flex;
+  transition: transform 0.5s ease-out;
+  width: 400%; /* 100% × 4 sections */
+}
+
+.content-section {
+  flex: 0 0 25%;
+  width: 25%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+#etudes {
   flex: 3 1 0;
   min-height: 0;
   max-height: 100%;
@@ -506,6 +524,15 @@ body {
   line-height: 2.2rem;
   letter-spacing: 0.5px;
   background-position: 0 0;
+}
+#trading {
+  background-color: #e6f2ff;
+}
+#leclerc {
+  background-color: #d9edff;
+}
+#dev {
+  background-color: #ccebff;
 }
 
 /* =============================================
