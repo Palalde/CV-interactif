@@ -1169,7 +1169,7 @@ body.light .form-group input:-webkit-autofill:active {
 @media (max-width: 430px) {
   /* Structure globale */
   .contact-bg-container {
-    flex-direction: column-reverse !important;
+    flex-direction: column !important;
     height: 100vh !important;
     gap: 12px !important;
     padding: 8px 8px !important;
