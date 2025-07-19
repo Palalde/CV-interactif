@@ -424,72 +424,6 @@ body {
   transition: background 0.2s, border 0.2s, transform 0.15s;
 }
 
-/* Ajustement pour le mode light */
-body.light .range-slider::-webkit-slider-thumb,
-body.light .range-slider::-moz-range-thumb,
-body.light .range-slider::-ms-thumb {
-  width: 70px;
-  height: 38px;
-  border-radius: 19px;
-}
-
-/* Ajustement pour mobile */
-@media (max-width: 430px) {
-  .range-slider::-webkit-slider-thumb,
-  .range-slider::-moz-range-thumb,
-  .range-slider::-ms-thumb {
-    width: 50px;
-    height: 28px;
-    border-radius: 14px;
-    background-size: 36px 36px;
-    transform-origin: center;
-    transition: background 0.2s, border 0.2s, transform 0.15s;
-  }
-
-  .range-slider:hover::-webkit-slider-thumb,
-  .range-slider:focus:hover::-webkit-slider-thumb,
-  .range-slider:active::-webkit-slider-thumb {
-    background-size: 40px 40px;
-    transform: scale(1.05);
-  }
-
-  .range-slider:focus::-webkit-slider-thumb {
-    background-size: 40px 40px;
-  }
-
-  .range-slider::-moz-range-thumb {
-    width: 50px;
-    height: 28px;
-    border-radius: 14px;
-    background-size: 36px 36px;
-    transform-origin: center;
-    transition: background 0.2s, border 0.2s, transform 0.15s;
-  }
-
-  .range-slider:hover::-moz-range-thumb,
-  .range-slider:focus:hover::-moz-range-thumb,
-  .range-slider:active::-moz-range-thumb {
-    background-size: 40px 40px;
-    transform: scale(1.05);
-  }
-
-  .range-slider::-ms-thumb {
-    width: 50px;
-    height: 28px;
-    border-radius: 14px;
-    background-size: 36px 36px;
-    transform-origin: center;
-    transition: background 0.2s, border 0.2s, transform 0.15s;
-  }
-
-  .range-slider:hover::-ms-thumb,
-  .range-slider:focus:hover::-ms-thumb,
-  .range-slider:active::-ms-thumb {
-    background-size: 40px 40px;
-    transform: scale(1.05);
-  }
-}
-
 /* =============================================
    CONTENEURS LAYOUT
    ============================================= */
@@ -922,6 +856,14 @@ body.light .range-slider:focus::-webkit-slider-thumb {
     center no-repeat;
   border: 3px solid var(--background-general-dark);
   background-size: 56px 56px !important;
+}
+
+body.light .range-slider::-webkit-slider-thumb,
+body.light .range-slider::-moz-range-thumb,
+body.light .range-slider::-ms-thumb {
+  width: 70px;
+  height: 38px;
+  border-radius: 19px;
 }
 
 /* Firefox lightmode*/

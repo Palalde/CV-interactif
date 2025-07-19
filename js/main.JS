@@ -21,13 +21,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
       if (isLight) {
         // Light mode mapping
-        if (v >= 50 && v < 100) {
+        if (v >= 37.5 && v < 75) {
           img = "trading-beige.png";
           imgFocus = "trading-noir.png";
-        } else if (v >= 100 && v < 150) {
+        } else if (v >= 75 && v < 112.5) {
           img = "leclerc-beige.png";
           imgFocus = "leclerc-noir.png";
-        } else if (v >= 150 && v <= 200) {
+        } else if (v >= 112.5 && v <= 150) {
           img = "code-beige.png";
           imgFocus = "code-noir.png";
         } else {
@@ -36,13 +36,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       } else {
         // Dark mode mapping
-        if (v >= 50 && v < 100) {
+        if (v >= 37.5 && v < 75) {
           img = "trading-bleu.png";
           imgFocus = "trading-blanc.png";
-        } else if (v >= 100 && v < 150) {
+        } else if (v >= 75 && v < 112.5) {
           img = "leclerc-bleu.png";
           imgFocus = "leclerc-blanc.png";
-        } else if (v >= 150 && v <= 200) {
+        } else if (v >= 112.5 && v <= 150) {
           img = "code-bleu.png";
           imgFocus = "code-blanc.png";
         } else {
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initialize range slider value
   rangeSlider.min = 0;
-  rangeSlider.max = (sectionCount - 1) * 50 + 50; // 0-50, 50-100, 100-150, 150-200
+  rangeSlider.max = (sectionCount - 1) * 37.5 + 37.5; 
   rangeSlider.value = 0;
   
   // Function to update content based on slider value
