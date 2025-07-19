@@ -985,12 +985,32 @@ body.light .form-group input:-webkit-autofill:active {
 /* ----------- MOBILE < 430px ----------- */
 @media (max-width: 430px) {
   /* HEADER */
-  .header-row {
-    padding: 0px;
-  }
 
   .header-row nav {
     gap: 2px;
+  }
+
+  .header-row {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    top: auto;
+    z-index: 1000;
+    width: 100%;
+    margin-bottom: 0;
+    box-shadow: 0 -2px 8px rgba(30, 30, 60, 0.15);
+    padding: 0px;
+    padding: 5px 8px;
+    justify-content: space-around;
+  }
+
+  body {
+    padding-bottom: 65px;
+  }
+
+  .content-container,
+  .fix-container {
+    margin-bottom: 10px;
   }
 
   /* LOGO CV */
@@ -1063,9 +1083,11 @@ body.light .form-group input:-webkit-autofill:active {
 
   /* RANGESLIDER */
   .range-slider-container {
+    width: 90%;
     padding: 8px 0 4px 0;
     box-shadow: none;
-    margin-bottom: 6px;
+    margin-bottom: 3px;
+    margin-top: 8px;
     background: var(--background-surface-dark);
   }
 
