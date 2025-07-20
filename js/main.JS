@@ -172,6 +172,26 @@ document.addEventListener('DOMContentLoaded', function() {
     updateContent();
   });
   
+  // Fonction pour accrocher le slider à la position la plus proche
+  function snapSliderToNearestPosition() {
+    const value = Math.round(rangeSlider.value / 50) * 50;
+    rangeSlider.value = value;
+    updateContent();
+  }
+  
+  // Snap au relâchement de la souris
+  rangeSlider.addEventListener('mouseup', snapSliderToNearestPosition);
+  
+  // Snap lorsque l'utilisateur clique directement sur le slider
+  rangeSlider.addEventListener('click', snapSliderToNearestPosition);
+  
+  // S'assurer que le snap s'applique même si la souris est relâchée en dehors du slider
+  document.addEventListener('mouseup', () => {
+    if (document.activeElement === rangeSlider) {
+      snapSliderToNearestPosition();
+    }
+  });
+  
   // Initialize content position
   updateContent();
 });
