@@ -125,6 +125,94 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
+  // Ajouter des marqueurs visuels pour les points de snap
+  function addSnapMarkers() {
+    const sliderContainer = document.querySelector('.range-slider-container');
+    
+    // Positions des snaps (en pourcentage)
+    const snapPositions = [0.5, 33.33, 66.66, 99.5];
+    
+    // Créer un conteneur pour les marqueurs
+    const markersContainer = document.createElement('div');
+    markersContainer.className = 'snap-markers-container';
+    markersContainer.style.cssText = `
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 0;
+      pointer-events: none;
+    `;
+    
+    const markerElements = [];
+    
+    // Créer chaque marqueur
+    snapPositions.forEach(position => {
+      const marker = document.createElement('div');
+      marker.className = 'snap-marker';
+      marker.style.cssText = `
+        position: absolute;
+        top: 50%;
+        left: ${position}%;
+        transform: translate(-50%, -50%);
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: var(--background-general-light);
+        border: 2px solid var(--background-surface-dark);
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+      `;
+      markersContainer.appendChild(marker);
+      markerElements.push({ element: marker, position: position });
+    });
+    
+    // Ajouter le conteneur au slider
+    sliderContainer.appendChild(markersContainer);
+    
+    // Fonction pour cacher les marqueurs sous le thumb
+    function updateSnapMarkersVisibility() {
+      const thumbPosition = (rangeSlider.value / rangeSlider.max) * 100;
+      
+      markerElements.forEach(marker => {
+        // Calculer la proximité du thumb avec le marqueur
+        const distance = Math.abs(thumbPosition - marker.position);
+        
+        // Si le thumb est proche du marqueur, le cacher
+        if (distance < 15) {
+          marker.element.style.opacity = '0';
+        } else {
+          marker.element.style.opacity = '1';
+        }
+      });
+    }
+    
+    // Écouter les changements sur le slider pour mettre à jour la visibilité des marqueurs
+    rangeSlider.addEventListener('input', updateSnapMarkersVisibility);
+    
+    // Mise à jour des marqueurs pour le mode clair/sombre
+    const observer = new MutationObserver(() => {
+      const isLight = document.body.classList.contains('light');
+      markerElements.forEach(marker => {
+        if (isLight) {
+          marker.element.style.background = 'var(--background-general-dark)';
+          marker.element.style.borderColor = 'var(--background-surface-light)';
+        } else {
+          marker.element.style.background = 'var(--background-general-light)';
+          marker.element.style.borderColor = 'var(--background-surface-dark)';
+        }
+      });
+    });
+    
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    
+    // Appel initial pour définir la visibilité
+    updateSnapMarkersVisibility();
+  }
+  
+  // Appeler la fonction pour ajouter les marqueurs
+  addSnapMarkers();
+  
   // Range slider event listener
   rangeSlider.addEventListener('input', updateContent);
   
