@@ -437,29 +437,6 @@ body {
   flex-wrap: wrap;
 }
 /* CONTENAIR CHANGEANT */
-/*peut être pour plus tard
-.change-contenair {
-  flex: 1 1 auto;
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  align-items: stretch;
-  min-height: 0;
-}
-.change-test {
-  flex: 3 1 0;
-  min-height: 0;
-  max-height: 100%;
-  overflow: auto;
-} 
-
-.competence-test {
-  flex: 1 1 0;
-  min-height: 0;
-  max-height: 100%;
-  overflow: auto;
-} */
-/* BLOC CHANGEANT */
 .content-container {
   width: 100%;
   overflow: hidden;
@@ -1168,6 +1145,14 @@ body.light .content-section {
   .range-slider:active::-ms-thumb {
     background-size: 40px 40px;
     transform: scale(1.05);
+  }
+  /* CONTENUE CHANHGEANT */
+  /* Content-section*/
+  .content-container {
+    margin-bottom: 0px;
+  }
+  .content-section {
+    border-bottom: 0px;
   }
 }
 
