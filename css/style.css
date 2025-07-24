@@ -452,8 +452,8 @@ body {
 }
 
 .content-section {
-  flex: 0 0 20%;
-  width: 20%;
+  flex: 0 0 17.5%;
+  width: 17.5%;
   padding: 20px;
   box-sizing: border-box;
   border-left: 8px solid var(--background-general-dark);
@@ -498,33 +498,62 @@ body {
 /* COMPETENCES */
 
 .competences-section {
-  flex: 0 0 5%;
-  width: 5%;
-  padding: 18px 12px;
+  flex: 0 0 7.5%;
+  width: 7.5%;
+  padding: 20px 14px;
   box-sizing: border-box;
   background: var(--background-leger-dark);
-  border-left: 8px solid var(--background-surface-dark);
-  border-right: 8px solid var(--background-surface-dark);
-  border-bottom: 8px solid var(--background-surface-dark);
-  border-top: none;
+  border: none;
   border-radius: var(--radius-main);
-  box-shadow: var(--shadow-main);
+  box-shadow: var(--shadow-main), inset 0 0 0 1px rgba(255, 255, 255, 0.07),
+    8px 8px 0 0 var(--background-general-dark);
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.competences-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--background-surface-dark) 0%,
+    var(--text-light) 50%,
+    var(--background-surface-dark) 100%
+  );
+  opacity: 0.6;
 }
 
 .competence-titre {
   font-size: 1.08rem;
   font-weight: 700;
   color: var(--text-light);
-  margin-bottom: 10px;
+  margin-bottom: 14px;
   letter-spacing: 1px;
   text-transform: uppercase;
   border-bottom: 2px solid var(--background-surface-dark);
-  padding-bottom: 4px;
+  padding-bottom: 6px;
   width: 100%;
+  position: relative;
+}
+
+.competence-titre::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 40%;
+  height: 2px;
+  background: var(--text-light);
+  transition: width 0.3s ease;
 }
 
 .liste-competences {
@@ -532,22 +561,63 @@ body {
   padding: 0;
   margin: 0;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .item-competence {
   font-size: 0.98rem;
   color: var(--text-light);
-  margin-bottom: 7px;
-  padding-left: 12px;
+  margin-bottom: 0;
+  padding: 8px 12px;
   position: relative;
+  background: var(--background-moyen-dark);
+  border-radius: var(--radius-small);
+  transition: transform 0.2s, background-color 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-competence:hover {
+  transform: translateX(5px);
+  background: var(--background-surface-dark);
 }
 
 .item-competence::before {
   content: "•";
   position: absolute;
-  left: 0;
-  color: var(--background-surface-dark);
+  left: 4px;
+  color: var(--text-light);
   font-size: 1.1em;
+}
+
+.competence-nom {
+  margin-left: 8px;
+}
+/* Système de notation par étoiles */
+.competence-rating {
+  display: flex;
+  gap: 2px;
+  margin-left: 10px;
+}
+
+.star {
+  width: 16px;
+  height: 16px;
+  background-image: url("../img/competences/star-empty.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.star.filled {
+  background-image: url("../img/competences/star-filled.png");
+}
+
+.star.half {
+  background-image: url("../img/competences/star-half.png");
 }
 
 /* =============================================
@@ -1031,6 +1101,60 @@ body.light .content-section {
   border-right-color: var(--background-general-light);
   border-bottom-color: var(--background-general-light);
 }
+/* COMPETENCE */
+body.light .competences-section {
+  background: var(--background-leger-light);
+  border-left-color: var(--background-surface-light);
+  border-right-color: var(--background-surface-light);
+  border-bottom-color: var(--background-surface-light);
+  box-shadow: var(--shadow-main), inset 0 0 0 1px rgba(0, 0, 0, 0.05),
+    0 0 0 1px var(--background-surface-light);
+}
+
+body.light .competences-section::before {
+  background: linear-gradient(
+    90deg,
+    var(--background-surface-light) 0%,
+    var(--text-dark) 50%,
+    var(--background-surface-light) 100%
+  );
+}
+
+body.light .competence-titre {
+  color: var(--text-dark);
+  border-bottom-color: var(--background-surface-light);
+}
+
+body.light .competence-titre::after {
+  background: var(--text-dark);
+}
+
+body.light .item-competence {
+  color: var(--text-dark);
+  background: var(--background-moyen-light);
+}
+
+body.light .item-competence:hover {
+  background: var(--background-surface-light);
+}
+
+body.light .item-competence::before {
+  color: var(--text-dark);
+}
+
+/* Système de notation par étoiles en mode clair */
+body.light .star {
+  background-image: url("../img/competences/light/star-empty.png");
+}
+
+body.light .star.filled {
+  background-image: url("../img/competences/light/star-filled.png");
+}
+
+body.light .star.half {
+  background-image: url("../img/competences/light/star-half.png");
+}
+
 /* =============================================
    MEDIA QUERIES
    ============================================= */
