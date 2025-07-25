@@ -1340,6 +1340,10 @@ body.light .star.half {
   .header-search-bar {
     display: none !important;
   }
+  /* competence */
+  .competences-section {
+    display: none !important;
+  }
 }
 
 /* ----------- DESKTOP >= 715px ----------- */
