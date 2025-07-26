@@ -1340,6 +1340,11 @@ body.light .star.half {
   .header-search-bar {
     display: none !important;
   }
+  /* content */
+  .content-section {
+    flex: 0 0 25% !important;
+    width: 25% !important;
+  }
   /* competence */
   .competences-section {
     display: none !important;
