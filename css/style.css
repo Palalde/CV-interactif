@@ -620,6 +620,51 @@ body {
   background-image: url("../img/competences/star-half.png");
 }
 
+/* competences btn mobile */
+
+.competences-mobile-btn {
+  display: flex;
+  align-items: center;
+  min-height: 39px;
+  padding: 8px 14px;
+  background: var(--background-leger-dark);
+  border: none;
+  border-left: 8px solid var(--background-general-dark);
+  border-right: 8px solid var(--background-general-dark);
+  box-shadow: var(--shadow-main), inset 0 0 0 1px rgba(255, 255, 255, 0.07),
+    8px 8px 0 0 var(--background-general-dark);
+  margin-bottom: 10px;
+  gap: 12px;
+  transition: padding 0.2s, min-height 0.2s;
+  position: relative;
+  position: fixed;
+  bottom: 0px;
+  left: 0;
+  top: auto;
+  z-index: 1000;
+  width: 100%;
+  margin-bottom: 0;
+  box-shadow: 0 -2px 8px rgba(30, 30, 60, 0.15);
+  padding: 0px;
+  padding: 5px 8px;
+  justify-content: space-around;
+}
+
+.competences-mobile-btn ::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--background-surface-dark) 0%,
+    var(--text-light) 50%,
+    var(--background-surface-dark) 100%
+  );
+  opacity: 0.6;
+}
 /* =============================================
    PAGE CONTACT
    ============================================= */
@@ -1181,7 +1226,7 @@ body.light .star.half {
   }
 
   body {
-    padding-bottom: 65px;
+    padding-bottom: 60px;
   }
 
   .content-container,
@@ -1337,6 +1382,10 @@ body.light .star.half {
 
 /* ----------- MOBILE < 715px ----------- */
 @media (max-width: 715px) {
+  body {
+    padding-bottom: 50px;
+  }
+
   .header-search-bar {
     display: none !important;
   }
@@ -1349,11 +1398,24 @@ body.light .star.half {
   .competences-section {
     display: none !important;
   }
+  .header-row {
+    height: 48px;
+  }
+  /* Content-section*/
+  .content-container {
+    margin-bottom: 0px;
+  }
+  .content-section {
+    border-bottom: 0px;
+  }
 }
 
 /* ----------- DESKTOP >= 715px ----------- */
 @media (min-width: 715px) {
   .nav-search-btn {
+    display: none !important;
+  }
+  .competences-mobile-btn {
     display: none !important;
   }
 }
