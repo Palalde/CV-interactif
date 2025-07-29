@@ -630,9 +630,9 @@ body {
   position: fixed;
   bottom: 0;
   z-index: 990;
-  width: 97%;
+  width: 98%;
   padding: 2px;
-  background: var(--background-leger-dark);
+  background: rgba(30, 30, 54, 0.98);
   border-radius: var(--radius-main) var(--radius-main) 0 0;
   box-shadow: var(--shadow-main), inset 0 0 0 1px rgba(255, 255, 255, 0.07),
     8px 8px 0 0 var(--background-general-dark);
@@ -1397,7 +1397,7 @@ body.light .star.half {
     bottom: 48px;
     z-index: 1050;
     width: 96.5%;
-    background: var(--background-leger-dark);
+    background: rgba(30, 30, 54, 0.98);
     border-radius: 0 0 var(--radius-small) var(--radius-small);
     margin-bottom: 3px;
   }
