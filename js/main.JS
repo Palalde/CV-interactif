@@ -214,7 +214,10 @@ document.addEventListener('DOMContentLoaded', function() {
   addSnapMarkers();
   
   // Range slider event listener
-  rangeSlider.addEventListener('input', updateContent);
+  rangeSlider.addEventListener('input', function() {
+    updateContent();
+    updateCompetencesDynamiquesBySlider();
+  });
   
   // Touch events for swiping
   slider.addEventListener('touchstart', (e) => {
@@ -268,17 +271,47 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   // Snap au relâchement de la souris
-  rangeSlider.addEventListener('mouseup', snapSliderToNearestPosition);
+  rangeSlider.addEventListener('mouseup', function() {
+    snapSliderToNearestPosition();
+    updateCompetencesDynamiquesBySlider();
+  });
   
   // Snap lorsque l'utilisateur clique directement sur le slider
-  rangeSlider.addEventListener('click', snapSliderToNearestPosition);
+  rangeSlider.addEventListener('click', function() {
+    snapSliderToNearestPosition();
+    updateCompetencesDynamiquesBySlider();
+  });
   
   // S'assurer que le snap s'applique même si la souris est relâchée en dehors du slider
   document.addEventListener('mouseup', () => {
     if (document.activeElement === rangeSlider) {
       snapSliderToNearestPosition();
+      updateCompetencesDynamiquesBySlider();
     }
   });
+  
+  // Fonction pour mettre à jour les compétences dynamiques selon la position du slider
+  function updateCompetencesDynamiquesBySlider() {
+    const value = parseFloat(rangeSlider.value);
+    let competenceId = '';
+    if (value < 37.5) {
+      competenceId = 'competences-etudes';
+    } else if (value >= 37.5 && value < 75) {
+      competenceId = 'competences-trading';
+    } else if (value >= 75 && value < 112.5) {
+      competenceId = 'competences-leclerc';
+    } else {
+      competenceId = 'competences-dev';
+    }
+    const competenceSection = document.getElementById(competenceId);
+    const dynContainer = document.getElementById('competences-dynamiques');
+    if (competenceSection && dynContainer) {
+      dynContainer.innerHTML = competenceSection.innerHTML;
+    }
+  }
+  
+  // Initialisation du contenu dynamique au chargement
+  updateCompetencesDynamiquesBySlider();
   
   // Initialize content position
   updateContent();
