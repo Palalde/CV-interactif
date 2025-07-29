@@ -4,12 +4,11 @@
 
 ### 🔴 Urgent
 
-faire le css du bloc competence du moins de sa globalité
+-faire en sorte que le block competences acquise slide pour remplacer le contenue content-section
+-competence : creer faire en sorte que le bloc competences total soit en overlay au dessus de tout le contenue, même l'overlay, fesant un filtre d'opacité
 
 ### 🟠 Important
 
--commencer a faire le css voir le JS pour le bloc competence en mode mobile
--competence : creer faire en sorte que le bloc competences total soit en overlay au dessus de tout le contenue, même l'overlay, fesant un filtre d'opacité
 -faire le css du contenue principal
 -faire le css du bloc competence total
 
