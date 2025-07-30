@@ -466,26 +466,182 @@ body {
   display: flex;
   flex-direction: column;
 }
-
+/* etudes */
 #etudes {
   flex: 3 1 0;
-  min-height: 0;
-  max-height: 100%;
-  overflow: auto;
   background-color: var(--background-moyen-dark);
-  background-image: url("data:image/svg+xml;utf8,<svg width='32' height='32' xmlns='http://www.w3.org/2000/svg'><rect width='32' height='32' fill='none'/><path d='M0 0 H32 M0 32 H32 M0 0 V32 M32 0 V32' stroke='%2390caf9' stroke-width='1' opacity='0.20'/></svg>");
+  background-image: linear-gradient(
+      rgba(144, 202, 249, 0.2) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(144, 202, 249, 0.2) 1px, transparent 1px);
   background-size: 32px 32px;
   border-radius: var(--radius-main);
-  box-shadow: var(--shadow-main);
-  padding: 32px 24px;
+  box-shadow: var(--shadow-main), 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 28px 24px;
   font-family: "Indie Flower", cursive, "Comic Sans MS", "Segoe Script",
     sans-serif;
-  font-size: 1.25rem;
   color: var(--text-light);
-  line-height: 2.2rem;
-  letter-spacing: 0.5px;
-  background-position: 0 0;
+  line-height: 1;
+  position: relative;
+  border: 1px solid rgba(144, 202, 249, 0.3);
 }
+
+/* Ligne rouge sur le côté gauche comme un vrai cahier */
+#etudes::before {
+  content: "";
+  position: absolute;
+  left: 25px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: rgba(255, 99, 71, 0.7);
+  z-index: 1;
+}
+
+/* Style des blocs d'études */
+#etudes .etudes {
+  padding: 12px 15px 18px 30px;
+  margin-bottom: 15px;
+  position: relative;
+  transition: transform 0.2s;
+}
+
+#etudes .etudes:hover {
+  transform: translateY(-3px);
+}
+
+/* Titres des études */
+#etudes .titre-section {
+  color: #90caf9;
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  position: relative;
+  padding-bottom: 5px;
+}
+
+#etudes h1.titre-section {
+  font-size: 1.5rem;
+}
+
+#etudes h2.titre-section {
+  font-size: 1.35rem;
+}
+
+/* Ligne sous les titres */
+#etudes .titre-section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 80%;
+  background: linear-gradient(90deg, rgba(144, 202, 249, 0.7), transparent);
+}
+
+/* Texte des études */
+#etudes .texte-etudes {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  padding-left: 5px;
+  position: relative;
+}
+
+/* Effet d'écriture à la main - légère rotation */
+#etudes .etudes:nth-child(odd) .texte-etudes {
+  transform: rotate(-0.3deg);
+}
+
+#etudes .etudes:nth-child(even) .texte-etudes {
+  transform: rotate(0.2deg);
+}
+
+/* Adaptation au thème clair */
+body.light #etudes {
+  background-color: #f5f6fa;
+  background-image: linear-gradient(rgba(41, 41, 90, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(41, 41, 90, 0.15) 1px, transparent 1px);
+  color: var(--text-dark);
+  border: 1px solid rgba(41, 41, 90, 0.2);
+}
+
+body.light #etudes::before {
+  background-color: rgba(220, 53, 69, 0.7);
+}
+
+body.light #etudes .titre-section {
+  color: var(--text-dark);
+}
+
+body.light #etudes .titre-section::after {
+  background: linear-gradient(90deg, rgba(41, 41, 90, 0.4), transparent);
+}
+
+/* Responsive pour mobile */
+@media (max-width: 715px) {
+  #etudes {
+    padding: 22px 18px;
+  }
+
+  #etudes::before {
+    left: 12px;
+  }
+
+  #etudes .etudes {
+    padding: 10px 10px 15px 22px;
+    margin-bottom: 20px;
+  }
+
+  #etudes .titre-section {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+  }
+
+  #etudes h1.titre-section {
+    font-size: 1.3rem;
+  }
+
+  #etudes h2.titre-section {
+    font-size: 1.2rem;
+  }
+
+  #etudes .texte-etudes {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 430px) {
+  #etudes {
+    padding: 18px 15px;
+  }
+
+  #etudes::before {
+    left: 8px;
+    width: 1.5px;
+  }
+
+  #etudes .etudes {
+    padding: 8px 8px 12px 18px;
+    margin-bottom: 15px;
+  }
+
+  #etudes h1.titre-section {
+    font-size: 1.2rem;
+  }
+
+  #etudes h2.titre-section {
+    font-size: 1.1rem;
+  }
+
+  #etudes .texte-etudes {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+}
+/* trades */
 #trading {
   background-color: #e6f2ff;
 }
