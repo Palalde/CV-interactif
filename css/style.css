@@ -786,7 +786,7 @@ body.light #etudes .titre-section::after {
   position: fixed;
   bottom: 0;
   z-index: 990;
-  width: 98%;
+  width: 100%;
   padding: 2px;
   background: rgba(30, 30, 54, 0.98);
   border-radius: var(--radius-main) var(--radius-main) 0 0;
@@ -1552,7 +1552,7 @@ body.light .star.half {
   .competences-mobile-btn {
     bottom: 48px;
     z-index: 1050;
-    width: 96.5%;
+    width: 100%;
     background: rgba(30, 30, 54, 0.98);
     border-radius: 0 0 var(--radius-small) var(--radius-small);
     margin-bottom: 3px;
