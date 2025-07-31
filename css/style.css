@@ -468,7 +468,6 @@ body {
 }
 /* etudes */
 #etudes {
-  flex: 3 1 0;
   background-color: var(--background-moyen-dark);
   background-image: linear-gradient(
       rgba(144, 202, 249, 0.2) 1px,
@@ -478,11 +477,11 @@ body {
   background-size: 32px 32px;
   border-radius: var(--radius-main);
   box-shadow: var(--shadow-main), 0 5px 15px rgba(0, 0, 0, 0.1);
-  padding: 28px 24px;
+  padding: 39px 20px;
   font-family: "Indie Flower", cursive, "Comic Sans MS", "Segoe Script",
     sans-serif;
   color: var(--text-light);
-  line-height: 1;
+  line-height: 1.19;
   position: relative;
   border: 1px solid rgba(144, 202, 249, 0.3);
 }
@@ -501,8 +500,9 @@ body {
 
 /* Style des blocs d'études */
 #etudes .etudes {
-  padding: 12px 15px 18px 30px;
-  margin-bottom: 15px;
+  padding-left: 30px;
+  padding-bottom: 1px;
+  margin-bottom: 30px;
   position: relative;
   transition: transform 0.2s;
 }
@@ -514,20 +514,21 @@ body {
 /* Titres des études */
 #etudes .titre-section {
   color: #90caf9;
-  margin-bottom: 10px;
   font-size: 1.3rem;
   font-weight: 600;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
   position: relative;
-  padding-bottom: 5px;
+  padding-bottom: 4px;
 }
 
 #etudes h1.titre-section {
-  font-size: 1.5rem;
+  font-size: 1.35rem;
+  line-height: 1.48;
 }
 
 #etudes h2.titre-section {
   font-size: 1.35rem;
+  line-height: 1.48;
 }
 
 /* Ligne sous les titres */
@@ -535,8 +536,8 @@ body {
   content: "";
   position: absolute;
   left: 0;
-  bottom: 0;
-  height: 2px;
+  bottom: 2px;
+  height: 3px;
   width: 80%;
   background: linear-gradient(90deg, rgba(144, 202, 249, 0.7), transparent);
 }
@@ -544,7 +545,7 @@ body {
 /* Texte des études */
 #etudes .texte-etudes {
   font-size: 1.1rem;
-  line-height: 1.7;
+  line-height: 1.77;
   padding-left: 5px;
   position: relative;
 }
