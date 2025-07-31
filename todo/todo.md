@@ -6,6 +6,7 @@
 
 -adapté la taille du contenue d'etudes, adapté le scroll du contenue,
 -faire le css du contenue principal
+-faire la page d'accueille du site a l'aide de sora (demander a chatgpt un prompt a donné pour sora)
 
 ### 🟠 Important
 
