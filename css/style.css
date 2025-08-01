@@ -465,6 +465,7 @@ body {
   min-height: calc(100vh - 180px);
   display: flex;
   flex-direction: column;
+  overflow: auto;
 }
 /* etudes */
 #etudes {
@@ -475,6 +476,7 @@ body {
     ),
     linear-gradient(90deg, rgba(144, 202, 249, 0.2) 1px, transparent 1px);
   background-size: 32px 32px;
+  background-attachment: local;
   border-radius: var(--radius-main);
   box-shadow: var(--shadow-main), 0 5px 15px rgba(0, 0, 0, 0.1);
   padding: 39px 20px;
@@ -484,21 +486,23 @@ body {
   line-height: 1.19;
   position: relative;
   border: 1px solid rgba(144, 202, 249, 0.3);
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
 }
 
-/* Ligne rouge sur le côté gauche comme un vrai cahier */
 #etudes::before {
   content: "";
-  position: absolute;
-  left: 25px;
+  position: fixed;
+  left: calc(8px + 25px);
   top: 0;
-  bottom: 0;
+  height: 100%;
   width: 2px;
   background-color: rgba(255, 99, 71, 0.7);
   z-index: 1;
 }
 
-/* Style des blocs d'études */
 #etudes .etudes {
   padding-left: 30px;
   padding-bottom: 1px;
@@ -511,7 +515,6 @@ body {
   transform: translateY(-3px);
 }
 
-/* Titres des études */
 #etudes .titre-section {
   color: #90caf9;
   font-size: 1.3rem;
@@ -531,7 +534,6 @@ body {
   line-height: 1.48;
 }
 
-/* Ligne sous les titres */
 #etudes .titre-section::after {
   content: "";
   position: absolute;
@@ -542,7 +544,6 @@ body {
   background: linear-gradient(90deg, rgba(144, 202, 249, 0.7), transparent);
 }
 
-/* Texte des études */
 #etudes .texte-etudes {
   font-size: 1.1rem;
   line-height: 1.77;
@@ -550,7 +551,6 @@ body {
   position: relative;
 }
 
-/* Effet d'écriture à la main - légère rotation */
 #etudes .etudes:nth-child(odd) .texte-etudes {
   transform: rotate(-0.3deg);
 }
@@ -559,89 +559,6 @@ body {
   transform: rotate(0.2deg);
 }
 
-/* Adaptation au thème clair */
-body.light #etudes {
-  background-color: #f5f6fa;
-  background-image: linear-gradient(rgba(41, 41, 90, 0.15) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(41, 41, 90, 0.15) 1px, transparent 1px);
-  color: var(--text-dark);
-  border: 1px solid rgba(41, 41, 90, 0.2);
-}
-
-body.light #etudes::before {
-  background-color: rgba(220, 53, 69, 0.7);
-}
-
-body.light #etudes .titre-section {
-  color: var(--text-dark);
-}
-
-body.light #etudes .titre-section::after {
-  background: linear-gradient(90deg, rgba(41, 41, 90, 0.4), transparent);
-}
-
-/* Responsive pour mobile */
-@media (max-width: 715px) {
-  #etudes {
-    padding: 22px 18px;
-  }
-
-  #etudes::before {
-    left: 12px;
-  }
-
-  #etudes .etudes {
-    padding: 10px 10px 15px 22px;
-    margin-bottom: 20px;
-  }
-
-  #etudes .titre-section {
-    font-size: 1.2rem;
-    margin-bottom: 12px;
-  }
-
-  #etudes h1.titre-section {
-    font-size: 1.3rem;
-  }
-
-  #etudes h2.titre-section {
-    font-size: 1.2rem;
-  }
-
-  #etudes .texte-etudes {
-    font-size: 1rem;
-    line-height: 1.6;
-  }
-}
-
-@media (max-width: 430px) {
-  #etudes {
-    padding: 18px 15px;
-  }
-
-  #etudes::before {
-    left: 8px;
-    width: 1.5px;
-  }
-
-  #etudes .etudes {
-    padding: 8px 8px 12px 18px;
-    margin-bottom: 15px;
-  }
-
-  #etudes h1.titre-section {
-    font-size: 1.2rem;
-  }
-
-  #etudes h2.titre-section {
-    font-size: 1.1rem;
-  }
-
-  #etudes .texte-etudes {
-    font-size: 0.95rem;
-    line-height: 1.5;
-  }
-}
 /* trades */
 #trading {
   background-color: #e6f2ff;
@@ -1219,6 +1136,113 @@ body.light .range-slider:focus::-ms-thumb {
   background-size: 56px 56px !important;
 }
 
+/* CONTENUE CHANGEANT*/
+/* content section */
+body.light .content-section {
+  border-left-color: var(--background-general-light);
+  border-right-color: var(--background-general-light);
+  border-bottom-color: var(--background-general-light);
+}
+
+/* etudes lightmode*/
+body.light #etudes {
+  background-color: #f5f6fa;
+  background-image: linear-gradient(rgba(41, 41, 90, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(41, 41, 90, 0.15) 1px, transparent 1px);
+  color: var(--text-dark);
+  border: 1px solid rgba(41, 41, 90, 0.2);
+}
+
+body.light #etudes::before {
+  background-color: rgba(220, 53, 69, 0.7);
+}
+
+body.light #etudes .titre-section {
+  color: var(--text-dark);
+}
+
+body.light #etudes .titre-section::after {
+  background: linear-gradient(90deg, rgba(41, 41, 90, 0.4), transparent);
+}
+
+/* COMPETENCE */
+body.light .competences-section {
+  background: var(--background-leger-light);
+  border-left-color: var(--background-surface-light);
+  border-right-color: var(--background-surface-light);
+  border-bottom-color: var(--background-surface-light);
+  box-shadow: var(--shadow-main), inset 0 0 0 1px rgba(0, 0, 0, 0.05),
+    0 0 0 1px var(--background-surface-light);
+}
+
+body.light .competences-section::before {
+  background: linear-gradient(
+    90deg,
+    var(--background-surface-light) 0%,
+    var(--text-dark) 50%,
+    var(--background-surface-light) 100%
+  );
+}
+
+body.light .competence-titre {
+  color: var(--text-dark);
+  border-bottom-color: var(--background-surface-light);
+}
+
+body.light .competence-titre::after {
+  background: var(--text-dark);
+}
+
+body.light .item-competence {
+  color: var(--text-dark);
+  background: var(--background-moyen-light);
+}
+
+body.light .item-competence:hover {
+  background: var(--background-surface-light);
+}
+
+body.light .item-competence::before {
+  color: var(--text-dark);
+}
+
+/* competences btn */
+body.light .competences-mobile-btn {
+  background: rgba(240, 237, 227, 0.98);
+  box-shadow: var(--shadow-main), inset 0 0 0 1px rgba(0,0,0,0.05),
+    8px 8px 0 0 var(--background-general-light);
+}
+
+body.light .competences-mobile-btn::before {
+  background: var(--text-dark);
+}
+
+body.light .competences-mobile-btn::after {
+  background: linear-gradient(
+    90deg,
+    var(--background-surface-light) 0%,
+    var(--text-dark) 50%,
+    var(--background-surface-light) 100%
+  );
+}
+
+body.light .competences-mobile-titre {
+  color: var(--text-dark);
+}
+
+/* Système de notation par étoiles en mode clair */
+body.light .star {
+  background-image: url("../img/competences/light/star-empty.png");
+}
+
+body.light .star.filled {
+  background-image: url("../img/competences/light/star-filled.png");
+}
+
+body.light .star.half {
+  background-image: url("../img/competences/light/star-half.png");
+}
+
 /* Contact lightmode */
 body.light .contact-main {
   background: var(--background-leger-light);
@@ -1304,67 +1328,6 @@ body.light .form-group input:-webkit-autofill:active {
   font-family: "Inter", Arial, Helvetica, sans-serif !important;
   -webkit-box-shadow: 0 0 0 1000px var(--background-moyen-light) inset !important;
   transition: background-color 5000s ease-in-out 0s;
-}
-
-/* CONTENUE CHANGEANT*/
-/* content section */
-body.light .content-section {
-  border-left-color: var(--background-general-light);
-  border-right-color: var(--background-general-light);
-  border-bottom-color: var(--background-general-light);
-}
-/* COMPETENCE */
-body.light .competences-section {
-  background: var(--background-leger-light);
-  border-left-color: var(--background-surface-light);
-  border-right-color: var(--background-surface-light);
-  border-bottom-color: var(--background-surface-light);
-  box-shadow: var(--shadow-main), inset 0 0 0 1px rgba(0, 0, 0, 0.05),
-    0 0 0 1px var(--background-surface-light);
-}
-
-body.light .competences-section::before {
-  background: linear-gradient(
-    90deg,
-    var(--background-surface-light) 0%,
-    var(--text-dark) 50%,
-    var(--background-surface-light) 100%
-  );
-}
-
-body.light .competence-titre {
-  color: var(--text-dark);
-  border-bottom-color: var(--background-surface-light);
-}
-
-body.light .competence-titre::after {
-  background: var(--text-dark);
-}
-
-body.light .item-competence {
-  color: var(--text-dark);
-  background: var(--background-moyen-light);
-}
-
-body.light .item-competence:hover {
-  background: var(--background-surface-light);
-}
-
-body.light .item-competence::before {
-  color: var(--text-dark);
-}
-
-/* Système de notation par étoiles en mode clair */
-body.light .star {
-  background-image: url("../img/competences/light/star-empty.png");
-}
-
-body.light .star.filled {
-  background-image: url("../img/competences/light/star-filled.png");
-}
-
-body.light .star.half {
-  background-image: url("../img/competences/light/star-half.png");
 }
 
 /* =============================================
@@ -1545,10 +1508,37 @@ body.light .star.half {
   .content-section {
     border-bottom: 0px;
   }
-
+  /* Etudes */
   #etudes {
-    border-radius: var(--radius-main) var(--radius-main) 0 0;
+    padding: 33px 15px;
   }
+
+  #etudes::before {
+    left: calc(8px + 8px);
+    width: 1.5px;
+  }
+
+  #etudes .etudes {
+    padding: 8px 8px 12px 20px;
+    margin-bottom: 15px;
+  }
+
+  #etudes h1.titre-section {
+    font-size: 1rem;
+    line-height: 2;
+    padding-bottom: 0.5px;
+  }
+
+  #etudes h2.titre-section {
+    font-size: 1rem;
+    line-height: 2;
+  }
+
+  #etudes .texte-etudes {
+    font-size: 0.9rem;
+    line-height: 2.2;
+  }
+
   /* competences */
   .competences-mobile-btn {
     bottom: 48px;
