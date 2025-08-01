@@ -588,7 +588,6 @@ body {
   align-items: flex-start;
   gap: 10px;
   overflow: hidden;
-  margin-bottom: 8px;
 }
 
 .competences-section::before {
@@ -1209,7 +1208,7 @@ body.light .item-competence::before {
 /* competences btn */
 body.light .competences-mobile-btn {
   background: rgba(240, 237, 227, 0.98);
-  box-shadow: var(--shadow-main), inset 0 0 0 1px rgba(0,0,0,0.05),
+  box-shadow: var(--shadow-main), inset 0 0 0 1px rgba(0, 0, 0, 0.05),
     8px 8px 0 0 var(--background-general-light);
 }
 
@@ -1511,6 +1510,8 @@ body.light .form-group input:-webkit-autofill:active {
   /* Etudes */
   #etudes {
     padding: 33px 15px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
 
   #etudes::before {
