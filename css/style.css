@@ -559,6 +559,60 @@ body {
   transform: rotate(0.2deg);
 }
 
+/* etudes chart */
+
+.trading-chart {
+  width: 90%;
+  margin: 20px auto 10px;
+  padding: 8px;
+  position: relative;
+  max-width: 480px;
+  border-radius: 10px;
+  transform: rotate(-0.5deg);
+  transition: transform 0.3s ease;
+}
+
+.trading-chart:hover {
+  transform: rotate(0.5deg) translateY(-3px);
+}
+
+.trading-chart::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(144, 202, 249, 0.08);
+  border-radius: 10px;
+  z-index: -1;
+}
+
+.trading-chart::after {
+  content: "📈";
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  font-size: 24px;
+  transform: rotate(5deg);
+  opacity: 0.8;
+}
+
+.trading-chart-img {
+  width: 100%;
+  height: auto;
+  max-height: 250px;
+  object-fit: contain;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.light-mode-img {
+  display: none;
+}
+
 /* trades */
 #trading {
   background-color: #e6f2ff;
@@ -1163,6 +1217,19 @@ body.light #etudes .titre-section {
 body.light #etudes .titre-section::after {
   background: linear-gradient(90deg, rgba(41, 41, 90, 0.4), transparent);
 }
+/* graph ligtmode */
+
+body.light .dark-mode-img {
+  display: none;
+}
+
+body.light .light-mode-img {
+  display: block;
+}
+
+body.light .trading-chart::before {
+  background: rgba(41, 41, 90, 0.05);
+}
 
 /* COMPETENCE */
 body.light .competences-section {
@@ -1539,6 +1606,23 @@ body.light .form-group input:-webkit-autofill:active {
     font-size: 0.9rem;
     line-height: 2.2;
   }
+  /* etudes graph */
+
+  .trading-chart {
+    width: 100%;
+    margin: 10px auto;
+    padding: 4px;
+  }
+
+  .trading-chart-img {
+    max-height: 150px;
+  }
+
+  .trading-chart::after {
+    font-size: 18px;
+    top: -8px;
+    right: 10px;
+  }
 
   /* competences */
   .competences-mobile-btn {
@@ -1572,6 +1656,16 @@ body.light .form-group input:-webkit-autofill:active {
   .content-section {
     flex: 0 0 25% !important;
     width: 25% !important;
+  }
+  /* etudes graph */
+  .trading-chart {
+    width: 95%;
+    margin: 15px auto;
+    padding: 6px;
+  }
+
+  .trading-chart-img {
+    max-height: 200px;
   }
   /* competence */
   .competences-section {
