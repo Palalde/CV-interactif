@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const homeLink = document.getElementById('header-home-link');
   if (homeLink) {
     homeLink.addEventListener('click', function() {
-      window.location.href = 'cv.html';
+  window.location.href = '/';
     });
   }
 // RANGE SLIDER
@@ -50,9 +50,9 @@ document.addEventListener('DOMContentLoaded', function() {
           imgFocus = "etudes-blanc.png";
         }
       }
-      const base = isFocus ? imgFocus : img;
-      const mode = isLight ? 'lightmode' : 'darkmode';
-      slider.style.setProperty('--thumb-img', `url("../img/rangeslider/${mode}/${base}")`);
+  const base = isFocus ? imgFocus : img;
+  const mode = isLight ? 'lightmode' : 'darkmode';
+  slider.style.setProperty('--thumb-img', `url("/img/rangeslider/${mode}/${base}")`);
     }
 
     // Initial
