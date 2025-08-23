@@ -1,60 +1,68 @@
-## Copilot Instructions (Concise Guide)
+## Guide Copilot (version concise)
 
-Static interactive CV. No build/bundler: open `html/cv.html` directly. Core = single CSS + feature JS + mirrored dark/light assets.
+CV interactif statique. Pas de build/bundler : ouvrir `html/cv.html` directement. Core = un seul CSS + JS par feature + assets miroirs light/dark.
 
 1. Structure
 
-   - HTML: `html/cv.html`, `html/contact-info.html` (add scripts manually at bottom).
-   - CSS: `css/style.css` monolith; add small, localized blocks only.
-   - JS: `js/main.JS` (slider + competences + range thumb), `js/utility/*` (theme + mobile toggle), `js/trade/trade.js` (Lightweight Charts demo).
-   - Assets: `img/<feature>/<lightmode|darkmode>/file.png` (names encode feature + color, e.g. `trading-bleu.png`).
+   - HTML : `html/cv.html`, `html/contact-info.html` (ajouter les scripts manuellement en bas de page).
+   - CSS : `css/style.css` monolithique ; n’ajouter que de petits blocs localisés.
+   - JS : `js/main.JS` (slider + compétences + range thumb), `js/utility/*` (theme + mobile toggle), `js/trade/trade.js` (demo Lightweight Charts).
+   - Assets : `img/<feature>/<lightmode|darkmode>/file.png` (nommage = feature + couleur, ex. `trading-bleu.png`).
 
-2. Theming
+2. Thème (Theming)
 
-   - Toggle sets `body.light`. JS (`updateNavIcons`) swaps `src` for each icon—add both variants then extend that function.
-   - Use CSS vars (`--background-*`, `--text-*`). Add new tokens only in `:root`.
+   - Le toggle pose `body.light`. Le JS (`updateNavIcons`) swap le `src` de chaque icône — ajouter les 2 variantes puis étendre cette fonction.
+   - Utiliser des variables CSS (`--background-*`, `--text-*`). Ajouter de nouveaux tokens uniquement dans `:root`.
 
-3. Range Slider Navigation
+3. Navigation via range slider
 
-   - `<input id="myRange">` → translates `.content-slider` via logic in `main.JS`.
-   - Current thresholds: <37.5 (etudes), 37.5–75 (trading), 75–112.5 (leclerc), >=112.5 (dev).
-   - Add section: new `.content-section`, recompute even thresholds + `rangeSlider.max`, update: a) threshold if/else, b) thumb image mapping, c) `updateCompetencesDynamiquesBySlider()` mapping.
+   - `<input id="myRange">` → translate `.content-slider` via la logique dans `main.JS`.
+   - Seuils actuels : <37.5 (etudes), 37.5–75 (trading), 75–112.5 (leclerc), >=112.5 (dev).
+   - Ajouter une section : nouvelle `.content-section`, recalcul des seuils équidistants + `rangeSlider.max`, puis update : a) if/else des seuils, b) mapping de l’image du thumb, c) mapping dans `updateCompetencesDynamiquesBySlider()`.
 
-4. Dynamic Competences (Mobile)
+4. Compétences dynamiques (mobile)
 
-   - `updateCompetencesDynamiquesBySlider()` clones active `#competences-*` HTML into `#competences-dynamiques`.
-   - Keep structure: `.competences-section > ul.liste-competences`.
+   - `updateCompetencesDynamiquesBySlider()` clone le HTML actif `#competences-*` dans `#competences-dynamiques`.
+   - Conserver la structure : `.competences-section > ul.liste-competences`.
 
-5. Trading Chart
+5. Graphique Trading
 
-   - `js/trade/trade.js` loads Lightweight Charts via CDN; creates candlestick in `#trading-live-chart` (fills entire `#trading` section via flex CSS).
-   - Theme adaptation: MutationObserver on `body.class`; reuse `getColors()` for additions.
+   - `js/trade/trade.js` charge Lightweight Charts via CDN ; crée un candlestick dans `#trading-live-chart` (remplit toute la section `#trading` grâce au CSS flex).
+   - Adaptation au thème : MutationObserver sur `body.class` ; réutiliser `getColors()` pour toute addition.
 
 6. Conventions
 
-   - Keep legacy filename `main.JS`. New files lowercase-hyphen.
-   - Wrap logic in `DOMContentLoaded`; null-check elements (shared scripts across pages).
-   - Limit console logging to a single concise init message per feature.
+   - Conserver le nom legacy `main.JS`. Nouveaux fichiers en lowercase-hyphen.
+   - Envelopper la logique dans `DOMContentLoaded` ; null-check des éléments (scripts mutualisés entre pages).
+   - Limiter le console logging à un court message d’init par feature.
 
-7. Safe Edit Checklist
+7. Checklist d’édition safe
 
-   - Script tag appended at bottom of HTML after utilities.
-   - New themed asset: add both variants + JS swap entry.
-   - Slider change: thresholds + `rangeSlider.max` + competences mapping + thumb icons updated together.
-   - Chart change: reuse existing container or add new unique ID and theme observer.
+   - Script tag ajouté en bas du HTML après les utilitaires.
+   - Nouvel asset “themed” : ajouter les deux variantes + entrée de swap JS.
+   - Changement du slider : seuils + `rangeSlider.max` + mapping compétences + thumb icons mis à jour ensemble.
+   - Changement du chart : réutiliser le container existant ou ajouter un nouvel ID unique et un theme observer.
 
-8. Extending Timeline Example
+8. Exemple : extension de la timeline
 
-   - For 5 periods over 0..150: step = 150 / 5 = 30; thresholds become <30, <60, <90, <120, else. Update all dependent ifs + icon ranges + competences mapping.
+   - Pour 5 périodes sur 0..150 : step = 150 / 5 = 30 ; seuils = <30, <60, <90, <120, else. Mettre à jour tous les if dépendants + ranges d’icônes + mapping des compétences.
 
-9. Constraints
+9. Contraintes
 
-   - Stay framework-free; only CDN scripts. Avoid heavy libs beyond small single-file inclusions.
+   - Rester framework‑free ; uniquement des scripts CDN. Éviter les libs lourdes au‑delà de petites inclusions single‑file.
 
-10. References
-    - Theme: `js/utility/theme-toggle.js`
-    - Slider & competences: `js/main.JS`
-    - Mobile toggle: `js/utility/competences-mobile-toggle.js`
-    - Chart demo: `js/trade/trade.js`
+10. Références
+    - Theme : `js/utility/theme-toggle.js`
+    - Slider & compétences : `js/main.JS`
+    - Mobile toggle : `js/utility/competences-mobile-toggle.js`
+    - Chart demo : `js/trade/trade.js`
 
-Update this guide if thresholds become config‑driven or a generic theme asset helper is introduced.
+Mettre à jour ce guide si les seuils deviennent config‑driven ou si un helper générique d’assets “thème” est introduit.
+
+11. Travailler avec plusieurs fils (chats)
+
+- En fin d’étape, écrire un bref résumé dans `docs/decisions-log.md` (what/why/changes/next steps).
+- Reprendre les items actionnables dans `todo/todo.md` pour les conserver hors historique de chat.
+- À l’ouverture d’un nouveau fil, partager la dernière entrée du journal pour restaurer le contexte rapidement.
+
+- Auto‑débrief : si l’utilisateur dit « fermer la discussion », générer une entrée prête à coller dans `docs/decisions-log.md` (modèle FR) et proposer de recopier les prochaines étapes dans `todo/todo.md`. L’utilisateur collera ensuite l’ID du commit à la place de `[COMMIT_ID]`.
