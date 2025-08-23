@@ -18,9 +18,6 @@
 
 -s'attaquer a la relecture du JS et commencé le JS important structuré etc..
 -le js et l'intaration des competence
--unifier les seuils du slider (pas=50) et mettre à jour `updateCompetencesDynamiquesBySlider()` et `updateThumb()`
--implémenter `initTradingDemoChart()` (graph responsive dans `#trading-live-chart`, couleurs CSS, observer de thème)
--tests manuels rapides: swipe, snap, clone compétences mobile
 
 ## 📅 Scheduled
 
