@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Redirection…</title>
+    <!-- Meta refresh as fallback -->
+    <meta http-equiv="refresh" content="0; url=/html/cv.html" />
+    <link rel="canonical" href="/html/cv.html" />
+    <script>
+      (function () {
+        var target = "/html/cv.html";
+        var extra = location.search + location.hash;
+        if (extra) target += extra;
+        // Use replace so history doesn't keep the redirect page
+        location.replace(target);
+      })();
+    </script>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial,
+          sans-serif;
+        background: #0b0d10;
+        color: #e5e7eb;
+      }
+      .wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        text-align: center;
+      }
+      a {
+        color: #60a5fa;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <p>Redirection vers <a href="/html/cv.html">cv.html</a>…</p>
+    </div>
+    <noscript>
+      <div class="wrap">
+        <p>
+          JavaScript est désactivé. Accédez à
+          <a href="/html/cv.html">/html/cv.html</a>.
+        </p>
+      </div>
+    </noscript>
+  </body>
+</html>
