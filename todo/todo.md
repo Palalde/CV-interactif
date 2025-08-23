@@ -4,7 +4,7 @@
 
 ### 🔴 Urgent
 
--mettre a jour le copilot-instruction.md
+-[x] mettre a jour le copilot-instruction.md
 -ajouter les dessins a etudes
 -faire la page d'accueille index.html du site a l'aide de sora (demander a chatgpt un prompt a donné pour sora)
 
@@ -18,6 +18,9 @@
 
 -s'attaquer a la relecture du JS et commencé le JS important structuré etc..
 -le js et l'intaration des competence
+-unifier les seuils du slider (pas=50) et mettre à jour `updateCompetencesDynamiquesBySlider()` et `updateThumb()`
+-implémenter `initTradingDemoChart()` (graph responsive dans `#trading-live-chart`, couleurs CSS, observer de thème)
+-tests manuels rapides: swipe, snap, clone compétences mobile
 
 ## 📅 Scheduled
 
@@ -26,9 +29,8 @@ finir le projet avant mi-septembre
 
 ## 📝 Notes
 
-Débrief 23/08/2025 — prochaines étapes:
+Débrief 23/08/2025 — recommandation prochaines étapes:
 
-- [ ] Remplacer [COMMIT_ID] dans `docs/decisions-log.md` après le commit.
-- [ ] Utiliser le modèle de débrief à la fin de chaque étape.
-- [ ] Démarrer le prochain fil en collant la dernière entrée du journal.
-- [ ] mettre a jour le copilot-instruction.md
+-unifier les seuils du slider (pas=50) et mettre à jour `updateCompetencesDynamiquesBySlider()` et `updateThumb()`
+-implémenter `initTradingDemoChart()` (graph responsive dans `#trading-live-chart`, couleurs CSS, observer de thème)
+-tests manuels rapides: swipe, snap, clone compétences mobile

@@ -1,5 +1,21 @@
 # Journal des décisions (Decisions Log)
 
+## 23/08/2025 Mise à jour du guide Copilot — Débrief
+
+- Contexte: réécriture de `/.github/copilot-instructions.md` pour refléter la structure actuelle du site (HTML/CSS/JS), le slider, le theming et l’état de la démo trading.
+- Décisions clés:
+  - Documenter précisément les snaps (0/50/100/150) et le décalage avec les seuils 37.5/75/112.5; unifier plus tard avec un pas unique (50 recommandé).
+  - Clarifier l’état de `js/trade/trade.js` (loader) et le contrat attendu pour `initTradingDemoChart()` avec un observer de thème.
+- Changements (fichiers/zones):
+  - `/.github/copilot-instructions.md` — réécriture complète (sections 1–11) + notes connues.
+- Prochaines étapes (recopiées dans `todo/todo.md`):
+  - Unifier les seuils du slider (pas=50) et mettre à jour `updateCompetencesDynamiquesBySlider()` et `updateThumb()`.
+  - Implémenter `initTradingDemoChart()` dans `js/trade/trade.js` (couleurs via variables CSS, responsive, observer de thème).
+  - Tests manuels rapides: swipe, snap, clone compétences mobile.
+- Références:
+  - Commit principal: [COMMIT_ID]
+  - Liens/notes: n/a
+
 ## 23/08/2025 Journal des décisions & workflow multi‑fils — Débrief
 
 - Contexte: mise en place d’un journal des décisions et d’un process d’auto‑débrief pour les changements de discussion, puis traduction des guides en français.
@@ -10,22 +26,17 @@
 - Changements (fichiers/zones):
   - `/.github/copilot-instructions.md` — sections 1–11 en FR + ajout de l’Auto‑débrief.
   - `/docs/decisions-log.md` — intro FR, templates EN/FR, modèle « Débrief ».
-- Prochaines étapes (recopiées dans `todo/todo.md`):
-  - Remplacer [COMMIT_ID] après le commit.
-  - Utiliser ce modèle de débrief à la fin de chaque étape.
-  - Démarrer le prochain fil en collant la dernière entrée du journal.
-  - Optionnel: centraliser les seuils du slider dans un objet de config si on étend la timeline.
 - Références:
-  - Commit principal: [COMMIT_ID]
+  - Commit principal: [1a53f11acbc5fb121097623bb9670c5c86c71b94]
   - Liens/notes: n/a
 
-Objectif : conserver une trace courte et persistante de ce qui a été décidé/fait à la fin de chaque étape, surtout lors d’un changement de fil (chat).
+Objectif : conserver une trace courte et persistante de ce qui a été décidé/fait lors d’un changement de fil (chat).
 
 Mode d’emploi :
 
-- Ajouter une nouvelle entrée en haut à chaque étape terminée.
+- Ajouter une nouvelle entrée en haut à chaque fil terminée.
 - Lier le(s) commit(s) associé(s) si possible.
-- Recopier les prochaines actions actionnables dans `todo/todo.md`.
+- recommandation de prochainne etapes.
 
 Template :
 
@@ -38,7 +49,7 @@ Template :
 - Changements (fichiers/zones):
   - …
   - …
-- Prochaines étapes (recopiées dans `todo/todo.md`):
+- recommandation Prochaines etapes :
   - …
   - …
 - Références:
