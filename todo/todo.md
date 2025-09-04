@@ -5,24 +5,26 @@
 ### 🔴 Urgent
 
 -[x] mettre a jour le copilot-instruction.md
--ajouter les dessins a etudes
 -faire la page d'accueille index.html du site a l'aide de sora (demander a chatgpt un prompt a donné pour sora)
+-faire la chart avec lightweight chart de trading
 
 ### 🟠 Important
 
--finir le css du contenue principal
--faire un trie / check du css
--faire le css du bloc competence total
+-faire le contenue de leclerc (faire simple) fruit et legumes qui bouge dans un contenair selon l'inclinaison du telephone et sur ordi avec la souris
+
+- faire le contenue de code (faire simple) console avec seulement 2-3 cmd
+  -faire un trie / check du css
+  -faire le css du bloc competence total
 
 ### 🟢 Normal Priority
 
 -s'attaquer a la relecture du JS et commencé le JS important structuré etc..
 -le js et l'intaration des competence
+-apprendre react / et lancer le projet planning simple (matin / aprem)
 
 ## 📅 Scheduled
 
-s'attaquer au JS avant mi aout
-finir le projet avant mi-septembre
+finir le projet avant le 27 septembre
 
 ## 📝 Notes
 
