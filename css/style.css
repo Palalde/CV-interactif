@@ -468,6 +468,11 @@ body {
 }
 /* Trading chart full section */
 
+#trading.content-section {
+  /* Remove inner padding so the chart can occupy the full section */
+  padding: 0;
+}
+
 #trading .contenu-principal {
   flex: 1;
   display: flex;
