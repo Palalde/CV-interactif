@@ -108,18 +108,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	const mainSeries = chart.addSeries(LightweightCharts.CandlestickSeries);
 	mainSeries.setData(candleStickData);
 
-	// Gère le redimensionnement: ajuste la taille du graphique à celle du conteneur
-			function resize() {
-				const rect = container.getBoundingClientRect();
-				// Soustraire les bordures éventuelles si nécessaire; ici getBoundingClientRect suffit
-				chart.resize(Math.max(0, Math.floor(rect.width)), Math.max(0, Math.floor(rect.height)));
-			}
-			// Adapter aussi si les polices chargent et modifient la hauteur
-			window.addEventListener("load", resize);
-	resize();
-	window.addEventListener("resize", resize);
-	resize();
-
 	// Theme synchronization via MutationObserver on body.classList
 	const body = document.body;
 	const applyTheme = () => {
@@ -155,4 +143,57 @@ document.addEventListener("DOMContentLoaded", function () {
 	applyTheme();
 	const mo = new MutationObserver(applyTheme);
 	mo.observe(body, { attributes: true, attributeFilter: ['class'] });
+
+	chart.timeScale().fitContent();
+
+	// TOOLTIP
+const toolTipWidth = 96;
+
+// Create and style the tooltip html element
+const toolTip = document.createElement('div');
+toolTip.style = `width: ${toolTipWidth}px; height: 300px; position: absolute; display: none; padding: 8px; box-sizing: border-box; font-size: 12px; text-align: left; z-index: 1000; top: 12px; left: 12px; pointer-events: none; border-radius: 4px 4px 0px 0px; border-bottom: none; box-shadow: 0 2px 5px 0 rgba(117, 134, 150, 0.45);font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
+toolTip.style.background = `rgba(${'255, 255, 255'}, 0.25)`;
+toolTip.style.color = 'black';
+toolTip.style.borderColor = 'rgba( 239, 83, 80, 1)';
+container.appendChild(toolTip);
+
+// update tooltip
+chart.subscribeCrosshairMove(param => {
+    if (
+        param.point === undefined ||
+        !param.time ||
+        param.point.x < 0 ||
+        param.point.x > container.clientWidth ||
+        param.point.y < 0 ||
+        param.point.y > container.clientHeight
+    ) {
+        toolTip.style.display = 'none';
+    } else {
+        // time will be in the same format that we supplied to setData.
+        // thus it will be YYYY-MM-DD
+        const dateStr = param.time;
+        toolTip.style.display = 'block';
+        const data = param.seriesData.get(mainSeries);
+        const price = data.value !== undefined ? data.value : data.close;
+        toolTip.innerHTML = `<div style="color: ${'rgba( 239, 83, 80, 1)'}">⬤ ABC Inc.</div><div style="font-size: 24px; margin: 4px 0px; color: ${'black'}">
+            ${Math.round(100 * price) / 100}
+            </div><div style="color: ${'black'}">
+            ${dateStr}
+            </div>`;
+
+        let left = param.point.x; // relative to timeScale
+        const timeScaleWidth = chart.timeScale().width();
+        const priceScaleWidth = chart.priceScale('left').width();
+        const halfTooltipWidth = toolTipWidth / 2;
+        left += priceScaleWidth - halfTooltipWidth;
+        left = Math.min(left, priceScaleWidth + timeScaleWidth - toolTipWidth);
+        left = Math.max(left, priceScaleWidth);
+
+        toolTip.style.left = left + 'px';
+        toolTip.style.top = 0 + 'px';
+    }
 });
+	
+
+});
+
