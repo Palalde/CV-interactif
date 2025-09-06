@@ -151,7 +151,7 @@ const toolTipWidth = 96;
 
 // Create and style the tooltip html element
 const toolTip = document.createElement('div');
-toolTip.style = `width: ${toolTipWidth}px; height: 300px; position: absolute; display: none; padding: 8px; box-sizing: border-box; font-size: 12px; text-align: left; z-index: 1000; top: 12px; left: 12px; pointer-events: none; border-radius: 4px 4px 0px 0px; border-bottom: none; box-shadow: 0 2px 5px 0 rgba(117, 134, 150, 0.45);font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
+toolTip.style = `width: ${toolTipWidth}px; height: 300px; position: absolute; display: none; padding: 8px; box-sizing: border-box; font-size: 12px; text-align: left; z-index: 1000; top: 12px; left: 1px; pointer-events: none; border-radius: 4px 4px 0px 0px; border-bottom: none; box-shadow: 0 2px 5px 0 rgba(117, 134, 150, 0.45);font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
 toolTip.style.background = `rgba(${'255, 255, 255'}, 0.25)`;
 toolTip.style.color = 'black';
 toolTip.style.borderColor = 'rgba( 239, 83, 80, 1)';
@@ -175,10 +175,10 @@ chart.subscribeCrosshairMove(param => {
         toolTip.style.display = 'block';
         const data = param.seriesData.get(mainSeries);
         const price = data.value !== undefined ? data.value : data.close;
-        toolTip.innerHTML = `<div style="color: ${'rgba( 239, 83, 80, 1)'}">⬤ ABC Inc.</div><div style="font-size: 24px; margin: 4px 0px; color: ${'black'}">
-            ${Math.round(100 * price) / 100}
-            </div><div style="color: ${'black'}">
+        toolTip.innerHTML = `<div style="color: ${'rgba( 239, 83, 80, 1)'}">Début</div><div style="color: ${'black'}">
             ${dateStr}
+            </div><div style="font-size: 14px; margin: 4px 0px; color: ${'white'}">
+            Je commence le trading a plein temp et apprend a avoir une meilleur gestion de risque afin de generer un revenu stable
             </div>`;
 
         let left = param.point.x; // relative to timeScale
@@ -193,6 +193,67 @@ chart.subscribeCrosshairMove(param => {
         toolTip.style.top = 0 + 'px';
     }
 });
+
+    // ===================== PHASE TEXT DYNAMIQUE (ajout) =====================
+    // Configuration initiale des plages et textes (modifiable via l'API ci-dessous)
+    const tradingPhaseTextConfig = [
+        {
+            start: '2018-12', end: '2022-07',
+            title: 'Début',
+            description: 'Je commence le trading à plein temps et j’apprends une meilleure gestion du risque afin de générer un revenu stable.'
+        },
+        {
+            start: '2022-08', end: '2023-11',
+            title: 'Interdiction',
+            description: 'A ce moment ma stratégie est en grande partie basé sur les contrats futures qui devennent interdit en France'
+        },
+        {
+            start: '2023-12', end: '2024-12',
+            title: 'Adaptation',
+            description: 'Je me réinvente pour essayer de réobtenir un revenu stable grace aux avantages de l\'usdt sur binance'
+        },
+        {
+            start: '2025-01', end: '2025-04',
+            title: 'Fin',
+            description: 'L\'usdt devient interdit en France, j\'ai du mal a me réinventer je suis contraint d\'arrêter le trading pour trouver un emploi alimentaire'
+        },
+    ];
+
+    // Helper: compare dates au format YYYY-MM (ou YYYY-MM-DD → on garde YYYY-MM)
+    function normaliseMonth(str) { return str.slice(0, 7); }
+    function inRange(target, start, end) {
+        return target >= start && target <= end;
+    }
+
+    // API publique pour modifier dynamiquement les textes depuis ailleurs si besoin
+    window.setTradingPhaseTexts = function(newConfigArray) {
+        if (!Array.isArray(newConfigArray)) return;
+        tradingPhaseTextConfig.length = 0;
+        newConfigArray.forEach(obj => {
+            if (obj && obj.start && obj.end) {
+                tradingPhaseTextConfig.push({
+                    start: normaliseMonth(obj.start),
+                    end: normaliseMonth(obj.end),
+                    title: obj.title || 'Phase',
+                    description: obj.description || ''
+                });
+            }
+        });
+    };
+
+    // Deuxième listener: ajuste le contenu du tooltip APRÈS le code existant sans le modifier
+    chart.subscribeCrosshairMove(param => {
+        if (!param || !param.time || toolTip.style.display === 'none') return;
+        const month = normaliseMonth(String(param.time));
+        const phase = tradingPhaseTextConfig.find(p => inRange(month, p.start, p.end));
+        if (!phase) return; // hors plage définie → laisser le contenu initial
+
+        // On reconstruit le bloc avec les textes dynamiques tout en gardant le style de base
+        toolTip.innerHTML = `<div style="color: rgba(239, 83, 80, 1)">${phase.title}</div>
+            <div style="color: black">${month}</div>
+            <div style="font-size: 14px; margin: 4px 0; color: white; line-height:1.25">${phase.description}</div>`;
+    });
+    // ================== FIN PHASE TEXT DYNAMIQUE (ajout) =====================
 	
 
 });
