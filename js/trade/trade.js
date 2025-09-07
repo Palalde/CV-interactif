@@ -64,18 +64,18 @@ document.addEventListener("DOMContentLoaded", function () {
             { time: "2022-10", open: 75, high: 80, low: 70, close: 78 },
             { time: "2022-11", open: 78, high: 85, low: 75, close: 80 },
             { time: "2022-12", open: 80, high: 83, low: 62, close: 64 },
-            { time: "2023-01", open: 64, high: 68, low: 45, close: 59 },
+            { time: "2023-01", open: 64, high: 68, low: 54, close: 59 },
             { time: "2023-02", open: 59, high: 70, low: 60, close: 65 },
             { time: "2023-03", open: 65, high: 75, low: 62, close: 72 },
             { time: "2023-04", open: 72, high: 78, low: 70, close: 74 },
             { time: "2023-05", open: 74, high: 76, low: 65, close: 67 },
             { time: "2023-06", open: 67, high: 70, low: 60, close: 62 },
             { time: "2023-07", open: 62, high: 68, low: 58, close: 66 },
-            { time: "2023-08", open: 66, high: 67, low: 52, close: 54 },
+            { time: "2023-08", open: 66, high: 67, low: 47, close: 54 },
             { time: "2023-09", open: 54, high: 60, low: 50, close: 58 },
             { time: "2023-10", open: 58, high: 59, low: 53, close: 53 },
             { time: "2023-11", open: 53, high: 54, low: 50, close: 52 },
-            { time: "2023-12", open: 52, high: 55, low: 45, close: 54 },
+            { time: "2023-12", open: 52, high: 55, low: 51, close: 54 },
             { time: "2024-01", open: 54, high: 59, low: 50, close: 52 },
             { time: "2024-02", open: 52, high: 57, low: 48, close: 55 },
 			{ time: "2024-03", open: 55, high: 63, low: 56, close: 62 },
@@ -98,8 +98,23 @@ document.addEventListener("DOMContentLoaded", function () {
 	const container = document.getElementById("trading-live-chart");
 	if (!container) return;
 
-    // Crée le graphique dans le conteneur
-    const chart = LightweightCharts.createChart(container);
+    // Crée le graphique dans le conteneur (dimension initiale = container client)
+    const chart = LightweightCharts.createChart(container, {
+        width: container.clientWidth,
+        height: container.clientHeight,
+    });
+
+    // Resize handler pour garder la chart full container
+    function resizeChart() {
+        const { clientWidth, clientHeight } = container;
+        chart.applyOptions({ width: clientWidth, height: clientHeight });
+        // Refit le contenu sur l'axe du temps après redimensionnement
+        chart.timeScale().fitContent();
+    }
+    window.addEventListener('resize', resizeChart);
+    // Observer sur mutations de layout (ex: slider qui translate, orientation mobile, etc.)
+    const ro = new ResizeObserver(() => resizeChart());
+    ro.observe(container);
     // Série bougies avec options de style (correctif 2 demandé)
     const series = chart.addSeries(LightweightCharts.CandlestickSeries, {
         upColor: '#26a69a',
@@ -148,6 +163,45 @@ document.addEventListener("DOMContentLoaded", function () {
 	mo.observe(body, { attributes: true, attributeFilter: ['class'] });
 
 	chart.timeScale().fitContent();
+
+    // ================= MARKERS (API v5 strict) =================
+    // Doc: https://tradingview.github.io/lightweight-charts/docs/api/functions/createSeriesMarkers
+    // Uniquement l'API v5 (plus de fallback v4 demandé).
+    const markersData = [
+        {
+            time: '2019-11',
+            position: 'belowBar',
+            color: '#26a69a',
+            shape: 'arrowUp',
+            text: 'Début',
+        },
+        {
+            time: '2022-08',
+            position: 'aboveBar',
+            color: '#ef5350',
+            shape: 'arrowDown',
+            text: 'Interdiction',
+        },
+          {
+            time: '2023-08',
+            position: 'belowBar',
+            color: '#26a69a',
+            shape: 'arrowUp',
+            text: 'Adaptation',
+        },
+          {
+            time: '2024-09',
+            position: 'aboveBar',
+            color: '#ef5350',
+            shape: 'arrowDown',
+            text: 'Fin',
+        },
+
+    ];
+
+    const Markers = LightweightCharts.createSeriesMarkers(series, markersData);
+    // ================= FIN MARKERS =======================
+    
 
     // TOOLTIP (adapté dark/light + légères corrections)
     const toolTipWidth = 160; // largeur légèrement augmentée pour une meilleure lisibilité
