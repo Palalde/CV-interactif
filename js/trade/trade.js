@@ -13,10 +13,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		return;
 	}
 
-	// Fonction utilitaire: génère un set d'exemple de bougies (OHLC)
-	// Chaque objet contient { time, open, high, low, close }
-	function generateCandlestickData() {
-		return [
+    // Données OHLC (format simple YYYY-MM) — direct inline (remplace generateCandlestickData)
+    const data = [
 			{ time: "2018-12", open: 10, high: 15, low: 10, close: 12 },
 			{ time: "2019-01", open: 12, high: 18, low: 11, close: 17 },
             { time: "2019-02", open: 17, high: 20, low: 12, close: 15 },
@@ -52,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
             { time: "2021-08", open: 54, high: 64, low: 47, close: 59 },
             { time: "2021-09", open: 59, high: 69, low: 65, close: 66 },
             { time: "2021-10", open: 66, high: 70, low: 68, close: 64 },
-            { time: "2021-11", open: 64, high: 68, low: 72, close: 67 },
+            { time: "2021-11", open: 64, high: 68, low: 63, close: 67 },
             { time: "2021-12", open: 67, high: 69, low: 62, close: 63 },
             { time: "2022-01", open: 63, high: 65, low: 58, close: 62 },
             { time: "2022-02", open: 62, high: 71, low: 60, close: 65 },
@@ -93,22 +91,27 @@ document.addEventListener("DOMContentLoaded", function () {
 			{ time: "2025-01", open: 63, high: 65, low: 40, close: 43 },
 			{ time: "2025-02", open: 43, high: 44, low: 27, close: 29 },
 			{ time: "2025-03", open: 29, high: 39, low: 25, close: 25 },
-			{ time: "2025-04", open: 25, high: 32, low: 24, close: 29 },
-
-		];
-    }
+            { time: "2025-04", open: 25, high: 32, low: 24, close: 29 },
+    ];
 
 	// Trouve le conteneur du graphique; si absent, on arrête
 	const container = document.getElementById("trading-live-chart");
 	if (!container) return;
 
-	// Crée le graphique dans le conteneur
-			const chart = LightweightCharts.createChart(container);
-	const candleStickData = generateCandlestickData();
-	const mainSeries = chart.addSeries(LightweightCharts.CandlestickSeries);
-	mainSeries.setData(candleStickData);
+    // Crée le graphique dans le conteneur
+    const chart = LightweightCharts.createChart(container);
+    // Série bougies avec options de style (correctif 2 demandé)
+    const series = chart.addSeries(LightweightCharts.CandlestickSeries, {
+        upColor: '#26a69a',
+        downColor: '#ef5350',
+        wickUpColor: '#26a69a',
+        wickDownColor: '#ef5350',
+        borderVisible: false,
+    });
 
-	// Theme synchronization via MutationObserver on body.classList
+    series.setData(data);
+
+    // Theme synchronization via MutationObserver on body.classList
 	const body = document.body;
 	const applyTheme = () => {
 		const isLight = body.classList.contains('light');
@@ -146,53 +149,112 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	chart.timeScale().fitContent();
 
-	// TOOLTIP
-const toolTipWidth = 96;
+    // TOOLTIP (adapté dark/light + légères corrections)
+    const toolTipWidth = 160; // largeur légèrement augmentée pour une meilleure lisibilité
 
-// Create and style the tooltip html element
-const toolTip = document.createElement('div');
-toolTip.style = `width: ${toolTipWidth}px; height: 300px; position: absolute; display: none; padding: 8px; box-sizing: border-box; font-size: 12px; text-align: left; z-index: 1000; top: 12px; left: 1px; pointer-events: none; border-radius: 4px 4px 0px 0px; border-bottom: none; box-shadow: 0 2px 5px 0 rgba(117, 134, 150, 0.45);font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
-toolTip.style.background = `rgba(${'255, 255, 255'}, 0.25)`;
-toolTip.style.color = 'black';
-toolTip.style.borderColor = 'rgba( 239, 83, 80, 1)';
-container.appendChild(toolTip);
-
-// update tooltip
-chart.subscribeCrosshairMove(param => {
-    if (
-        param.point === undefined ||
-        !param.time ||
-        param.point.x < 0 ||
-        param.point.x > container.clientWidth ||
-        param.point.y < 0 ||
-        param.point.y > container.clientHeight
-    ) {
-        toolTip.style.display = 'none';
-    } else {
-        // time will be in the same format that we supplied to setData.
-        // thus it will be YYYY-MM-DD
-        const dateStr = param.time;
-        toolTip.style.display = 'block';
-        const data = param.seriesData.get(mainSeries);
-        const price = data.value !== undefined ? data.value : data.close;
-        toolTip.innerHTML = `<div style="color: ${'rgba( 239, 83, 80, 1)'}">Début</div><div style="color: ${'black'}">
-            ${dateStr}
-            </div><div style="font-size: 14px; margin: 4px 0px; color: ${'white'}">
-            Je commence le trading a plein temp et apprend a avoir une meilleur gestion de risque afin de generer un revenu stable
-            </div>`;
-
-        let left = param.point.x; // relative to timeScale
-        const timeScaleWidth = chart.timeScale().width();
-        const priceScaleWidth = chart.priceScale('left').width();
-        const halfTooltipWidth = toolTipWidth / 2;
-        left += priceScaleWidth - halfTooltipWidth;
-        left = Math.min(left, priceScaleWidth + timeScaleWidth - toolTipWidth);
-        left = Math.max(left, priceScaleWidth);
-
-        toolTip.style.left = left + 'px';
-        toolTip.style.top = 0 + 'px';
+    // Palette dynamique du tooltip selon le thème
+    function getTooltipThemeColors() {
+        const isLight = document.body.classList.contains('light');
+        const cs = getComputedStyle(document.body);
+        const baseText = isLight
+            ? (cs.getPropertyValue('--text-dark').trim() || '#1a1a2e')
+            : (cs.getPropertyValue('--text-light').trim() || '#f5f6fa');
+        const dateText = isLight ? 'rgba(26,26,46,0.70)' : 'rgba(245,246,250,0.75)';
+        const accent = 'rgba(239,83,80,1)';
+        const border = 'rgba(239,83,80,0.40)';
+        // Fond semi-transparent différent selon le thème (léger voile)
+        const bg = isLight ? 'rgba(237,234,215,0.58)' : 'rgba(32,32,59,0.55)';
+        return { bg, baseText, dateText, accent, border };
     }
-});
+
+    // Crée l'élément tooltip
+    const toolTip = document.createElement('div');
+    toolTip.style.position = 'absolute';
+    toolTip.style.display = 'none';
+    toolTip.style.width = toolTipWidth + 'px';
+    toolTip.style.minHeight = '120px';
+    toolTip.style.padding = '8px 10px 10px';
+    toolTip.style.boxSizing = 'border-box';
+    toolTip.style.fontSize = '12px';
+    toolTip.style.lineHeight = '1.25';
+    toolTip.style.textAlign = 'left';
+    toolTip.style.zIndex = '1000';
+    toolTip.style.top = '12px';
+    toolTip.style.left = '1px';
+    toolTip.style.pointerEvents = 'none';
+    toolTip.style.borderRadius = '6px';
+    toolTip.style.boxShadow = '0 4px 16px -2px rgba(0,0,0,0.35)';
+    toolTip.style.backdropFilter = 'blur(3px)';
+    toolTip.style.fontFamily = "-apple-system, BlinkMacSystemFont, 'Inter', 'Trebuchet MS', Roboto, Ubuntu, sans-serif";
+    // Style appliqué selon thème
+    function updateTooltipTheme() {
+        const { bg, baseText, border } = getTooltipThemeColors();
+        toolTip.style.background = bg; // semi-transparent
+        toolTip.style.color = baseText;
+        toolTip.style.border = '1px solid ' + border;
+        toolTip.style.backdropFilter = 'blur(2px)'; // léger blur pour contraste
+    }
+    updateTooltipTheme();
+    container.appendChild(toolTip);
+
+    // Construit le contenu HTML du tooltip (structure de base conservée)
+    function buildTooltipHTML(title, dateStr, description) {
+        const { accent, dateText, baseText } = getTooltipThemeColors();
+        return `<div style="color:${accent}; font-weight:600; font-size:13px; letter-spacing:.3px; text-shadow:0 0 2px rgba(0,0,0,0.25)">${title}</div>
+                <div style="color:${dateText}; font-size:11px; margin-top:2px; text-shadow:0 0 2px rgba(0,0,0,0.2)">${dateStr}</div>
+                <div style="font-size:12.5px; margin:6px 0 0; color:${baseText}; font-weight:500; line-height:1.3; text-shadow:0 0 3px rgba(0,0,0,0.25)">${description}</div>`;
+    }
+
+    // Mise à jour sur mouvement du crosshair
+    chart.subscribeCrosshairMove(param => {
+        if (
+            param.point === undefined ||
+            !param.time ||
+            param.point.x < 0 ||
+            param.point.x > container.clientWidth ||
+            param.point.y < 0 ||
+            param.point.y > container.clientHeight
+        ) {
+            toolTip.style.display = 'none';
+        } else {
+            const dateStr = param.time;
+            toolTip.style.display = 'block';
+            const dataPoint = param.seriesData.get(series);
+            const price = dataPoint && (dataPoint.value !== undefined ? dataPoint.value : dataPoint.close); // conservé si besoin futur
+            updateTooltipTheme(); // réapplique thème si bascule récente
+            toolTip.innerHTML = buildTooltipHTML(
+                'Début',
+                dateStr,
+                "Je commence le trading à plein temps et j'apprends une meilleure gestion du risque afin de générer un revenu stable."
+            );
+
+            let left = param.point.x;
+            const timeScaleWidth = chart.timeScale().width();
+            const priceScaleWidth = chart.priceScale('left').width();
+            const halfTooltipWidth = toolTipWidth / 2;
+            left += priceScaleWidth - halfTooltipWidth;
+            left = Math.min(left, priceScaleWidth + timeScaleWidth - toolTipWidth);
+            left = Math.max(left, priceScaleWidth);
+            toolTip.style.left = left + 'px';
+            // ===== Position verticale dynamique pour réduire l'occultation des bougies =====
+            const month = String(dateStr).slice(0,7); // format YYYY-MM
+            const topPhase = (
+                (month >= '2018-12' && month <= '2021-08') ||
+                (month >= '2024-10' && month <= '2025-04')
+            );
+            if (topPhase) {
+                toolTip.style.top = '0px';
+                toolTip.style.bottom = '';
+            } else { // phase centrale → bas
+                toolTip.style.bottom = '0px';
+                toolTip.style.top = '';
+            }
+        }
+    });
+
+    // Observer supplémentaire pour mettre à jour le thème du tooltip lors d'un toggle
+    const tooltipThemeObserver = new MutationObserver(updateTooltipTheme);
+    tooltipThemeObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
     // ===================== PHASE TEXT DYNAMIQUE (ajout) =====================
     // Configuration initiale des plages et textes (modifiable via l'API ci-dessous)
@@ -203,17 +265,17 @@ chart.subscribeCrosshairMove(param => {
             description: 'Je commence le trading à plein temps et j’apprends une meilleure gestion du risque afin de générer un revenu stable.'
         },
         {
-            start: '2022-08', end: '2023-11',
+            start: '2022-08', end: '2023-07',
             title: 'Interdiction',
             description: 'A ce moment ma stratégie est en grande partie basé sur les contrats futures qui devennent interdit en France'
         },
         {
-            start: '2023-12', end: '2024-12',
+            start: '2023-08', end: '2024-08',
             title: 'Adaptation',
             description: 'Je me réinvente pour essayer de réobtenir un revenu stable grace aux avantages de l\'usdt sur binance'
         },
         {
-            start: '2025-01', end: '2025-04',
+            start: '2024-09', end: '2025-04',
             title: 'Fin',
             description: 'L\'usdt devient interdit en France, j\'ai du mal a me réinventer je suis contraint d\'arrêter le trading pour trouver un emploi alimentaire'
         },
@@ -247,14 +309,10 @@ chart.subscribeCrosshairMove(param => {
         const month = normaliseMonth(String(param.time));
         const phase = tradingPhaseTextConfig.find(p => inRange(month, p.start, p.end));
         if (!phase) return; // hors plage définie → laisser le contenu initial
-
-        // On reconstruit le bloc avec les textes dynamiques tout en gardant le style de base
-        toolTip.innerHTML = `<div style="color: rgba(239, 83, 80, 1)">${phase.title}</div>
-            <div style="color: black">${month}</div>
-            <div style="font-size: 14px; margin: 4px 0; color: white; line-height:1.25">${phase.description}</div>`;
+        updateTooltipTheme();
+        toolTip.innerHTML = buildTooltipHTML(phase.title, month, phase.description);
     });
     // ================== FIN PHASE TEXT DYNAMIQUE (ajout) =====================
-	
-
+    
 });
 
