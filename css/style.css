@@ -481,6 +481,8 @@ body {
 .trading-live-chart {
   flex: 1;
   width: 100%;
+  /* Background synchronized with chart theme (dark by default) */
+  background-color: var(--background-moyen-dark);
   height: 100%;
   min-height: 0;
   position: relative; /* Needed so tooltip absolute positioning anchors to the chart container */
@@ -1249,6 +1251,11 @@ body.light .light-mode-img {
 
 body.light .trading-chart::before {
   background: rgba(41, 41, 90, 0.05);
+}
+
+/* Light mode override to mirror chart background */
+body.light .trading-live-chart {
+  background-color: var(--background-moyen-light);
 }
 
 /* COMPETENCE */
