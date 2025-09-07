@@ -156,6 +156,21 @@ document.addEventListener("DOMContentLoaded", function () {
 				horzLine: { color: crosshairColor },
 			},
 		});
+
+        // Watermark simple (v5): " % stabilité financière " en haut à droite
+        const firstPane = chart.panes()[0];
+        LightweightCharts.createTextWatermark(firstPane, {
+            horzAlign: 'right',
+            vertAlign: 'top',
+            lines: [
+                {
+                    text: '% stabilité financière',
+                    color: text,
+                    fontSize: 12,
+                    fontStyle: 'bold',
+                },
+            ],
+        });
 	};
 
 	applyTheme();

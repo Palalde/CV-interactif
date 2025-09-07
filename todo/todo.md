@@ -4,22 +4,30 @@
 
 ### 🔴 Urgent
 
--[x] mettre a jour le copilot-instruction.md
--faire la page d'accueille index.html du site a l'aide de sora (demander a chatgpt un prompt a donné pour sora)
--faire la chart avec lightweight chart de trading
+#### Trade JS
+
+-verifier le js de trade pour voir si compatible V5 tradingview
+-clean le JS commentaire etc..
+-correction faute d'ortho etc..
 
 ### 🟠 Important
+
+-faire la page d'accueille index.html du site a l'aide de sora (demander a chatgpt un prompt a donné pour sora)
+
+- mettre a jour le copilot-instruction.md
 
 -faire le contenue de leclerc (faire simple) fruit et legumes qui bouge dans un contenair selon l'inclinaison du telephone et sur ordi avec la souris
 
 - faire le contenue de code (faire simple) console avec seulement 2-3 cmd
-  -faire un trie / check du css
-  -faire le css du bloc competence total
+
+-faire un trie / check du css
+
+-faire le css du bloc competence total
 
 ### 🟢 Normal Priority
 
 -s'attaquer a la relecture du JS et commencé le JS important structuré etc..
--le js et l'intaration des competence
+-le js et l'intaratcion des competence
 -apprendre react / et lancer le projet planning simple (matin / aprem)
 
 ## 📅 Scheduled
