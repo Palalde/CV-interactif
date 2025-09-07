@@ -218,10 +218,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // ================= FIN MARKERS =======================
     
 
-    // TOOLTIP (adapté dark/light + légères corrections)
-    const toolTipWidth = 160; // largeur légèrement augmentée pour une meilleure lisibilité
-
-    // Palette dynamique du tooltip selon le thème
+    // TOOLTIP
+    const toolTipWidth = 160;
+    
     function getTooltipThemeColors() {
         const isLight = document.body.classList.contains('light');
         const cs = getComputedStyle(document.body);
@@ -231,12 +230,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const dateText = isLight ? 'rgba(26,26,46,0.70)' : 'rgba(245,246,250,0.75)';
         const accent = 'rgba(239,83,80,1)';
         const border = 'rgba(239,83,80,0.40)';
-        // Fond semi-transparent différent selon le thème (léger voile)
         const bg = isLight ? 'rgba(237,234,215,0.58)' : 'rgba(32,32,59,0.55)';
         return { bg, baseText, dateText, accent, border };
     }
 
-    // Crée l'élément tooltip
     const toolTip = document.createElement('div');
     toolTip.style.position = 'absolute';
     toolTip.style.display = 'none';
@@ -255,18 +252,16 @@ document.addEventListener("DOMContentLoaded", function () {
     toolTip.style.boxShadow = '0 4px 16px -2px rgba(0,0,0,0.35)';
     toolTip.style.backdropFilter = 'blur(3px)';
     toolTip.style.fontFamily = "-apple-system, BlinkMacSystemFont, 'Inter', 'Trebuchet MS', Roboto, Ubuntu, sans-serif";
-    // Style appliqué selon thème
     function updateTooltipTheme() {
         const { bg, baseText, border } = getTooltipThemeColors();
         toolTip.style.background = bg; // semi-transparent
         toolTip.style.color = baseText;
         toolTip.style.border = '1px solid ' + border;
-        toolTip.style.backdropFilter = 'blur(2px)'; // léger blur pour contraste
+    toolTip.style.backdropFilter = 'blur(2px)';
     }
     updateTooltipTheme();
     container.appendChild(toolTip);
 
-    // Construit le contenu HTML du tooltip (structure de base conservée)
     function buildTooltipHTML(title, dateStr, description) {
         const { accent, dateText, baseText } = getTooltipThemeColors();
         return `<div style="color:${accent}; font-weight:600; font-size:13px; letter-spacing:.3px; text-shadow:0 0 2px rgba(0,0,0,0.25)">${title}</div>
@@ -274,7 +269,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div style="font-size:12.5px; margin:6px 0 0; color:${baseText}; font-weight:500; line-height:1.3; text-shadow:0 0 3px rgba(0,0,0,0.25)">${description}</div>`;
     }
 
-    // Mise à jour sur mouvement du crosshair
     chart.subscribeCrosshairMove(param => {
         if (
             param.point === undefined ||
@@ -289,8 +283,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const dateStr = param.time;
             toolTip.style.display = 'block';
             const dataPoint = param.seriesData.get(series);
-            const price = dataPoint && (dataPoint.value !== undefined ? dataPoint.value : dataPoint.close); // conservé si besoin futur
-            updateTooltipTheme(); // réapplique thème si bascule récente
+            const price = dataPoint && (dataPoint.value !== undefined ? dataPoint.value : dataPoint.close);
+            updateTooltipTheme();
             toolTip.innerHTML = buildTooltipHTML(
                 'Début',
                 dateStr,
@@ -305,7 +299,6 @@ document.addEventListener("DOMContentLoaded", function () {
             left = Math.min(left, priceScaleWidth + timeScaleWidth - toolTipWidth);
             left = Math.max(left, priceScaleWidth);
             toolTip.style.left = left + 'px';
-            // ===== Position verticale dynamique pour réduire l'occultation des bougies =====
             const month = String(dateStr).slice(0,7); // format YYYY-MM
             const topPhase = (
                 (month >= '2018-12' && month <= '2021-08') ||
@@ -321,12 +314,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Observer supplémentaire pour mettre à jour le thème du tooltip lors d'un toggle
     const tooltipThemeObserver = new MutationObserver(updateTooltipTheme);
     tooltipThemeObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
-    // ===================== PHASE TEXT DYNAMIQUE (ajout) =====================
-    // Configuration initiale des plages et textes (modifiable via l'API ci-dessous)
+    // ===================== PHASE TEXT DYNAMIQUE =====================
     const tradingPhaseTextConfig = [
         {
             start: '2018-12', end: '2022-07',
@@ -336,27 +327,25 @@ document.addEventListener("DOMContentLoaded", function () {
         {
             start: '2022-08', end: '2023-07',
             title: 'Interdiction',
-            description: 'A ce moment ma stratégie est en grande partie basé sur les contrats futures qui devennent interdit en France'
+            description: 'À ce moment, ma stratégie est en grande partie basée sur les contrats futures qui deviennent interdits en France.'
         },
         {
             start: '2023-08', end: '2024-08',
             title: 'Adaptation',
-            description: 'Je me réinvente pour essayer de réobtenir un revenu stable grace aux avantages de l\'usdt sur binance'
+            description: 'Je me réinvente pour essayer de réobtenir un revenu stable grâce aux avantages de l\'USDT sur Binance.'
         },
         {
             start: '2024-09', end: '2025-04',
             title: 'Fin',
-            description: 'L\'usdt devient interdit en France, j\'ai du mal a me réinventer je suis contraint d\'arrêter le trading pour trouver un emploi alimentaire'
+            description: 'L\'USDT devient interdit en France ; j\'ai du mal à me réinventer, je suis contraint d\'arrêter le trading pour trouver un emploi alimentaire.'
         },
     ];
 
-    // Helper: compare dates au format YYYY-MM (ou YYYY-MM-DD → on garde YYYY-MM)
     function normaliseMonth(str) { return str.slice(0, 7); }
     function inRange(target, start, end) {
         return target >= start && target <= end;
     }
 
-    // API publique pour modifier dynamiquement les textes depuis ailleurs si besoin
     window.setTradingPhaseTexts = function(newConfigArray) {
         if (!Array.isArray(newConfigArray)) return;
         tradingPhaseTextConfig.length = 0;
@@ -372,7 +361,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     };
 
-    // Deuxième listener: ajuste le contenu du tooltip APRÈS le code existant sans le modifier
     chart.subscribeCrosshairMove(param => {
         if (!param || !param.time || toolTip.style.display === 'none') return;
         const month = normaliseMonth(String(param.time));
@@ -381,7 +369,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updateTooltipTheme();
         toolTip.innerHTML = buildTooltipHTML(phase.title, month, phase.description);
     });
-    // ================== FIN PHASE TEXT DYNAMIQUE (ajout) =====================
+    // ================== FIN PHASE TEXT DYNAMIQUE =====================
     
 });
 
