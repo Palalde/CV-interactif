@@ -4,15 +4,13 @@
 
 ### 🔴 Urgent
 
-#### Trade JS
-
--verifier le js de trade pour voir si compatible V5 tradingview
--clean le JS commentaire etc..
--correction faute d'ortho etc..
+- mettre a jour le copilot-instruction.md
+- commencer les bases du CSS pour leclerc
+- commencer par une card contenant les fruits et une description du drag and drop
+- une card representant la balance
+- faire une animation d'un ticket qui sort de la balance avec le texte
 
 ### 🟠 Important
-
--faire la page d'accueille index.html du site a l'aide de sora (demander a chatgpt un prompt a donné pour sora)
 
 - mettre a jour le copilot-instruction.md
 
