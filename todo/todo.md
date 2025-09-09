@@ -4,11 +4,7 @@
 
 ### 🔴 Urgent
 
-- mettre a jour le copilot-instruction.md
-- commencer les bases du CSS pour leclerc
-- commencer par une card contenant les fruits et une description du drag and drop
-- une card representant la balance
-- faire une animation d'un ticket qui sort de la balance avec le texte
+- commencer le css des fruits et legumes
 
 ### 🟠 Important
 

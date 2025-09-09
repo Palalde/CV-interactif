@@ -1,64 +1,53 @@
-## Guide Copilot — CV Interactif (à jour)
+## Guide Copilot — CV Interactif (condensé)
 
-Site statique, sans build. Point d’entrée: `index.html` redirige vers `html/cv.html`. Ouvrir `html/cv.html` directement en local. Chaque feature a son JS dédié et des assets light/dark en miroir.
+Site statique sans build. Entrée: `html/cv.html` (ouvrir directement en local). Chaque feature a son JS dédié et des assets light/dark en miroir.
 
-1. Structure des fichiers
+1. Structure rapide
 
-- HTML: `html/cv.html` (page principale), `html/contact-info.html` (contact). Scripts inclus manuellement en bas de page.
-- CSS: `css/style.css` monolithique. Ajouter de petits blocs localisés et de nouveaux tokens seulement dans `:root`.
-- JS: `js/main.js` (range slider, compétences dynamiques, thumb du range, swipe), `js/utility/theme-toggle.js` (thème + swap d’icônes), `js/utility/competences-mobile-toggle.js` (toggle mobile), `js/trade/trade.js` (loader Lightweight Charts — démo à compléter).
-- Assets: `img/<feature>/<lightmode|darkmode>/<file>.png` (ex: `img/rangeslider/darkmode/trading-bleu.png`). Icônes nav dans `img/nav-icon/...` et visuels sections dans `img/main-content/...`.
+- HTML: `html/cv.html` (principal), `html/contact-info.html` (contact).
+- CSS: `css/style.css` monolithique; n’ajouter des tokens que dans `:root`.
+- JS: `js/main.js` (timeline, thumb, swipe, compétences dynamiques), `js/utility/theme-toggle.js` (thème + icônes), `js/utility/competences-mobile-toggle.js` (panneau mobile), `js/trade/trade.js` (démo chart complète).
+- Assets: `img/<feature>/<lightmode|darkmode>/*.png` (nav: `img/nav-icon/...`, études: `img/main-content/...`, slider: `img/rangeslider/...`).
 
 2. Thème (Dark/Light)
 
-- Le toggle pose `body.light` et appelle `updateNavIcons(isLight)` pour swapper le `src` des icônes.
-- Classes d’icônes attendues: `.cv-logo`, `.search-icon`, `.icon-loupe.main|.second`, `.icon-contact.main|.second`, `.icon-pdf.main|.second`, et sur la page contact `.contact-icon` (avec alt="Âge"|"Localisation"|"LinkedIn"|"GitHub").
-- Ajouter toute nouvelle icône en 2 variantes light/dark et étendre `updateNavIcons` en conséquence.
-- Palette via variables CSS `--background-*`, `--text-*` (déclarer uniquement dans `:root`).
+- Toggle: applique `body.light` et appelle `updateNavIcons(isLight)`.
+- Icônes attendues: `.cv-logo`, `.search-icon`, `.icon-loupe.main|.second`, `.icon-contact.main|.second`, `.icon-pdf.main|.second`, et sur contact `.contact-icon` (alt="Âge"|"Localisation"|"LinkedIn"|"GitHub").
+- Toute nouvelle icône doit exister en 2 variantes et être ajoutée dans `updateNavIcons`.
 
-3. Slider de navigation (timeline)
+3. Timeline (slider → sections)
 
-- Élément: `<input id="myRange" class="range-slider">` + conteneur `.content-slider` qui translate horizontalement entre les `.content-section` (4 sections actuelles: études, trading, leclerc, dev).
-- Valeurs actuelles: 0..150 avec snap sur 0, 50, 100, 150 pour les 4 sections. La position fine entre les snaps anime la translation (voir `updateContent()` dans `main.js`).
-- Mapping compétences/thumb (actuel): basé sur des seuils à 37.5/75/112.5. NOTE: ceci est en décalage avec le snap à 50. À harmoniser si vous modifiez le slider (reco: utiliser des pas de 50 partout et ajuster les if/else correspondants).
-- Ajout d’une section: ajouter une nouvelle `.content-section` dans `.content-slider`. Mettre à jour: a) calcul de `rangeSlider.max` pour correspondre au nombre de sections et aux snaps (ex: 4 sections ⇒ 0..150 avec pas 50), b) les seuils utilisés par `updateCompetencesDynamiquesBySlider()` et par le mapping d’icône du thumb dans `updateThumb()`, c) les repères visuels dans `addSnapMarkers()` si besoin.
+- UI: `<input id="myRange" class="range-slider">` + `.content-slider` qui translate entre 4 `.content-section` (ordre: études, trading, leclerc, dev). Les blocs `.competences-section` sont intercalés et clonés en mobile.
+- Snaps: 0/50/100/150. Mismatch connu: mapping des seuils à 37.5/75/112.5 pour le thumb et les compétences (voir `updateThumb()` et `updateCompetencesDynamiquesBySlider()` dans `main.js`). Si vous changez le nombre de sections, harmonisez tout à pas 50 et mettez à jour: `rangeSlider.max`, les if/else des mappings, et `addSnapMarkers()`.
+- Swipe mobile: gestion touch avec snap au relâchement; la position précise anime `transform` sur `.content-slider`.
 
 4. Compétences dynamiques (mobile)
 
-- `updateCompetencesDynamiquesBySlider()` clone le bloc actif `#competences-*` vers `#competences-dynamiques` en fonction de la valeur du slider.
-- Structure à conserver: sections soeurs `.competences-section` contenant `ul.liste-competences` et un `h3.competence-titre`.
-- Le bouton `#competences-mobile-btn` toggle l’affichage (voir `js/utility/competences-mobile-toggle.js`).
+- `updateCompetencesDynamiquesBySlider()` clone le contenu du `#competences-*` actif dans `#competences-dynamiques` (structure requise: `.competences-section > h3 + ul.liste-competences`).
+- Le bouton `#competences-mobile-btn` (voir `js/utility/competences-mobile-toggle.js`) toggle l’affichage.
 
-5. Démo Trading
+5. Démo Trading (Lightweight Charts v5)
 
-- `js/trade/trade.js` charge Lightweight Charts via CDN. Actuellement, c’est un loader: la fonction d’init (ex: `initTradingDemoChart`) n’est pas encore implémentée. Container cible: `#trading-live-chart`.
-- Pour compléter la démo: créer `initTradingDemoChart()` qui instancie un graphique responsive dans `#trading-live-chart` et observer le thème (MutationObserver sur `body.classList`). Réutiliser les couleurs depuis les variables CSS.
+- CDN inclus dans `cv.html`. Container: `#trading-live-chart`. La démo est implémentée: resize responsive, tooltips custom, markers, et synchronisation de thème via MutationObserver.
+- API utilitaire: `window.setTradingPhaseTexts([...])` permet de remplacer dynamiquement les phases (titres + descriptions) du tooltip.
 
-6. Conventions & pratiques
+6. Conventions projet
 
-- Nommage fichiers: kebab-case en minuscules (existant: `main.js`).
-- Toujours encapsuler la logique dans `DOMContentLoaded` et null-checker les éléments (les scripts sont mutualisés entre pages).
-- Utiliser des chemins absolus `/img/...` dans le HTML actuel. Si hébergé sous un sous-chemin, prévoir un `<base href>` ou passer en chemins relatifs.
-- Logging minimal: un message bref d’init par feature au besoin.
+- Tout JS dans `DOMContentLoaded`, avec null-checks (scripts mutualisés entre pages).
+- Chemins d’images absolus `/img/...`. Si hébergement sous sous-chemin, prévoir `<base href>` ou passer en chemins relatifs.
+- Ordre des scripts en bas de page: `main.js` → `theme-toggle.js` → `competences-mobile-toggle.js` → `trade.js`.
 
-7. Checklist d’édition sûre
+7. Pièges et points d’attention
 
-- Ajouter les `<script>` en bas de page, après les utilitaires, dans l’ordre: `main.js` → `theme-toggle.js` → `competences-mobile-toggle.js` → `trade.js` (optionnel sur contact).
-- Nouvel asset thémé: fournir les deux variantes + étendre `updateNavIcons`.
-- Changer la timeline: maintenir la cohérence entre snaps, `rangeSlider.max`, mapping compétences et mapping d’icône du thumb.
-- Démo chart: réutiliser `#trading-live-chart` ou un nouvel ID unique et ajouter un observer de thème.
+- Slider: désalignement 37.5 vs 50. Si vous ajoutez/retirez une section, mettez à jour les 3 endroits: max du slider, mapping thumb/compétences, repères visuels.
+- `.content-section` seulement pour la translation; ne confondez pas avec `.competences-section` (cachées en desktop, clonées en mobile).
+- Icônes: toujours fournir light/dark et référencer les classes attendues pour que `updateNavIcons` fasse le swap.
+- Header: `#header-home-link` redirige vers `/`. Sur hébergement non-root, adaptez.
+- Des classes d’étoiles (`.star`) existent en CSS mais les assets `img/competences/...` ne sont pas présents → ne pas utiliser sans fournir les images.
 
-8. Exemple d’extension de timeline
+8. Ajouter une nouvelle période
 
-- Pour 5 périodes uniformes: choisir un pas unique (reco: 50) ⇒ valeurs 0, 50, 100, 150, 200. Mettre à jour: `rangeSlider.max = 200`, les if de compétences et du thumb pour 5 segments, et les marqueurs visuels.
+- Ajouter une `.content-section` + (optionnel) sa `.competences-section` sœur.
+- Passer à 5 segments: snaps 0..200 (pas 50); mettre à jour `rangeSlider.max = 200`, les seuils des mappings dans `main.js`, et `addSnapMarkers()`.
 
-9. Contraintes
-
-- Sans framework; uniquement des scripts via CDN si nécessaire. Éviter les grosses dépendances (single-file préférable).
-
-10. Références code
-
-- Thème: `js/utility/theme-toggle.js`
-- Slider & compétences: `js/main.js`
-- Mobile toggle: `js/utility/competences-mobile-toggle.js`
-- Démo chart (loader): `js/trade/trade.js`
+Références clés: `js/main.js`, `js/utility/theme-toggle.js`, `js/utility/competences-mobile-toggle.js`, `js/trade/trade.js`, `css/style.css`, `html/cv.html`.
