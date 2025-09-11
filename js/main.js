@@ -1,5 +1,15 @@
 // Page d'accueil 
 document.addEventListener('DOMContentLoaded', function() {
+  // Stable viewport height to avoid mobile URL/tab bars causing jumps
+  (function setupStableVh() {
+    const setVh = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--app-vh', `${vh}vh`);
+    };
+    setVh();
+    window.addEventListener('resize', setVh);
+    window.addEventListener('orientationchange', setVh);
+  })();
   const homeLink = document.getElementById('header-home-link');
   if (homeLink) {
     homeLink.addEventListener('click', function() {
