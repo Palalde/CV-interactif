@@ -88,6 +88,9 @@ document.addEventListener('DOMContentLoaded', function() {
   let currentTranslate = 0;
   let isDragging = false;
   let currentIndex = 0;
+  // Helpers to control snap markers visibility during interactions
+  let hideSnapMarkers = function(){};
+  let showSnapMarkers = function(){};
   
   // Initialize range slider value
   rangeSlider.min = 0;
@@ -144,7 +147,8 @@ document.addEventListener('DOMContentLoaded', function() {
       pointer-events: none;
     `;
     
-    const markerElements = [];
+  const markerElements = [];
+  let markersForcedHidden = false;
     
     // Créer chaque marqueur
     snapPositions.forEach(position => {
@@ -170,8 +174,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Ajouter le conteneur au slider
     sliderContainer.appendChild(markersContainer);
     
+    // Helpers opacity + visibilité contextuelle
+    function setAllMarkersOpacity(opacity) {
+      markerElements.forEach(m => { m.element.style.opacity = opacity; });
+    }
+
     // Fonction pour cacher les marqueurs sous le thumb
     function updateSnapMarkersVisibility() {
+      if (markersForcedHidden) return;
       const thumbPosition = (rangeSlider.value / rangeSlider.max) * 100;
       
       markerElements.forEach(marker => {
@@ -208,59 +218,121 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Appel initial pour définir la visibilité
     updateSnapMarkersVisibility();
+
+    // Expose des helpers pour masquer/afficher pendant l'interaction
+    hideSnapMarkers = function() {
+      markersForcedHidden = true;
+      setAllMarkersOpacity('0');
+    };
+    showSnapMarkers = function() {
+      markersForcedHidden = false;
+      updateSnapMarkersVisibility();
+    };
   }
   
   // Appeler la fonction pour ajouter les marqueurs
   addSnapMarkers();
+
+  // Ajouter un fin bandeau de swipe sous la chart trading (slide 2)
+  (function addTradingSwipeStrip() {
+    const container = document.querySelector('#trading .contenu-principal');
+    if (!container) return;
+    if (document.getElementById('trading-swipe-strip')) return; // déjà ajouté
+
+    const strip = document.createElement('div');
+    strip.id = 'trading-swipe-strip';
+    strip.className = 'trading-swipe-strip';
+    strip.setAttribute('aria-label', 'Balayez horizontalement pour changer de section');
+    strip.innerHTML = '<div class="swipe-hint" aria-hidden="true"><span class="arrow left">◀</span><span class="dots"></span><span class="arrow right">▶</span></div>';
+    container.appendChild(strip);
+  })();
   
   // Range slider event listener
   rangeSlider.addEventListener('input', function() {
     updateContent();
     updateCompetencesDynamiquesBySlider();
   });
+  // Masquer les marqueurs pendant interaction directe avec le range slider
+  rangeSlider.addEventListener('pointerdown', () => hideSnapMarkers());
+  rangeSlider.addEventListener('mousedown', () => hideSnapMarkers());
+  rangeSlider.addEventListener('touchstart', () => hideSnapMarkers(), { passive: true });
   
   // Touch events for swiping
+  let startIndex = 0;
+  let startRangeValue = 0;
+  let blockSwipe = false; // Empêche le swipe si on interagit avec la chart
   slider.addEventListener('touchstart', (e) => {
+    // Si le touch commence sur la chart, ne pas initier le swipe
+    const chartEl = document.getElementById('trading-live-chart');
+    blockSwipe = !!(chartEl && e.target && e.target.closest && e.target.closest('#trading-live-chart'));
+    if (blockSwipe) return;
+
+  // masquer les marqueurs pendant le swipe
+  hideSnapMarkers();
+
     startX = e.touches[0].clientX;
     isDragging = true;
-    // Save the current position
-    const transformMatrix = window.getComputedStyle(slider).getPropertyValue('transform');
-    if (transformMatrix !== 'none') {
-      currentTranslate = parseInt(transformMatrix.split(',')[4]);
-    }
-  });
-  
+    // État de départ
+    startRangeValue = parseFloat(rangeSlider.value);
+    startIndex = Math.round(startRangeValue / 50);
+  }, { passive: true });
+
   slider.addEventListener('touchmove', (e) => {
-    if (!isDragging) return;
-    
+    if (blockSwipe || !isDragging) return;
+
     const currentX = e.touches[0].clientX;
-    const diff = currentX - startX;
-    const containerWidth = slider.parentElement.offsetWidth;
-    
-    // Augmenter l'amplitude nécessaire pour déclencher le swipe
-    const swipeSensitivity = 20; // Plus la valeur est grande, plus il faut bouger le doigt
+    const diff = currentX - startX; // >0 vers la droite, <0 vers la gauche
+    const containerWidth = slider.parentElement.offsetWidth || 1;
 
-    // Calculate how much to move and update slider position
-    const moveX = currentTranslate + diff;
-    const percentMove = (moveX / containerWidth) * 100;
+    // Mapping du déplacement du doigt -> valeur du slider (max 1 slide)
+    const deltaRange = -(diff / containerWidth) * 50; // 1 largeur = 1 slide
+    const minAllowed = Math.max(0, (startIndex - 1) * 50);
+    const maxAllowed = Math.min(parseFloat(rangeSlider.max), (startIndex + 1) * 50);
+    const tentative = Math.min(maxAllowed, Math.max(minAllowed, startIndex * 50 + deltaRange));
 
-    // Update slider value based on swipe, en divisant le déplacement par la sensibilité
-    const newRangeValue = Math.max(0, Math.min(
-      rangeSlider.max,
-      rangeSlider.value - (diff / (containerWidth * swipeSensitivity)) * 50
-    ));
-    
-    rangeSlider.value = newRangeValue;
+    rangeSlider.value = tentative;
     updateContent();
-  });
-  
-  slider.addEventListener('touchend', () => {
+  }, { passive: true });
+
+  slider.addEventListener('touchend', (e) => {
+  if (blockSwipe) { blockSwipe = false; return; }
+  if (!isDragging) return;
     isDragging = false;
-    
-    // Snap to nearest section
+
+    const endX = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientX : startX;
+    const diff = endX - startX;
+    const containerWidth = slider.parentElement.offsetWidth || 1;
+
+    // Seuil "classique": ~20% de la largeur pour changer de slide
+    const swipeThresholdRatio = 0.2;
+    const shouldGoNext = diff < -containerWidth * swipeThresholdRatio;
+    const shouldGoPrev = diff > containerWidth * swipeThresholdRatio;
+
+    let targetIndex = startIndex;
+    if (shouldGoNext) {
+      targetIndex = Math.min(sectionCount - 1, startIndex + 1);
+    } else if (shouldGoPrev) {
+      targetIndex = Math.max(0, startIndex - 1);
+    }
+
+    const finalValue = targetIndex * 50;
+    rangeSlider.value = finalValue;
+    updateContent();
+    updateCompetencesDynamiquesBySlider();
+  // ré-afficher les marqueurs après le swipe
+  showSnapMarkers();
+  });
+
+  // Gère l'annulation (perte du contact)
+  slider.addEventListener('touchcancel', () => {
+  if (blockSwipe) { blockSwipe = false; return; }
+  isDragging = false;
     const value = Math.round(rangeSlider.value / 50) * 50;
     rangeSlider.value = value;
     updateContent();
+    updateCompetencesDynamiquesBySlider();
+  // ré-afficher les marqueurs
+  showSnapMarkers();
   });
   
   // Fonction pour accrocher le slider à la position la plus proche
@@ -274,12 +346,14 @@ document.addEventListener('DOMContentLoaded', function() {
   rangeSlider.addEventListener('mouseup', function() {
     snapSliderToNearestPosition();
     updateCompetencesDynamiquesBySlider();
+  showSnapMarkers();
   });
   
   // Snap lorsque l'utilisateur clique directement sur le slider
   rangeSlider.addEventListener('click', function() {
     snapSliderToNearestPosition();
     updateCompetencesDynamiquesBySlider();
+  showSnapMarkers();
   });
   
   // S'assurer que le snap s'applique même si la souris est relâchée en dehors du slider
@@ -288,7 +362,15 @@ document.addEventListener('DOMContentLoaded', function() {
       snapSliderToNearestPosition();
       updateCompetencesDynamiquesBySlider();
     }
+    showSnapMarkers();
   });
+
+  // Mobile: snap + markers après touchend sur le range slider
+  rangeSlider.addEventListener('touchend', function() {
+    snapSliderToNearestPosition();
+    updateCompetencesDynamiquesBySlider();
+    showSnapMarkers();
+  }, { passive: true });
   
   // Fonction pour mettre à jour les compétences dynamiques selon la position du slider
   function updateCompetencesDynamiquesBySlider() {

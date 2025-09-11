@@ -36,6 +36,10 @@
   --padding-main: 12px 20px;
   --nav-block-size: 44px;
   --nav-icon-size: 40px;
+  /* accents Leclerc (fruits & balance) */
+  --leclerc-accent: #3c8c3c;
+  --leclerc-accent-alt: #d97b1d;
+  --leclerc-bg-tint: rgba(60, 140, 60, 0.08);
 }
 
 /* =============================================
@@ -466,27 +470,6 @@ body {
   display: flex;
   flex-direction: column;
 }
-/* Trading chart full section */
-
-#trading.content-section {
-  /* Remove inner padding so the chart can occupy the full section */
-  padding: 0;
-}
-
-#trading .contenu-principal {
-  flex: 1;
-  display: flex;
-  min-height: 0;
-}
-.trading-live-chart {
-  flex: 1;
-  width: 100%;
-  /* Background synchronized with chart theme (dark by default) */
-  background-color: var(--background-moyen-dark);
-  height: 100%;
-  min-height: 0;
-  position: relative; /* Needed so tooltip absolute positioning anchors to the chart container */
-}
 
 /* etudes */
 #etudes {
@@ -639,9 +622,159 @@ body {
 #trading {
   background-color: #e6f2ff;
 }
-#leclerc {
-  background-color: #d9edff;
+
+/* Trading chart full section */
+
+#trading.content-section {
+  /* Remove inner padding so the chart can occupy the full section */
+  padding: 0;
 }
+
+#trading .contenu-principal {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  flex-direction: column; /* Permet d'empiler chart + strip */
+}
+.trading-live-chart {
+  flex: 1;
+  width: 100%;
+  /* Background synchronized with chart theme (dark by default) */
+  background-color: var(--background-moyen-dark);
+  height: 100%;
+  min-height: 0;
+  position: relative; /* Needed so tooltip absolute positioning anchors to the chart container */
+}
+
+/* Bandeau de swipe sous la chart trading */
+.trading-swipe-strip {
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.45);
+  background: var(--background-general-dark);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-x; /* autorise le swipe horizontal, bloque le vertical */
+}
+
+.trading-swipe-strip .swipe-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.8;
+  color: var(--text-light);
+  font-size: 12px;
+  letter-spacing: 0.3px;
+}
+
+.trading-swipe-strip .swipe-hint .dots {
+  width: 38px;
+  height: 6px;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.16),
+    rgba(255, 255, 255, 0.04)
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.trading-swipe-strip .swipe-hint .dots::before {
+  content: "";
+  position: absolute;
+  left: -20%;
+  top: 0;
+  width: 20%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.38);
+  border-radius: 4px;
+  animation: swipe-glint 1.6s infinite;
+}
+
+@keyframes swipe-glint {
+  0% {
+    left: -20%;
+  }
+  60% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.trading-swipe-strip .arrow {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* Leclerc */
+
+#leclerc {
+  background-color: var(--background-moyen-dark);
+}
+#leclerc .leclerc-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+#leclerc .leclerc-header {
+  /* Minimal, modern strip header */
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 18px 20px;
+  /* Span full inner width of content-section and stick to top */
+  margin: -20px -20px 12px -20px; /* cancels .content-section padding (20px) */
+  /* Subtle divider to separate from content */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+}
+
+#leclerc .leclerc-header .titre-section {
+  margin: 0;
+  font-size: 1.22rem;
+  line-height: 1.35;
+  color: var(--text-light);
+  letter-spacing: 0.3px;
+  position: relative;
+  padding-left: 0; /* centered layout */
+  display: inline-block;
+}
+
+/* Small accent dot + gentle underline for a clean, branded cue */
+#leclerc .leclerc-header .titre-section::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -8px;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--leclerc-accent);
+  box-shadow: 0 0 0 3px rgba(60, 140, 60, 0.18);
+}
+
+#leclerc .leclerc-header .titre-section::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -6px;
+  width: 76px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--leclerc-accent), transparent);
+  opacity: 0.9;
+}
+
+/* DEV */
+
 #dev {
   background-color: #ccebff;
 }
@@ -1253,9 +1386,52 @@ body.light .trading-chart::before {
   background: rgba(41, 41, 90, 0.05);
 }
 
-/* Light mode override to mirror chart background */
+/* LIGHTMODE CHART*/
 body.light .trading-live-chart {
   background-color: var(--background-moyen-light);
+}
+
+/* Thème clair pour la bande de swipe */
+body.light .trading-swipe-strip {
+  border-top-color: rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.45);
+}
+
+body.light .trading-swipe-strip .swipe-hint {
+  color: var(--text-dark);
+}
+
+body.light .trading-swipe-strip .swipe-hint .dots {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.06));
+}
+
+body.light .trading-swipe-strip .swipe-hint .dots::before {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+/* LIGHMODE LECLERC */
+/* Lightmode overrides for header */
+body.light #leclerc .leclerc-header {
+  background: transparent;
+  box-shadow: none;
+  border-bottom-color: rgba(26, 26, 46, 0.12);
+}
+
+/* Lightmode background for Leclerc container */
+body.light #leclerc {
+  background-color: var(--background-moyen-light);
+}
+
+body.light #leclerc .leclerc-header .titre-section {
+  color: var(--text-dark);
+}
+
+body.light #leclerc .leclerc-header .titre-section::before {
+  box-shadow: 0 0 0 3px rgba(60, 140, 60, 0.14);
+}
+
+body.light #leclerc .leclerc-instructions {
+  color: rgba(26, 26, 46, 0.9);
 }
 
 /* COMPETENCE */

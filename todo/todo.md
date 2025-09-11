@@ -10,8 +10,6 @@
 
 - mettre a jour le copilot-instruction.md
 
--faire le contenue de leclerc (faire simple) fruit et legumes qui bouge dans un contenair selon l'inclinaison du telephone et sur ordi avec la souris
-
 - faire le contenue de code (faire simple) console avec seulement 2-3 cmd
 
 -faire un trie / check du css
