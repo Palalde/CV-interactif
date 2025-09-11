@@ -54,7 +54,8 @@
 html,
 body {
   height: 100%;
-  min-height: 100vh;
+  /* Stable viewport height: fallback to JS-provided --app-vh, else vh */
+  min-height: calc(var(--app-vh, 1vh) * 100);
   margin: 0;
   padding: 0;
   background-color: var(--background-general-dark);
@@ -64,7 +65,7 @@ body {
   font-family: "Inter", Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: calc(var(--app-vh, 1vh) * 100);
   background-color: var(--background-general-dark);
 }
 
@@ -466,9 +467,23 @@ body {
   border-bottom: 8px solid var(--background-general-dark);
   border-top: none;
   height: 100%;
-  min-height: calc(100vh - 180px);
+  min-height: calc((var(--app-vh, 1vh) * 100) - 180px);
   display: flex;
   flex-direction: column;
+}
+
+/* Prefer stable svh when supported (prevents URL/tab bars from affecting layout) */
+@supports (height: 100svh) {
+  html,
+  body {
+    min-height: 100svh;
+  }
+  body {
+    min-height: 100svh;
+  }
+  .content-section {
+    min-height: calc(100svh - 180px);
+  }
 }
 
 /* etudes */
@@ -1625,7 +1640,8 @@ body.light .form-group input:-webkit-autofill:active {
   }
 
   body {
-    padding-bottom: 87px !important;
+  /* Reserve space for fixed bottom header + iOS safe area */
+  padding-bottom: calc(87px + env(safe-area-inset-bottom, 0px)) !important;
   }
 
   .content-container,
