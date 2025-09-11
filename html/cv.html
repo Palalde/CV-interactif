@@ -221,148 +221,135 @@
 
         <section class="content-section" id="leclerc">
           <div class="contenu-principal">
-            <div
-              id="leclerc-demo"
-              class="leclerc-demo"
-              aria-label="Démonstration fruits & balance"
-            >
-              <header class="leclerc-header">
-                <h2 class="titre-section">Rayon Fruits & Légumes — Démo</h2>
-                <p class="leclerc-instructions">
-                  Glissez-déposez les fruits sur la balance.
+            <header class="leclerc-header">
+              <h2 class="titre-section">Rayon Fruits & Légumes</h2>
+            </header>
+
+            <div class="leclerc-grid">
+              <!-- Liste de fruits -->
+              <section
+                class="fruit-list-container"
+                aria-labelledby="fruit-list-title"
+              >
+                <h3 id="fruit-list-title">Fruits disponibles</h3>
+                <p class="fruit-list-desc">
+                  Sélectionnez un fruit puis déposez-le sur le plateau.
                 </p>
-              </header>
+                <ul class="fruit-list" role="list">
+                  <li
+                    class="fruit-item"
+                    role="listitem"
+                    tabindex="0"
+                    draggable="true"
+                    data-fruit="apple"
+                    data-weight="0.25"
+                    data-exp-name="Travail d'équipe"
+                    data-exp-text="J'ai appris le travail d'équipe : soutenir mes collègues, se relayer aux heures d'affluence et s'entraider pour gagner en efficacité."
+                    aria-label="Pomme, 250 grammes"
+                  >
+                    <span class="fruit-emoji" aria-hidden="true">🍎</span>
+                  </li>
+                  <li
+                    class="fruit-item"
+                    role="listitem"
+                    tabindex="0"
+                    draggable="true"
+                    data-fruit="banana"
+                    data-weight="0.18"
+                    data-exp-name="Relation client"
+                    data-exp-text="J'ai développé une relation client positive : accueillir, conseiller sur la maturité des produits et résoudre les petites difficultés avec le sourire."
+                    aria-label="Banane, 180 grammes"
+                  >
+                    <span class="fruit-emoji" aria-hidden="true">🍌</span>
+                  </li>
+                  <li
+                    class="fruit-item"
+                    role="listitem"
+                    tabindex="0"
+                    draggable="true"
+                    data-fruit="orange"
+                    data-weight="0.20"
+                    data-exp-name="Gestion du temps"
+                    data-exp-text="J'ai renforcé ma gestion du temps : organiser le réassort, prioriser les tâches critiques et tenir des cadences régulières en période de rush."
+                    aria-label="Orange, 200 grammes"
+                  >
+                    <span class="fruit-emoji" aria-hidden="true">🍊</span>
+                  </li>
+                  <li
+                    class="fruit-item"
+                    role="listitem"
+                    tabindex="0"
+                    draggable="true"
+                    data-fruit="grapes"
+                    data-weight="0.30"
+                    data-exp-name="Organisation logistique"
+                    data-exp-text="J'ai amélioré mon sens de l'organisation logistique : rotation des stocks, mise en avant des produits mûrs et anticipation des ruptures."
+                    aria-label="Raisin, 300 grammes"
+                  >
+                    <span class="fruit-emoji" aria-hidden="true">🍇</span>
+                  </li>
+                </ul>
+              </section>
 
-              <div class="leclerc-grid">
-                <!-- Liste de fruits -->
-                <section
-                  class="fruit-list-container"
-                  aria-labelledby="fruit-list-title"
+              <!-- Balance (HTML-only) -->
+              <section
+                class="balance-container"
+                aria-labelledby="balance-title"
+              >
+                <h3 id="balance-title">Balance</h3>
+                <p class="balance-desc">Déposez vos fruits sur le plateau.</p>
+                <div
+                  class="balance"
+                  role="region"
+                  aria-roledescription="Balance"
+                  aria-description="Zone de dépôt pour pesée"
                 >
-                  <h3 id="fruit-list-title">Fruits disponibles</h3>
-                  <p class="fruit-list-desc">
-                    Sélectionnez un fruit puis déposez-le sur le plateau.
-                  </p>
-                  <ul class="fruit-list" role="list">
-                    <li
-                      class="fruit-item"
-                      role="listitem"
-                      tabindex="0"
-                      draggable="true"
-                      data-fruit="apple"
-                      data-weight="0.25"
-                      data-exp-name="Travail d'équipe"
-                      data-exp-text="J'ai appris le travail d'équipe : soutenir mes collègues, se relayer aux heures d'affluence et s'entraider pour gagner en efficacité."
-                      aria-label="Pomme, 250 grammes"
-                    >
-                      <span class="fruit-emoji" aria-hidden="true">🍎</span>
-                      <span class="fruit-name">Pomme</span>
-                    </li>
-                    <li
-                      class="fruit-item"
-                      role="listitem"
-                      tabindex="0"
-                      draggable="true"
-                      data-fruit="banana"
-                      data-weight="0.18"
-                      data-exp-name="Relation client"
-                      data-exp-text="J'ai développé une relation client positive : accueillir, conseiller sur la maturité des produits et résoudre les petites difficultés avec le sourire."
-                      aria-label="Banane, 180 grammes"
-                    >
-                      <span class="fruit-emoji" aria-hidden="true">🍌</span>
-                      <span class="fruit-name">Banane</span>
-                    </li>
-                    <li
-                      class="fruit-item"
-                      role="listitem"
-                      tabindex="0"
-                      draggable="true"
-                      data-fruit="orange"
-                      data-weight="0.20"
-                      data-exp-name="Gestion du temps"
-                      data-exp-text="J'ai renforcé ma gestion du temps : organiser le réassort, prioriser les tâches critiques et tenir des cadences régulières en période de rush."
-                      aria-label="Orange, 200 grammes"
-                    >
-                      <span class="fruit-emoji" aria-hidden="true">🍊</span>
-                      <span class="fruit-name">Orange</span>
-                    </li>
-                    <li
-                      class="fruit-item"
-                      role="listitem"
-                      tabindex="0"
-                      draggable="true"
-                      data-fruit="grapes"
-                      data-weight="0.30"
-                      data-exp-name="Organisation logistique"
-                      data-exp-text="J'ai amélioré mon sens de l'organisation logistique : rotation des stocks, mise en avant des produits mûrs et anticipation des ruptures."
-                      aria-label="Raisin, 300 grammes"
-                    >
-                      <span class="fruit-emoji" aria-hidden="true">🍇</span>
-                      <span class="fruit-name">Raisin</span>
-                    </li>
-                  </ul>
-                </section>
-
-                <!-- Balance (HTML-only) -->
-                <section
-                  class="balance-container"
-                  aria-labelledby="balance-title"
-                >
-                  <h3 id="balance-title">Balance</h3>
-                  <p class="balance-desc">Déposez vos fruits sur le plateau.</p>
+                  <div class="balance-arm" aria-hidden="true"></div>
                   <div
-                    class="balance"
+                    class="balance-plate dropzone"
+                    aria-label="Plateau de la balance"
+                    tabindex="0"
+                  ></div>
+                  <div class="balance-readout" aria-live="polite">
+                    <span class="balance-label">Expérience :</span>
+                    <span class="balance-experience">Travail d'équipe</span>
+                  </div>
+                  <div class="balance-base" aria-hidden="true"></div>
+                </div>
+                <!-- Ticket sortant de la balance (HTML only) -->
+                <div
+                  class="ticket-output"
+                  aria-live="polite"
+                  aria-label="Ticket de pesée"
+                >
+                  <h3 id="ticket-title">Ticket d'expérience</h3>
+                  <div
+                    class="ticket"
                     role="region"
-                    aria-roledescription="Balance"
-                    aria-description="Zone de dépôt pour pesée"
+                    aria-roledescription="Ticket imprimé"
                   >
-                    <div class="balance-arm" aria-hidden="true"></div>
-                    <div
-                      class="balance-plate dropzone"
-                      aria-label="Plateau de la balance"
-                      tabindex="0"
-                    ></div>
-                    <div class="balance-readout" aria-live="polite">
-                      <span class="balance-label">Expérience :</span>
-                      <span class="balance-experience">Travail d'équipe</span>
+                    <div class="ticket-header">E.Leclerc — Expérience</div>
+                    <div class="ticket-experience">
+                      <div class="ticket-experience-title">
+                        Travail d'équipe
+                      </div>
+                      <p class="ticket-experience-text">
+                        J'ai appris le travail d'équipe, j'ai appris à aider mes
+                        collègues et à s'entraider pour être plus efficace,
+                        notamment durant les pics d'affluence.
+                      </p>
                     </div>
-                    <div class="balance-base" aria-hidden="true"></div>
-                  </div>
-                  <!-- Ticket sortant de la balance (HTML only) -->
-                  <div
-                    class="ticket-output"
-                    aria-live="polite"
-                    aria-label="Ticket de pesée"
-                  >
-                    <h3 id="ticket-title">Ticket d'expérience</h3>
-                    <div
-                      class="ticket"
-                      role="region"
-                      aria-roledescription="Ticket imprimé"
-                    >
-                      <div class="ticket-header">E.Leclerc — Expérience</div>
-                      <div class="ticket-experience">
-                        <div class="ticket-experience-title">
-                          Travail d'équipe
-                        </div>
-                        <p class="ticket-experience-text">
-                          J'ai appris le travail d'équipe, j'ai appris à aider
-                          mes collègues et à s'entraider pour être plus
-                          efficace, notamment durant les pics d'affluence.
-                        </p>
-                      </div>
-                      <div class="ticket-footer">
-                        <span class="ticket-date">JJ/MM/AAAA 00:00</span>
-                        <span class="ticket-msg">Merci pour votre visite</span>
-                      </div>
+                    <div class="ticket-footer">
+                      <span class="ticket-date">JJ/MM/AAAA 00:00</span>
+                      <span class="ticket-msg">Merci pour votre visite</span>
                     </div>
                   </div>
-                  <p class="balance-hint">
-                    Astuce: vous pourrez bientôt retirer un fruit en
-                    double-cliquant.
-                  </p>
-                </section>
-              </div>
+                </div>
+                <p class="balance-hint">
+                  Astuce: vous pourrez bientôt retirer un fruit en
+                  double-cliquant.
+                </p>
+              </section>
             </div>
           </div>
         </section>
