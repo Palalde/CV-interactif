@@ -95,9 +95,11 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Variables for touch handling
   let startX = 0;
+  let startY = 0;
   let currentTranslate = 0;
   let isDragging = false;
   let currentIndex = 0;
+  let gestureLock = null; // null | 'h' | 'v'
   // Helpers to control snap markers visibility during interactions
   let hideSnapMarkers = function(){};
   let showSnapMarkers = function(){};
@@ -277,21 +279,41 @@ document.addEventListener('DOMContentLoaded', function() {
     blockSwipe = !!(chartEl && e.target && e.target.closest && e.target.closest('#trading-live-chart'));
     if (blockSwipe) return;
 
-  // masquer les marqueurs pendant le swipe
-  hideSnapMarkers();
-
     startX = e.touches[0].clientX;
-    isDragging = true;
+    startY = e.touches[0].clientY;
+    isDragging = false;
+    gestureLock = null;
     // État de départ
     startRangeValue = parseFloat(rangeSlider.value);
     startIndex = Math.round(startRangeValue / 50);
   }, { passive: true });
 
   slider.addEventListener('touchmove', (e) => {
-    if (blockSwipe || !isDragging) return;
+    if (blockSwipe) return;
 
     const currentX = e.touches[0].clientX;
-    const diff = currentX - startX; // >0 vers la droite, <0 vers la gauche
+    const currentY = e.touches[0].clientY;
+    const dx = currentX - startX;
+    const dy = currentY - startY;
+
+    // Déterminer la direction du geste après un petit seuil de mouvement
+    if (gestureLock === null) {
+      const moveThreshold = 8; // px
+      if (Math.abs(dx) + Math.abs(dy) < moveThreshold) return; // pas encore décidé
+      if (Math.abs(dx) > Math.abs(dy)) {
+        gestureLock = 'h';
+        isDragging = true;
+        hideSnapMarkers(); // seulement quand on confirme un swipe horizontal
+      } else {
+        gestureLock = 'v';
+        isDragging = false;
+        return; // laisser le scroll vertical natif (barre URL se cache/affiche)
+      }
+    }
+
+    if (!isDragging || gestureLock !== 'h') return;
+
+    const diff = dx; // >0 vers la droite, <0 vers la gauche
     const containerWidth = slider.parentElement.offsetWidth || 1;
 
     // Mapping du déplacement du doigt -> valeur du slider (max 1 slide)
@@ -306,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   slider.addEventListener('touchend', (e) => {
   if (blockSwipe) { blockSwipe = false; return; }
-  if (!isDragging) return;
+  if (gestureLock !== 'h') { gestureLock = null; isDragging = false; return; }
     isDragging = false;
 
     const endX = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientX : startX;
@@ -331,11 +353,13 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCompetencesDynamiquesBySlider();
   // ré-afficher les marqueurs après le swipe
   showSnapMarkers();
+    gestureLock = null;
   });
 
   // Gère l'annulation (perte du contact)
   slider.addEventListener('touchcancel', () => {
   if (blockSwipe) { blockSwipe = false; return; }
+  if (gestureLock !== 'h') { gestureLock = null; return; }
   isDragging = false;
     const value = Math.round(rangeSlider.value / 50) * 50;
     rangeSlider.value = value;
@@ -343,6 +367,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCompetencesDynamiquesBySlider();
   // ré-afficher les marqueurs
   showSnapMarkers();
+    gestureLock = null;
   });
   
   // Fonction pour accrocher le slider à la position la plus proche
