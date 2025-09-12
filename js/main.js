@@ -101,6 +101,17 @@ document.addEventListener('DOMContentLoaded', function() {
   // Helpers to control snap markers visibility during interactions
   let hideSnapMarkers = function(){};
   let showSnapMarkers = function(){};
+  // Helper to emit input event so thumb image updates on mobile
+  function emitRangeInput() {
+    try {
+      rangeSlider.dispatchEvent(new Event('input', { bubbles: true }));
+    } catch (e) {
+      // Fallback for older browsers
+      const ev = document.createEvent('Event');
+      ev.initEvent('input', true, true);
+      rangeSlider.dispatchEvent(ev);
+    }
+  }
   
   // Initialize range slider value
   rangeSlider.min = 0;
@@ -245,9 +256,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Ajouter un fin bandeau de swipe sous la chart trading (slide 2)
   (function addTradingSwipeStrip() {
+    const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
     const container = document.querySelector('#trading .contenu-principal');
     if (!container) return;
-    if (document.getElementById('trading-swipe-strip')) return; // déjà ajouté
+
+    const existing = document.getElementById('trading-swipe-strip');
+    if (!isTouch) {
+      // Supprimer si présent sur un device non-touch
+      if (existing) existing.remove();
+      return;
+    }
+    // Device tactile: ajouter si pas déjà en place
+    if (existing) return; // déjà ajouté
 
     const strip = document.createElement('div');
     strip.id = 'trading-swipe-strip';
@@ -302,6 +322,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     rangeSlider.value = tentative;
     updateContent();
+    emitRangeInput();
   }, { passive: true });
 
   slider.addEventListener('touchend', (e) => {
@@ -329,6 +350,7 @@ document.addEventListener('DOMContentLoaded', function() {
     rangeSlider.value = finalValue;
     updateContent();
     updateCompetencesDynamiquesBySlider();
+    emitRangeInput();
   // ré-afficher les marqueurs après le swipe
   showSnapMarkers();
   });
@@ -341,6 +363,7 @@ document.addEventListener('DOMContentLoaded', function() {
     rangeSlider.value = value;
     updateContent();
     updateCompetencesDynamiquesBySlider();
+    emitRangeInput();
   // ré-afficher les marqueurs
   showSnapMarkers();
   });
@@ -350,6 +373,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const value = Math.round(rangeSlider.value / 50) * 50;
     rangeSlider.value = value;
     updateContent();
+    emitRangeInput();
   }
   
   // Snap au relâchement de la souris
