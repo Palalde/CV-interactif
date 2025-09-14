@@ -763,6 +763,147 @@ body {
   padding-left: 0; /* centered layout */
   display: inline-block;
 }
+#leclerc .fruit-list-container {
+  position: relative;
+  display: inline-block;
+  background: var(--background-leger-dark);
+  padding: 10px 12px 10px 12px; /* compact interior */
+  margin: 6px 0 6px 0; /* stick just below header */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 3px solid var(--leclerc-accent);
+  border-radius: 12px;
+  box-shadow: var(--shadow-main);
+}
+
+/* Subtle supermarket-scale cues: thin top bar and tiny ticks */
+#leclerc .fruit-list-container::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: 10px;
+  right: 10px;
+  height: 3px; /* continues the accent bar visually */
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--leclerc-accent) 15%,
+    var(--leclerc-accent-alt) 50%,
+    var(--leclerc-accent) 85%,
+    transparent 100%
+  );
+  opacity: 0.55;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+
+#leclerc .fruit-list-container::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 12px;
+  right: 12px;
+  height: 8px;
+  background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.14) 1px,
+      transparent 1px
+    )
+    repeat-x;
+  background-size: 6px 8px; /* small ticks */
+  mask: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+  -webkit-mask: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  pointer-events: none;
+}
+
+body.light #leclerc .fruit-list-container::after {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.18) 1px, transparent 1px)
+    repeat-x;
+}
+
+#leclerc #fruit-list-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-light);
+  text-align: left; /* align left under header */
+  letter-spacing: 0.2px;
+  position: relative;
+  display: inline-block;
+}
+
+#leclerc #fruit-list-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--leclerc-accent), transparent);
+  opacity: 0.9;
+}
+
+#leclerc .fruit-list {
+  list-style: none;
+  --fruit-size: 48px; /* compact square size */
+  margin: 6px 0 0 0; /* top-left placement, tighter */
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, var(--fruit-size)); /* 2x2 square */
+  grid-auto-rows: var(--fruit-size); /* square height */
+  gap: 6px; /* tighter spacing */
+  width: fit-content; /* shrink to content to stick left */
+}
+
+#leclerc .fruit-item {
+  background: var(--background-leger-dark);
+  border-radius: 10px;
+  box-shadow: var(--shadow-main), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  width: var(--fruit-size);
+  height: var(--fruit-size); /* enforce square */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  user-select: none;
+  transition: transform 0.16s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+#leclerc .fruit-item:active {
+  cursor: grabbing;
+}
+
+#leclerc .fruit-item:hover,
+#leclerc .fruit-item:focus {
+  transform: translateY(-2px);
+  outline: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+#leclerc .fruit-emoji {
+  font-size: 1.15rem; /* smaller emoji */
+  line-height: 1;
+}
+
+/* Lightmode variants: isolated container + items */
+body.light #leclerc .fruit-list-container {
+  background: var(--background-leger-light);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-top-color: var(--leclerc-accent);
+  box-shadow: var(--shadow-main);
+}
+
+/* Lightmode variants for fruit list */
+body.light #leclerc .fruit-item {
+  background: var(--background-leger-light);
+  box-shadow: var(--shadow-main), inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+body.light #leclerc #fruit-list-title {
+  color: var(--text-dark);
+}
 
 /* Small accent dot + gentle underline for a clean, branded cue */
 #leclerc .leclerc-header .titre-section::before {
