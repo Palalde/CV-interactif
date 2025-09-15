@@ -733,11 +733,18 @@ body {
 
 #leclerc {
   background-color: var(--background-moyen-dark);
+  /* Responsive sizing tokens for the Leclerc section */
+  --leclerc-gap: clamp(10px, 2.4vw, 18px);
+  --fruit-size: clamp(42px, 7vw, 58px);
+  --plate-h: clamp(110px, 18vw, 140px);
+  --readout-h: clamp(70px, 12vw, 96px);
+  --ticket-w: clamp(220px, 46vw, 280px);
+  --balance-w: clamp(290px, 48vw, 360px);
 }
 #leclerc .leclerc-demo {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: var(--leclerc-gap);
 }
 
 #leclerc .leclerc-header {
@@ -765,17 +772,20 @@ body {
 }
 #leclerc .leclerc-grid {
   display: flex;
+  flex-direction: column; /* stack fruits above balance */
   align-items: flex-start;
-  gap: 16px;
-  flex-wrap: wrap;
+  gap: var(--leclerc-gap);
+  /* Enable container queries for child sizing on mobile */
+  container-type: inline-size;
+  container-name: leclerc;
 }
 
-/* Ensure balance sits left of the fruits regardless of DOM order */
-#leclerc .balance-container {
+/* Order: fruits first, then balance */
+#leclerc .fruit-list-container {
   order: 1;
 }
 
-#leclerc .fruit-list-container {
+#leclerc .balance-container {
   order: 2;
 }
 
@@ -787,8 +797,7 @@ body {
   border-radius: 12px;
   box-shadow: var(--shadow-main);
   padding: 10px 12px 12px 12px;
-  min-width: 290px;
-  max-width: 360px;
+  /* width handled by layout; inner scale column uses --balance-w */
 }
 
 #leclerc #balance-title,
@@ -841,7 +850,7 @@ body {
 
 #leclerc .balance-plate {
   grid-area: plate;
-  height: 130px;
+  height: var(--plate-h);
   border-radius: 12px;
   background: linear-gradient(
     180deg,
@@ -881,7 +890,7 @@ body {
 
 #leclerc .balance-readout {
   grid-area: readout;
-  height: 84px;
+  height: var(--readout-h);
   border-radius: 10px;
   /* LCD glass feel */
   background: linear-gradient(180deg, #0b140b, #0f2010);
@@ -993,16 +1002,165 @@ body {
   border-bottom-right-radius: 10px;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.2));
 }
+
+/* Prepare the printer body to clip the ticket during future print animation */
+#leclerc .ticket-output {
+  overflow: hidden;
+}
+
+/* Ticket title (small utility) */
+#leclerc #ticket-title {
+  margin: 0 0 8px 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-light);
+  opacity: 0.85;
+}
+
+/* Classic receipt look */
+#leclerc .ticket {
+  width: var(--ticket-w);
+  margin: 6px auto 12px auto;
+  padding: 14px 14px 46px 14px; /* bottom space for barcode */
+  background: repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.03) 0 1px,
+      transparent 1px 5px
+    ),
+    linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+  color: #222;
+  border-radius: 6px 6px 10px 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  line-height: 1.35;
+  position: relative;
+  transform: translateY(-2px);
+}
+
+/* Perforation line near the top */
+#leclerc .ticket::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  right: 12px;
+  height: 1px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.6) 0 6px,
+    rgba(0, 0, 0, 0) 6px 12px
+  );
+  opacity: 0.25;
+}
+
+/* Fake barcode at the bottom */
+#leclerc .ticket::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 10px;
+  height: 26px;
+  background: repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.88) 0 2px,
+      transparent 2px 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.95) 0 1px,
+      transparent 1px 3px
+    );
+  border-radius: 2px;
+  opacity: 0.9;
+}
+
+/* Ticket blocks */
+#leclerc .ticket-header {
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  margin: 2px 0 8px 0;
+}
+
+#leclerc .ticket-experience {
+  border-top: 1px dashed rgba(0, 0, 0, 0.25);
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.25);
+  padding: 8px 0;
+  margin: 6px 0;
+}
+
+#leclerc .ticket-experience-title {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin: 4px 0 4px 0;
+}
+
+#leclerc .ticket-experience-text {
+  font-size: 0.85rem;
+  color: #222;
+}
+
+#leclerc .ticket-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  margin-top: 8px;
+  padding-top: 6px;
+}
+
+#leclerc .ticket-msg {
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* Future animation: when printing, the ticket slides out of the slot */
+#leclerc .ticket.is-printing {
+  animation: ticket-print 1.4s ease-out forwards;
+}
+
+@keyframes ticket-print {
+  0% {
+    transform: translateY(-115%);
+  }
+  60% {
+    transform: translateY(-6%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Light mode: keep paper white, maintain same contrast */
+body.light #leclerc .ticket {
+  background: repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.035) 0 1px,
+      transparent 1px 5px
+    ),
+    linear-gradient(180deg, #ffffff 0%, #f7f7f7 100%);
+  color: #222;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
 #leclerc .fruit-list-container {
   position: relative;
-  display: inline-block;
+  display: block;
   background: var(--background-leger-dark);
-  padding: 10px 12px 10px 12px; /* compact interior */
-  margin: 6px 0 6px 0; /* stick just below header */
+  padding: 10px 12px; /* compact interior */
+  margin: 6px 0; /* stick just below header */
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-top: 3px solid var(--leclerc-accent);
   border-radius: 12px;
   box-shadow: var(--shadow-main);
+  width: var(--balance-w); /* match balance width */
 }
 
 /* Subtle supermarket-scale cues: thin top bar and tiny ticks */
@@ -1100,37 +1258,14 @@ body.light #leclerc .ticket-output {
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-#leclerc #fruit-list-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-light);
-  text-align: left; /* align left under header */
-  letter-spacing: 0.2px;
-  position: relative;
-  display: inline-block;
-}
-
-#leclerc #fruit-list-title::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -3px;
-  width: 40px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--leclerc-accent), transparent);
-  opacity: 0.9;
-}
-
 #leclerc .fruit-list {
   list-style: none;
-  --fruit-size: 48px; /* compact square size */
-  margin: 6px 0 0 0; /* top-left placement, tighter */
+  margin: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(2, var(--fruit-size)); /* 2x2 square */
-  grid-auto-rows: var(--fruit-size); /* square height */
-  gap: 6px; /* tighter spacing */
-  width: fit-content; /* shrink to content to stick left */
+  display: flex;
+  justify-content: center; /* center row */
+  gap: 6px;
+  width: 100%; /* full width of container */
 }
 
 #leclerc .fruit-item {
@@ -1145,6 +1280,7 @@ body.light #leclerc .ticket-output {
   cursor: grab;
   user-select: none;
   transition: transform 0.16s ease, background 0.2s ease, box-shadow 0.2s ease;
+  flex: 0 0 auto; /* prevent shrinking/wrapping */
 }
 
 #leclerc .fruit-item:active {
@@ -1159,8 +1295,87 @@ body.light #leclerc .ticket-output {
 }
 
 #leclerc .fruit-emoji {
-  font-size: 1.15rem; /* smaller emoji */
+  font-size: calc(var(--fruit-size) * 0.58); /* scale with fruit size */
   line-height: 1;
+}
+
+/* Wide screens: place ticket to the right of the balance */
+@media (min-width: 768px) {
+  #leclerc .balance-container {
+    display: grid;
+    grid-template-columns: var(--balance-w) var(--ticket-w);
+    grid-auto-rows: auto;
+    column-gap: var(--leclerc-gap);
+    align-items: start;
+  }
+  #leclerc .balance-container > #balance-title,
+  #leclerc .balance-container > .balance-desc,
+  #leclerc .balance-container > .balance-hint {
+    grid-column: 1 / -1; /* span both columns */
+  }
+  #leclerc .balance-container > .balance {
+    grid-column: 1;
+    width: 100%;
+  }
+  #leclerc .balance-container > .ticket-output {
+    grid-column: 2;
+    margin-top: 0; /* handled by grid spacing */
+    align-self: start;
+    width: 100%;
+  }
+}
+
+/* Mobile: allow vertical scroll if ticket overflows and keep natural stacking */
+@media (max-width: 767.98px) {
+  #leclerc {
+    overflow-y: auto;
+  }
+  /* Make all cards full-width of the main container */
+  #leclerc .fruit-list-container,
+  #leclerc .balance-container,
+  #leclerc .ticket-output {
+    width: 100%;
+    max-width: none;
+    /* Make each card its own container for cq* units */
+    container-type: inline-size;
+    container-name: leclerc-card;
+  }
+  /* Stretch the layout container so children expand fully */
+  #leclerc .leclerc-grid {
+    align-items: stretch;
+  }
+  /* Wrap fruits on small widths to prevent horizontal scroll */
+  #leclerc .fruit-list {
+    flex-wrap: wrap;
+  }
+  /* Make sizes scale with the container width using container query units */
+  #leclerc {
+    --balance-w: 100%;
+    --ticket-w: 100%;
+    --fruit-size: clamp(40px, 12cqw, 72px);
+    --plate-h: clamp(120px, 40cqw, 260px);
+    --readout-h: clamp(70px, 18cqw, 160px);
+  }
+  /* Scale readout typography with container */
+  #leclerc .balance-readout .balance-label {
+    font-size: clamp(0.68rem, 2.2cqw, 0.9rem);
+  }
+  #leclerc .balance-readout .balance-experience {
+    font-size: clamp(0.95rem, 3.6cqw, 1.4rem);
+  }
+  /* Scale ticket typography with container */
+  #leclerc .ticket-header {
+    font-size: clamp(0.9rem, 4cqw, 1.1rem);
+  }
+  #leclerc .ticket-experience-title {
+    font-size: clamp(0.85rem, 3.4cqw, 1rem);
+  }
+  #leclerc .ticket-experience-text {
+    font-size: clamp(0.8rem, 3cqw, 0.95rem);
+  }
+  #leclerc .ticket-footer {
+    font-size: clamp(0.75rem, 2.6cqw, 0.9rem);
+  }
 }
 
 /* Lightmode variants: isolated container + items */
@@ -1175,10 +1390,6 @@ body.light #leclerc .fruit-list-container {
 body.light #leclerc .fruit-item {
   background: var(--background-leger-light);
   box-shadow: var(--shadow-main), inset 0 0 0 1px rgba(0, 0, 0, 0.05);
-}
-
-body.light #leclerc #fruit-list-title {
-  color: var(--text-dark);
 }
 
 /* Small accent dot + gentle underline for a clean, branded cue */

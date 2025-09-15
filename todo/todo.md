@@ -4,7 +4,11 @@
 
 ### 🔴 Urgent
 
-- commencer le css des fruits et legumes
+- Idée: faire le css de la liste de fruit pour lui donner un style de cagette ?
+
+- faire le CSS responsive pour les grands ecrans / large
+
+-corriger le CSS de la balance notament de la sortie du ticket pour les ecrans larges (faire en sorte de passer en style ecran (long) lorsque le ticket depasse de la largeur)
 
 ### 🟠 Important
 
