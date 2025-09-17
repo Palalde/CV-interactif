@@ -1262,6 +1262,7 @@ body.light #leclerc .ticket-output {
   list-style: none;
   margin: 0;
   padding: 0;
+  padding-top: 5px;
   display: flex;
   justify-content: center; /* center row */
   gap: 6px;
@@ -1299,83 +1300,55 @@ body.light #leclerc .ticket-output {
   line-height: 1;
 }
 
-/* Wide screens: place ticket to the right of the balance */
-@media (min-width: 768px) {
-  #leclerc .balance-container {
-    display: grid;
-    grid-template-columns: var(--balance-w) var(--ticket-w);
-    grid-auto-rows: auto;
-    column-gap: var(--leclerc-gap);
-    align-items: start;
-  }
-  #leclerc .balance-container > #balance-title,
-  #leclerc .balance-container > .balance-desc,
-  #leclerc .balance-container > .balance-hint {
-    grid-column: 1 / -1; /* span both columns */
-  }
-  #leclerc .balance-container > .balance {
-    grid-column: 1;
-    width: 100%;
-  }
-  #leclerc .balance-container > .ticket-output {
-    grid-column: 2;
-    margin-top: 0; /* handled by grid spacing */
-    align-self: start;
-    width: 100%;
-  }
+/* OVERFLOW */
+#leclerc {
+  overflow-y: auto;
 }
-
-/* Mobile: allow vertical scroll if ticket overflows and keep natural stacking */
-@media (max-width: 767.98px) {
-  #leclerc {
-    overflow-y: auto;
-  }
-  /* Make all cards full-width of the main container */
-  #leclerc .fruit-list-container,
-  #leclerc .balance-container,
-  #leclerc .ticket-output {
-    width: 100%;
-    max-width: none;
-    /* Make each card its own container for cq* units */
-    container-type: inline-size;
-    container-name: leclerc-card;
-  }
-  /* Stretch the layout container so children expand fully */
-  #leclerc .leclerc-grid {
-    align-items: stretch;
-  }
-  /* Wrap fruits on small widths to prevent horizontal scroll */
-  #leclerc .fruit-list {
-    flex-wrap: wrap;
-  }
-  /* Make sizes scale with the container width using container query units */
-  #leclerc {
-    --balance-w: 100%;
-    --ticket-w: 100%;
-    --fruit-size: clamp(40px, 12cqw, 72px);
-    --plate-h: clamp(120px, 40cqw, 260px);
-    --readout-h: clamp(70px, 18cqw, 160px);
-  }
-  /* Scale readout typography with container */
-  #leclerc .balance-readout .balance-label {
-    font-size: clamp(0.68rem, 2.2cqw, 0.9rem);
-  }
-  #leclerc .balance-readout .balance-experience {
-    font-size: clamp(0.95rem, 3.6cqw, 1.4rem);
-  }
-  /* Scale ticket typography with container */
-  #leclerc .ticket-header {
-    font-size: clamp(0.9rem, 4cqw, 1.1rem);
-  }
-  #leclerc .ticket-experience-title {
-    font-size: clamp(0.85rem, 3.4cqw, 1rem);
-  }
-  #leclerc .ticket-experience-text {
-    font-size: clamp(0.8rem, 3cqw, 0.95rem);
-  }
-  #leclerc .ticket-footer {
-    font-size: clamp(0.75rem, 2.6cqw, 0.9rem);
-  }
+/* Make all cards full-width of the main container */
+#leclerc .fruit-list-container,
+#leclerc .balance-container,
+#leclerc .ticket-output {
+  width: 100%;
+  max-width: none;
+  /* Make each card its own container for cq* units */
+  container-type: inline-size;
+  container-name: leclerc-card;
+}
+/* Stretch the layout container so children expand fully */
+#leclerc .leclerc-grid {
+  align-items: stretch;
+}
+/* Wrap fruits on small widths to prevent horizontal scroll */
+#leclerc .fruit-list {
+  flex-wrap: wrap;
+}
+/* Make sizes scale with the container width using container query units */
+#leclerc {
+  --balance-w: 100%;
+  --ticket-w: 100%;
+  --fruit-size: clamp(40px, 12cqw, 72px);
+  --plate-h: clamp(120px, 40cqw, 260px);
+  --readout-h: clamp(70px, 18cqw, 160px);
+}
+/* Scale readout typography with container */
+#leclerc .balance-readout .balance-label {
+  font-size: clamp(0.68rem, 2.2cqw, 0.9rem);
+}
+#leclerc .balance-readout .balance-experience {
+  font-size: clamp(0.95rem, 3.6cqw, 1.4rem);
+}
+/* Scale ticket typography with container */
+#leclerc .ticket-header {
+  font-size: clamp(0.9rem, 4cqw, 1.1rem);
+}
+#leclerc .ticket-experience-title {
+  font-size: clamp(0.85rem, 3.4cqw, 1rem);
+}
+#leclerc .ticket-experience-text {
+  font-size: clamp(0.8rem, 3cqw, 0.95rem);
+}
+#leclerc .ticket-footer {
+  font-size: clamp(0.75rem, 2.6cqw, 0.9rem);
 }
 
 /* Lightmode variants: isolated container + items */
