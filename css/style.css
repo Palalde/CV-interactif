@@ -800,7 +800,6 @@ body {
   /* width handled by layout; inner scale column uses --balance-w */
 }
 
-#leclerc #balance-title,
 #leclerc .balance-desc {
   color: var(--text-light);
   margin: 2px 2px 6px 2px;
@@ -1008,15 +1007,6 @@ body {
   overflow: hidden;
 }
 
-/* Ticket title (small utility) */
-#leclerc #ticket-title {
-  margin: 0 0 8px 0;
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: var(--text-light);
-  opacity: 0.85;
-}
-
 /* Classic receipt look */
 #leclerc .ticket {
   width: var(--ticket-w);
@@ -1219,7 +1209,6 @@ body.light #leclerc .balance-container {
   border-top-color: var(--leclerc-accent);
 }
 
-body.light #leclerc #balance-title,
 body.light #leclerc .balance-desc {
   color: var(--text-dark);
 }
@@ -1421,12 +1410,14 @@ body.light #leclerc .fruit-item {
     grid-template-columns: var(--fruit-col-w) minmax(560px, 1fr);
     grid-auto-rows: 1fr; /* single row filling height */
     align-items: stretch;
-    gap: var(--leclerc-gap);
+    /* Slightly reduced gap between fruit column and balance card */
+    gap: clamp(8px, 2vw, 14px);
   }
 
   /* Wide tokens for columns */
   #leclerc {
-    --fruit-col-w: clamp(200px, 22vw, 280px);
+    /* ~30% narrower fruit column */
+    --fruit-col-w: clamp(49px, 12.6vw, 70px);
   }
 
   /* Make the two main cards fill the section's height and not overflow */
@@ -1447,46 +1438,163 @@ body.light #leclerc .fruit-item {
   /* Scale internals using container height instead of width */
   #leclerc {
     --balance-w: auto;
-    --ticket-w: clamp(220px, 46cqh, 320px);
+    --ticket-w: clamp(220px, 40cqh, 320px);
     --fruit-size: clamp(42px, 12cqh, 84px);
-    --plate-h: clamp(120px, 42cqh, 300px);
-    --readout-h: clamp(70px, 18cqh, 160px);
+    /* Increase heights for a more imposing balance */
+    --plate-h: clamp(180px, 56cqh, 460px);
+    --readout-h: clamp(90px, 24cqh, 220px);
+    /* Fixed header (desk) heights: title row + description row */
+    --balance-desk-title-h: clamp(28px, 6cqh, 38px);
+    --balance-desk-desc-h: clamp(22px, 6cqh, 34px);
   }
 
   /* Fruit list becomes a vertical column on the left */
   #leclerc .fruit-list {
     flex-direction: column;
     flex-wrap: nowrap;
-    justify-content: center; /* vertically center the 4 items */
+    justify-content: space-evenly; /* spread along the column height */
     align-items: center;
     height: 100%;
+    overflow-y: auto; /* scroll inside if items exceed available height */
+    padding-block: 6px;
+    overscroll-behavior: contain;
+  }
+
+  /* Keep fruit size coherent with narrow column: cap by inline width */
+  #leclerc .fruit-list-container {
+    /* fruit box size: limited by height-based token and by column inline size */
+    --fruit-box: min(var(--fruit-size), 85cqi);
+  }
+  #leclerc .fruit-item {
+    width: var(--fruit-box);
+    height: var(--fruit-box);
+  }
+  #leclerc .fruit-emoji {
+    font-size: calc(var(--fruit-box) * 0.58);
   }
 
   /* Balance container becomes two columns: balance | ticket */
   #leclerc .balance-container {
     display: grid;
-    grid-template-columns: minmax(360px, 1fr) minmax(260px, 0.9fr);
-    grid-template-rows: auto 1fr;
+    /* Stronger reduction: ~27% balance | 73% ticket (≈40% less than 45%) */
+    grid-template-columns: minmax(240px, 0.54fr) minmax(280px, 1.46fr);
+    /* Fixed header row (desc) + flexible content row */
+    grid-template-rows: var(--balance-desk-desc-h, 28px) 1fr;
     align-items: stretch;
     column-gap: var(--leclerc-gap);
+    row-gap: 6px;
   }
 
-  #leclerc #balance-title,
   #leclerc .balance-desc {
-    grid-column: 1 / -1; /* titles span both columns */
-    margin-bottom: 6px;
+    grid-column: 1 / -1; /* desc spans both columns */
+    grid-row: 1;
+    margin: 0; /* keep header height stable */
+    align-self: center; /* vertically center within its fixed row */
   }
 
   #leclerc .balance {
     grid-column: 1;
+    grid-row: 2; /* place in content row under fixed header row */
     align-self: stretch; /* fill available height */
+    /* Rework grid: arm left, base right, plate above readout */
+    display: grid;
+    height: 100%;
+    min-height: 0; /* allow shrinking inside grid container */
+    grid-template-columns: var(--arm-w, clamp(10px, 3cqh, 22px)) 1fr var(
+        --base-w,
+        clamp(10px, 3cqh, 22px)
+      );
+    grid-template-rows: 2.4fr 1fr; /* plate row taller than readout row */
+    grid-template-areas:
+      "arm plate base"
+      "arm readout base";
+    gap: 12px;
   }
 
   #leclerc .ticket-output {
     grid-column: 2;
+    grid-row: 2; /* place in content row under fixed header row */
     margin-top: 0; /* remove top gap in grid */
     display: flex;
-    align-items: center; /* visually center the ticket vertically */
+    /* Stretch vertically so the ticket can use the column height */
+    align-items: stretch;
+    justify-content: flex-start; /* let the ticket occupy full inline space */
+    height: 100%; /* fill remaining vertical space */
+    min-height: 0; /* allow shrinking to avoid overflow */
+  }
+
+  /* Make the ticket occupy more vertical space and layout its blocks */
+  #leclerc .ticket-output .ticket {
+    display: flex;
+    flex-direction: column;
+    /* Fill the entire ticket-output container */
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box; /* include internal padding in the full size */
+    margin: 0;
+  }
+
+  /* Ensure header/footer stay fixed while the content grows */
+  #leclerc .ticket-header,
+  #leclerc .ticket-footer {
+    flex-shrink: 0;
+  }
+
+  /* Let the middle block expand and scroll if needed */
+  #leclerc .ticket-experience {
+    flex: 1 1 auto;
+    overflow-y: auto;
+  }
+
+  /* Vertical arm on the left */
+  #leclerc .balance-arm {
+    grid-area: arm;
+    width: 100%;
+    height: 100%;
+    align-self: stretch;
+    border-radius: 6px;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.25),
+      rgba(255, 255, 255, 0.05)
+    );
+    position: relative;
+  }
+  #leclerc .balance-arm::after {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+  }
+
+  /* Vertical base on the right */
+  #leclerc .balance-base {
+    grid-area: base;
+    width: 100%;
+    height: 100%;
+    align-self: stretch;
+    border-radius: 6px;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.18),
+      rgba(0, 0, 0, 0.2)
+    );
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25),
+      inset 0 -2px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Plate and readout areas per new grid */
+  #leclerc .balance-plate {
+    grid-area: plate;
+    height: auto;
+    align-self: stretch;
+  }
+  #leclerc .balance-readout {
+    grid-area: readout;
+    height: auto;
+    align-self: stretch;
+    min-height: clamp(90px, 20cqh, 260px);
   }
 
   /* Height-based typography scaling inside readout and ticket */
@@ -1498,6 +1606,9 @@ body.light #leclerc .fruit-item {
   }
   #leclerc .ticket-header {
     font-size: clamp(0.9rem, 4cqh, 1.1rem);
+    /* Reduce vertical footprint on wide screens */
+    margin: 0 0 2px 0;
+    line-height: 1.1;
   }
   #leclerc .ticket-experience-title {
     font-size: clamp(0.85rem, 3.4cqh, 1rem);
@@ -1507,6 +1618,10 @@ body.light #leclerc .fruit-item {
   }
   #leclerc .ticket-footer {
     font-size: clamp(0.75rem, 2.6cqh, 0.9rem);
+    /* Reduce vertical footprint on wide screens */
+    margin-top: 2px;
+    padding-top: 1px;
+    line-height: 1.1;
   }
 }
 
