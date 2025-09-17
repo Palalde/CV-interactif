@@ -1391,6 +1391,125 @@ body.light #leclerc .fruit-item {
   opacity: 0.9;
 }
 
+/* Wide layout ≥1024px: switch to horizontal flow with height-driven responsiveness */
+@media (min-width: 1024px) {
+  /* Section scroll becomes horizontal */
+  #leclerc {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  /* Ensure the Leclerc inner wrappers stretch to available height */
+  #leclerc,
+  #leclerc .contenu-principal {
+    height: 100%;
+    min-height: 0;
+  }
+  /* Make the main content act as a column: header auto, grid fills the rest */
+  #leclerc .contenu-principal {
+    display: flex;
+    flex-direction: column;
+  }
+  #leclerc .leclerc-grid {
+    min-height: 0; /* allow children to size without forcing overflow */
+    flex: 1 1 auto; /* occupy remaining height under the header */
+  }
+
+  /* Two main columns: fruits (fixed column) | balance container (flex column) */
+  #leclerc .leclerc-grid {
+    display: grid;
+    grid-template-columns: var(--fruit-col-w) minmax(560px, 1fr);
+    grid-auto-rows: 1fr; /* single row filling height */
+    align-items: stretch;
+    gap: var(--leclerc-gap);
+  }
+
+  /* Wide tokens for columns */
+  #leclerc {
+    --fruit-col-w: clamp(200px, 22vw, 280px);
+  }
+
+  /* Make the two main cards fill the section's height and not overflow */
+  #leclerc .fruit-list-container,
+  #leclerc .balance-container {
+    height: 100%;
+    margin-top: 0;
+    overflow: hidden;
+  }
+
+  /* Switch cards to two-axis container queries so cqh works */
+  #leclerc .fruit-list-container,
+  #leclerc .balance-container,
+  #leclerc .ticket-output {
+    container-type: size;
+  }
+
+  /* Scale internals using container height instead of width */
+  #leclerc {
+    --balance-w: auto;
+    --ticket-w: clamp(220px, 46cqh, 320px);
+    --fruit-size: clamp(42px, 12cqh, 84px);
+    --plate-h: clamp(120px, 42cqh, 300px);
+    --readout-h: clamp(70px, 18cqh, 160px);
+  }
+
+  /* Fruit list becomes a vertical column on the left */
+  #leclerc .fruit-list {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center; /* vertically center the 4 items */
+    align-items: center;
+    height: 100%;
+  }
+
+  /* Balance container becomes two columns: balance | ticket */
+  #leclerc .balance-container {
+    display: grid;
+    grid-template-columns: minmax(360px, 1fr) minmax(260px, 0.9fr);
+    grid-template-rows: auto 1fr;
+    align-items: stretch;
+    column-gap: var(--leclerc-gap);
+  }
+
+  #leclerc #balance-title,
+  #leclerc .balance-desc {
+    grid-column: 1 / -1; /* titles span both columns */
+    margin-bottom: 6px;
+  }
+
+  #leclerc .balance {
+    grid-column: 1;
+    align-self: stretch; /* fill available height */
+  }
+
+  #leclerc .ticket-output {
+    grid-column: 2;
+    margin-top: 0; /* remove top gap in grid */
+    display: flex;
+    align-items: center; /* visually center the ticket vertically */
+  }
+
+  /* Height-based typography scaling inside readout and ticket */
+  #leclerc .balance-readout .balance-label {
+    font-size: clamp(0.68rem, 2.2cqh, 0.9rem);
+  }
+  #leclerc .balance-readout .balance-experience {
+    font-size: clamp(0.95rem, 3.6cqh, 1.4rem);
+  }
+  #leclerc .ticket-header {
+    font-size: clamp(0.9rem, 4cqh, 1.1rem);
+  }
+  #leclerc .ticket-experience-title {
+    font-size: clamp(0.85rem, 3.4cqh, 1rem);
+  }
+  #leclerc .ticket-experience-text {
+    font-size: clamp(0.8rem, 3cqh, 0.95rem);
+  }
+  #leclerc .ticket-footer {
+    font-size: clamp(0.75rem, 2.6cqh, 0.9rem);
+  }
+}
+
 /* DEV */
 
 #dev {
