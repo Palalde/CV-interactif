@@ -665,7 +665,7 @@ body {
 
 /* Bandeau de swipe sous la chart trading */
 .trading-swipe-strip {
-  height: 28px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2746,6 +2746,15 @@ body.light .form-group input:-webkit-autofill:active {
   }
   .competences-mobile-btn {
     display: none !important;
+  }
+
+  /* Allow showing the mobile competences panel on desktop when explicitly opened */
+  body.competences-panel-open .competences-mobile-btn {
+    display: flex !important;
+  }
+  /* Avoid overlap with bottom content when the panel is open on desktop */
+  body.competences-panel-open {
+    padding-bottom: 47px;
   }
 }
 
