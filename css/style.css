@@ -667,8 +667,8 @@ body {
 .trading-live-chart .press-hint {
   position: absolute;
   left: 50%;
-  bottom: 10px;
-  transform: translateX(-50%) translateY(8px);
+  top: 50%;
+  transform: translate(-50%, -50%);
   opacity: 0;
   transition: opacity 0.28s ease, transform 0.28s ease;
   pointer-events: none;
@@ -685,7 +685,7 @@ body {
 }
 .trading-live-chart .press-hint.show {
   opacity: 1;
-  transform: translateX(-50%) translateY(0);
+  transform: translate(-50%, -50%);
 }
 
 /* Light theme variant */
