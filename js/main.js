@@ -147,6 +147,11 @@ document.addEventListener('DOMContentLoaded', function() {
         section.classList.remove('active');
       }
     });
+    // When Trading slide is active, reset the press hint overlay
+    const activeSection = sections[index];
+    if (activeSection && activeSection.id === 'trading' && typeof window.resetTradingPressHint === 'function') {
+      try { window.resetTradingPressHint(); } catch (_) {}
+    }
   }
   
   // Ajouter des marqueurs visuels pour les points de snap

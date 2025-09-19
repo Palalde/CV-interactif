@@ -137,22 +137,27 @@ document.addEventListener("DOMContentLoaded", function () {
         // remove after transition
         setTimeout(() => { try { hintEl.remove(); } catch (_) {} hintEl = null; }, 350);
     }
-    if (isCoarsePointer) {
+    function createOrShowHint() {
+        if (!isCoarsePointer) return;
+        hintDismissed = false;
+        if (hintEl) {
+            // show immediately without fade-in
+            hintEl.classList.add('show');
+            return;
+        }
         hintEl = document.createElement('div');
-        hintEl.className = 'press-hint';
+        hintEl.className = 'press-hint show'; // visible directly, no intro fade
         hintEl.setAttribute('role', 'status');
         hintEl.setAttribute('aria-live', 'polite');
-    hintEl.textContent = 'Appuyez longuement pour afficher les infos';
+        hintEl.textContent = 'Appuyez longuement pour afficher les infos';
         container.appendChild(hintEl);
-        // fade-in next frame
-        requestAnimationFrame(() => hintEl && hintEl.classList.add('show'));
-        // auto-hide after a few seconds
-        setTimeout(() => dismissHint(), 4200);
-        // hide on first touch/pointer interaction
-        container.addEventListener('pointerdown', (ev) => {
-            if (ev.pointerType === 'touch') dismissHint();
-        }, { once: true, passive: true });
     }
+    if (isCoarsePointer) createOrShowHint();
+    // expose reset to allow re-showing the hint when returning to Trading slide
+    window.resetTradingPressHint = function() {
+        if (!container || !isCoarsePointer) return;
+        createOrShowHint();
+    };
 
     // Theme synchronization via MutationObserver on body.classList
 	const body = document.body;
@@ -339,7 +344,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 toolTip.style.bottom = '0px';
                 toolTip.style.top = '';
             }
-            // any crosshair activity implies user discovered interaction → hide hint
+            // Fade-out hint only when tooltip appears
             dismissHint();
         }
     });
