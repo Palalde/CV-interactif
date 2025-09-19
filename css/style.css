@@ -663,6 +663,45 @@ body {
   position: relative; /* Needed so tooltip absolute positioning anchors to the chart container */
 }
 
+/* Mobile-only press hint overlay inside trading chart */
+.trading-live-chart .press-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%) translateY(8px);
+  opacity: 0;
+  transition: opacity 0.28s ease, transform 0.28s ease;
+  pointer-events: none;
+  z-index: 5;
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 1.2;
+  border-radius: 999px;
+  border: 1px solid rgba(239, 83, 80, 0.35);
+  background: rgba(32, 32, 59, 0.55);
+  color: var(--text-light, #f5f6fa);
+  backdrop-filter: blur(2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+.trading-live-chart .press-hint.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Light theme variant */
+body.light .trading-live-chart .press-hint {
+  background: rgba(237, 234, 215, 0.58);
+  color: var(--text-dark, #1a1a2e);
+  border-color: rgba(239, 83, 80, 0.35);
+}
+
+/* Only display on coarse pointers (mobile/tablet) */
+@media (pointer: fine) {
+  .trading-live-chart .press-hint {
+    display: none;
+  }
+}
+
 /* Bandeau de swipe sous la chart trading */
 .trading-swipe-strip {
   height: 44px;
