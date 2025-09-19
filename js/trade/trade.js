@@ -126,6 +126,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
     series.setData(data);
 
+    // Mobile-only hint: suggest long-press to show tooltips (discreet overlay)
+    const isCoarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+    let hintDismissed = false;
+    let hintEl = null;
+    function dismissHint() {
+        if (!hintEl || hintDismissed) return;
+        hintDismissed = true;
+        hintEl.classList.remove('show');
+        // remove after transition
+        setTimeout(() => { try { hintEl.remove(); } catch (_) {} hintEl = null; }, 350);
+    }
+    if (isCoarsePointer) {
+        hintEl = document.createElement('div');
+        hintEl.className = 'press-hint';
+        hintEl.setAttribute('role', 'status');
+        hintEl.setAttribute('aria-live', 'polite');
+    hintEl.textContent = 'Appuyez longuement pour afficher les infos';
+        container.appendChild(hintEl);
+        // fade-in next frame
+        requestAnimationFrame(() => hintEl && hintEl.classList.add('show'));
+        // auto-hide after a few seconds
+        setTimeout(() => dismissHint(), 4200);
+        // hide on first touch/pointer interaction
+        container.addEventListener('pointerdown', (ev) => {
+            if (ev.pointerType === 'touch') dismissHint();
+        }, { once: true, passive: true });
+    }
+
     // Theme synchronization via MutationObserver on body.classList
 	const body = document.body;
 	const applyTheme = () => {
@@ -311,6 +339,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 toolTip.style.bottom = '0px';
                 toolTip.style.top = '';
             }
+            // any crosshair activity implies user discovered interaction → hide hint
+            dismissHint();
         }
     });
 
