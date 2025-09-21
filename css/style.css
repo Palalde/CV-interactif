@@ -1328,6 +1328,17 @@ body.light #leclerc .ticket-output {
   line-height: 1;
 }
 
+#leclerc .balance-plate .plate-emoji {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none; /* don't block drops */
+  font-size: clamp(32px, 10cqh, 72px);
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+}
+
 /* OVERFLOW */
 #leclerc {
   overflow-y: auto;
@@ -1629,6 +1640,7 @@ body.light #leclerc .fruit-item {
     height: auto;
     align-self: stretch;
   }
+
   #leclerc .balance-readout {
     grid-area: readout;
     height: auto;
@@ -1661,6 +1673,25 @@ body.light #leclerc .fruit-item {
     margin-top: 2px;
     padding-top: 1px;
     line-height: 1.1;
+  }
+
+  /* Desktop: print animation should slide from left to right */
+  #leclerc .ticket.is-printing {
+    animation: ticket-print-horizontal 1.4s ease-out forwards;
+  }
+
+  @keyframes ticket-print-horizontal {
+    0% {
+      /* start fully off-canvas to the left, keep slight vertical offset */
+      transform: translateX(-115%) translateY(-2px);
+    }
+    60% {
+      /* brief overshoot for a natural ease */
+      transform: translateX(-6%) translateY(-2px);
+    }
+    100% {
+      transform: translateX(0) translateY(-2px);
+    }
   }
 }
 
