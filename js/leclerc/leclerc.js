@@ -126,6 +126,36 @@ document.addEventListener('DOMContentLoaded', () => {
 	// -----------------------------------
 	const supportsPointer = !!window.PointerEvent;
 
+	// Guards to prevent text selection and pull-to-refresh while dragging
+	let activeDragGuardsCleanup = null;
+	const beginGlobalDragGuards = () => {
+		if (activeDragGuardsCleanup) return; // already active
+		const prev = {
+			bodyUserSelect: document.body.style.userSelect,
+			bodyWebkitUserSelect: document.body.style.webkitUserSelect,
+			rootTouchAction: root.style.touchAction,
+			rootOverscrollY: root.style.overscrollBehaviorY,
+		};
+		const preventScroll = (ev) => ev.preventDefault();
+		window.addEventListener('touchmove', preventScroll, { passive: false, capture: true });
+		document.body.style.userSelect = 'none';
+		document.body.style.webkitUserSelect = 'none';
+		root.style.touchAction = 'none';
+		root.style.overscrollBehaviorY = 'contain';
+		activeDragGuardsCleanup = () => {
+			window.removeEventListener('touchmove', preventScroll, { capture: true });
+			document.body.style.userSelect = prev.bodyUserSelect;
+			document.body.style.webkitUserSelect = prev.bodyWebkitUserSelect;
+			root.style.touchAction = prev.rootTouchAction;
+			root.style.overscrollBehaviorY = prev.rootOverscrollY;
+			activeDragGuardsCleanup = null;
+		};
+	};
+
+	const endGlobalDragGuards = () => {
+		if (activeDragGuardsCleanup) activeDragGuardsCleanup();
+	};
+
 	const startPointerDrag = (item, e) => {
 		// Only custom-drag on touch/pen to avoid conflicting with native mouse DnD
 		if (e.pointerType === 'mouse') return;
@@ -133,6 +163,12 @@ document.addEventListener('DOMContentLoaded', () => {
 		e.preventDefault();
 		e.stopPropagation();
 		item.setPointerCapture?.(e.pointerId);
+		beginGlobalDragGuards();
+		item.classList.add('dragging');
+		// Avoid native gestures on the dragged element itself
+		item.style.touchAction = 'none';
+		// Subtle feedback on the source item
+		try { item.style.transform = 'scale(1.05)'; } catch {}
 
 		const rect = item.getBoundingClientRect();
 		const ghost = document.createElement('div');
@@ -140,13 +176,20 @@ document.addEventListener('DOMContentLoaded', () => {
 		ghost.style.position = 'fixed';
 		ghost.style.left = `${e.clientX - rect.width / 2}px`;
 		ghost.style.top = `${e.clientY - rect.height / 2}px`;
-		ghost.style.fontSize = Math.max(rect.width, 44) + 'px';
+		// Make the ghost larger than the source fruit for clearer feedback under the finger
+		ghost.style.fontSize = Math.max(rect.width, 44) * 1.35 + 'px';
 		ghost.style.lineHeight = '1';
-		ghost.style.transform = 'translate(-50%, -50%)';
+		ghost.style.transform = 'translate(-50%, -50%) scale(0.92)';
+		ghost.style.transition = 'transform 120ms ease-out, opacity 120ms ease-out';
+		ghost.style.willChange = 'transform';
 		ghost.style.pointerEvents = 'none';
-		ghost.style.filter = 'drop-shadow(0 6px 12px rgba(0,0,0,0.35))';
+		ghost.style.filter = 'drop-shadow(0 8px 16px rgba(0,0,0,0.35))';
 		ghost.style.zIndex = '9999';
 		document.body.appendChild(ghost);
+		// Animate in to a slightly larger scale
+		requestAnimationFrame(() => {
+			ghost.style.transform = 'translate(-50%, -50%) scale(1.18)';
+		});
 
 		const overPlate = (x, y) => {
 			const p = plate.getBoundingClientRect();
@@ -188,6 +231,11 @@ document.addEventListener('DOMContentLoaded', () => {
 			item.removeEventListener('pointermove', move, true);
 			item.removeEventListener('pointerup', end, true);
 			item.removeEventListener('pointercancel', cancel, true);
+			// Restore guards and visuals
+			endGlobalDragGuards();
+			item.classList.remove('dragging');
+			try { item.style.transform = ''; } catch {}
+			item.style.touchAction = '';
 		};
 
 		item.addEventListener('pointermove', move, true);
