@@ -135,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			bodyWebkitUserSelect: document.body.style.webkitUserSelect,
 			rootTouchAction: root.style.touchAction,
 			rootOverscrollY: root.style.overscrollBehaviorY,
+			rootOverscrollX: root.style.overscrollBehaviorX,
 		};
 		const preventScroll = (ev) => ev.preventDefault();
 		window.addEventListener('touchmove', preventScroll, { passive: false, capture: true });
@@ -142,12 +143,33 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.body.style.webkitUserSelect = 'none';
 		root.style.touchAction = 'none';
 		root.style.overscrollBehaviorY = 'contain';
+		root.style.overscrollBehaviorX = 'contain';
+
+		// Intercept horizontal slide handlers on the main content slider while dragging
+		const contentSlider = document.querySelector('.content-slider');
+		const intercept = (ev) => {
+			// Block main.js swipe logic and any other handlers
+			try { ev.stopImmediatePropagation(); } catch {}
+			try { ev.stopPropagation(); } catch {}
+			try { ev.preventDefault(); } catch {}
+		};
+		if (contentSlider) {
+			contentSlider.addEventListener('touchstart', intercept, { capture: true, passive: false });
+			contentSlider.addEventListener('touchmove', intercept, { capture: true, passive: false });
+			contentSlider.addEventListener('touchend', intercept, { capture: true, passive: false });
+		}
 		activeDragGuardsCleanup = () => {
 			window.removeEventListener('touchmove', preventScroll, { capture: true });
 			document.body.style.userSelect = prev.bodyUserSelect;
 			document.body.style.webkitUserSelect = prev.bodyWebkitUserSelect;
 			root.style.touchAction = prev.rootTouchAction;
 			root.style.overscrollBehaviorY = prev.rootOverscrollY;
+			root.style.overscrollBehaviorX = prev.rootOverscrollX;
+			if (contentSlider) {
+				contentSlider.removeEventListener('touchstart', intercept, { capture: true });
+				contentSlider.removeEventListener('touchmove', intercept, { capture: true });
+				contentSlider.removeEventListener('touchend', intercept, { capture: true });
+			}
 			activeDragGuardsCleanup = null;
 		};
 	};
