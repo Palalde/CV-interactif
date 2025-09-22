@@ -355,19 +355,13 @@
         </section>
         <section class="content-section" id="dev">
           <div class="contenu-principal">
-            <div class="feuille-carreaux">
-              <strong
-                >Développeur web | Marseille | Janvier 2023 -
-                Aujourd'hui</strong
-              >
-              <br />
-              J'ai décidé de me reconvertir dans le développement web, une
-              passion qui m'animait depuis longtemps. J'ai suivi une formation
-              intensive en autodidacte puis en bootcamp pour maîtriser les
-              technologies front-end et back-end. Je développe aujourd'hui des
-              applications web dynamiques et responsives en utilisant les
-              frameworks modernes.
-            </div>
+            <!-- Console Xterm - Host container -->
+            <div
+              id="dev-terminal"
+              class="dev-terminal"
+              aria-label="Console développeur"
+              role="region"
+            ></div>
           </div>
         </section>
         <section class="competences-section" id="competences-dev">
@@ -390,5 +384,7 @@
     <script src="/js/utility/competences-mobile-toggle.js"></script>
     <script src="/js/trade/trade.js"></script>
     <script src="/js/leclerc/leclerc.js"></script>
+    <!-- Loader for the Xterm console bundle (built via npm) -->
+    <script src="/js/dev/console-loader.js"></script>
   </body>
 </html>

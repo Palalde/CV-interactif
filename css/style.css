@@ -1701,6 +1701,46 @@ body.light #leclerc .fruit-item {
   background-color: #ccebff;
 }
 
+/* DEV console layout: make the console fill the slide */
+#dev .contenu-principal {
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  height: 100%;
+  min-height: 0; /* allow shrink inside slider */
+}
+
+#dev-terminal {
+  flex: 1 1 auto;
+  min-height: 0; /* fix flexbox overflow */
+  min-width: 0;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--background-general-dark, #0b0d16);
+  border-radius: var(--radius-main, 16px);
+  box-shadow: var(--shadow-main, 0 6px 24px rgba(0, 0, 0, 0.4)),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+/* Basic Xterm colors tuned to site theme */
+#dev-terminal .xterm {
+  height: 100% !important;
+}
+
+#dev-terminal .xterm-viewport,
+#dev-terminal .xterm-screen {
+  height: 100% !important;
+}
+
+/* Harmonize with theme toggle if body.light */
+body.light #dev-terminal {
+  background: var(--background-general-light, #f7f7fb);
+  box-shadow: var(--shadow-main, 0 6px 24px rgba(0, 0, 0, 0.18)),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
 /* COMPETENCES */
 
 .competences-section {
