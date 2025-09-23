@@ -42,8 +42,49 @@ function fitOnResize(term, fit) {
   return ro;
 }
 
+// Write text with word-boundary wrapping to avoid cutting words at EOL
 function writeLn(term, text = '') {
-  term.writeln(text.replace(/\n/g, '\r\n'));
+  const cols = Math.max(1, term?.cols || 80);
+  // Normalize EOL, then wrap each logical line by spaces
+  const rawLines = String(text).replace(/\r\n|\r/g, '\n').split('\n');
+  const wrapped = [];
+  for (const line of rawLines) {
+    if (line.length <= cols) {
+      wrapped.push(line);
+      continue;
+    }
+    const words = line.split(/(\s+)/); // keep spaces as tokens
+    let cur = '';
+    for (const tok of words) {
+      if (tok === '') continue;
+      // If adding token would exceed width, flush current line
+      if (cur.length > 0 && cur.length + tok.length > cols) {
+        wrapped.push(cur);
+        // If token itself exceeds width (single long word), hard-split
+        if (tok.trim() && tok.length > cols) {
+          let i = 0;
+          while (i < tok.length) {
+            const slice = tok.slice(i, i + cols);
+            if (slice.length === cols) {
+              wrapped.push(slice);
+            } else {
+              cur = slice; // start next line with remainder
+            }
+            i += cols;
+          }
+          // Ensure cur is a string for the next loop
+          if (typeof cur !== 'string') cur = '';
+        } else {
+          // Start a new line with the token (trim leading spaces)
+          cur = tok.replace(/^\s+/, '');
+        }
+      } else {
+        cur += tok;
+      }
+    }
+    if (cur.length) wrapped.push(cur);
+  }
+  for (const l of wrapped) term.writeln(l);
 }
 
 function openUrl(url) {

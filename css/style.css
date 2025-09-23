@@ -1699,6 +1699,7 @@ body.light #leclerc .fruit-item {
 
 #dev {
   background-color: #ccebff;
+  padding: 0px;
 }
 
 /* DEV console layout: make the console fill the slide */
@@ -1718,7 +1719,6 @@ body.light #leclerc .fruit-item {
   width: 100%;
   box-sizing: border-box;
   background: var(--background-general-dark, #0b0d16);
-  border-radius: var(--radius-main, 16px);
   box-shadow: var(--shadow-main, 0 6px 24px rgba(0, 0, 0, 0.4)),
     inset 0 0 0 1px rgba(255, 255, 255, 0.06);
   overflow: hidden;
