@@ -118,19 +118,14 @@ function createShell(term) {
   const commands = {
     help() {
       return [
-        'Commandes disponibles:',
-        '  help                 Affiche cette aide',
-        '  echo <texte>         Affiche le texte',
-        '  clear                Efface l\'écran',
-        '  contact              Ouvre la page Contact',
-        '  pdf                  Ouvre le CV PDF (si disponible)',
-        '  theme [light|dark]   Change le thème',
-        '  goto <section>       etudes | trading | leclerc | dev',
-        '  open <url>           Ouvre une URL',
+        '',
+        '\x1b[1mCommandes disponibles:\x1b[22m',
+        '  \x1b[1mhelp\x1b[22m : Affiche cette aide',
+        '  \x1b[1mclear\x1b[22m : Efface l\'écran',
+        '  \x1b[1mcontact\x1b[22m : Ouvre la page Contact',
+        '  \x1b[1mpdf\x1b[22m : Ouvre le CV PDF',
+        '  \x1b[1mgoto\x1b[22m <section> : etudes|trading|leclerc',
       ].join('\r\n');
-    },
-    echo(...args) {
-      return args.join(' ');
     },
     clear() {
       term.clear();
@@ -144,18 +139,6 @@ function createShell(term) {
       openUrl('/cv-classique.pdf');
       return 'Ouverture du CV PDF…';
     },
-    theme(arg) {
-      if (!arg) {
-        return `Thème actuel: ${getCurrentTheme()}`;
-      }
-      const target = arg.toLowerCase();
-      const body = document.body;
-      if (target === 'light') body.classList.add('light');
-      else if (target === 'dark') body.classList.remove('light');
-      else return 'Usage: theme light | dark';
-      // xterm theme is synced by MutationObserver
-      return `Thème changé en ${target}`;
-    },
     goto(arg) {
       const valid = ['etudes', 'trading', 'leclerc', 'dev'];
       if (!arg || !valid.includes(arg)) {
@@ -163,16 +146,6 @@ function createShell(term) {
       }
       gotoSection(arg);
       return `Navigation vers ${arg}…`;
-    },
-    open(arg) {
-      if (!arg) return 'Usage: open <url>';
-      try {
-        const u = new URL(arg, window.location.origin);
-        openUrl(u.href);
-        return `Ouverture ${u.href}…`;
-      } catch {
-        return 'URL invalide.';
-      }
     },
   };
 
@@ -249,10 +222,25 @@ export function initConsole(container) {
   // Resize handling
   const ro = fitOnResize(term, fitAddon);
   ro.observe(container);
+  // Responsive font sizing based on container width
+  function updateFontSize() {
+    const w = container?.clientWidth || window.innerWidth || 800;
+    // Clamp between 11 and 16 px, scale gently with width
+    const target = Math.max(11, Math.min(16, Math.round(w / 28)));
+    if (term.options.fontSize !== target) {
+      term.options.fontSize = target;
+      try { fitAddon.fit(); } catch {}
+    }
+  }
+  const roFont = new ResizeObserver(updateFontSize);
+  roFont.observe(container);
   window.addEventListener('resize', () => {
     try { fitAddon.fit(); } catch {}
+    updateFontSize();
   });
+  window.addEventListener('orientationchange', updateFontSize);
   try { fitAddon.fit(); } catch {}
+  updateFontSize();
 
   // Sync with body theme
   const mo = installThemeSync(term);
@@ -263,7 +251,9 @@ export function initConsole(container) {
   // Cleanup hook
   return () => {
     try { ro.disconnect(); } catch {}
+    try { roFont.disconnect(); } catch {}
     try { mo.disconnect(); } catch {}
+    try { window.removeEventListener('orientationchange', updateFontSize); } catch {}
     try { term.dispose(); } catch {}
   };
 }
