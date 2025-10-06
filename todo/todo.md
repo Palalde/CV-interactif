@@ -4,22 +4,24 @@
 
 ### 🔴 Urgent
 
--S'attaquer a l'interaction de Leclerc
+- faire en sorte que le bouton competence se slide
 
--commencer le CSS / JS de code
+- faire une page / d'intro (sur l'index) pour expliquer le site et son fonctionnement
 
 ### 🟠 Important
 
-- mettre a jour le copilot-instruction.md
+-s'attaquer aux blocs de recherche dans les competences
 
-- faire le contenue de code (faire simple) console avec seulement 2-3 cmd
+- commencer par creer le html et le container faire en sorte que le container soit responsive etc..
+  -integrer les blocks a l'interieur petit a petit
+- -pop up de telechargement du CV pdf
 
--faire un trie / check du css
-
--faire le css du bloc competence total
+  -fonctionnement de la page contact
 
 ### 🟢 Normal Priority
 
+-changer le texte de rayon fruit et legumes
+-r'ajouter les commandes consoles pour mon cv
 -s'attaquer a la relecture du JS et commencé le JS important structuré etc..
 -le js et l'intaratcion des competence
 -apprendre react / et lancer le projet planning simple (matin / aprem)
