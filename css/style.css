@@ -1875,13 +1875,76 @@ body.light #dev-terminal {
   bottom: 0;
   z-index: 990;
   width: 100%;
-  padding: 2px;
+  padding: 2px 2px 0 2px;
   background: rgba(30, 30, 54, 0.98);
   border-radius: var(--radius-main) var(--radius-main) 0 0;
   box-shadow: var(--shadow-main), inset 0 0 0 1px rgba(255, 255, 255, 0.07),
     8px 8px 0 0 var(--background-general-dark);
-  transition: transform 0.2s ease;
+  /* Slide animation: start closed (only le grab handle + titre visible) */
+  --panel-collapsed-height: 44px; /* handle + titre approx */
+  transform: translateY(calc(100% - var(--panel-collapsed-height)));
+  transition: transform 0.35s cubic-bezier(0.4, 0.8, 0.3, 1);
   cursor: pointer;
+  will-change: transform;
+}
+
+/* Open state */
+.competences-mobile-btn.open {
+  transform: translateY(0);
+  cursor: default;
+}
+
+/* While dragging, disable transition for direct transform control */
+.competences-mobile-btn.dragging {
+  transition: none !important;
+}
+
+/* Hide duplicated competence titles inside dynamic list when panel open */
+.competences-mobile-btn.open #competences-dynamiques .competence-titre {
+  display: none;
+}
+
+/* Style adjustment of the main mobile title when panel is open */
+.competences-mobile-btn .competences-mobile-titre {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--text-light);
+  margin: 6px 0 4px 0;
+  transition: font-size 0.25s ease, padding 0.25s ease, opacity 0.25s ease;
+}
+
+.competences-mobile-btn.open .competences-mobile-titre {
+  font-size: 1.15rem;
+  padding-top: 2px;
+  padding-bottom: 4px;
+  opacity: 0.95;
+}
+
+/* Inner dynamic content container inside the sliding panel */
+#competences-dynamiques {
+  width: 100%;
+  padding: 6px 10px 14px 10px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  max-height: calc(var(--app-vh, 1vh) * 60); /* limit height to leave context */
+  scrollbar-width: thin;
+}
+
+/* When closed: visually hide dynamic list but keep layout height minimal */
+.competences-mobile-btn:not(.open) #competences-dynamiques {
+  pointer-events: none;
+  opacity: 0;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow: hidden;
+  transition: opacity 0.25s ease 0.05s, max-height 0.3s ease;
+}
+
+.competences-mobile-btn.open #competences-dynamiques {
+  opacity: 1;
+  transition: opacity 0.35s ease 0.05s;
 }
 
 .competences-mobile-btn::before {
