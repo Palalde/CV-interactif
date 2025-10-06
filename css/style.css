@@ -1887,6 +1887,11 @@ body.light #dev-terminal {
   transition: transform 0.55s cubic-bezier(0.3, 0.85, 0.25, 1);
   cursor: grab;
   will-change: transform;
+  /* Empêcher la sélection de texte sur la zone bouton / handle (mobile) */
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 /* Open state */
@@ -1924,6 +1929,11 @@ body.light #dev-terminal {
   color: var(--text-light);
   margin: 6px 0 4px 0;
   transition: font-size 0.25s ease, padding 0.25s ease, opacity 0.25s ease;
+  /* Empêcher la sélection de texte sur la zone bouton / handle (mobile) */
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .competences-mobile-btn.open .competences-mobile-titre {
@@ -1943,6 +1953,11 @@ body.light #dev-terminal {
   scrollbar-width: thin;
   overscroll-behavior: contain; /* éviter pull-to-refresh sur certains navigateurs */
   touch-action: pan-y; /* autorise scroll vertical interne sans déclencher navigation globale */
+  /* Réactiver la sélection de texte à l'intérieur de la liste dynamique */
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
 }
 
 /* When closed: visually hide dynamic list but keep layout height minimal */
