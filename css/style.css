@@ -1883,8 +1883,9 @@ body.light #dev-terminal {
   /* Slide animation: start closed (only le grab handle + titre visible) */
   --panel-collapsed-height: 44px; /* handle + titre approx */
   transform: translateY(calc(100% - var(--panel-collapsed-height)));
-  transition: transform 0.35s cubic-bezier(0.4, 0.8, 0.3, 1);
-  cursor: pointer;
+  /* Transition plus lente pour le snap (ouverture/fermeture) */
+  transition: transform 0.55s cubic-bezier(0.3, 0.85, 0.25, 1);
+  cursor: grab;
   will-change: transform;
 }
 
@@ -1897,6 +1898,22 @@ body.light #dev-terminal {
 /* While dragging, disable transition for direct transform control */
 .competences-mobile-btn.dragging {
   transition: none !important;
+  cursor: grabbing;
+}
+
+/* Visuelle zone de drag (facultative) : accent léger sur survol desktop */
+@media (hover: hover) and (pointer: fine) {
+  .competences-mobile-btn::before {
+    transition: background 0.25s;
+  }
+  .competences-mobile-btn:hover::before {
+    background: linear-gradient(
+      90deg,
+      var(--background-general-light),
+      var(--background-surface-light),
+      var(--background-general-light)
+    );
+  }
 }
 
 /* Style adjustment of the main mobile title when panel is open */
