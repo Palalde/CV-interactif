@@ -169,9 +169,13 @@ document.addEventListener('DOMContentLoaded', function() {
   // Touch
   btn.addEventListener('touchstart', (e) => {
     const t = e.touches[0];
+    if (!t) return;
+    // Si on est dans une zone valable pour initier un drag, on empêche le comportement par défaut
     if (!isValidDragStartTarget(e.target, t.clientY)) return;
     onDragStart(t.clientY);
-  }, { passive: true });
+    // Empêche certains navigateurs mobiles (iOS/Safari) d'interpréter le geste comme un scroll/bounce et de déclencher un touchcancel immédiat
+    try { e.preventDefault(); } catch(_) {}
+  }, { passive: false });
   btn.addEventListener('touchmove', (e) => {
     if (!isDraggingPanel) return;
     const t = e.touches[0];

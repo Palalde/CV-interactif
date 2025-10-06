@@ -1892,6 +1892,8 @@ body.light #dev-terminal {
   -ms-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
+  /* Neutraliser les gestuelles implicites (double tap zoom / scroll initial) pour fiabiliser le drag vertical d'ouverture/fermeture */
+  touch-action: none;
 }
 
 /* Open state */
@@ -1934,6 +1936,8 @@ body.light #dev-terminal {
   -ms-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
+  /* Neutraliser les gestuelles implicites (double tap zoom / scroll initial) pour fiabiliser le drag vertical d'ouverture/fermeture */
+  touch-action: none;
 }
 
 .competences-mobile-btn.open .competences-mobile-titre {
@@ -1958,6 +1962,8 @@ body.light #dev-terminal {
   -ms-user-select: text;
   user-select: text;
   -webkit-touch-callout: default;
+  /* Réautoriser le scroll/pan vertical interne du contenu */
+  touch-action: pan-y;
 }
 
 /* When closed: visually hide dynamic list but keep layout height minimal */
