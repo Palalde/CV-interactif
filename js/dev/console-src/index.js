@@ -3,9 +3,13 @@ import { Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 import 'xterm/css/xterm.css';
 
+// Console banner (sobre): séparateurs discrets en dim + titre et rappel help
 const BANNER = [
-  'Bienvenue dans la console du CV — tapez "help" pour la liste des commandes.',
-  '',
+  '\x1b[2m───────────────────────────────\x1b[22m',
+  '\x1b[1mConsole CV\x1b[22m',
+  '(tapez \x1b[1mhelp\x1b[22m pour l\'aide et naviguer dans la suite du CV)',
+  '\x1b[2m───────────────────────────────\x1b[22m',
+  ''
 ].join('\r\n');
 
 function makePrompt(path = '~') {
@@ -72,10 +76,8 @@ function writeLn(term, text = '') {
             }
             i += cols;
           }
-          // Ensure cur is a string for the next loop
           if (typeof cur !== 'string') cur = '';
         } else {
-          // Start a new line with the token (trim leading spaces)
           cur = tok.replace(/^\s+/, '');
         }
       } else {
