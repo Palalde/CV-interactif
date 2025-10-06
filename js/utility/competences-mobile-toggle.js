@@ -85,8 +85,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const panelHeight = btn.offsetHeight;
     let progress; // 0 (closed position transform) -> 1 (fully open)
     if (wasOpenAtDragStart) {
-      // Dragging down to close
-      progress = 1 - Math.max(0, delta) / panelHeight;
+      // Dragging down to close (apply damping so it feels slower)
+      const rawClose = Math.max(0, delta) / panelHeight; // 0->1
+      const damping = 0.55; // plus petit => fermeture plus lente
+      const easedClose = Math.min(1, rawClose * damping);
+      progress = 1 - easedClose; // 1 -> 0
     } else {
       // Dragging up to open
       progress = Math.max(0, -delta) / panelHeight;
@@ -151,15 +154,22 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Pointer / touch bindings (attach on grab zone or whole header area)
-  function isValidDragStartTarget(target) {
-    // Avoid starting drag from inside the dynamic list
-    return !target.closest('#competences-dynamiques');
+  const DRAG_ZONE_PX = 72; // hauteur de zone active en haut du panneau
+  function isValidDragStartTarget(target, clientY) {
+    const inDyn = !!target.closest('#competences-dynamiques');
+    if (!inDyn) return true;
+    // Autoriser le drag si on est dans la zone supérieure et que la liste est au top
+    if (dyn.scrollTop <= 0) {
+      const panelTop = btn.getBoundingClientRect().top;
+      if ((clientY - panelTop) <= DRAG_ZONE_PX) return true;
+    }
+    return false;
   }
 
   // Touch
   btn.addEventListener('touchstart', (e) => {
-    if (!isValidDragStartTarget(e.target)) return;
     const t = e.touches[0];
+    if (!isValidDragStartTarget(e.target, t.clientY)) return;
     onDragStart(t.clientY);
   }, { passive: true });
   btn.addEventListener('touchmove', (e) => {
@@ -186,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Mouse
   btn.addEventListener('mousedown', (e) => {
     if (e.button !== 0) return;
-    if (!isValidDragStartTarget(e.target)) return;
+    if (!isValidDragStartTarget(e.target, e.clientY)) return;
     onDragStart(e.clientY);
     e.preventDefault();
   });
