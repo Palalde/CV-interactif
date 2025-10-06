@@ -427,7 +427,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const competenceSection = document.getElementById(competenceId);
     const dynContainer = document.getElementById('competences-dynamiques');
     if (competenceSection && dynContainer) {
-      dynContainer.innerHTML = competenceSection.innerHTML;
+      // Clone uniquement la liste des compétences pour éviter d'inclure le H3 (duplication visuelle)
+      const list = competenceSection.querySelector('ul.liste-competences');
+      dynContainer.innerHTML = '';
+      if (list) {
+        dynContainer.appendChild(list.cloneNode(true));
+      }
     }
   }
   

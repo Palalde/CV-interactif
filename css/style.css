@@ -1899,11 +1899,6 @@ body.light #dev-terminal {
   transition: none !important;
 }
 
-/* Hide duplicated competence titles inside dynamic list when panel open */
-.competences-mobile-btn.open #competences-dynamiques .competence-titre {
-  display: none;
-}
-
 /* Style adjustment of the main mobile title when panel is open */
 .competences-mobile-btn .competences-mobile-titre {
   font-size: 1.05rem;
@@ -1929,6 +1924,8 @@ body.light #dev-terminal {
   -webkit-overflow-scrolling: touch;
   max-height: calc(var(--app-vh, 1vh) * 60); /* limit height to leave context */
   scrollbar-width: thin;
+  overscroll-behavior: contain; /* éviter pull-to-refresh sur certains navigateurs */
+  touch-action: pan-y; /* autorise scroll vertical interne sans déclencher navigation globale */
 }
 
 /* When closed: visually hide dynamic list but keep layout height minimal */

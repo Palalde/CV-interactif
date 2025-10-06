@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let lastMoveTime = 0;
   let lastMoveY = 0;
   let dynMaxHeight = 0;
+  let closedOffsetPxCached = null;
 
   function ensureDynMaxHeight() {
     if (!dyn) return 0;
@@ -58,6 +59,9 @@ document.addEventListener('DOMContentLoaded', function() {
     dragCurrentY = clientY;
     wasOpenAtDragStart = isOpen;
     btn.classList.add('dragging');
+    // Cache closed offset (course) pour un calcul stable du progress
+    const totalH = btn.getBoundingClientRect().height;
+    closedOffsetPxCached = totalH - 44; // 44 = hauteur visible approx quand fermé
     // Prepare dynamic content for progressive reveal if starting closed
     if (!wasOpenAtDragStart) {
       ensureDynMaxHeight();
@@ -91,8 +95,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const translateYClosed = `translateY(calc(100% - var(--panel-collapsed-height)))`;
     const translateYOpen = 'translateY(0)';
     // Interpolate by progress; since we can't calc inside easily, compute pixel fallback
-    const closedOffsetPx = btn.getBoundingClientRect().height - 44; // approx collapsed visible
-    const interpPx = closedOffsetPx * (1 - progress);
+  const closedOffsetPx = closedOffsetPxCached != null ? closedOffsetPxCached : (btn.getBoundingClientRect().height - 44);
+  const interpPx = closedOffsetPx * (1 - progress);
     btn.style.transform = wasOpenAtDragStart
       ? `translateY(${interpPx}px)`
       : `translateY(${Math.max(interpPx,0)}px)`;
@@ -161,8 +165,14 @@ document.addEventListener('DOMContentLoaded', function() {
   btn.addEventListener('touchmove', (e) => {
     if (!isDraggingPanel) return;
     const t = e.touches[0];
+    // Empêcher pull-to-refresh (delta négatif pour ouvrir depuis bas, delta positif depuis ouvert)
+    // Lors de l'ouverture (on tire vers le haut -> delta négatif) pas besoin de preventDefault.
+    // Lors de la fermeture (on pousse vers le bas) si tout en haut du scroll du contenu, on bloque le rebond navigateur.
+    if (wasOpenAtDragStart && deltaWouldTriggerRefresh()) {
+      e.preventDefault();
+    }
     onDragMove(t.clientY);
-  }, { passive: true });
+  }, { passive: false });
   btn.addEventListener('touchend', (e) => {
     if (!isDraggingPanel) return;
     const t = (e.changedTouches && e.changedTouches[0]) || { clientY: dragCurrentY };
@@ -215,4 +225,14 @@ document.addEventListener('DOMContentLoaded', function() {
   // Par défaut, cacher dynamiques
   // Initial state: closed (handled by CSS transform)
   btn.classList.remove('open');
+
+  // Helper interne pour déterminer si le scroll interne est en haut
+  function deltaWouldTriggerRefresh() {
+    // Si le contenu dynamique est scrollé en haut et qu'on tire encore vers le bas
+    if (!dyn) return false;
+    if (dyn.scrollTop > 0) return false;
+    // Direction descendante -> fermeture
+    const delta = dragCurrentY - dragStartY;
+    return delta > 0; // on pousse vers le bas
+  }
 });
