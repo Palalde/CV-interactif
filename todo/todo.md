@@ -4,9 +4,7 @@
 
 ### 🔴 Urgent
 
-- faire en sorte que le bouton competence se slide
-
-- faire une page / d'intro (sur l'index) pour expliquer le site et son fonctionnement
+-revoir la structure et le contenu des diffents blocks de l'index
 
 ### 🟠 Important
 
