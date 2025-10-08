@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
         hintEl.className = 'press-hint show'; // visible directly, no intro fade
         hintEl.setAttribute('role', 'status');
         hintEl.setAttribute('aria-live', 'polite');
-        hintEl.textContent = 'Appuyez longuement pour afficher les infos puis relâchez et déplacer le doigt de droite a gauche pour naviguer dans le temps.';
+        hintEl.textContent = 'Appuyez longuement pour afficher les infos, puis relâchez. Déplacez le doigt de droite à gauche pour naviguer dans le temps.';
         container.appendChild(hintEl);
     }
     if (isCoarsePointer) createOrShowHint();
