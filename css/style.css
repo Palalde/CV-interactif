@@ -43,6 +43,276 @@
 }
 
 /* =============================================
+   LANDING PAGE (index)
+   ============================================= */
+body.landing {
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+}
+
+section.landing-block {
+  scroll-snap-align: start;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(2rem, 4vw, 5rem) 1.5rem;
+  gap: 2rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: 0.8s ease;
+}
+section.landing-block.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.landing-header-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 1200;
+}
+
+/* Brand (logo + titres) fixé indépendamment comme sur discord.com */
+body.landing .fixed-brand-clone {
+  position: fixed;
+  top: 8px; /* aligné sur le padding header (8px 14px) */
+  left: 14px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 0;
+  z-index: 1600; /* au-dessus du header pour éviter tout recouvrement lors de scroll */
+  pointer-events: auto;
+}
+body.landing .fixed-brand-clone .cv-logo {
+  height: 60px;
+  width: 60px;
+}
+/* Conserver l'espace d'origine dans le header pour ne pas décaler la nav */
+body.landing .header-row .header-home-link.brand-placeholder {
+  visibility: hidden; /* garde la largeur/hauteur, aucune modification visuelle externe */
+}
+
+@media (max-width: 430px) {
+  body.landing .fixed-brand-clone {
+    top: 6px; /* header réduit à 6px 10px */
+    left: 10px;
+    transform: translateZ(0); /* stabilité mobile */
+  }
+  body.landing .fixed-brand-clone .cv-logo {
+    height: 54px;
+    width: 54px;
+  }
+}
+
+.landing-cta-link {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  padding: 8px 16px;
+  border-radius: 24px;
+  background: var(--background-leger-dark);
+  color: var(--text-light);
+  box-shadow: var(--shadow-main);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: background 0.25s, transform 0.2s;
+  line-height: 1.1;
+}
+.landing-cta-link:hover {
+  background: var(--background-surface-dark);
+  transform: translateY(-2px);
+}
+.landing-cta-link.secondary {
+  background: transparent;
+  outline: 2px solid var(--background-leger-dark);
+}
+.landing-cta-link.secondary:hover {
+  background: var(--background-general-light);
+  transform: translateY(-2px);
+}
+body.light .landing-cta-link {
+  background: var(--background-leger-light);
+  color: var(--text-dark);
+}
+body.light .landing-cta-link.secondary {
+  background: transparent;
+  outline: 2px solid var(--background-leger-light);
+  color: var(--text-dark);
+}
+body.light .landing-cta-link.secondary:hover {
+  background: var(--background-general-dark);
+}
+/* Shrink only the 'Entrer dans le CV' button on very small screens */
+@media (max-width: 470px) {
+  .landing-cta-link.enter-btn {
+    padding: 6px 10px;
+    font-size: 0.7rem;
+  }
+}
+/* Responsive: compacter le header si petits écrans */
+@media (max-width: 640px) {
+  .navbar {
+    gap: 6px;
+  }
+  .landing-cta-link {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+  }
+  .main-title-group {
+    margin-right: 8px;
+  }
+}
+.landing-block.hero {
+  position: relative;
+}
+.landing-block.hero h1 {
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  line-height: 1.1;
+  margin: 0;
+  color: var(--text-light);
+}
+.cta-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.cta-btn {
+  background: var(--background-surface-dark);
+  color: var(--text-light);
+  padding: 0.9rem 1.6rem;
+  border-radius: 40px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: 0.25s;
+  box-shadow: var(--shadow-main);
+}
+.cta-btn.secondary {
+  background: transparent;
+  color: var(--text-light);
+  border: 2px solid var(--background-surface-dark);
+}
+.cta-btn:hover {
+  transform: translateY(-2px);
+}
+.scroll-indicator {
+  position: absolute;
+  bottom: 7rem;
+  left: 50%;
+  transform: translate(-50%, 0);
+  font-size: 0.75rem;
+  opacity: 0.6;
+  letter-spacing: 1px;
+  color: var(--text-light);
+}
+/* Bouton fonctionnement: header par défaut, hero en mobile */
+.fonctionnement-hero {
+  display: none;
+}
+@media (max-width: 640px) {
+  .fonctionnement-header {
+    display: none !important;
+  }
+  .fonctionnement-hero {
+    display: inline-flex;
+    margin-top: 0.25rem;
+  }
+  .landing-block.hero {
+    padding-top: 6rem;
+  }
+  .scroll-indicator {
+    bottom: 1.2rem;
+  }
+}
+@supports (padding: env(safe-area-inset-bottom)) {
+  .scroll-indicator {
+    padding-bottom: calc(env(safe-area-inset-bottom));
+  }
+}
+.mock {
+  max-width: 750px;
+  width: 100%;
+  background: var(--background-leger-dark);
+  padding: 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 18px -6px rgba(0, 0, 0, 0.35);
+  display: grid;
+  gap: 1rem;
+}
+body.light .mock {
+  background: var(--background-leger-light);
+}
+.tagline {
+  font-size: clamp(1.1rem, 2vw, 1.6rem);
+  font-weight: 500;
+  max-width: 900px;
+  color: var(--text-light);
+}
+body.light .tagline {
+  color: var(--text-dark);
+}
+.coming {
+  opacity: 0.55;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+.disabled-search {
+  padding: 0.9rem 1.1rem;
+  border: 2px dashed var(--background-surface-dark);
+  border-radius: 12px;
+  background: transparent;
+  font-size: 1rem;
+  pointer-events: none;
+  opacity: 0.6;
+  width: 100%;
+  max-width: 460px;
+  color: var(--text-light);
+}
+body.light .disabled-search {
+  color: var(--text-dark);
+  border-color: var(--background-surface-light);
+}
+.dots-nav {
+  position: fixed;
+  right: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  z-index: 40;
+}
+.dots-nav button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--background-surface-dark);
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: var(--shadow-main);
+}
+.dots-nav button.active {
+  background: var(--background-general-light);
+  transform: scale(1.4);
+}
+@media (max-width: 740px) {
+  .cta-row {
+    flex-direction: column;
+  }
+  .dots-nav {
+    right: 0.6rem;
+  }
+}
+
+/* =============================================
    STYLES DE BASE
    ============================================= */
 /* DEBUG / MAQUETTE */
@@ -2665,11 +2935,11 @@ body.light .form-group input:-webkit-autofill:active {
 /* ----------- MOBILE < 430px ----------- */
 @media (max-width: 430px) {
   /* HEADER */
-
+  /* Pour toutes les pages par défaut */
   .header-row nav {
     gap: 2px;
   }
-
+  /* Comportement mobile général: header bas */
   .header-row {
     position: fixed;
     bottom: 0;
@@ -2679,14 +2949,22 @@ body.light .form-group input:-webkit-autofill:active {
     width: 100%;
     margin-bottom: 0;
     box-shadow: 0 -2px 8px rgba(30, 30, 60, 0.15);
-    padding: 0px;
     padding: 5px 8px;
     justify-content: space-around;
   }
-
   body {
-    /* Reserve space for fixed bottom header + iOS safe area */
     padding-bottom: calc(87px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+  /* Exception: page index (landing) -> header reste en haut */
+  body.landing .header-row {
+    position: sticky;
+    top: 0;
+    bottom: auto;
+    box-shadow: var(--shadow-main);
+    padding: 6px 10px;
+  }
+  body.landing {
+    padding-bottom: 0 !important;
   }
 
   .content-container,

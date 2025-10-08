@@ -2,53 +2,258 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Redirection…</title>
-    <!-- Meta refresh as fallback -->
-    <meta http-equiv="refresh" content="0; url=/html/cv.html" />
-    <link rel="canonical" href="/html/cv.html" />
-    <script>
-      (function () {
-        var target = "/html/cv.html";
-        var extra = location.search + location.hash;
-        if (extra) target += extra;
-        // Use replace so history doesn't keep the redirect page
-        location.replace(target);
-      })();
-    </script>
-    <style>
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial,
-          sans-serif;
-        background: #0b0d10;
-        color: #e5e7eb;
-      }
-      .wrap {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        text-align: center;
-      }
-      a {
-        color: #60a5fa;
-      }
-    </style>
+    <title>CV Interactif – Accueil</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Landing de présentation du CV interactif: navigation chronologique, compétences dynamiques, démo trading."
+    />
+    <link rel="stylesheet" href="/css/style.css" />
   </head>
-  <body>
-    <div class="wrap">
-      <p>Redirection vers <a href="/html/cv.html">cv.html</a>…</p>
-    </div>
-    <noscript>
-      <div class="wrap">
-        <p>
-          JavaScript est désactivé. Accédez à
-          <a href="/html/cv.html">/html/cv.html</a>.
-        </p>
+  <body class="landing">
+    <!-- HEADER (même DA que CV) -->
+    <section class="fix-container landing-header-wrapper">
+      <div class="header-row">
+        <div class="header-home-link" id="header-home-link">
+          <img
+            src="/img/nav-icon/darkmode/cv-blanc.png"
+            alt="Logo CV"
+            class="cv-logo"
+          />
+          <div class="main-title-group">
+            <span class="main-title main-title-paul">Paul</span>
+            <span class="main-title main-title-alessandrini">Alessandrini</span>
+          </div>
+        </div>
+        <nav class="navbar">
+          <a
+            href="/html/cv.html"
+            class="landing-cta-link enter-btn"
+            title="Entrer dans le CV"
+            >Entrer dans le CV</a
+          >
+          <a
+            href="#s-timeline"
+            class="landing-cta-link secondary fonctionnement-header"
+            title="Voir le fonctionnement"
+            >Fonctionnement</a
+          >
+          <label class="theme-switch">
+            <input type="checkbox" id="theme-toggle" />
+            <span class="slider">
+              <img
+                src="/img/nav-icon/lightmode/sun.png"
+                alt="Soleil"
+                class="icon sun"
+              />
+              <img
+                src="/img/nav-icon/darkmode/moon.png"
+                alt="Lune"
+                class="icon moon"
+              />
+            </span>
+          </label>
+        </nav>
       </div>
-    </noscript>
+    </section>
+
+    <nav class="dots-nav" aria-label="Navigation sections" id="dotsNav"></nav>
+
+    <section class="landing-block hero" id="s-hero">
+      <h1>Un CV interactif chronologique</h1>
+      <p class="tagline">
+        Explorer mon cv de manière ludique et intuitive, faites défiler
+        verticalement pour commencer la découverte.
+      </p>
+      <div class="scroll-indicator">SCROLLEZ</div>
+    </section>
+
+    <section class="landing-block" id="s-timeline">
+      <h2>Navigation chronologique</h2>
+      <p>
+        Sur desktop: un range slider à 4 étapes (Études → Trading → Leclerc →
+        Dev). Sur mobile: swipe horizontal avec snap.
+      </p>
+      <div class="mock">
+        <div
+          style="
+            height: 18px;
+            background: linear-gradient(
+              90deg,
+              var(--accent, #3b82f6) 0 25%,
+              var(--track, #999) 25%
+            );
+            border-radius: 9px;
+            position: relative;
+          "
+        >
+          <div
+            style="
+              position: absolute;
+              left: 25%;
+              top: 50%;
+              transform: translate(-50%, -50%);
+              width: 42px;
+              height: 42px;
+              border-radius: 50%;
+              background: var(--thumb, #fff);
+              box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            "
+          ></div>
+        </div>
+        <small
+          >Le slider repositionne la bande de contenu (.content-slider) et
+          synchronise les compétences dynamiques.</small
+        >
+      </div>
+      <p class="coming">
+        Extension future: 5e période facile (adapter max et snaps).
+      </p>
+    </section>
+
+    <section class="landing-block" id="s-mobile">
+      <h2>Optimisé mobile</h2>
+      <p>
+        Les compétences actives sont clonées dans un panneau dédié. Swipe
+        horizontal fluide + fermeture rapide via le titre.
+      </p>
+      <div class="mock">
+        <div style="display: flex; gap: 0.6rem; overflow: hidden">
+          <div
+            style="
+              flex: 0 0 55%;
+              background: rgba(0, 0, 0, 0.15);
+              min-height: 140px;
+              border-radius: 12px;
+            "
+          ></div>
+          <div
+            style="
+              flex: 0 0 55%;
+              background: rgba(0, 0, 0, 0.15);
+              min-height: 140px;
+              border-radius: 12px;
+            "
+          ></div>
+          <div
+            style="
+              flex: 0 0 55%;
+              background: rgba(0, 0, 0, 0.15);
+              min-height: 140px;
+              border-radius: 12px;
+            "
+          ></div>
+        </div>
+        <small
+          >Swipe → snap → mise à jour du panneau #competences-dynamiques.</small
+        >
+      </div>
+    </section>
+
+    <section class="landing-block" id="s-search">
+      <h2>Recherche (bientôt)</h2>
+      <p>
+        Une barre pour filtrer compétences & projets (tokenisation +
+        highlighting).
+      </p>
+      <input
+        class="disabled-search"
+        value="Rechercher une compétence... (à venir)"
+        aria-disabled="true"
+      />
+      <p class="coming">
+        Plan: indexation légère (Map catégorie → items), fuzzy scoring simple.
+      </p>
+    </section>
+
+    <section class="landing-block" id="s-trading">
+      <h2>Démo Trading</h2>
+      <p>
+        Chart Lightweight v5: phases scénarisées, watermark, markers, tooltip
+        synchronisé au thème.
+      </p>
+      <div class="mock">
+        <div
+          style="
+            height: 220px;
+            background: linear-gradient(to top, #0d1730, #263b60);
+            border-radius: 14px;
+            position: relative;
+            overflow: hidden;
+          "
+        >
+          <div
+            style="
+              position: absolute;
+              inset: 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: #fff;
+              font-weight: 600;
+              font-size: 1.1rem;
+              opacity: 0.8;
+            "
+          >
+            Aperçu Chart
+          </div>
+        </div>
+        <small
+          >Fonctions utilitaires: setTradingPhaseTexts([...]),
+          resetTradingPressHint().</small
+        >
+      </div>
+    </section>
+
+    <section class="landing-block" id="s-theme">
+      <h2>Thème & Accessibilité</h2>
+      <p>
+        Toggle (light/dark) met à jour les icônes via updateNavIcons(). Layout
+        fluide, hauteur stable avec --app-vh.
+      </p>
+      <div class="mock">
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 0.7rem;
+          "
+        >
+          <div
+            style="
+              background: rgba(0, 0, 0, 0.2);
+              aspect-ratio: 1/1;
+              border-radius: 12px;
+            "
+          ></div>
+          <div
+            style="
+              background: rgba(0, 0, 0, 0.2);
+              aspect-ratio: 1/1;
+              border-radius: 12px;
+            "
+          ></div>
+          <div
+            style="
+              background: rgba(0, 0, 0, 0.2);
+              aspect-ratio: 1/1;
+              border-radius: 12px;
+            "
+          ></div>
+        </div>
+        <small>Préserver contraste, tailles clic, navigation clavier.</small>
+      </div>
+    </section>
+
+    <section class="landing-block" id="s-enter">
+      <h2>Prêt à explorer ?</h2>
+      <p>
+        Entrez et manipulez la timeline, les compétences et la démo trading.
+      </p>
+      <a href="/html/cv.html" class="cta-btn">Entrer dans le CV</a>
+    </section>
+
+    <script src="/js/index-landing.js"></script>
+    <script src="/js/utility/theme-toggle.js"></script>
   </body>
 </html>
