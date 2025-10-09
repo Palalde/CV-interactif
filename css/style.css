@@ -970,6 +970,17 @@ body {
   transform: translate(-50%, 50%);
 }
 
+/* Center only the swipe variant in the middle of the chart */
+.trading-live-chart .press-hint.variant-swipe {
+  left: 50%;
+  top: 50%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+}
+.trading-live-chart .press-hint.variant-swipe.show {
+  transform: translate(-50%, -50%);
+}
+
 /* Icon-only variants */
 .trading-live-chart .press-hint .hint-icon {
   display: inline-block;
