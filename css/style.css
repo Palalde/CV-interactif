@@ -2402,6 +2402,195 @@ body.light #dev-terminal {
 }
 
 /* =============================================
+   Search Overlay (modal ≥715px, fullscreen <715px)
+   ============================================= */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+body.search-overlay-open {
+  overflow: hidden;
+}
+
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  z-index: 1000; /* above header and content */
+}
+
+.search-overlay[aria-hidden="false"] {
+  display: flex;
+}
+
+.search-modal {
+  width: min(1100px, 92vw);
+  max-height: min(82vh, 900px);
+  background: var(--bg-primary, #0a0e15);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.search-overlay-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  padding-right: 2.75rem; /* room for the close button */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.search-overlay-close {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 0.5rem 0.6rem;
+  border-radius: 8px;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  width: 2.25rem;
+  height: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.search-overlay-close:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.search-overlay-search-slot {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* Ensure the search form fills available width only inside overlay */
+.search-overlay-search-slot .header-search-bar.in-overlay {
+  flex: 1 1 auto;
+}
+.header-search-bar.in-overlay .search-btn {
+  flex-shrink: 0;
+}
+
+/* When the header search form is moved into the overlay, stretch it */
+.header-search-bar.in-overlay {
+  width: 100%;
+  margin: 0; /* override header spacing */
+  max-width: none; /* remove header cap */
+  min-width: 0;    /* allow full stretch */
+}
+.header-search-bar.in-overlay .search-input {
+  width: 100%;
+  max-width: none;
+}
+.header-search-bar.in-overlay .search-btn {
+  flex-shrink: 0;
+}
+.search-overlay-search-slot .header-search-bar.in-overlay {
+  flex: 1 1 auto;
+}
+
+.search-overlay-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  overflow: auto;
+}
+
+.search-overlay-filters {
+  min-height: 2rem;
+  opacity: 0.75;
+}
+
+.search-overlay-results {
+  flex: 1 1 auto;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.search-overlay-placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95rem;
+}
+
+/* Light mode variants */
+body.light .search-modal {
+  background: #f7f7f7;
+  border-color: rgba(0, 0, 0, 0.06);
+}
+body.light .search-overlay-close {
+  color: #111;
+}
+body.light .search-overlay-close:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+body.light .search-overlay-results {
+  border-color: rgba(0, 0, 0, 0.12);
+}
+body.light .search-overlay-placeholder {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* Fullscreen behavior on small screens (<715px) */
+@media (max-width: 714px) {
+  .search-overlay {
+    padding: 0;
+    background: var(--bg-primary, #0a0e15); /* opaque: covers header & all */
+  }
+  .search-modal {
+    width: 100vw;
+    height: var(--app-vh, 100vh);
+    max-height: none;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    box-shadow: none;
+  }
+  .search-overlay-header {
+    display: flex;
+    padding: 0.75rem 0.75rem 0.5rem;
+    padding-right: 2.75rem; /* room for the close button */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .search-overlay-close {
+    font-size: 1.4rem;
+  }
+  .search-overlay-body {
+    padding: 0.75rem;
+  }
+  body.light .search-overlay {
+    background: #f7f7f7;
+  }
+  /* Force visibility of search bar when moved into overlay on mobile */
+  .search-overlay-search-slot .header-search-bar.in-overlay { display: flex !important; }
+}
+
+/* =============================================
    PAGE CONTACT
    ============================================= */
 .contact-bg-container {

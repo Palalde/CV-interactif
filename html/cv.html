@@ -378,12 +378,48 @@
         </section>
       </div>
     </div>
+    <!-- Search overlay (modal/fullscreen) -->
+    <div class="search-overlay" id="search-overlay" aria-hidden="true">
+      <div
+        class="search-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="search-overlay-title"
+      >
+        <header class="search-overlay-header">
+          <h2 id="search-overlay-title" class="visually-hidden">
+            Recherche dans les compétences
+          </h2>
+          <div class="search-overlay-search-slot" aria-hidden="false"></div>
+          <button
+            type="button"
+            class="search-overlay-close"
+            title="Fermer"
+            aria-label="Fermer"
+          >
+            ✕
+          </button>
+        </header>
+        <div class="search-overlay-body">
+          <div class="search-overlay-filters" aria-label="Filtres (à venir)">
+            <!-- TODO futur: filtres Soft skills / Hard skills / Projets / Langues -->
+          </div>
+          <div class="search-overlay-results" aria-live="polite">
+            <!-- TODO futur: grille de résultats -->
+            <p class="search-overlay-placeholder">
+              Commencez à taper pour rechercher des compétences…
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- FIXE A TOUTE LES PAGES -->
     <script src="/js/main.js"></script>
     <script src="/js/utility/theme-toggle.js"></script>
     <script src="/js/utility/competences-mobile-toggle.js"></script>
     <script src="/js/trade/trade.js"></script>
     <script src="/js/leclerc/leclerc.js"></script>
+    <script src="/js/search/search-overlay.js"></script>
     <!-- Loader for the Xterm console bundle (built via npm) -->
     <script src="/js/dev/console-loader.js"></script>
   </body>
