@@ -126,10 +126,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     series.setData(data);
 
-    // Mobile-only hint: suggest long-press to show tooltips (discreet overlay)
+    // Mobile-only hints: stage 1 (pulse) before first tooltip, stage 2 (swipe) after first tooltip
     const isCoarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
     let hintDismissed = false;
-    let hintEl = null;
+    let hintEl = null; // stage 1: pulse icon
+    let swipeHintEl = null; // stage 2: swipe icon
+    let swipeHintActive = false;
+    let lastTooltipTimeForSwipe = null;
     function dismissHint() {
         if (!hintEl || hintDismissed) return;
         hintDismissed = true;
@@ -146,16 +149,48 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
         hintEl = document.createElement('div');
-        hintEl.className = 'press-hint show'; // visible directly, no intro fade
+        hintEl.className = 'press-hint show variant-pulse'; // visible directly, no intro fade
         hintEl.setAttribute('role', 'status');
         hintEl.setAttribute('aria-live', 'polite');
-        hintEl.textContent = 'Appuyez longuement pour afficher les infos, puis relâchez. Déplacez le doigt de droite à gauche pour naviguer dans le temps.';
+        const inner = document.createElement('span');
+        inner.className = 'hint-icon';
+        inner.textContent = '👆';
+        hintEl.appendChild(inner);
         container.appendChild(hintEl);
     }
     if (isCoarsePointer) createOrShowHint();
-    // expose reset to allow re-showing the hint when returning to Trading slide
+    function showSwipeHint(currentTime) {
+        if (!isCoarsePointer || swipeHintActive) return;
+        swipeHintActive = true;
+        lastTooltipTimeForSwipe = String(currentTime);
+        swipeHintEl = document.createElement('div');
+        swipeHintEl.className = 'press-hint show variant-swipe';
+        swipeHintEl.setAttribute('role', 'status');
+        swipeHintEl.setAttribute('aria-live', 'polite');
+        const inner = document.createElement('span');
+        inner.className = 'hint-icon';
+        inner.textContent = '👆';
+        swipeHintEl.appendChild(inner);
+        container.appendChild(swipeHintEl);
+    }
+    function dismissSwipeHint() {
+        if (!swipeHintEl) return;
+        swipeHintEl.classList.remove('show');
+        setTimeout(() => { try { swipeHintEl.remove(); } catch (_) {} swipeHintEl = null; }, 300);
+        swipeHintActive = false;
+        lastTooltipTimeForSwipe = null;
+    }
+    // expose reset to allow re-showing stage 1 and clearing stage 2 when returning to Trading slide
     window.resetTradingPressHint = function() {
         if (!container || !isCoarsePointer) return;
+        // remove swipe hint if present
+        if (swipeHintEl) {
+            try { swipeHintEl.remove(); } catch (_) {}
+            swipeHintEl = null;
+        }
+        swipeHintActive = false;
+        lastTooltipTimeForSwipe = null;
+        // recreate stage 1 hint
         createOrShowHint();
     };
 
@@ -346,6 +381,16 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             // Fade-out hint only when tooltip appears
             dismissHint();
+            // After first tooltip appears, show swipe hint; hide it when tooltip changes to a new time
+            if (isCoarsePointer) {
+                if (!swipeHintActive) {
+                    showSwipeHint(dateStr);
+                } else if (lastTooltipTimeForSwipe && String(dateStr) !== String(lastTooltipTimeForSwipe)) {
+                    dismissSwipeHint();
+                    // update last time to avoid repeated dismiss calls
+                    lastTooltipTimeForSwipe = String(dateStr);
+                }
+            }
         }
     });
 

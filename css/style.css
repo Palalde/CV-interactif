@@ -969,6 +969,45 @@ body {
   transform: translate(-50%, -50%);
 }
 
+/* Icon-only variants */
+.trading-live-chart .press-hint .hint-icon {
+  display: inline-block;
+  font-size: 22px;
+}
+.trading-live-chart .press-hint.variant-pulse .hint-icon {
+  animation: hint-pulse 1.2s ease-in-out infinite;
+}
+.trading-live-chart .press-hint.variant-swipe .hint-icon {
+  animation: hint-swipe 1.6s ease-in-out infinite;
+}
+
+@keyframes hint-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.95;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+}
+
+@keyframes hint-swipe {
+  0% {
+    transform: translateX(-12px);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateX(12px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-12px);
+    opacity: 0.85;
+  }
+}
+
 /* Light theme variant */
 body.light .trading-live-chart .press-hint {
   background: linear-gradient(
