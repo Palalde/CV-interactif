@@ -50,6 +50,21 @@ body.landing {
   scroll-snap-type: y mandatory;
 }
 
+/* Animated background canvas (index only) */
+body.landing .animated-bg {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0; /* behind content sections; header/dots already have higher z-index */
+  pointer-events: none;
+}
+/* Ensure landing sections paint above the canvas without altering header/dots positions */
+body.landing section.landing-block {
+  position: relative;
+  z-index: 1;
+}
+
 section.landing-block {
   scroll-snap-align: start;
   min-height: 100svh;
@@ -104,6 +119,38 @@ body.landing .header-row .header-home-link.brand-placeholder {
   body.landing .fixed-brand-clone .cv-logo {
     height: 54px;
     width: 54px;
+  }
+}
+
+/* Index (landing): align brand sizing at ≤715px to match ≤430px */
+@media (max-width: 715px) {
+  /* Fixed brand clone (visible brand on index) */
+  body.landing .fixed-brand-clone {
+    top: 6px;
+    left: 10px;
+    transform: translateZ(0);
+  }
+  body.landing .fixed-brand-clone .cv-logo {
+    width: 41.8px !important;
+    height: 41.8px !important;
+  }
+  /* Placeholder brand inside header keeps same compact footprint */
+  body.landing .header-row .header-home-link.brand-placeholder .cv-logo {
+    width: 41.8px !important;
+    height: 41.8px !important;
+  }
+  /* Title group sizing to match mobile-compact */
+  body.landing .main-title-group {
+    min-width: 66px !important;
+    height: 35.2px !important;
+  }
+  body.landing .main-title-paul {
+    font-size: 0.88rem;
+    margin-left: 5.5px;
+  }
+  body.landing .main-title-alessandrini {
+    font-size: 0.825rem;
+    margin-left: 5.5px;
   }
 }
 
@@ -167,6 +214,7 @@ body.light .landing-cta-link.secondary:hover {
     margin-right: 8px;
   }
 }
+
 .landing-block.hero {
   position: relative;
 }
