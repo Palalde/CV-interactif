@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body class="landing">
+    <canvas id="animated-bg" class="animated-bg" aria-hidden="true"></canvas>
     <!-- HEADER (même DA que CV) -->
     <section class="fix-container landing-header-wrapper">
       <div class="header-row">
@@ -112,7 +113,7 @@
     </section>
 
     <section class="landing-block" id="s-mobile">
-      <h2>Optimisé mobile</h2>
+      <h2>compétences dynamiques</h2>
       <p>
         Les compétences actives sont clonées dans un panneau dédié. Swipe
         horizontal fluide + fermeture rapide via le titre.
@@ -166,82 +167,64 @@
       </p>
     </section>
 
-    <section class="landing-block" id="s-trading">
-      <h2>Démo Trading</h2>
+    <section class="landing-block" id="s-contact-cv">
+      <h2>Contact & CV PDF</h2>
       <p>
-        Chart Lightweight v5: phases scénarisées, watermark, markers, tooltip
-        synchronisé au thème.
-      </p>
-      <div class="mock">
-        <div
-          style="
-            height: 220px;
-            background: linear-gradient(to top, #0d1730, #263b60);
-            border-radius: 14px;
-            position: relative;
-            overflow: hidden;
-          "
-        >
-          <div
-            style="
-              position: absolute;
-              inset: 0;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              color: #fff;
-              font-weight: 600;
-              font-size: 1.1rem;
-              opacity: 0.8;
-            "
-          >
-            Aperçu Chart
-          </div>
-        </div>
-        <small
-          >Fonctions utilitaires: setTradingPhaseTexts([...]),
-          resetTradingPressHint().</small
-        >
-      </div>
-    </section>
-
-    <section class="landing-block" id="s-theme">
-      <h2>Thème & Accessibilité</h2>
-      <p>
-        Toggle (light/dark) met à jour les icônes via updateNavIcons(). Layout
-        fluide, hauteur stable avec --app-vh.
+        Retrouvez toutes mes informations de contact sur une page dédiée, et
+        accédez rapidement à la version PDF de mon CV. Sur la page du CV, ces
+        fonctionnalités sont aussi accessibles depuis le header (icônes Contact
+        et PDF), synchronisées au thème clair/sombre.
       </p>
       <div class="mock">
         <div
           style="
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-            gap: 0.7rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.8rem;
           "
         >
           <div
             style="
-              background: rgba(0, 0, 0, 0.2);
-              aspect-ratio: 1/1;
+              background: rgba(0, 0, 0, 0.15);
               border-radius: 12px;
+              padding: 14px;
+              text-align: left;
             "
-          ></div>
+          >
+            <strong>Contact</strong>
+            <p style="opacity: 0.85; margin-top: 6px">
+              Âge, localisation, profils (LinkedIn, GitHub) et moyens de
+              contact, avec icônes adaptées au thème.
+            </p>
+          </div>
           <div
             style="
-              background: rgba(0, 0, 0, 0.2);
-              aspect-ratio: 1/1;
+              background: rgba(0, 0, 0, 0.15);
               border-radius: 12px;
+              padding: 14px;
+              text-align: left;
             "
-          ></div>
-          <div
-            style="
-              background: rgba(0, 0, 0, 0.2);
-              aspect-ratio: 1/1;
-              border-radius: 12px;
-            "
-          ></div>
+          >
+            <strong>CV PDF</strong>
+            <p style="opacity: 0.85; margin-top: 6px">
+              Téléchargement rapide de mon CV au format PDF pour consultation
+              hors-ligne.
+            </p>
+          </div>
         </div>
-        <small>Préserver contraste, tailles clic, navigation clavier.</small>
+        <div class="cta-row" style="margin-top: 6px">
+          <a href="/html/contact-info.html" class="cta-btn">Infos de contact</a>
+          <a
+            href="/html/cv.html"
+            class="cta-btn secondary"
+            title="Ouvrir le CV (PDF dans le header)"
+            >Ouvrir le CV</a
+          >
+        </div>
+        <small style="opacity: 0.7"
+          >Astuce: sur la page du CV, utilisez les icônes du header pour accéder
+          au PDF et au contact.</small
+        >
       </div>
     </section>
 
@@ -253,6 +236,7 @@
       <a href="/html/cv.html" class="cta-btn">Entrer dans le CV</a>
     </section>
 
+    <script src="/js/utility/animated-bg.js"></script>
     <script src="/js/index-landing.js"></script>
     <script src="/js/utility/theme-toggle.js"></script>
   </body>
