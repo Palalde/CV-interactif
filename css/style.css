@@ -2426,7 +2426,7 @@ body.search-overlay-open {
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  z-index: 1000; /* above header and content */
+  z-index: 3000; /* above header (1100), competences panel (1050), and landing brand (1600) */
 }
 
 .search-overlay[aria-hidden="false"] {
@@ -2563,9 +2563,8 @@ body.light .search-overlay-placeholder {
     background: var(--bg-primary, #0a0e15); /* opaque: covers header & all */
   }
   .search-modal {
-    width: 100vw;
-    height: var(--app-vh, 100vh);
-    max-height: none;
+    width: 100%;
+    height: 100%;
     border-radius: 0;
     border-left: none;
     border-right: none;
@@ -2589,6 +2588,13 @@ body.light .search-overlay-placeholder {
   /* Force visibility of search bar when moved into overlay on mobile */
   .search-overlay-search-slot .header-search-bar.in-overlay {
     display: flex !important;
+  }
+}
+
+/* Extra guard for very small screens ≤430px: keep overlay fully on top */
+@media (max-width: 430px) {
+  .search-overlay {
+    z-index: 4000;
   }
 }
 
