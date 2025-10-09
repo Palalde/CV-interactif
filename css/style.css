@@ -2498,7 +2498,7 @@ body.search-overlay-open {
   width: 100%;
   margin: 0; /* override header spacing */
   max-width: none; /* remove header cap */
-  min-width: 0;    /* allow full stretch */
+  min-width: 0; /* allow full stretch */
 }
 .header-search-bar.in-overlay .search-input {
   width: 100%;
@@ -2587,7 +2587,9 @@ body.light .search-overlay-placeholder {
     background: #f7f7f7;
   }
   /* Force visibility of search bar when moved into overlay on mobile */
-  .search-overlay-search-slot .header-search-bar.in-overlay { display: flex !important; }
+  .search-overlay-search-slot .header-search-bar.in-overlay {
+    display: flex !important;
+  }
 }
 
 /* =============================================
