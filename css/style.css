@@ -936,9 +936,10 @@ body {
 /* Mobile-only press hint overlay inside trading chart */
 .trading-live-chart .press-hint {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  left: 12.5%; /* center of the left quarter */
+  bottom: 12px; /* near bottom edge */
+  top: auto;
+  transform: translate(-50%, 0);
   opacity: 0;
   transition: opacity 0.28s ease, transform 0.28s ease;
   pointer-events: none;
@@ -966,7 +967,7 @@ body {
 }
 .trading-live-chart .press-hint.show {
   opacity: 1;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 0);
 }
 
 /* Icon-only variants */
