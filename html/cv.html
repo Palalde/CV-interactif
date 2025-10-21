@@ -192,13 +192,7 @@
         </section>
         <section class="competences-section" id="competences-etudes">
           <h3 class="competence-titre">Compétences acquises</h3>
-          <ul class="liste-competences">
-            <li class="item-competence">Mathématiques avancées</li>
-            <li class="item-competence">Physique appliquée</li>
-            <li class="item-competence">Méthodes de travail scientifique</li>
-            <li class="item-competence">Analyse et synthèse</li>
-            <li class="item-competence">Psychologie cognitive</li>
-          </ul>
+          <div class="competences-list" data-periode="etudes"></div>
         </section>
 
         <section class="content-section" id="trading">
@@ -212,14 +206,7 @@
         </section>
         <section class="competences-section" id="competences-trading">
           <h3 class="competence-titre">Compétences acquises</h3>
-          <ul class="liste-competences">
-            <li class="item-competence">Analyse technique</li>
-            <li class="item-competence">Analyse fondamentale</li>
-            <li class="item-competence">Gestion du risque</li>
-            <li class="item-competence">Trading algorithmique</li>
-            <li class="item-competence">Psychologie des marchés</li>
-            <li class="item-competence">Programmation d'indicateurs</li>
-          </ul>
+          <div class="competences-list" data-periode="trading"></div>
         </section>
 
         <section class="content-section" id="leclerc">
@@ -278,8 +265,8 @@
                     draggable="true"
                     data-fruit="grapes"
                     data-weight="0.30"
-                    data-exp-name="Organisation logistique"
-                    data-exp-text="J'ai amélioré mon sens de l'organisation logistique : rotation des stocks, mise en avant des produits mûrs et anticipation des ruptures."
+                    data-exp-name="Dev informatiques"
+                    data-exp-text="En parallèle du leclerc, sur mon temps libre, j'ai appris les bases du développement web en autodidacte. Dans le but d'acquérir des compétences techniques solides pour ma future carrière."
                     aria-label="Raisin, 300 grammes"
                   >
                     <span class="fruit-emoji" aria-hidden="true">🍇</span>
@@ -344,14 +331,7 @@
         </section>
         <section class="competences-section" id="competences-leclerc">
           <h3 class="competence-titre">Compétences acquises</h3>
-          <ul class="liste-competences">
-            <li class="item-competence">Management d'équipe</li>
-            <li class="item-competence">Gestion des stocks</li>
-            <li class="item-competence">Relation client</li>
-            <li class="item-competence">Organisation logistique</li>
-            <li class="item-competence">Négociation fournisseurs</li>
-            <li class="item-competence">Analyse des ventes</li>
-          </ul>
+          <div class="competences-list" data-periode="leclerc"></div>
         </section>
         <section class="content-section" id="dev">
           <div class="contenu-principal">
@@ -366,15 +346,7 @@
         </section>
         <section class="competences-section" id="competences-dev">
           <h3 class="competence-titre">Compétences acquises</h3>
-          <ul class="liste-competences">
-            <li class="item-competence">HTML5/CSS3</li>
-            <li class="item-competence">JavaScript</li>
-            <li class="item-competence">React</li>
-            <li class="item-competence">Node.js</li>
-            <li class="item-competence">MongoDB</li>
-            <li class="item-competence">Git & GitHub</li>
-            <li class="item-competence">Responsive design</li>
-          </ul>
+          <div class="competences-list" data-periode="dev"></div>
         </section>
       </div>
     </div>
@@ -401,21 +373,49 @@
           </button>
         </header>
         <div class="search-overlay-body">
-          <div class="search-overlay-filters" aria-label="Filtres de catégories">
+          <div
+            class="search-overlay-filters"
+            aria-label="Filtres de catégories"
+          >
             <div class="search-filter-list" role="list">
-              <button type="button" class="search-filter-pill" data-filter="soft-skills" role="listitem">
+              <button
+                type="button"
+                class="search-filter-pill"
+                data-filter="soft-skills"
+                role="listitem"
+              >
                 Soft skills
               </button>
-              <button type="button" class="search-filter-pill" data-filter="hard-skills" role="listitem">
+              <button
+                type="button"
+                class="search-filter-pill"
+                data-filter="hard-skills"
+                role="listitem"
+              >
                 Hard skills
               </button>
-              <button type="button" class="search-filter-pill" data-filter="frontend" role="listitem">
+              <button
+                type="button"
+                class="search-filter-pill"
+                data-filter="frontend"
+                role="listitem"
+              >
                 Frontend
               </button>
-              <button type="button" class="search-filter-pill" data-filter="backend" role="listitem">
+              <button
+                type="button"
+                class="search-filter-pill"
+                data-filter="backend"
+                role="listitem"
+              >
                 Backend
               </button>
-              <button type="button" class="search-filter-pill" data-filter="projets" role="listitem">
+              <button
+                type="button"
+                class="search-filter-pill"
+                data-filter="projets"
+                role="listitem"
+              >
                 Projets
               </button>
             </div>
@@ -430,6 +430,7 @@
       </div>
     </div>
     <!-- FIXE A TOUTE LES PAGES -->
+    <script src="/js/search/competences.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/utility/theme-toggle.js"></script>
     <script src="/js/utility/competences-mobile-toggle.js"></script>
