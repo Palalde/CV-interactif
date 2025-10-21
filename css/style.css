@@ -2538,6 +2538,117 @@ body.search-overlay-open {
   font-size: 0.95rem;
 }
 
+/* Search overlay filters */
+.search-overlay-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.search-filter-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.search-filter-pill {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+  color: #f5f6fa;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.25px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  position: relative;
+}
+
+.search-filter-pill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.18), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.search-filter-pill:hover,
+.search-filter-pill:focus-visible {
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+.search-filter-pill:hover::after,
+.search-filter-pill:focus-visible::after {
+  opacity: 1;
+}
+
+.search-filter-pill:focus-visible {
+  outline: 2px solid rgba(83, 166, 255, 0.8);
+  outline-offset: 2px;
+}
+
+.search-filter-pill.is-active {
+  background: linear-gradient(135deg, rgba(77, 145, 255, 0.35), rgba(77, 145, 255, 0.15));
+  border-color: rgba(77, 145, 255, 0.6);
+  color: #fff;
+  box-shadow: 0 8px 22px rgba(30, 90, 200, 0.35);
+}
+
+body.light .search-filter-pill {
+  border-color: rgba(0, 0, 0, 0.12);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.02));
+  color: var(--text-dark);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+body.light .search-filter-pill::after {
+  background: radial-gradient(circle at top, rgba(0, 0, 0, 0.14), transparent 70%);
+}
+
+body.light .search-filter-pill:hover,
+body.light .search-filter-pill:focus-visible {
+  border-color: rgba(0, 0, 0, 0.32);
+}
+
+body.light .search-filter-pill.is-active {
+  background: linear-gradient(135deg, rgba(30, 90, 200, 0.15), rgba(30, 90, 200, 0.05));
+  border-color: rgba(30, 90, 200, 0.35);
+  color: var(--text-dark);
+  box-shadow: 0 8px 22px rgba(30, 90, 200, 0.25);
+}
+
+@media (max-width: 540px) {
+  .search-filter-list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 0.35rem;
+    margin: 0 -0.25rem;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    scroll-snap-type: x proximity;
+  }
+
+  .search-filter-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .search-filter-pill {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+}
+
 /* Light mode variants */
 body.light .search-modal {
   background: #f7f7f7;
