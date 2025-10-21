@@ -6,10 +6,8 @@
 
 #### Compétences :
 
-- - commencer le / les blocks de compétences total
-  - un block pop up par dessus, prennant une majorité de l'ecran (bouton de sortie etc..)
-  - prenant tout l'ecran pour les mobiles (headers etc.. en moins )
-- ajouter le bouton a compétences dynamique aussi (derniere ligne (rechercher dans toute les compétence))
+-faire le filtre
+
 - - block de compétences contenant descriptif (hard skill / soft skill / projets etc..) etoiles en plus si necessaire
 
 au click aggrandit le block avec les explications des compétences si necessaire + lien si necessaire / reclick rediminue le block (petit logo de diminution de taille en haut a droite du block)
