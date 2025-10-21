@@ -16,6 +16,82 @@ document.addEventListener('DOMContentLoaded', function() {
   window.location.href = '/';
     });
   }
+
+  const competencesData = Array.isArray(window.CV_COMPETENCES) ? window.CV_COMPETENCES : [];
+  const competencesByPeriode = competencesData.reduce((accumulator, competence) => {
+    if (!competence || !competence.periode) {
+      return accumulator;
+    }
+    const key = competence.periode;
+    if (!accumulator[key]) {
+      accumulator[key] = [];
+    }
+    accumulator[key].push(competence);
+    return accumulator;
+  }, {});
+
+  function buildCompetencesList(competences) {
+    const listElement = document.createElement('ul');
+    listElement.className = 'liste-competences';
+
+    competences.forEach((competence) => {
+      if (!competence || !competence.name) {
+        return;
+      }
+      const listItem = document.createElement('li');
+      listItem.className = 'item-competence';
+
+      if (competence.description) {
+        listItem.setAttribute('title', competence.description);
+      }
+
+      if (competence.link) {
+        const link = document.createElement('a');
+        link.href = competence.link;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = competence.name;
+        listItem.appendChild(link);
+      } else {
+        listItem.textContent = competence.name;
+      }
+
+      listElement.appendChild(listItem);
+    });
+
+    return listElement;
+  }
+
+  function renderCompetencesInContainer(container, periode) {
+    if (!container) {
+      return;
+    }
+
+    const competences = competencesByPeriode[periode] || [];
+    container.innerHTML = '';
+
+    if (competences.length === 0) {
+      return;
+    }
+
+    container.appendChild(buildCompetencesList(competences));
+  }
+
+  function populateStaticCompetenceSections() {
+    const staticContainers = document.querySelectorAll('.competences-section .competences-list');
+    staticContainers.forEach((container) => {
+      let periode = container.getAttribute('data-periode');
+      if (!periode) {
+        const section = container.closest('.competences-section');
+        if (section && section.id) {
+          periode = section.id.replace('competences-', '');
+        }
+      }
+      renderCompetencesInContainer(container, periode || '');
+    });
+  }
+
+  populateStaticCompetenceSections();
 // RANGE SLIDER
 // Focus + Thumb dynamique adapté au lightmode
   document.querySelectorAll('.range-slider').forEach(function(slider) {
@@ -412,29 +488,31 @@ document.addEventListener('DOMContentLoaded', function() {
   }, { passive: true });
   
   // Fonction pour mettre à jour les compétences dynamiques selon la position du slider
-  function updateCompetencesDynamiquesBySlider() {
-    const value = parseFloat(rangeSlider.value);
-    let competenceId = '';
+  function getPeriodeFromSliderValue(value) {
     if (value < 37.5) {
-      competenceId = 'competences-etudes';
-    } else if (value >= 37.5 && value < 75) {
-      competenceId = 'competences-trading';
-    } else if (value >= 75 && value < 112.5) {
-      competenceId = 'competences-leclerc';
-    } else {
-      competenceId = 'competences-dev';
+      return 'etudes';
     }
-    const competenceSection = document.getElementById(competenceId);
-    const dynContainer = document.getElementById('competences-dynamiques');
-    if (competenceSection && dynContainer) {
-      // Clone uniquement la liste des compétences pour éviter d'inclure le H3 (duplication visuelle)
-      const list = competenceSection.querySelector('ul.liste-competences');
-      dynContainer.innerHTML = '';
-      if (list) {
-        dynContainer.appendChild(list.cloneNode(true));
-      }
+    if (value < 75) {
+      return 'trading';
     }
+    if (value < 112.5) {
+      return 'leclerc';
+    }
+    return 'dev';
   }
+
+  function updateCompetencesDynamiquesBySlider() {
+    const dynContainer = document.getElementById('competences-dynamiques');
+    if (!dynContainer) {
+      return;
+    }
+
+    const sliderValue = parseFloat(rangeSlider.value);
+    const periode = getPeriodeFromSliderValue(Number.isNaN(sliderValue) ? 0 : sliderValue);
+    renderCompetencesInContainer(dynContainer, periode);
+  }
+
+  window.updateCompetencesDynamiquesBySlider = updateCompetencesDynamiquesBySlider;
   
   // Initialisation du contenu dynamique au chargement
   updateCompetencesDynamiquesBySlider();
