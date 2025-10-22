@@ -4,17 +4,12 @@
 
 ### 🔴 Urgent
 
+-refaire le fichier instruction
+
 #### Compétences :
 
--faire le filtre
-
-- - block de compétences contenant descriptif (hard skill / soft skill / projets etc..) etoiles en plus si necessaire
-
-au click aggrandit le block avec les explications des compétences si necessaire + lien si necessaire / reclick rediminue le block (petit logo de diminution de taille en haut a droite du block)
-
--ajout des étoiles ?
-
--sensibilité du touch entre defilement et ouvrir un block (ou bouton pour aggrandir et reduire voir le plus ergonomique)
+-enlever les stars du CSS et plus
+-cliquer sur une competences dans l'overlay renvois sur la slide
 
 #### index:
 
@@ -27,10 +22,10 @@ au click aggrandit le block avec les explications des compétences si necessaire
 
   -fonctionnement de la page contact
 
+-a la fin du projet apprendre le JS via L'ia en essayant de comprendre un maximum le fonctionnement et surtout la structure du JS
+
 ### 🟢 Normal Priority
 
--changer le texte de rayon fruit et legumes
 -r'ajouter les commandes consoles pour mon cv
 -s'attaquer a la relecture du JS et commencé le JS important structuré etc..
--le js et l'intaratcion des competence
 -apprendre react / et lancer le projet planning simple (matin / aprem)
