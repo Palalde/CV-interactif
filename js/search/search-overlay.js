@@ -8,6 +8,11 @@
     const modal = overlay.querySelector('.search-modal');
     const closeBtn = overlay.querySelector('.search-overlay-close');
     const overlaySearchSlot = overlay.querySelector('.search-overlay-search-slot');
+    const searchResultsContainer = overlay.querySelector('.search-overlay-results');
+    const searchPlaceholder = searchResultsContainer
+      ? searchResultsContainer.querySelector('.search-overlay-placeholder')
+      : null;
+    const filterButtons = Array.from(overlay.querySelectorAll('.search-filter-pill'));
 
     // Existing search bar in header
     const headerSearchForm = document.querySelector('.header-search-bar');
@@ -17,11 +22,231 @@
     // Nav trigger button
     const navSearchBtn = document.querySelector('.nav-search-btn');
 
+    const competencesData = Array.isArray(window.CV_COMPETENCES) ? window.CV_COMPETENCES : [];
+    const activeFilters = new Set();
+    const CATEGORY_LABELS = {
+      'soft-skills': 'Soft skills',
+      'hard-skills': 'Hard skills',
+      frontend: 'Frontend',
+      backend: 'Backend',
+      projets: 'Projets'
+    };
+    const PERIODE_LABELS = {
+      etudes: 'Études',
+      trading: 'Trading',
+      leclerc: 'E.Leclerc',
+      dev: 'Développement'
+    };
+
+    let searchResultsList = null;
+    if (searchResultsContainer) {
+      searchResultsList = document.createElement('ul');
+      searchResultsList.className = 'search-results-list';
+      searchResultsList.setAttribute('role', 'list');
+      searchResultsContainer.appendChild(searchResultsList);
+    }
+
     let restorePlaceholder = null;
     let lastActiveElement = null;
 
     function isMobile() {
       return window.matchMedia('(max-width: 714px)').matches; // <715px
+    }
+
+    function normalise(value) {
+      if (typeof value !== 'string') {
+        if (value == null) return '';
+        value = String(value);
+      }
+      return value
+        .normalize('NFD')
+        .replace(/\p{Diacritic}/gu, '')
+        .toLowerCase();
+    }
+
+    function getQueryTokens(rawValue) {
+      if (!rawValue) return [];
+      return rawValue
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean)
+        .map((token) => normalise(token));
+    }
+
+    function matchesActiveFilters(competence) {
+      if (activeFilters.size === 0) return true;
+      const categories = Array.isArray(competence?.categories) ? competence.categories : [];
+      return categories.some((category) => activeFilters.has(category));
+    }
+
+    function evaluateTokenMatch(competence, tokens) {
+      if (tokens.length === 0) {
+        return { matches: true, score: 0 };
+      }
+
+      const nameValue = normalise(competence?.name || '');
+      const descriptionValue = normalise(competence?.description || '');
+      const periodeRaw = PERIODE_LABELS[competence?.periode] || competence?.periode || '';
+      const periodeValue = normalise(periodeRaw);
+      const idValue = normalise(competence?.id || '');
+      const categories = Array.isArray(competence?.categories)
+        ? competence.categories.map((category) => normalise(category))
+        : [];
+      const keywords = Array.isArray(competence?.['#'])
+        ? competence['#'].map((keyword) => normalise(keyword))
+        : [];
+
+      let score = 0;
+
+      for (const token of tokens) {
+        let tokenScore = 0;
+
+        if (nameValue.includes(token)) {
+          tokenScore = Math.max(tokenScore, 6);
+        }
+        if (categories.some((category) => category.includes(token))) {
+          tokenScore = Math.max(tokenScore, 4);
+        }
+        if (keywords.some((keyword) => keyword.includes(token))) {
+          tokenScore = Math.max(tokenScore, 3);
+        }
+        if (descriptionValue.includes(token)) {
+          tokenScore = Math.max(tokenScore, 2);
+        }
+        if (periodeValue.includes(token) || idValue.includes(token)) {
+          tokenScore = Math.max(tokenScore, 1);
+        }
+
+        if (tokenScore === 0) {
+          return { matches: false, score: 0 };
+        }
+
+        score += tokenScore;
+      }
+
+      return { matches: true, score };
+    }
+
+    function buildResultItem(competence) {
+      const item = document.createElement('li');
+      item.className = 'search-result-item';
+      item.setAttribute('data-periode', competence?.periode || '');
+      if (competence?.id) {
+        item.setAttribute('data-id', competence.id);
+      }
+
+      const header = document.createElement('div');
+      header.className = 'search-result-header';
+
+      const title = document.createElement('h3');
+      title.className = 'search-result-title';
+      title.textContent = competence?.name || 'Compétence';
+      header.appendChild(title);
+
+      const periodeBadge = document.createElement('span');
+      periodeBadge.className = 'search-result-periode';
+      periodeBadge.textContent = PERIODE_LABELS[competence?.periode] || competence?.periode || '';
+      header.appendChild(periodeBadge);
+
+      item.appendChild(header);
+
+      if (competence?.description) {
+        const description = document.createElement('p');
+        description.className = 'search-result-description';
+        description.textContent = competence.description;
+        item.appendChild(description);
+      }
+
+      const categories = Array.isArray(competence?.categories) ? competence.categories : [];
+      if (categories.length) {
+        const tagsContainer = document.createElement('div');
+        tagsContainer.className = 'search-result-tags';
+        categories.forEach((category) => {
+          const tag = document.createElement('span');
+          tag.className = 'search-result-tag';
+          tag.textContent = CATEGORY_LABELS[category] || category;
+          tagsContainer.appendChild(tag);
+        });
+        item.appendChild(tagsContainer);
+      }
+
+      if (competence?.link) {
+        const link = document.createElement('a');
+        link.className = 'search-result-link';
+        link.href = competence.link;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = 'Voir la ressource';
+        item.appendChild(link);
+      }
+
+      return item;
+    }
+
+    function updatePlaceholderMessage(message) {
+      if (!searchPlaceholder) return;
+      searchPlaceholder.hidden = false;
+      searchPlaceholder.textContent = message;
+    }
+
+    function renderSearchResults() {
+      if (!searchResultsContainer || !searchResultsList) return;
+
+      const hasData = Array.isArray(competencesData) && competencesData.length > 0;
+      if (!hasData) {
+        searchResultsList.replaceChildren();
+        updatePlaceholderMessage('Les compétences ne sont pas disponibles pour le moment. Veuillez réessayer plus tard.');
+        return;
+      }
+
+      const rawQuery = headerSearchInput ? headerSearchInput.value : '';
+      const tokens = getQueryTokens(rawQuery);
+      const shouldShowPlaceholder = tokens.length === 0 && activeFilters.size === 0;
+
+      if (shouldShowPlaceholder) {
+        searchResultsList.replaceChildren();
+        updatePlaceholderMessage('Commencez à taper pour rechercher des compétences…');
+        return;
+      }
+
+      const results = [];
+      for (const competence of competencesData) {
+        if (!matchesActiveFilters(competence)) continue;
+        const evaluation = evaluateTokenMatch(competence, tokens);
+        if (!evaluation.matches) continue;
+        results.push({ competence, score: evaluation.score });
+      }
+
+      if (!results.length) {
+        searchResultsList.replaceChildren();
+        const hasQuery = tokens.length > 0;
+        if (hasQuery && activeFilters.size > 0) {
+          updatePlaceholderMessage('Aucun résultat ne correspond à votre recherche et aux filtres sélectionnés.');
+        } else if (hasQuery) {
+          updatePlaceholderMessage(`Aucun résultat trouvé pour « ${rawQuery.trim()} ».`);
+        } else {
+          updatePlaceholderMessage('Aucune compétence ne correspond aux filtres sélectionnés.');
+        }
+        return;
+      }
+
+      results.sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        const aName = a.competence?.name || '';
+        const bName = b.competence?.name || '';
+        return aName.localeCompare(bName, 'fr', { sensitivity: 'base' });
+      });
+
+      const fragment = document.createDocumentFragment();
+      results.forEach(({ competence }) => {
+        fragment.appendChild(buildResultItem(competence));
+      });
+
+      searchResultsList.replaceChildren(fragment);
+      if (searchPlaceholder) {
+        searchPlaceholder.hidden = true;
+      }
+      searchResultsContainer.scrollTop = 0;
     }
 
     function trapFocus(e) {
@@ -68,6 +293,7 @@
 
       // Lock scroll on body
       document.addEventListener('keydown', trapFocus);
+      renderSearchResults();
     }
 
     function closeOverlay() {
@@ -119,6 +345,44 @@
       });
     }
 
+    if (filterButtons.length) {
+      filterButtons.forEach((button) => {
+        const filter = button.dataset.filter;
+        button.setAttribute('aria-pressed', 'false');
+        button.addEventListener('click', () => {
+          if (!filter) return;
+          if (activeFilters.has(filter)) {
+            activeFilters.delete(filter);
+            button.classList.remove('is-active');
+            button.setAttribute('aria-pressed', 'false');
+          } else {
+            activeFilters.add(filter);
+            button.classList.add('is-active');
+            button.setAttribute('aria-pressed', 'true');
+          }
+          renderSearchResults();
+        });
+      });
+    }
+
+    if (headerSearchForm) {
+      headerSearchForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (overlay.getAttribute('aria-hidden') !== 'false') {
+          openOverlay(headerSearchForm);
+        }
+        renderSearchResults();
+      });
+    }
+
+    if (headerSearchInput) {
+      ['input', 'change', 'search'].forEach((eventName) => {
+        headerSearchInput.addEventListener(eventName, () => {
+          renderSearchResults();
+        });
+      });
+    }
+
     // Close controls
     if (closeBtn) closeBtn.addEventListener('click', closeOverlay);
     overlay.addEventListener('mousedown', (e) => {
@@ -129,5 +393,31 @@
     window.addEventListener('resize', () => {
       // no-op for now; layout is CSS-driven
     });
+
+    function openOverlayWithQuery(query, options = {}) {
+      const trigger = options.trigger || null;
+      const focusInput = options.focusInput !== false;
+      const alreadyOpen = overlay.getAttribute('aria-hidden') === 'false';
+
+      if (!alreadyOpen) {
+        openOverlay(trigger);
+      } else if (trigger) {
+        lastActiveElement = trigger;
+      }
+
+      if (headerSearchInput) {
+        headerSearchInput.value = query || '';
+        headerSearchInput.dispatchEvent(new Event('input', { bubbles: true }));
+        if (focusInput) {
+          setTimeout(() => headerSearchInput.focus(), 0);
+        }
+      } else {
+        renderSearchResults();
+      }
+    }
+
+    window.openSearchOverlayWithQuery = openOverlayWithQuery;
+
+    renderSearchResults();
   });
 })();

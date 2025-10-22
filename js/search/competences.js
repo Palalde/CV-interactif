@@ -198,7 +198,7 @@
 			'#': ['git', 'versioning', 'collaboration'],
 			description:
 				"Gestion de versions, revues de code et workflows collaboratifs sur GitHub.",
-			link: null
+			link: "https://github.com/Palalde"
 		},
 		{
 			id: 'responsive-design',

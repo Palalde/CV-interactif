@@ -29,8 +29,16 @@ document.addEventListener('DOMContentLoaded', function() {
     accumulator[key].push(competence);
     return accumulator;
   }, {});
+  const competencesById = competencesData.reduce((accumulator, competence) => {
+    if (competence && competence.id) {
+      accumulator[competence.id] = competence;
+    }
+    return accumulator;
+  }, {});
+  const desktopMediaQuery = window.matchMedia('(min-width: 715px)');
 
-  function buildCompetencesList(competences) {
+  function buildCompetencesList(competences, options = {}) {
+    const interactive = options.interactive === true;
     const listElement = document.createElement('ul');
     listElement.className = 'liste-competences';
 
@@ -45,7 +53,21 @@ document.addEventListener('DOMContentLoaded', function() {
         listItem.setAttribute('title', competence.description);
       }
 
-      if (competence.link) {
+      if (competence.id) {
+        listItem.dataset.competenceId = competence.id;
+      }
+      listItem.dataset.competenceName = competence.name;
+      if (competence.periode) {
+        listItem.dataset.competencePeriode = competence.periode;
+      }
+
+      if (interactive) {
+        listItem.classList.add('interactive');
+        listItem.setAttribute('role', 'button');
+        listItem.tabIndex = 0;
+      }
+
+      if (!interactive && competence.link) {
         const link = document.createElement('a');
         link.href = competence.link;
         link.target = '_blank';
@@ -74,7 +96,15 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
-    container.appendChild(buildCompetencesList(competences));
+    const isDynamicPanel = container.id === 'competences-dynamiques';
+    const isStaticSection = !isDynamicPanel && container.classList.contains('competences-list');
+    const shouldBeInteractive = isDynamicPanel || (isStaticSection && desktopMediaQuery.matches);
+    const listElement = buildCompetencesList(competences, { interactive: shouldBeInteractive });
+    container.appendChild(listElement);
+
+    if (shouldBeInteractive) {
+      attachCompetenceItemActions(listElement);
+    }
   }
 
   function populateStaticCompetenceSections() {
@@ -91,7 +121,53 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  function attachCompetenceItemActions(listElement) {
+    if (!listElement) {
+      return;
+    }
+
+    const items = listElement.querySelectorAll('.item-competence');
+    items.forEach((item) => {
+      const competenceId = item.dataset.competenceId;
+      const fallbackName = item.dataset.competenceName || item.textContent || '';
+      const competence = competenceId ? competencesById[competenceId] : null;
+      const searchTerm = competence ? competence.name : fallbackName.trim();
+      if (!searchTerm) {
+        return;
+      }
+
+      function triggerSearchOverlay() {
+        if (typeof window.openSearchOverlayWithQuery === 'function') {
+          window.openSearchOverlayWithQuery(searchTerm, { trigger: item });
+        }
+      }
+
+      item.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        triggerSearchOverlay();
+      });
+
+      item.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          triggerSearchOverlay();
+        }
+      });
+    });
+  }
+
   populateStaticCompetenceSections();
+
+  function handleDesktopBreakpointChange() {
+    populateStaticCompetenceSections();
+  }
+
+  if (typeof desktopMediaQuery.addEventListener === 'function') {
+    desktopMediaQuery.addEventListener('change', handleDesktopBreakpointChange);
+  } else if (typeof desktopMediaQuery.addListener === 'function') {
+    desktopMediaQuery.addListener(handleDesktopBreakpointChange);
+  }
 // RANGE SLIDER
 // Focus + Thumb dynamique adapté au lightmode
   document.querySelectorAll('.range-slider').forEach(function(slider) {
