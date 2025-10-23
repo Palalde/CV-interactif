@@ -4,11 +4,8 @@
 
 ### 🔴 Urgent
 
--refaire le fichier instruction
-
 #### Compétences :
 
--enlever les stars du CSS et plus
 -cliquer sur une competences dans l'overlay renvois sur la slide
 
 #### index:

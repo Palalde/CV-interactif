@@ -134,6 +134,8 @@
       if (competence?.id) {
         item.setAttribute('data-id', competence.id);
       }
+      item.setAttribute('role', 'button');
+      item.tabIndex = 0;
 
       const header = document.createElement('div');
       header.className = 'search-result-header';
@@ -247,6 +249,52 @@
         searchPlaceholder.hidden = true;
       }
       searchResultsContainer.scrollTop = 0;
+      attachResultItemInteractions();
+    }
+
+    function focusTimelineAfterOverlay() {
+      const rangeSlider = document.getElementById('myRange');
+      if (rangeSlider) {
+        lastActiveElement = rangeSlider;
+      }
+    }
+
+    function handleResultSelection(item) {
+      if (!item) return;
+
+      focusTimelineAfterOverlay();
+      const periode = item.getAttribute('data-periode');
+      const navigate = typeof window.navigateTimelineToPeriode === 'function'
+        ? window.navigateTimelineToPeriode
+        : null;
+
+      closeOverlay();
+
+      if (navigate && periode) {
+        const performNavigation = () => navigate(periode);
+        if (typeof window.requestAnimationFrame === 'function') {
+          window.requestAnimationFrame(performNavigation);
+        } else {
+          setTimeout(performNavigation, 0);
+        }
+      }
+    }
+
+    function attachResultItemInteractions() {
+      if (!searchResultsList) return;
+      const items = searchResultsList.querySelectorAll('.search-result-item');
+      items.forEach((item) => {
+        item.addEventListener('click', (event) => {
+          event.preventDefault();
+          handleResultSelection(item);
+        });
+        item.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
+            event.preventDefault();
+            handleResultSelection(item);
+          }
+        });
+      });
     }
 
     function trapFocus(e) {

@@ -244,6 +244,13 @@ document.addEventListener('DOMContentLoaded', function() {
   const rangeSlider = document.getElementById('myRange'); // Your existing range slider
   const sections = document.querySelectorAll('.content-section');
   const sectionCount = sections.length;
+  const sectionsOrder = Array.from(sections);
+  const periodeToRangeValue = sectionsOrder.reduce((accumulator, section, index) => {
+    if (section && section.id) {
+      accumulator[section.id] = index * 50;
+    }
+    return accumulator;
+  }, {});
   
   // Variables for touch handling
   let startX = 0;
@@ -589,6 +596,46 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   window.updateCompetencesDynamiquesBySlider = updateCompetencesDynamiquesBySlider;
+
+  function normalisePeriodeKey(value) {
+    if (typeof value !== 'string') {
+      if (value == null) {
+        return '';
+      }
+      value = String(value);
+    }
+    return value
+      .normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '')
+      .toLowerCase();
+  }
+
+  function navigateTimelineToPeriode(periode) {
+    if (!rangeSlider || !periode) {
+      return;
+    }
+
+    const targetKey = Object.keys(periodeToRangeValue).find((key) => {
+      return normalisePeriodeKey(key) === normalisePeriodeKey(periode);
+    });
+
+    if (!targetKey) {
+      return;
+    }
+
+    const targetValue = periodeToRangeValue[targetKey];
+    const minValue = Number.isNaN(parseFloat(rangeSlider.min)) ? 0 : parseFloat(rangeSlider.min);
+    const maxValue = Number.isNaN(parseFloat(rangeSlider.max)) ? targetValue : parseFloat(rangeSlider.max);
+    const clampedValue = Math.min(Math.max(targetValue, minValue), maxValue);
+
+    rangeSlider.value = clampedValue;
+    updateContent();
+    updateCompetencesDynamiquesBySlider();
+    emitRangeInput();
+    showSnapMarkers();
+  }
+
+  window.navigateTimelineToPeriode = navigateTimelineToPeriode;
   
   // Initialisation du contenu dynamique au chargement
   updateCompetencesDynamiquesBySlider();

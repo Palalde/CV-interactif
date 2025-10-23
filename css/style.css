@@ -2249,29 +2249,6 @@ body.light #dev-terminal {
 .competence-nom {
   margin-left: 8px;
 }
-/* Système de notation par étoiles */
-.competence-rating {
-  display: flex;
-  gap: 2px;
-  margin-left: 10px;
-}
-
-.star {
-  width: 16px;
-  height: 16px;
-  background-image: url("../img/competences/star-empty.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.star.filled {
-  background-image: url("../img/competences/star-filled.png");
-}
-
-.star.half {
-  background-image: url("../img/competences/star-half.png");
-}
 
 /* COMPETENCES BOUTON MOBILE */
 .competences-mobile-btn {
@@ -2667,6 +2644,7 @@ body.search-overlay-open {
   gap: 0.55rem;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
   transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
 }
 
 .search-result-item:hover,
@@ -3456,19 +3434,6 @@ body.light .competences-mobile-btn::after {
 
 body.light .competences-mobile-titre {
   color: var(--text-dark);
-}
-
-/* Système de notation par étoiles en mode clair */
-body.light .star {
-  background-image: url("../img/competences/light/star-empty.png");
-}
-
-body.light .star.filled {
-  background-image: url("../img/competences/light/star-filled.png");
-}
-
-body.light .star.half {
-  background-image: url("../img/competences/light/star-half.png");
 }
 
 /* Contact lightmode */
