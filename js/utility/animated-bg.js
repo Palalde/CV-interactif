@@ -101,10 +101,8 @@
   }
 
   function drawGrid(theme) {
-    const { width, height } = canvas;
-    // ctx already scaled by DPR
     ctx.save();
-    ctx.strokeStyle = getTheme().grid;
+    ctx.strokeStyle = theme.grid;
     ctx.lineWidth = 1;
     const step = 36;
     for (let x = 0; x < window.innerWidth; x += step) {
@@ -123,7 +121,7 @@
   }
 
   function drawCode(theme, dt) {
-    const t = getTheme();
+    const t = theme;
     ctx.save();
     ctx.font = '12px ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace';
     ctx.textBaseline = 'top';
@@ -156,7 +154,7 @@
   function drawChart(theme, dt) {
     chartProgress += dt * 0.6;
     if (chartProgress > 1.2) chartProgress = 0;
-    const t = getTheme();
+  const t = theme;
     const maxIndex = Math.floor(chartPtsUp.length * Math.min(1, chartProgress));
     ctx.save();
     // up trend
@@ -199,7 +197,11 @@
   }
 
   function clear(theme) {
+    ctx.save();
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    ctx.fillStyle = theme.bg;
+    ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+    ctx.restore();
   }
 
   let last = performance.now();

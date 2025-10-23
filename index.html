@@ -72,99 +72,42 @@
     <section class="landing-block" id="s-timeline">
       <h2>Navigation chronologique</h2>
       <p>
-        Sur desktop: un range slider à 4 étapes (Études → Trading → Leclerc →
-        Dev). Sur mobile: swipe horizontal avec snap.
+        naviguez dans les differentes slide du CV via un range slider à 4
+        étapes. Sur mobile: swipe horizontal avec snap.
       </p>
-      <div class="mock">
-        <div
-          style="
-            height: 18px;
-            background: linear-gradient(
-              90deg,
-              var(--accent, #3b82f6) 0 25%,
-              var(--track, #999) 25%
-            );
-            border-radius: 9px;
-            position: relative;
-          "
-        >
-          <div
-            style="
-              position: absolute;
-              left: 25%;
-              top: 50%;
-              transform: translate(-50%, -50%);
-              width: 42px;
-              height: 42px;
-              border-radius: 50%;
-              background: var(--thumb, #fff);
-              box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-            "
-          ></div>
+      <div class="mock timeline-slider-mock">
+        <div class="timeline-slider-track">
+          <div class="timeline-slider-thumb"></div>
         </div>
-        <small
-          >Le slider repositionne la bande de contenu (.content-slider) et
-          synchronise les compétences dynamiques.</small
-        >
       </div>
-      <p class="coming">
-        Extension future: 5e période facile (adapter max et snaps).
-      </p>
     </section>
 
     <section class="landing-block" id="s-mobile">
       <h2>compétences dynamiques</h2>
       <p>
-        Les compétences actives sont clonées dans un panneau dédié. Swipe
-        horizontal fluide + fermeture rapide via le titre.
+        accédez aux compétences acquises de maniere dynamique via un panneau
+        latéral. Sur mobile: via un simple swipe horizontal
       </p>
       <div class="mock">
-        <div style="display: flex; gap: 0.6rem; overflow: hidden">
-          <div
-            style="
-              flex: 0 0 55%;
-              background: rgba(0, 0, 0, 0.15);
-              min-height: 140px;
-              border-radius: 12px;
-            "
-          ></div>
-          <div
-            style="
-              flex: 0 0 55%;
-              background: rgba(0, 0, 0, 0.15);
-              min-height: 140px;
-              border-radius: 12px;
-            "
-          ></div>
-          <div
-            style="
-              flex: 0 0 55%;
-              background: rgba(0, 0, 0, 0.15);
-              min-height: 140px;
-              border-radius: 12px;
-            "
-          ></div>
+        <div class="competence-cards-preview">
+          <div class="competence-card-placeholder"></div>
+          <div class="competence-card-placeholder"></div>
+          <div class="competence-card-placeholder"></div>
         </div>
-        <small
-          >Swipe → snap → mise à jour du panneau #competences-dynamiques.</small
-        >
       </div>
     </section>
 
     <section class="landing-block" id="s-search">
-      <h2>Recherche (bientôt)</h2>
+      <h2>Recherche</h2>
       <p>
-        Une barre pour filtrer compétences & projets (tokenisation +
-        highlighting).
+        recherchez parmis mes compétences et projets via une barre de recherche,
+        sur mobile accédez-y via la loupe
       </p>
       <input
         class="disabled-search"
         value="Rechercher une compétence... (à venir)"
         aria-disabled="true"
       />
-      <p class="coming">
-        Plan: indexation légère (Map catégorie → items), fuzzy scoring simple.
-      </p>
     </section>
 
     <section class="landing-block" id="s-contact-cv">
@@ -173,46 +116,25 @@
         Retrouvez toutes mes informations de contact sur une page dédiée, et
         accédez rapidement à la version PDF de mon CV. Sur la page du CV, ces
         fonctionnalités sont aussi accessibles depuis le header (icônes Contact
-        et PDF), synchronisées au thème clair/sombre.
+        et PDF)
       </p>
-      <div class="mock">
-        <div
-          style="
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 0.8rem;
-          "
-        >
-          <div
-            style="
-              background: rgba(0, 0, 0, 0.15);
-              border-radius: 12px;
-              padding: 14px;
-              text-align: left;
-            "
-          >
+      <div class="mock contact-cv-mock">
+        <div class="contact-cv-grid">
+          <div class="contact-cv-card">
             <strong>Contact</strong>
-            <p style="opacity: 0.85; margin-top: 6px">
+            <p class="contact-cv-description">
               Âge, localisation, profils (LinkedIn, GitHub) et moyens de
               contact, avec icônes adaptées au thème.
             </p>
           </div>
-          <div
-            style="
-              background: rgba(0, 0, 0, 0.15);
-              border-radius: 12px;
-              padding: 14px;
-              text-align: left;
-            "
-          >
+          <div class="contact-cv-card">
             <strong>CV PDF</strong>
-            <p style="opacity: 0.85; margin-top: 6px">
-              Téléchargement rapide de mon CV au format PDF pour consultation
-              hors-ligne.
+            <p class="contact-cv-description">
+              Téléchargement rapide de mon CV au format PDF
             </p>
           </div>
         </div>
-        <div class="cta-row" style="margin-top: 6px">
+        <div class="cta-row contact-cv-cta-row">
           <a href="/html/contact-info.html" class="cta-btn">Infos de contact</a>
           <a
             href="/html/cv.html"
@@ -221,7 +143,7 @@
             >Ouvrir le CV</a
           >
         </div>
-        <small style="opacity: 0.7"
+        <small class="contact-cv-hint"
           >Astuce: sur la page du CV, utilisez les icônes du header pour accéder
           au PDF et au contact.</small
         >
