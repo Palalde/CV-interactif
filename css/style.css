@@ -78,6 +78,10 @@ section.landing-block {
   opacity: 0;
   transform: translateY(40px);
   transition: 0.8s ease;
+  color: var(--text-light);
+}
+body.light section.landing-block {
+  color: var(--text-dark);
 }
 section.landing-block.visible {
   opacity: 1;
@@ -224,6 +228,11 @@ body.light .landing-cta-link.secondary:hover {
   margin: 0;
   color: var(--text-light);
 }
+
+body.light .landing-block.hero h1 {
+  color: var(--text-dark);
+}
+
 .cta-row {
   display: flex;
   gap: 1rem;
@@ -259,6 +268,9 @@ body.light .landing-cta-link.secondary:hover {
   opacity: 0.6;
   letter-spacing: 1px;
   color: var(--text-light);
+}
+body.light .scroll-indicator {
+  color: var(--text-dark);
 }
 /* Bouton fonctionnement: header par défaut, hero en mobile */
 .fonctionnement-hero {
@@ -296,6 +308,73 @@ body.light .landing-cta-link.secondary:hover {
 }
 body.light .mock {
   background: var(--background-leger-light);
+}
+.timeline-slider-mock {
+  gap: 0.75rem;
+}
+.timeline-slider-track {
+  height: 18px;
+  background: linear-gradient(
+    90deg,
+    var(--accent, #3b82f6) 0 25%,
+    var(--track, #999) 25%
+  );
+  border-radius: 9px;
+  position: relative;
+}
+.timeline-slider-thumb {
+  position: absolute;
+  left: 25%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--thumb, #fff);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+.competence-cards-preview {
+  display: flex;
+  gap: 0.6rem;
+  overflow: hidden;
+}
+.competence-card-placeholder {
+  flex: 0 0 55%;
+  background: rgba(0, 0, 0, 0.15);
+  min-height: 140px;
+  border-radius: 12px;
+}
+body.light .competence-card-placeholder {
+  background: rgba(0, 0, 0, 0.08);
+}
+.contact-cv-mock {
+  gap: 1.2rem;
+}
+.contact-cv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.8rem;
+}
+.contact-cv-card {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: left;
+}
+body.light .contact-cv-card {
+  background: rgba(0, 0, 0, 0.08);
+}
+.contact-cv-description {
+  opacity: 0.85;
+  margin-top: 6px;
+}
+.contact-cv-cta-row {
+  margin-top: 6px;
+}
+.contact-cv-hint {
+  display: inline-block;
+  margin-top: 4px;
+  opacity: 0.7;
 }
 .tagline {
   font-size: clamp(1.1rem, 2vw, 1.6rem);
