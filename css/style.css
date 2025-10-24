@@ -48,6 +48,28 @@
 body.landing {
   overflow-y: auto;
   scroll-snap-type: y mandatory;
+  text-shadow: 0 0 2px currentColor;
+}
+
+body.landing .header-row,
+body.landing .header-row * {
+  text-shadow: none;
+}
+
+body.landing .fixed-brand-clone,
+body.landing .fixed-brand-clone *,
+body.landing .main-title-group,
+body.landing .main-title-group * {
+  text-shadow: none;
+}
+
+body.landing a,
+body.landing button,
+body.landing .cta-btn,
+body.landing .landing-cta-link,
+body.landing .cta-btn *,
+body.landing .landing-cta-link * {
+  text-shadow: none;
 }
 
 /* Animated background canvas (index only) */
@@ -299,7 +321,10 @@ body.light .scroll-indicator {
 .mock {
   max-width: 750px;
   width: 100%;
-  background: var(--background-leger-dark);
+  background: rgba(26, 26, 46, 0.06);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
   padding: 1.5rem;
   border-radius: 20px;
   box-shadow: 0 4px 18px -6px rgba(0, 0, 0, 0.35);
@@ -307,31 +332,72 @@ body.light .scroll-indicator {
   gap: 1rem;
 }
 body.light .mock {
-  background: var(--background-leger-light);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(26, 26, 46, 0.06);
 }
 .timeline-slider-mock {
   gap: 0.75rem;
 }
-.timeline-slider-track {
-  height: 18px;
-  background: linear-gradient(
-    90deg,
-    var(--accent, #3b82f6) 0 25%,
-    var(--track, #999) 25%
-  );
-  border-radius: 9px;
+.timeline-slider-mock .range-slider-visual {
+  width: min(100%, 520px);
+  margin: 0 auto;
+  pointer-events: none;
   position: relative;
 }
-.timeline-slider-thumb {
+.timeline-slider-mock .range-slider-visual .range-slider {
+  pointer-events: none;
+}
+.range-slider-mock-markers {
   position: absolute;
-  left: 25%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.range-slider-mock-marker {
+  position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 42px;
-  height: 42px;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
-  background: var(--thumb, #fff);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  background: var(--background-general-light);
+  border: 2px solid var(--background-surface-dark);
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  opacity: 1;
+}
+body.light .range-slider-mock-marker {
+  background: var(--background-general-dark);
+  border-color: var(--background-surface-light);
+}
+.range-slider-mock-marker:nth-child(1) {
+  left: 0.5%;
+}
+.range-slider-mock-marker:nth-child(2) {
+  left: 66.66%;
+}
+.range-slider-mock-marker:nth-child(3) {
+  left: 99.5%;
+}
+.timeline-slider-visual-input {
+  width: 100%;
+  background: linear-gradient(
+      90deg,
+      var(--background-general-light) 0 25%,
+      rgba(255, 255, 255, 0.18) 25%
+    )
+    border-box;
+}
+body.light .timeline-slider-visual-input {
+  background: linear-gradient(
+      90deg,
+      var(--background-general-dark) 0 25%,
+      rgba(0, 0, 0, 0.12) 25%
+    )
+    border-box;
 }
 .competence-cards-preview {
   display: flex;
@@ -3307,6 +3373,7 @@ body.light .range-slider-container {
 
 body.light .range-slider {
   background: var(--background-general-dark);
+  --thumb-img: url("../img/rangeslider/lightmode/etudes-beige.png");
 }
 
 /* Thumb light mode */

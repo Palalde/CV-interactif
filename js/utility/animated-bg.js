@@ -26,7 +26,7 @@
     const light = document.body.classList.contains('light');
     return light
       ? {
-          bg: '#f5f6fa',
+          bg: '#ecf0f7',
           code: 'rgba(26,26,46,0.45)',
           codeStrong: 'rgba(26,26,46,0.65)',
           grid: 'rgba(0,0,0,0.06)',
@@ -35,10 +35,10 @@
           fruit: 'rgba(34,139,34,0.45)'
         }
       : {
-          bg: '#0b0d16',
-          code: 'rgba(231,231,231,0.35)',
-          codeStrong: 'rgba(231,231,231,0.6)',
-          grid: 'rgba(255,255,255,0.06)',
+          bg: '#151b2d',
+          code: 'rgba(231,231,231,0.4)',
+          codeStrong: 'rgba(231,231,231,0.65)',
+          grid: 'rgba(255,255,255,0.07)',
           chartUp: 'rgba(99,179,237,0.8)',
           chartDown: 'rgba(239,83,80,0.75)',
           fruit: 'rgba(191,219,139,0.55)'
