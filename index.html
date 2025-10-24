@@ -72,12 +72,26 @@
     <section class="landing-block" id="s-timeline">
       <h2>Navigation chronologique</h2>
       <p>
-        naviguez dans les differentes slide du CV via un range slider à 4
-        étapes. Sur mobile: swipe horizontal avec snap.
+        naviguez dans les differentes slide du CV via le slide controller.<br />
+        Sur mobile: swipez de gauche à droite pour changer de slide
       </p>
       <div class="mock timeline-slider-mock">
-        <div class="timeline-slider-track">
-          <div class="timeline-slider-thumb"></div>
+        <div class="range-slider-container range-slider-visual">
+          <input
+            type="range"
+            class="range-slider range-slider-visual-input"
+            value="37.5"
+            min="0"
+            max="150"
+            step="12.5"
+            aria-hidden="true"
+            tabindex="-1"
+          />
+          <div class="range-slider-mock-markers" aria-hidden="true">
+            <span class="range-slider-mock-marker"></span>
+            <span class="range-slider-mock-marker"></span>
+            <span class="range-slider-mock-marker"></span>
+          </div>
         </div>
       </div>
     </section>
