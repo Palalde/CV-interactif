@@ -122,7 +122,8 @@ function createShell(term) {
       return [
         '',
         '\x1b[1mCommandes disponibles:\x1b[22m',
-        '  \x1b[1mhelp\x1b[22m : Affiche cette aide',
+        '  \x1b[1mdev\x1b[22m : Mon parcours',
+        '  \x1b[1mprojet\x1b[22m : Les projets prévus',
         '  \x1b[1mclear\x1b[22m : Efface l\'écran',
         '  \x1b[1mcontact\x1b[22m : Ouvre la page Contact',
         '  \x1b[1mpdf\x1b[22m : Ouvre le CV PDF',
@@ -141,6 +142,27 @@ function createShell(term) {
       openUrl('/cv-classique.pdf');
       return 'Ouverture du CV PDF…';
     },
+    dev() {
+      return [
+        '',
+        '',
+        'Je me forme en autodidacte de manière intensive sur mon temps libre.',
+        'Je suis la roadmap Fullstack de roadmap.sh étape par étape en m\'appuyant sur des vidéos et des articles.',
+        'J\'utilise les agents IA pour accélérer la pratique tout en comprenant précisément chaque portion de code générée.',
+        'But : consolider des bases solides avant d\'avancer vers la suite du programme.',
+      ].join('\r\n');
+    },
+    projet() {
+      return [
+        '',
+        '',
+        'Ma validation des compétences passe par trois projets phares :',
+        '- Projet 1 — CV interactif : maîtriser HTML/CSS/JS sur un site statique soigné.',
+        '- Projet 2 — Créateur de planning : passer sur React + Tailwind CSS et renforcer le backend.',
+        '- Projet 3 — Classement & planning sportif : bâtir une application complète, publiable et potentiellement commercialisable.',
+        'Si ce dernier projet fonctionne, j\'en vis ; sinon il devient la vitrine de ma formation pour décrocher mon premier poste de développeur junior.',
+      ].join('\r\n');
+    },
     goto(arg) {
       const valid = ['etudes', 'trading', 'leclerc', 'dev'];
       if (!arg || !valid.includes(arg)) {
@@ -150,6 +172,9 @@ function createShell(term) {
       return `Navigation vers ${arg}…`;
     },
   };
+
+  commands.Dev = commands.dev;
+  commands.Projet = commands.projet;
 
   function printPrompt() {
     term.write('\r\n' + makePrompt(cwd));
