@@ -8,14 +8,65 @@ document.addEventListener('DOMContentLoaded', () => {
 	const fruits = Array.from(root.querySelectorAll('.fruit-item'));
 	const plate = root.querySelector('.balance-plate.dropzone');
 	const readoutExp = root.querySelector('.balance-experience');
-		const ticket = root.querySelector('.ticket');
-	const ticketTitle = root.querySelector('.ticket-experience-title');
-	const ticketText = root.querySelector('.ticket-experience-text');
-	const ticketDate = root.querySelector('.ticket-date');
+	const ticketOutput = root.querySelector('.ticket-output');
 
-	if (!plate || fruits.length === 0 || !ticket || !readoutExp || !ticketTitle || !ticketText || !ticketDate) {
+	if (!plate || fruits.length === 0 || !ticketOutput || !readoutExp) {
 		return;
 	}
+
+	const ensureTicket = () => {
+		if (!ticketOutput) return null;
+		let ticketEl = ticketOutput.querySelector('.ticket');
+		let titleEl;
+		let textEl;
+		let dateEl;
+		if (!ticketEl) {
+			ticketEl = document.createElement('div');
+			ticketEl.className = 'ticket';
+			ticketEl.setAttribute('role', 'region');
+			ticketEl.setAttribute('aria-roledescription', 'Ticket imprimé');
+
+			const headerEl = document.createElement('div');
+			headerEl.className = 'ticket-header';
+			headerEl.textContent = 'E.Leclerc — Expérience';
+
+			const experienceEl = document.createElement('div');
+			experienceEl.className = 'ticket-experience';
+
+			titleEl = document.createElement('div');
+			titleEl.className = 'ticket-experience-title';
+			textEl = document.createElement('p');
+			textEl.className = 'ticket-experience-text';
+
+			experienceEl.appendChild(titleEl);
+			experienceEl.appendChild(textEl);
+
+			const footerEl = document.createElement('div');
+			footerEl.className = 'ticket-footer';
+			dateEl = document.createElement('span');
+			dateEl.className = 'ticket-date';
+			const msgEl = document.createElement('span');
+			msgEl.className = 'ticket-msg';
+			msgEl.textContent = 'Merci pour votre visite';
+
+			footerEl.appendChild(dateEl);
+			footerEl.appendChild(msgEl);
+
+			ticketEl.appendChild(headerEl);
+			ticketEl.appendChild(experienceEl);
+			ticketEl.appendChild(footerEl);
+			ticketOutput.appendChild(ticketEl);
+		} else {
+			titleEl = ticketEl.querySelector('.ticket-experience-title');
+			textEl = ticketEl.querySelector('.ticket-experience-text');
+			dateEl = ticketEl.querySelector('.ticket-date');
+			if (!titleEl || !textEl || !dateEl) {
+				ticketEl.remove();
+				return ensureTicket();
+			}
+		}
+		return { ticket: ticketEl, title: titleEl, text: textEl, date: dateEl };
+	};
 
 	// Utils
 	const formatDate = (d = new Date()) => {
@@ -30,14 +81,15 @@ document.addEventListener('DOMContentLoaded', () => {
 		plate.style.outlineOffset = on ? '2px' : '';
 	};
 
-		const printPulse = () => {
-		ticket.classList.remove('is-printing');
+		const printPulse = (ticketEl) => {
+			if (!ticketEl) return;
+			ticketEl.classList.remove('is-printing');
 		// Force reflow to restart CSS animation if any
 		// eslint-disable-next-line no-unused-expressions
-		void ticket.offsetWidth;
-		ticket.classList.add('is-printing');
+			void ticketEl.offsetWidth;
+			ticketEl.classList.add('is-printing');
 		// Remove class after animation duration (fallback 900ms)
-		setTimeout(() => ticket.classList.remove('is-printing'), 1000);
+			setTimeout(() => ticketEl.classList.remove('is-printing'), 1000);
 	};
 
 		const renderPlateEmoji = (emoji) => {
@@ -51,12 +103,16 @@ document.addEventListener('DOMContentLoaded', () => {
 		};
 
 		const updateExperience = (name, text, emoji) => {
+			const ticketRefs = ensureTicket();
+			if (!ticketRefs) return;
+			const { ticket, title, text: textNode, date } = ticketRefs;
 		if (name) readoutExp.textContent = name;
-		if (name) ticketTitle.textContent = name;
-		if (text) ticketText.textContent = text;
-		ticketDate.textContent = formatDate();
+		if (name) title.textContent = name;
+		if (text) textNode.textContent = text;
+		date.textContent = formatDate();
 			renderPlateEmoji(emoji);
-		printPulse();
+		ticket.classList.remove('is-empty');
+		printPulse(ticket);
 	};
 
 	// ----------------------------
