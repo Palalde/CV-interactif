@@ -2564,6 +2564,271 @@ body.search-overlay-open {
   overflow: hidden;
 }
 
+body.download-overlay-open {
+  overflow: hidden;
+}
+
+.download-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.75rem;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 3050;
+}
+
+.download-overlay[aria-hidden="false"] {
+  display: flex;
+}
+
+.download-modal {
+  width: min(460px, 92vw);
+  background: var(--bg-primary, #0a0e15);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.46);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem 1.75rem 1.5rem;
+  position: relative;
+}
+
+.download-overlay-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.download-overlay-close {
+  position: absolute;
+  top: 0.5rem !important;
+  right: 0.5rem !important;
+  transform: none !important;
+}
+
+.download-overlay-texts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  align-items: center;
+  text-align: center;
+}
+
+.download-overlay-title {
+  font-size: clamp(1.1rem, 1.9vw, 1.35rem);
+  font-weight: 600;
+  color: #f5f6fa;
+  margin: 0;
+}
+
+.download-overlay-description {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(245, 246, 250, 0.78);
+}
+
+.download-overlay-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.download-overlay-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.85rem 2.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: var(--text-light);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-main);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.download-overlay-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(58, 149, 255, 0.15),
+    rgba(39, 113, 239, 0.08)
+  );
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.download-overlay-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(58, 149, 255, 0.45);
+  box-shadow: 0 10px 24px rgba(58, 149, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.download-overlay-button:hover::before {
+  opacity: 1;
+}
+
+.download-overlay-button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.download-overlay-button:focus-visible {
+  outline: 2px solid rgba(58, 149, 255, 0.6);
+  outline-offset: 3px;
+}
+
+.download-icon {
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+  position: relative;
+  z-index: 1;
+  will-change: transform;
+}
+
+.download-overlay-button:hover .download-icon {
+  transform: translateY(-1px);
+  animation: download-bounce 0.6s ease-in-out;
+}
+
+@keyframes download-bounce {
+  0%,
+  100% {
+    transform: translateY(-3px);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+body.light .download-modal {
+  background: var(--bg-primary-light, #f5f7fb);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 22px 60px rgba(10, 16, 26, 0.18);
+}
+
+body.light .download-overlay-title {
+  color: #1a1f2b;
+}
+
+body.light .download-overlay-description {
+  color: rgba(26, 31, 43, 0.76);
+}
+
+body.light .download-overlay-button {
+  color: var(--text-dark);
+  background: rgba(26, 31, 43, 0.04);
+  border-color: rgba(26, 31, 43, 0.12);
+  box-shadow: 0 6px 16px rgba(26, 31, 43, 0.1);
+}
+
+body.light .download-overlay-button::before {
+  background: linear-gradient(
+    135deg,
+    rgba(58, 149, 255, 0.12),
+    rgba(39, 113, 239, 0.06)
+  );
+}
+
+body.light .download-overlay-button:hover {
+  background: rgba(26, 31, 43, 0.06);
+  border-color: rgba(58, 149, 255, 0.35);
+  box-shadow: 0 10px 24px rgba(58, 149, 255, 0.2);
+}
+
+body.light .download-overlay-close {
+  color: #1a1f2b;
+}
+
+@media (max-width: 715px) {
+  .download-overlay {
+    padding: 1.25rem;
+  }
+
+  .download-modal {
+    width: min(380px, 90vw);
+    padding: 1.35rem 1.5rem 1.35rem;
+    gap: 1.25rem;
+  }
+
+  .download-overlay-title {
+    font-size: 1.15rem;
+  }
+
+  .download-overlay-description {
+    font-size: 0.9rem;
+  }
+
+  .download-overlay-button {
+    padding: 0.8rem 2rem;
+    font-size: 0.95rem;
+    gap: 0.55rem;
+  }
+
+  .download-icon {
+    width: 19px;
+    height: 19px;
+  }
+
+  .download-overlay-close {
+    top: 0.4rem !important;
+    right: 0.4rem !important;
+    width: 2rem !important;
+    height: 2rem !important;
+    font-size: 1.15rem !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .download-modal {
+    width: min(340px, 92vw);
+    padding: 1.25rem 1.15rem 1.25rem;
+    gap: 1.15rem;
+  }
+
+  .download-overlay-title {
+    font-size: 1.05rem;
+  }
+
+  .download-overlay-description {
+    font-size: 0.88rem;
+  }
+
+  .download-overlay-button {
+    padding: 0.7rem 1.65rem;
+    font-size: 0.9rem;
+    gap: 0.5rem;
+  }
+
+  .download-icon {
+    width: 17px;
+    height: 17px;
+  }
+
+  .download-overlay-close {
+    top: 0.35rem !important;
+    right: 0.35rem !important;
+    width: 1.85rem !important;
+    height: 1.85rem !important;
+    font-size: 1.1rem !important;
+  }
+}
+
 .search-overlay {
   position: fixed;
   inset: 0;

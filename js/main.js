@@ -17,6 +17,127 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // Classic CV download overlay management
+  const downloadOverlay = document.getElementById('cv-download-overlay');
+  const classicCvLink = document.querySelector('.classic-cv-block');
+  const downloadOverlayCloseBtn = downloadOverlay ? downloadOverlay.querySelector('.download-overlay-close') : null;
+  const downloadOverlayPrimaryAction = downloadOverlay ? downloadOverlay.querySelector('[data-download-primary]') : null;
+  let downloadOverlayLastFocus = null;
+
+  function isDownloadOverlayOpen() {
+    return downloadOverlay && downloadOverlay.getAttribute('aria-hidden') === 'false';
+  }
+
+  function focusFirstDownloadControl() {
+    if (!downloadOverlay) return;
+    const focusable = downloadOverlay.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
+    if (focusable.length > 0) {
+      focusable[0].focus();
+    }
+  }
+
+  function handleDownloadOverlayKeydown(event) {
+    if (!isDownloadOverlayOpen()) {
+      return;
+    }
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeDownloadOverlay();
+      return;
+    }
+    if (event.key !== 'Tab') {
+      return;
+    }
+    const focusable = downloadOverlay.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
+    if (!focusable.length) {
+      return;
+    }
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
+  function openDownloadOverlay(trigger) {
+    if (!downloadOverlay) {
+      return;
+    }
+    if (isDownloadOverlayOpen()) {
+      return;
+    }
+    downloadOverlayLastFocus = trigger || document.activeElement;
+    downloadOverlay.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('download-overlay-open');
+    document.addEventListener('keydown', handleDownloadOverlayKeydown);
+    setTimeout(() => {
+      if (downloadOverlayPrimaryAction) {
+        downloadOverlayPrimaryAction.focus();
+      } else {
+        focusFirstDownloadControl();
+      }
+    }, 0);
+  }
+
+  function closeDownloadOverlay() {
+    if (!downloadOverlay || !isDownloadOverlayOpen()) {
+      return;
+    }
+    downloadOverlay.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('download-overlay-open');
+    document.removeEventListener('keydown', handleDownloadOverlayKeydown);
+    if (downloadOverlayLastFocus && typeof downloadOverlayLastFocus.focus === 'function') {
+      downloadOverlayLastFocus.focus();
+    }
+  }
+
+  if (classicCvLink) {
+    classicCvLink.addEventListener('click', (event) => {
+      if (!downloadOverlay) {
+        return;
+      }
+      event.preventDefault();
+      openDownloadOverlay(classicCvLink);
+    });
+    classicCvLink.addEventListener('keydown', (event) => {
+      if ((event.key === 'Enter' || event.key === ' ') && downloadOverlay) {
+        event.preventDefault();
+        openDownloadOverlay(classicCvLink);
+      }
+    });
+  }
+
+  if (downloadOverlayCloseBtn) {
+    downloadOverlayCloseBtn.addEventListener('click', () => {
+      closeDownloadOverlay();
+    });
+  }
+
+  if (downloadOverlay) {
+    downloadOverlay.addEventListener('mousedown', (event) => {
+      if (event.target === downloadOverlay) {
+        closeDownloadOverlay();
+      }
+    });
+    downloadOverlay.addEventListener('click', (event) => {
+      if (event.target === downloadOverlay) {
+        closeDownloadOverlay();
+      }
+    });
+  }
+
+  if (downloadOverlayPrimaryAction) {
+    downloadOverlayPrimaryAction.addEventListener('click', () => {
+      setTimeout(() => {
+        closeDownloadOverlay();
+      }, 120);
+    });
+  }
+
   const competencesData = Array.isArray(window.CV_COMPETENCES) ? window.CV_COMPETENCES : [];
   const competencesByPeriode = competencesData.reduce((accumulator, competence) => {
     if (!competence || !competence.periode) {
