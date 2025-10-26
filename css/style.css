@@ -4196,6 +4196,33 @@ body.light .form-group input:-webkit-autofill:active {
     padding-bottom: 47px;
   }
 
+  /* Empêcher la sélection de texte sur les éléments interactifs */
+  button,
+  a,
+  .nav-btn,
+  .nav-search-btn,
+  .cta-btn,
+  .landing-cta-link,
+  .classic-cv-block,
+  .download-overlay-close,
+  .search-overlay-close,
+  .competences-mobile-btn,
+  .competence-titre,
+  .item-competence,
+  .range-slider,
+  .snap-marker,
+  label[for="theme-toggle"],
+  .dots-nav button,
+  .search-btn,
+  [role="button"],
+  [tabindex="0"] {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
   .header-search-bar {
     display: none !important;
   }
