@@ -276,7 +276,7 @@ export function initConsole(container) {
   createShell(term);
 
   // Mobile keyboard toggle: tap to close/open keyboard
-  let keyboardOpen = false;
+  let isClosing = false;
   function toggleMobileKeyboard(e) {
     // Only on touch devices
     if (!('ontouchstart' in window) && window.matchMedia('(pointer: fine)').matches) return;
@@ -285,22 +285,18 @@ export function initConsole(container) {
     if (!textarea) return;
 
     // If keyboard is open (textarea has focus), close it
-    if (document.activeElement === textarea || keyboardOpen) {
+    if (document.activeElement === textarea && !isClosing) {
+      e.preventDefault();
+      e.stopPropagation();
+      isClosing = true;
       textarea.blur();
-      keyboardOpen = false;
-    } else {
-      // Otherwise, open it
-      textarea.focus();
-      keyboardOpen = true;
+      // Prevent immediate reopen
+      setTimeout(() => { isClosing = false; }, 300);
     }
   }
 
-  // Track focus state
-  container.addEventListener('focusin', () => { keyboardOpen = true; });
-  container.addEventListener('focusout', () => { keyboardOpen = false; });
-  
-  // Toggle on tap (use touchend to avoid conflicting with text selection)
-  container.addEventListener('touchend', toggleMobileKeyboard, { passive: true });
+  // Use touchstart with capture to intercept before Xterm handles it
+  container.addEventListener('touchstart', toggleMobileKeyboard, { capture: true });
 
   // Cleanup hook
   return () => {
@@ -308,7 +304,7 @@ export function initConsole(container) {
     try { roFont.disconnect(); } catch {}
     try { mo.disconnect(); } catch {}
     try { window.removeEventListener('orientationchange', updateFontSize); } catch {}
-    try { container.removeEventListener('touchend', toggleMobileKeyboard); } catch {}
+    try { container.removeEventListener('touchstart', toggleMobileKeyboard, { capture: true }); } catch {}
     try { term.dispose(); } catch {}
   };
 }
