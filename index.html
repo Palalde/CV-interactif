@@ -259,61 +259,103 @@
     <section class="landing-block" id="s-search">
       <h2>Recherche</h2>
       <p>
-        recherchez parmis mes compétences et projets via une barre de recherche,
+        recherchez parmis mes compétences et projets <br />
         sur mobile accédez-y via la loupe
       </p>
-      <input
-        class="disabled-search"
-        value="Rechercher une compétence... (à venir)"
-        aria-disabled="true"
-      />
+      <form
+        class="header-search-bar header-search-bar-mock"
+        action="#"
+        method="get"
+        autocomplete="off"
+      >
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Recherchez dans les compétences"
+          name="q"
+          disabled
+          aria-disabled="true"
+        />
+        <button type="button" class="search-btn" title="Rechercher" disabled>
+          <img
+            src="/img/nav-icon/darkmode/loupe-bleu.png"
+            alt="Rechercher"
+            class="search-icon"
+          />
+        </button>
+      </form>
+      <p class="search-hint">
+        <em
+          >Astuce : Cliquez directement sur une compétence pour ouvrir sa
+          description détaillée dans l'overlay de recherche</em
+        >
+      </p>
     </section>
 
     <section class="landing-block" id="s-contact-cv">
-      <h2>Contact & CV PDF</h2>
+      <h2>Navbar</h2>
       <p>
-        Retrouvez toutes mes informations de contact sur une page dédiée, et
-        accédez rapidement à la version PDF de mon CV. Sur la page du CV, ces
-        fonctionnalités sont aussi accessibles depuis le header (icônes Contact
-        et PDF)
+        Accedez via le "header" aux informations de contact, au CV format PDF,
+        et au bouton pour passer de dark a light mode.
       </p>
-      <div class="mock contact-cv-mock">
-        <div class="contact-cv-grid">
-          <div class="contact-cv-card">
-            <strong>Contact</strong>
-            <p class="contact-cv-description">
-              Âge, localisation, profils (LinkedIn, GitHub) et moyens de
-              contact, avec icônes adaptées au thème.
-            </p>
-          </div>
-          <div class="contact-cv-card">
-            <strong>CV PDF</strong>
-            <p class="contact-cv-description">
-              Téléchargement rapide de mon CV au format PDF
-            </p>
-          </div>
-        </div>
-        <div class="cta-row contact-cv-cta-row">
-          <a href="/html/contact-info.html" class="cta-btn">Infos de contact</a>
+      <div class="mock navbar-mock">
+        <nav class="navbar navbar-visual">
           <a
-            href="/html/cv.html"
-            class="cta-btn secondary"
-            title="Ouvrir le CV (PDF dans le header)"
-            >Ouvrir le CV</a
+            href="#"
+            class="contact-info-block"
+            title="Contact / Info"
+            aria-disabled="true"
           >
-        </div>
-        <small class="contact-cv-hint"
-          >Astuce: sur la page du CV, utilisez les icônes du header pour accéder
-          au PDF et au contact.</small
-        >
+            <img
+              src="/img/nav-icon/darkmode/contact-blanc.png"
+              alt="Contact"
+              class="nav-icon icon-contact main"
+            />
+            <img
+              src="/img/nav-icon/darkmode/contact-bleu.png"
+              alt="Contact"
+              class="nav-icon icon-contact second"
+            />
+          </a>
+          <a
+            href="#"
+            class="classic-cv-block"
+            title="CV classique"
+            aria-disabled="true"
+          >
+            <img
+              src="/img/nav-icon/darkmode/pdf-blanc.png"
+              alt="CV PDF"
+              class="nav-icon icon-pdf main"
+            />
+            <img
+              src="/img/nav-icon/darkmode/pdf-bleu.png"
+              alt="CV PDF"
+              class="nav-icon icon-pdf second"
+            />
+          </a>
+          <label class="theme-switch">
+            <input type="checkbox" id="theme-toggle-mock" disabled />
+            <span class="slider">
+              <img
+                src="/img/nav-icon/lightmode/sun.png"
+                alt="Soleil"
+                class="icon sun"
+              />
+              <img
+                src="/img/nav-icon/darkmode/moon.png"
+                alt="Lune"
+                class="icon moon"
+              />
+            </span>
+          </label>
+        </nav>
       </div>
     </section>
 
     <section class="landing-block" id="s-enter">
       <h2>Prêt à explorer ?</h2>
-      <p>
-        Entrez et manipulez la timeline, les compétences et la démo trading.
-      </p>
+      <p>Entrez, manipulez et découvrez mon CV interactif</p>
       <a href="/html/cv.html" class="cta-btn">Entrer dans le CV</a>
     </section>
 

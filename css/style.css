@@ -220,6 +220,26 @@ body.light .landing-cta-link.secondary {
 body.light .landing-cta-link.secondary:hover {
   background: var(--background-general-dark);
 }
+/* Light mode styles for cta-btn */
+body.light .cta-btn {
+  background: var(--background-surface-light);
+  color: var(--text-dark);
+  border-color: transparent;
+}
+body.light .cta-btn.secondary {
+  background: transparent;
+  color: var(--text-dark);
+  border-color: var(--background-surface-light);
+}
+body.light .cta-btn:hover {
+  background: var(--text-dark);
+  color: var(--text-light);
+}
+body.light .cta-btn.secondary:hover {
+  background: var(--text-dark);
+  color: var(--text-light);
+  border-color: var(--text-dark);
+}
 /* Shrink only the 'Entrer dans le CV' button on very small screens */
 @media (max-width: 470px) {
   .landing-cta-link.enter-btn {
@@ -265,13 +285,14 @@ body.light .landing-block.hero h1 {
   background: var(--background-surface-dark);
   color: var(--text-light);
   padding: 0.9rem 1.6rem;
-  border-radius: 40px;
+  border-radius: 12px;
   font-weight: 600;
   letter-spacing: 0.5px;
   cursor: pointer;
   text-decoration: none;
-  transition: 0.25s;
+  transition: background 0.3s, color 0.3s, transform 0.25s;
   box-shadow: var(--shadow-main);
+  border: 2px solid transparent;
 }
 .cta-btn.secondary {
   background: transparent;
@@ -280,6 +301,13 @@ body.light .landing-block.hero h1 {
 }
 .cta-btn:hover {
   transform: translateY(-2px);
+  background: var(--text-light);
+  color: var(--text-dark);
+}
+.cta-btn.secondary:hover {
+  background: var(--text-light);
+  color: var(--text-dark);
+  border-color: var(--text-light);
 }
 .scroll-indicator {
   position: absolute;
@@ -728,6 +756,63 @@ body.light .tagline {
 body.light .disabled-search {
   color: var(--text-dark);
   border-color: var(--background-surface-light);
+}
+/* Mock search bar (visual replica from cv.html) */
+.header-search-bar-mock {
+  max-width: 460px;
+  width: 100%;
+  pointer-events: none;
+  opacity: 0.85;
+  margin: 0 auto;
+  height: 38px !important;
+  min-height: 38px;
+  max-height: 38px;
+  min-width: 300px;
+  flex: 0 0 auto;
+}
+.header-search-bar-mock .search-input {
+  cursor: not-allowed;
+}
+.header-search-bar-mock .search-btn {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+/* Mock navbar (visual replica from cv.html) */
+.navbar-mock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+.navbar-visual {
+  pointer-events: none;
+  opacity: 0.85;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 12px;
+}
+.navbar-visual a {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.navbar-visual .theme-switch input {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+.navbar-visual .theme-switch .slider {
+  cursor: not-allowed;
+}
+.search-hint {
+  margin-top: 0.8rem;
+  font-size: 0.85rem;
+  opacity: 0.75;
+  max-width: 520px;
+  line-height: 1.4;
+}
+.search-hint em {
+  font-style: italic;
+  opacity: 0.9;
 }
 .dots-nav {
   position: fixed;
@@ -4482,6 +4567,10 @@ body.light .form-group input:-webkit-autofill:active {
 
   .header-search-bar {
     display: none !important;
+  }
+  /* Exception: keep the mock search bar visible on landing page */
+  body.landing .header-search-bar-mock {
+    display: flex !important;
   }
   /* content */
   .content-section {
