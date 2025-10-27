@@ -409,9 +409,266 @@ body.light .timeline-slider-visual-input {
   background: rgba(0, 0, 0, 0.15);
   min-height: 140px;
   border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1rem;
+  position: relative;
+  overflow: hidden;
 }
 body.light .competence-card-placeholder {
   background: rgba(0, 0, 0, 0.08);
+}
+
+/* SVG visuals inside competence cards */
+.competence-visual-svg {
+  width: 80px;
+  height: 60px;
+  opacity: 0.85;
+}
+
+/* Panel animation (card 1) */
+.svg-screen {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  opacity: 0.4;
+}
+
+.svg-panel {
+  animation: panel-slide 2.5s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.svg-panel-bg {
+  fill: currentColor;
+  opacity: 0.3;
+}
+
+.svg-panel-line {
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: 0.6;
+}
+
+.svg-arrow {
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  opacity: 0.7;
+  animation: arrow-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes panel-slide {
+  0%,
+  100% {
+    transform: translateX(0);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateX(-30px);
+    opacity: 1;
+  }
+}
+
+@keyframes arrow-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Swipe gesture animation (card 2) */
+.svg-hand {
+  animation: hand-swipe 2.8s ease-in-out infinite;
+}
+
+.svg-hand-palm,
+.svg-hand-finger {
+  fill: currentColor;
+  opacity: 0.6;
+}
+
+.svg-swipe-arrow {
+  animation: swipe-arrow-move 2.8s ease-in-out infinite;
+}
+
+.svg-swipe-path {
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  opacity: 0.7;
+}
+
+@keyframes hand-swipe {
+  0%,
+  100% {
+    transform: translateX(-20px);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateX(20px);
+    opacity: 1;
+  }
+}
+
+@keyframes swipe-arrow-move {
+  0%,
+  100% {
+    transform: translateX(-10px);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateX(10px);
+    opacity: 1;
+  }
+}
+
+/* Vertical swipe UP animation (card 2 - mobile panel) */
+.svg-panel-base {
+  fill: currentColor;
+  opacity: 0.3;
+}
+
+.svg-drag-handle {
+  fill: currentColor;
+  opacity: 0.6;
+  animation: handle-pulse 2.5s ease-in-out infinite;
+}
+
+.svg-panel-content {
+  animation: content-reveal 2.5s ease-in-out infinite;
+  opacity: 0.5;
+}
+
+.svg-content-line {
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: 0.6;
+}
+
+.svg-hand-vertical {
+  animation: hand-swipe-up 2.5s ease-in-out infinite;
+}
+
+.svg-swipe-arrow-up {
+  animation: arrow-swipe-up 2.5s ease-in-out infinite;
+}
+
+.svg-swipe-path-vertical {
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  opacity: 0.7;
+}
+
+@keyframes handle-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes content-reveal {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translateY(20px);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hand-swipe-up {
+  0%,
+  100% {
+    transform: translateY(10px);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-30px);
+    opacity: 1;
+  }
+}
+
+@keyframes arrow-swipe-up {
+  0%,
+  100% {
+    transform: translateY(10px);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(-20px);
+    opacity: 1;
+  }
+}
+
+/* Text-only card (card 3) */
+.competence-card-text {
+  gap: 0.4rem;
+}
+
+.competence-text-icon {
+  font-size: 2rem;
+  animation: icon-bounce 2s ease-in-out infinite;
+}
+
+@keyframes icon-bounce {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.1);
+  }
+}
+
+.competence-visual-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  opacity: 0.8;
+  text-align: center;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .svg-panel,
+  .svg-arrow,
+  .svg-hand,
+  .svg-swipe-arrow,
+  .svg-hand-vertical,
+  .svg-swipe-arrow-up,
+  .svg-drag-handle,
+  .svg-panel-content,
+  .competence-text-icon {
+    animation: none;
+  }
+  .svg-panel {
+    transform: translateX(-15px);
+  }
+  .svg-hand-vertical {
+    transform: translateY(-15px);
+  }
 }
 .contact-cv-mock {
   gap: 1.2rem;

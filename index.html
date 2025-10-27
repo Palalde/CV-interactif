@@ -100,13 +100,158 @@
       <h2>compétences dynamiques</h2>
       <p>
         accédez aux compétences acquises de maniere dynamique via un panneau
-        latéral. Sur mobile: via un simple swipe horizontal
+        latéral. <br />
+        Sur mobile: via un simple swipe vertical
       </p>
       <div class="mock">
         <div class="competence-cards-preview">
-          <div class="competence-card-placeholder"></div>
-          <div class="competence-card-placeholder"></div>
-          <div class="competence-card-placeholder"></div>
+          <div class="competence-card-placeholder">
+            <!-- Panel animation SVG -->
+            <svg
+              class="competence-visual-svg"
+              viewBox="0 0 200 140"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <!-- Screen base -->
+              <rect
+                x="10"
+                y="10"
+                width="180"
+                height="120"
+                rx="8"
+                class="svg-screen"
+              />
+              <!-- Sliding panel -->
+              <g class="svg-panel">
+                <rect
+                  x="140"
+                  y="20"
+                  width="40"
+                  height="100"
+                  rx="4"
+                  class="svg-panel-bg"
+                />
+                <line
+                  x1="148"
+                  y1="30"
+                  x2="172"
+                  y2="30"
+                  class="svg-panel-line"
+                />
+                <line
+                  x1="148"
+                  y1="40"
+                  x2="172"
+                  y2="40"
+                  class="svg-panel-line"
+                />
+                <line
+                  x1="148"
+                  y1="50"
+                  x2="172"
+                  y2="50"
+                  class="svg-panel-line"
+                />
+                <line
+                  x1="148"
+                  y1="60"
+                  x2="168"
+                  y2="60"
+                  class="svg-panel-line"
+                />
+              </g>
+              <!-- Arrow indicator -->
+              <path
+                d="M 120 70 L 130 70 L 125 65 M 130 70 L 125 75"
+                class="svg-arrow"
+              />
+            </svg>
+            <span class="competence-visual-label">Panneau latéral</span>
+          </div>
+          <div class="competence-card-placeholder">
+            <!-- Swipe UP gesture SVG (panneau mobile) -->
+            <svg
+              class="competence-visual-svg"
+              viewBox="0 0 200 140"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <!-- Bottom panel base -->
+              <rect
+                x="20"
+                y="100"
+                width="160"
+                height="30"
+                rx="8"
+                class="svg-panel-base"
+              />
+              <!-- Drag handle -->
+              <rect
+                x="85"
+                y="105"
+                width="30"
+                height="4"
+                rx="2"
+                class="svg-drag-handle"
+              />
+              <!-- Panel content lines (visible when open) -->
+              <g class="svg-panel-content">
+                <line
+                  x1="30"
+                  y1="50"
+                  x2="170"
+                  y2="50"
+                  class="svg-content-line"
+                />
+                <line
+                  x1="30"
+                  y1="60"
+                  x2="160"
+                  y2="60"
+                  class="svg-content-line"
+                />
+                <line
+                  x1="30"
+                  y1="70"
+                  x2="150"
+                  y2="70"
+                  class="svg-content-line"
+                />
+              </g>
+              <!-- Hand swiping UP -->
+              <g class="svg-hand-vertical">
+                <ellipse
+                  cx="100"
+                  cy="110"
+                  rx="14"
+                  ry="18"
+                  class="svg-hand-palm"
+                />
+                <rect
+                  x="95"
+                  y="92"
+                  width="10"
+                  height="20"
+                  rx="5"
+                  class="svg-hand-finger"
+                />
+              </g>
+              <!-- Upward arrow -->
+              <g class="svg-swipe-arrow-up">
+                <path d="M 100 120 L 100 40" class="svg-swipe-path-vertical" />
+                <path
+                  d="M 95 45 L 100 40 L 105 45"
+                  class="svg-swipe-path-vertical"
+                />
+              </g>
+            </svg>
+            <span class="competence-visual-label">Swipez ↑</span>
+          </div>
+          <div class="competence-card-placeholder competence-card-text">
+            <span class="competence-text-icon">💡</span>
+            <span class="competence-visual-label">Adapté au contexte</span>
+          </div>
         </div>
       </div>
     </section>
