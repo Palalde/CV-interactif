@@ -75,12 +75,17 @@ function updateNavIcons(isLight) {
 
 // THEME TOGGLE
 const themeToggle = document.getElementById('theme-toggle');
+const themeToggleMock = document.getElementById('theme-toggle-mock');
 
 if (themeToggle) {
   themeToggle.addEventListener('change', e => {
     const isLight = e.target.checked;
     document.body.classList.toggle('light', isLight);
     updateNavIcons(isLight);
+    // Sync mock toggle on landing page
+    if (themeToggleMock) {
+      themeToggleMock.checked = isLight;
+    }
   });
 }
 
@@ -88,6 +93,7 @@ if (themeToggle) {
 const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
 document.body.classList.toggle('light', prefersLight);
 if (themeToggle) themeToggle.checked = prefersLight;
+if (themeToggleMock) themeToggleMock.checked = prefersLight;
 
 // Initial sync nav icons
 updateNavIcons(prefersLight);

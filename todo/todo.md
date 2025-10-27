@@ -4,9 +4,7 @@
 
 ### 🔴 Urgent
 
-#### index:
-
--revoir la structure et le contenu des diffents blocks de l'index
+-fonctionnement de la page contact
 
 ### 🟠 Important
 
