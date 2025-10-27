@@ -139,7 +139,7 @@ function createShell(term) {
       return 'Ouverture de la page Contact…';
     },
     pdf() {
-      openUrl('/cv-classique.pdf');
+      openUrl('/html/cv-classique.pdf');
       return 'Ouverture du CV PDF…';
     },
     dev() {
@@ -275,12 +275,40 @@ export function initConsole(container) {
   // Shell behavior
   createShell(term);
 
+  // Mobile keyboard toggle: tap to close/open keyboard
+  let keyboardOpen = false;
+  function toggleMobileKeyboard(e) {
+    // Only on touch devices
+    if (!('ontouchstart' in window) && window.matchMedia('(pointer: fine)').matches) return;
+    
+    const textarea = container.querySelector('textarea.xterm-helper-textarea');
+    if (!textarea) return;
+
+    // If keyboard is open (textarea has focus), close it
+    if (document.activeElement === textarea || keyboardOpen) {
+      textarea.blur();
+      keyboardOpen = false;
+    } else {
+      // Otherwise, open it
+      textarea.focus();
+      keyboardOpen = true;
+    }
+  }
+
+  // Track focus state
+  container.addEventListener('focusin', () => { keyboardOpen = true; });
+  container.addEventListener('focusout', () => { keyboardOpen = false; });
+  
+  // Toggle on tap (use touchend to avoid conflicting with text selection)
+  container.addEventListener('touchend', toggleMobileKeyboard, { passive: true });
+
   // Cleanup hook
   return () => {
     try { ro.disconnect(); } catch {}
     try { roFont.disconnect(); } catch {}
     try { mo.disconnect(); } catch {}
     try { window.removeEventListener('orientationchange', updateFontSize); } catch {}
+    try { container.removeEventListener('touchend', toggleMobileKeyboard); } catch {}
     try { term.dispose(); } catch {}
   };
 }

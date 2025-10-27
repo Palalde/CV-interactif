@@ -77,11 +77,39 @@ function updateNavIcons(isLight) {
 const themeToggle = document.getElementById('theme-toggle');
 const themeToggleMock = document.getElementById('theme-toggle-mock');
 
+// Function to apply theme
+function applyTheme(isLight) {
+  document.body.classList.toggle('light', isLight);
+  updateNavIcons(isLight);
+  if (themeToggle) themeToggle.checked = isLight;
+  if (themeToggleMock) themeToggleMock.checked = isLight;
+}
+
+// Function to save theme preference
+function saveThemePreference(isLight) {
+  localStorage.setItem('theme-preference', isLight ? 'light' : 'dark');
+}
+
+// Get initial theme from localStorage or system preference
+function getInitialTheme() {
+  const savedTheme = localStorage.getItem('theme-preference');
+  if (savedTheme !== null) {
+    return savedTheme === 'light';
+  }
+  // Fallback to system preference
+  return window.matchMedia('(prefers-color-scheme: light)').matches;
+}
+
+// Apply initial theme
+const initialTheme = getInitialTheme();
+applyTheme(initialTheme);
+
+// Theme toggle event listener
 if (themeToggle) {
   themeToggle.addEventListener('change', e => {
     const isLight = e.target.checked;
-    document.body.classList.toggle('light', isLight);
-    updateNavIcons(isLight);
+    applyTheme(isLight);
+    saveThemePreference(isLight);
     // Sync mock toggle on landing page
     if (themeToggleMock) {
       themeToggleMock.checked = isLight;
@@ -89,11 +117,15 @@ if (themeToggle) {
   });
 }
 
-// System Pref
-const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-document.body.classList.toggle('light', prefersLight);
-if (themeToggle) themeToggle.checked = prefersLight;
-if (themeToggleMock) themeToggleMock.checked = prefersLight;
-
-// Initial sync nav icons
-updateNavIcons(prefersLight);
+// Mock toggle event listener (for landing page)
+if (themeToggleMock) {
+  themeToggleMock.addEventListener('change', e => {
+    const isLight = e.target.checked;
+    applyTheme(isLight);
+    saveThemePreference(isLight);
+    // Sync real toggle if present
+    if (themeToggle) {
+      themeToggle.checked = isLight;
+    }
+  });
+}
