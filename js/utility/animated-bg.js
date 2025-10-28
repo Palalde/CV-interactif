@@ -252,10 +252,10 @@
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-      const widthChanged = Math.abs(window.innerWidth - lastWidth) > 50;
-      const heightChanged = Math.abs(window.innerHeight - lastHeight) > 100;
+      const widthChanged = Math.abs(window.innerWidth - lastWidth) > 100;
+      const heightChanged = Math.abs(window.innerHeight - lastHeight) > 150;
       
-      // Only rebuild if significant size change (not just mobile URL bar)
+      // Only rebuild if significant size change (not just mobile/tablet URL bar or keyboard)
       if (widthChanged || heightChanged) {
         lastWidth = window.innerWidth;
         lastHeight = window.innerHeight;
