@@ -5,18 +5,11 @@
 
 (function () {
   if (!document.body.classList.contains('landing')) return;
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const getMotionReduced = () => document.body.classList.contains('motion-reduced');
+  let motionReduced = getMotionReduced();
   const canvas = document.getElementById('animated-bg');
   if (!canvas) return;
-  
-  const ctx = canvas.getContext('2d', { alpha: false });
-  if (!ctx) {
-    console.error('Canvas context not available');
-    return;
-  }
-
-  // Safari-compatible timestamp
-  const now = () => performance.now ? performance.now() : Date.now();
+  const ctx = canvas.getContext('2d');
 
   // DPR-aware sizing
   function sizeCanvas() {
@@ -26,9 +19,7 @@
     canvas.height = Math.max(1, Math.floor(rect.h * dpr));
     canvas.style.width = rect.w + 'px';
     canvas.style.height = rect.h + 'px';
-    // Reset transform completely before scaling (iOS fix)
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.scale(dpr, dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // reset and scale to dpr
   }
 
   // Colors based on theme
@@ -114,38 +105,29 @@
     ctx.save();
     ctx.strokeStyle = theme.grid;
     ctx.lineWidth = 1;
-    ctx.lineCap = 'butt';
     const step = 36;
-    const w = window.innerWidth;
-    const h = window.innerHeight;
-    
-    // Vertical lines
-    ctx.beginPath();
-    for (let x = 0; x < w; x += step) {
-      ctx.moveTo(Math.round(x), 0);
-      ctx.lineTo(Math.round(x), h);
-    }
-    try {
+    for (let x = 0; x < window.innerWidth; x += step) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, window.innerHeight);
       ctx.stroke();
-    } catch (e) {}
-    
-    // Horizontal lines
-    ctx.beginPath();
-    for (let y = 0; y < h; y += step) {
-      ctx.moveTo(0, Math.round(y));
-      ctx.lineTo(w, Math.round(y));
     }
-    try {
+    for (let y = 0; y < window.innerHeight; y += step) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(window.innerWidth, y);
       ctx.stroke();
-    } catch (e) {}
-    
+    }
     ctx.restore();
   }
 
   function drawCode(theme, dt) {
     const t = theme;
+    ctx.save();
+    ctx.font = '12px ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace';
+    ctx.textBaseline = 'top';
     codeLines.forEach((line, idx) => {
-      if (!prefersReduced) {
+      if (!motionReduced) {
         line.progress += line.speed * dt * 0.5;
         if (line.progress > line.text.length + 12) {
           line.text = codeSnippets[(Math.floor(Math.random() * codeSnippets.length))];
@@ -158,77 +140,49 @@
       const shown = Math.max(0, Math.min(line.text.length, Math.floor(line.progress)));
       const x = 24 + (idx % 2) * 14;
       const text = line.text.slice(0, shown);
-      
-      // Draw each line separately with save/restore for iOS stability
-      ctx.save();
-      ctx.font = '12px Menlo, Monaco, Consolas, "Courier New", monospace';
-      ctx.textBaseline = 'top';
       ctx.fillStyle = t.code;
-      try {
-        ctx.fillText(text, Math.round(x), Math.round(line.y));
-      } catch (e) {
-        // Fallback if text rendering fails
-      }
-      
+      ctx.fillText(text, x, line.y);
       // blinking caret (skip in reduced motion)
-      if (!prefersReduced && Math.floor(line.progress) % 2 === 0) {
+      if (!motionReduced && Math.floor(line.progress) % 2 === 0) {
         ctx.fillStyle = t.codeStrong;
         const caretX = x + ctx.measureText(text).width + 1;
-        ctx.fillRect(Math.round(caretX), Math.round(line.y + 1), 6, 12);
+        ctx.fillRect(caretX, line.y + 1, 6, 12);
       }
-      ctx.restore();
     });
+    ctx.restore();
   }
 
   function drawChart(theme, dt) {
-    if (prefersReduced) return; // Skip in reduced motion
-    
     chartProgress += dt * 0.6;
     if (chartProgress > 1.2) chartProgress = 0;
-    const t = theme;
+  const t = theme;
     const maxIndex = Math.floor(chartPtsUp.length * Math.min(1, chartProgress));
-    
-    // up trend
     ctx.save();
+    // up trend
     ctx.strokeStyle = t.chartUp;
     ctx.lineWidth = 2;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
     ctx.beginPath();
     for (let i = 0; i < maxIndex; i++) {
       const p = chartPtsUp[i];
-      if (i === 0) ctx.moveTo(Math.round(p.x), Math.round(p.y));
-      else ctx.lineTo(Math.round(p.x), Math.round(p.y));
+      if (i === 0) ctx.moveTo(p.x, p.y);
+      else ctx.lineTo(p.x, p.y);
     }
-    try {
-      ctx.stroke();
-    } catch (e) {
-      // iOS stroke rendering can fail
-    }
-    ctx.restore();
-    
+    ctx.stroke();
     // down trend
-    ctx.save();
     ctx.strokeStyle = t.chartDown;
-    ctx.lineWidth = 2;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
     ctx.beginPath();
     const maxIdx2 = Math.floor(chartPtsDown.length * Math.max(0, Math.min(1, chartProgress - 0.2)));
     for (let i = 0; i < maxIdx2; i++) {
       const p = chartPtsDown[i];
-      if (i === 0) ctx.moveTo(Math.round(p.x), Math.round(p.y));
-      else ctx.lineTo(Math.round(p.x), Math.round(p.y));
+      if (i === 0) ctx.moveTo(p.x, p.y);
+      else ctx.lineTo(p.x, p.y);
     }
-    try {
-      ctx.stroke();
-    } catch (e) {
-      // iOS stroke rendering can fail
-    }
+    ctx.stroke();
     ctx.restore();
   }
 
   function drawFloaters(theme, dt) {
+    ctx.save();
     floaters.forEach(f => {
       f.y -= (f.speed * dt);
       f.x += Math.sin((f.y + f.phase) * 0.02) * 0.6; // gentle horizontal sway
@@ -236,18 +190,11 @@
         f.y = window.innerHeight + 20;
         f.x = Math.random() * window.innerWidth;
       }
-      // Draw each emoji separately with save/restore for iOS stability
-      ctx.save();
-      ctx.font = `${f.s}px Arial, Helvetica, sans-serif`;
+      ctx.font = `${f.s}px system-ui, Apple Color Emoji, Segoe UI Emoji`;
       ctx.globalAlpha = 0.8;
-      ctx.fillStyle = theme.fruit;
-      try {
-        ctx.fillText(f.emoji, Math.round(f.x), Math.round(f.y));
-      } catch (e) {
-        // iOS emoji rendering can fail silently
-      }
-      ctx.restore();
+      ctx.fillText(f.emoji, f.x, f.y);
     });
+    ctx.restore();
   }
 
   function clear(theme) {
@@ -258,16 +205,15 @@
     ctx.restore();
   }
 
-  let last = now();
+  let last = performance.now();
   let rafId = 0;
-  function frame(timestamp) {
-    const currentTime = timestamp || now();
-    const dt = Math.min(0.05, (currentTime - last) / 1000); // cap dt for stability
-    last = currentTime;
+  function frame(now) {
+    const dt = Math.min(0.05, (now - last) / 1000); // cap dt for stability
+    last = now;
     const theme = getTheme();
     clear(theme);
     drawGrid(theme);
-    if (!prefersReduced) {
+    if (!motionReduced) {
       drawChart(theme, dt);
       drawFloaters(theme, dt);
     }
@@ -283,40 +229,55 @@
     initFloaters();
   }
 
-  // React to theme toggle
-  const themeObserver = new MutationObserver(() => {
-    // No need to rebuild; colors come from getTheme(); just repaint next frame
+  // React to theme or motion preference changes
+  const classObserver = new MutationObserver(() => {
+    const previous = motionReduced;
+    motionReduced = getMotionReduced();
+    if (previous && !motionReduced) {
+      initCode();
+      chartProgress = 0;
+      initFloaters();
+    } else if (!previous && motionReduced) {
+      codeLines.forEach((line) => {
+        line.progress = line.text.length;
+      });
+    }
   });
-  themeObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  classObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+  document.addEventListener('motion-preference-change', (event) => {
+    const previous = motionReduced;
+    if (event && typeof event.detail === 'object' && 'shouldReduce' in event.detail) {
+      motionReduced = !!event.detail.shouldReduce;
+    } else {
+      motionReduced = getMotionReduced();
+    }
+    if (previous && !motionReduced) {
+      initCode();
+      chartProgress = 0;
+      initFloaters();
+    } else if (!previous && motionReduced) {
+      codeLines.forEach((line) => {
+        line.progress = line.text.length;
+      });
+    }
+  });
 
   // Pause when hidden
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      if (rafId) cancelAnimationFrame(rafId);
-    } else {
-      last = now();
+    if (document.hidden) cancelAnimationFrame(rafId);
+    else {
+      last = performance.now();
       rafId = requestAnimationFrame(frame);
     }
   });
 
   // Resize handling
-  let resizeTimeout;
   window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      rebuild();
-    }, 150);
+    rebuild();
   });
 
   // Start
-  try {
-    console.log('🎨 Starting animated background...');
-    rebuild();
-    last = now();
-    console.log('🎨 Animation initialized, starting RAF...');
-    rafId = requestAnimationFrame(frame);
-    console.log('🎨 RAF started with ID:', rafId);
-  } catch (e) {
-    console.error('❌ Animation error:', e);
-  }
+  rebuild();
+  rafId = requestAnimationFrame(frame);
 })();
