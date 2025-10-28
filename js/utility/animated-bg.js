@@ -244,9 +244,27 @@
     }
   });
 
-  // Resize handling
+  // Resize handling: debounce to avoid reset on mobile scroll/slide
+  let resizeTimeout;
+  let lastWidth = window.innerWidth;
+  let lastHeight = window.innerHeight;
+  
   window.addEventListener('resize', () => {
-    rebuild();
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      const widthChanged = Math.abs(window.innerWidth - lastWidth) > 50;
+      const heightChanged = Math.abs(window.innerHeight - lastHeight) > 100;
+      
+      // Only rebuild if significant size change (not just mobile URL bar)
+      if (widthChanged || heightChanged) {
+        lastWidth = window.innerWidth;
+        lastHeight = window.innerHeight;
+        rebuild();
+      } else {
+        // Just resize canvas without resetting animations
+        sizeCanvas();
+      }
+    }, 150);
   });
 
   // Start
