@@ -8,7 +8,15 @@
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const canvas = document.getElementById('animated-bg');
   if (!canvas) return;
-  const ctx = canvas.getContext('2d');
+  
+  const ctx = canvas.getContext('2d', { alpha: false });
+  if (!ctx) {
+    console.error('Canvas context not available');
+    return;
+  }
+
+  // Safari-compatible timestamp
+  const now = () => performance.now ? performance.now() : Date.now();
 
   // DPR-aware sizing
   function sizeCanvas() {
@@ -18,7 +26,7 @@
     canvas.height = Math.max(1, Math.floor(rect.h * dpr));
     canvas.style.width = rect.w + 'px';
     canvas.style.height = rect.h + 'px';
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // reset and scale to dpr
+    ctx.scale(dpr, dpr); // Safari-compatible scaling
   }
 
   // Colors based on theme
@@ -123,7 +131,7 @@
   function drawCode(theme, dt) {
     const t = theme;
     ctx.save();
-    ctx.font = '12px ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace';
+    ctx.font = '12px Menlo, Monaco, Consolas, "Courier New", monospace';
     ctx.textBaseline = 'top';
     codeLines.forEach((line, idx) => {
       if (!prefersReduced) {
@@ -189,10 +197,12 @@
         f.y = window.innerHeight + 20;
         f.x = Math.random() * window.innerWidth;
       }
-      ctx.font = `${f.s}px system-ui, Apple Color Emoji, Segoe UI Emoji`;
+      ctx.font = `${f.s}px Arial, sans-serif`;
       ctx.globalAlpha = 0.8;
+      ctx.fillStyle = theme.fruit;
       ctx.fillText(f.emoji, f.x, f.y);
     });
+    ctx.globalAlpha = 1.0;
     ctx.restore();
   }
 
@@ -204,11 +214,12 @@
     ctx.restore();
   }
 
-  let last = performance.now();
+  let last = now();
   let rafId = 0;
-  function frame(now) {
-    const dt = Math.min(0.05, (now - last) / 1000); // cap dt for stability
-    last = now;
+  function frame(timestamp) {
+    const currentTime = timestamp || now();
+    const dt = Math.min(0.05, (currentTime - last) / 1000); // cap dt for stability
+    last = currentTime;
     const theme = getTheme();
     clear(theme);
     drawGrid(theme);
@@ -236,19 +247,29 @@
 
   // Pause when hidden
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) cancelAnimationFrame(rafId);
-    else {
-      last = performance.now();
+    if (document.hidden) {
+      if (rafId) cancelAnimationFrame(rafId);
+    } else {
+      last = now();
       rafId = requestAnimationFrame(frame);
     }
   });
 
   // Resize handling
+  let resizeTimeout;
   window.addEventListener('resize', () => {
-    rebuild();
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      rebuild();
+    }, 150);
   });
 
   // Start
-  rebuild();
-  rafId = requestAnimationFrame(frame);
+  try {
+    rebuild();
+    last = now();
+    rafId = requestAnimationFrame(frame);
+  } catch (e) {
+    console.error('Animation error:', e);
+  }
 })();
