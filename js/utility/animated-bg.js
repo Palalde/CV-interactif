@@ -1,12 +1,12 @@
 // Animated background for index (landing)
 // - Three lightweight motifs: typing code lines, drawing charts, floating fruits/veggies
-// - Theme-aware, responsive to DPR and resize, respects prefers-reduced-motion
+// - Theme-aware, responsive to DPR and resize
 // - Non-blocking: runs only on index (body.landing) and pauses when tab hidden
 
 (function () {
   if (!document.body.classList.contains('landing')) return;
-  const getMotionReduced = () => document.body.classList.contains('motion-reduced');
-  let motionReduced = getMotionReduced();
+  // Force animations to work on all devices (removed prefers-reduced-motion check)
+  const prefersReduced = false;
   const canvas = document.getElementById('animated-bg');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
@@ -127,7 +127,7 @@
     ctx.font = '12px ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace';
     ctx.textBaseline = 'top';
     codeLines.forEach((line, idx) => {
-      if (!motionReduced) {
+      if (!prefersReduced) {
         line.progress += line.speed * dt * 0.5;
         if (line.progress > line.text.length + 12) {
           line.text = codeSnippets[(Math.floor(Math.random() * codeSnippets.length))];
@@ -143,7 +143,7 @@
       ctx.fillStyle = t.code;
       ctx.fillText(text, x, line.y);
       // blinking caret (skip in reduced motion)
-      if (!motionReduced && Math.floor(line.progress) % 2 === 0) {
+      if (!prefersReduced && Math.floor(line.progress) % 2 === 0) {
         ctx.fillStyle = t.codeStrong;
         const caretX = x + ctx.measureText(text).width + 1;
         ctx.fillRect(caretX, line.y + 1, 6, 12);
@@ -213,7 +213,7 @@
     const theme = getTheme();
     clear(theme);
     drawGrid(theme);
-    if (!motionReduced) {
+    if (!prefersReduced) {
       drawChart(theme, dt);
       drawFloaters(theme, dt);
     }
@@ -229,39 +229,11 @@
     initFloaters();
   }
 
-  // React to theme or motion preference changes
-  const classObserver = new MutationObserver(() => {
-    const previous = motionReduced;
-    motionReduced = getMotionReduced();
-    if (previous && !motionReduced) {
-      initCode();
-      chartProgress = 0;
-      initFloaters();
-    } else if (!previous && motionReduced) {
-      codeLines.forEach((line) => {
-        line.progress = line.text.length;
-      });
-    }
+  // React to theme toggle
+  const themeObserver = new MutationObserver(() => {
+    // No need to rebuild; colors come from getTheme(); just repaint next frame
   });
-  classObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-
-  document.addEventListener('motion-preference-change', (event) => {
-    const previous = motionReduced;
-    if (event && typeof event.detail === 'object' && 'shouldReduce' in event.detail) {
-      motionReduced = !!event.detail.shouldReduce;
-    } else {
-      motionReduced = getMotionReduced();
-    }
-    if (previous && !motionReduced) {
-      initCode();
-      chartProgress = 0;
-      initFloaters();
-    } else if (!previous && motionReduced) {
-      codeLines.forEach((line) => {
-        line.progress = line.text.length;
-      });
-    }
-  });
+  themeObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
   // Pause when hidden
   document.addEventListener('visibilitychange', () => {
