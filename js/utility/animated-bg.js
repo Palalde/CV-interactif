@@ -26,7 +26,9 @@
     canvas.height = Math.max(1, Math.floor(rect.h * dpr));
     canvas.style.width = rect.w + 'px';
     canvas.style.height = rect.h + 'px';
-    ctx.scale(dpr, dpr); // Safari-compatible scaling
+    // Reset transform completely before scaling (iOS fix)
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(dpr, dpr);
   }
 
   // Colors based on theme
@@ -112,27 +114,36 @@
     ctx.save();
     ctx.strokeStyle = theme.grid;
     ctx.lineWidth = 1;
+    ctx.lineCap = 'butt';
     const step = 36;
-    for (let x = 0; x < window.innerWidth; x += step) {
-      ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, window.innerHeight);
-      ctx.stroke();
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    
+    // Vertical lines
+    ctx.beginPath();
+    for (let x = 0; x < w; x += step) {
+      ctx.moveTo(Math.round(x), 0);
+      ctx.lineTo(Math.round(x), h);
     }
-    for (let y = 0; y < window.innerHeight; y += step) {
-      ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(window.innerWidth, y);
+    try {
       ctx.stroke();
+    } catch (e) {}
+    
+    // Horizontal lines
+    ctx.beginPath();
+    for (let y = 0; y < h; y += step) {
+      ctx.moveTo(0, Math.round(y));
+      ctx.lineTo(w, Math.round(y));
     }
+    try {
+      ctx.stroke();
+    } catch (e) {}
+    
     ctx.restore();
   }
 
   function drawCode(theme, dt) {
     const t = theme;
-    ctx.save();
-    ctx.font = '12px Menlo, Monaco, Consolas, "Courier New", monospace';
-    ctx.textBaseline = 'top';
     codeLines.forEach((line, idx) => {
       if (!prefersReduced) {
         line.progress += line.speed * dt * 0.5;
@@ -147,49 +158,77 @@
       const shown = Math.max(0, Math.min(line.text.length, Math.floor(line.progress)));
       const x = 24 + (idx % 2) * 14;
       const text = line.text.slice(0, shown);
+      
+      // Draw each line separately with save/restore for iOS stability
+      ctx.save();
+      ctx.font = '12px Menlo, Monaco, Consolas, "Courier New", monospace';
+      ctx.textBaseline = 'top';
       ctx.fillStyle = t.code;
-      ctx.fillText(text, x, line.y);
+      try {
+        ctx.fillText(text, Math.round(x), Math.round(line.y));
+      } catch (e) {
+        // Fallback if text rendering fails
+      }
+      
       // blinking caret (skip in reduced motion)
       if (!prefersReduced && Math.floor(line.progress) % 2 === 0) {
         ctx.fillStyle = t.codeStrong;
         const caretX = x + ctx.measureText(text).width + 1;
-        ctx.fillRect(caretX, line.y + 1, 6, 12);
+        ctx.fillRect(Math.round(caretX), Math.round(line.y + 1), 6, 12);
       }
+      ctx.restore();
     });
-    ctx.restore();
   }
 
   function drawChart(theme, dt) {
+    if (prefersReduced) return; // Skip in reduced motion
+    
     chartProgress += dt * 0.6;
     if (chartProgress > 1.2) chartProgress = 0;
-  const t = theme;
+    const t = theme;
     const maxIndex = Math.floor(chartPtsUp.length * Math.min(1, chartProgress));
-    ctx.save();
+    
     // up trend
+    ctx.save();
     ctx.strokeStyle = t.chartUp;
     ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
     ctx.beginPath();
     for (let i = 0; i < maxIndex; i++) {
       const p = chartPtsUp[i];
-      if (i === 0) ctx.moveTo(p.x, p.y);
-      else ctx.lineTo(p.x, p.y);
+      if (i === 0) ctx.moveTo(Math.round(p.x), Math.round(p.y));
+      else ctx.lineTo(Math.round(p.x), Math.round(p.y));
     }
-    ctx.stroke();
+    try {
+      ctx.stroke();
+    } catch (e) {
+      // iOS stroke rendering can fail
+    }
+    ctx.restore();
+    
     // down trend
+    ctx.save();
     ctx.strokeStyle = t.chartDown;
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
     ctx.beginPath();
     const maxIdx2 = Math.floor(chartPtsDown.length * Math.max(0, Math.min(1, chartProgress - 0.2)));
     for (let i = 0; i < maxIdx2; i++) {
       const p = chartPtsDown[i];
-      if (i === 0) ctx.moveTo(p.x, p.y);
-      else ctx.lineTo(p.x, p.y);
+      if (i === 0) ctx.moveTo(Math.round(p.x), Math.round(p.y));
+      else ctx.lineTo(Math.round(p.x), Math.round(p.y));
     }
-    ctx.stroke();
+    try {
+      ctx.stroke();
+    } catch (e) {
+      // iOS stroke rendering can fail
+    }
     ctx.restore();
   }
 
   function drawFloaters(theme, dt) {
-    ctx.save();
     floaters.forEach(f => {
       f.y -= (f.speed * dt);
       f.x += Math.sin((f.y + f.phase) * 0.02) * 0.6; // gentle horizontal sway
@@ -197,13 +236,18 @@
         f.y = window.innerHeight + 20;
         f.x = Math.random() * window.innerWidth;
       }
-      ctx.font = `${f.s}px Arial, sans-serif`;
+      // Draw each emoji separately with save/restore for iOS stability
+      ctx.save();
+      ctx.font = `${f.s}px Arial, Helvetica, sans-serif`;
       ctx.globalAlpha = 0.8;
       ctx.fillStyle = theme.fruit;
-      ctx.fillText(f.emoji, f.x, f.y);
+      try {
+        ctx.fillText(f.emoji, Math.round(f.x), Math.round(f.y));
+      } catch (e) {
+        // iOS emoji rendering can fail silently
+      }
+      ctx.restore();
     });
-    ctx.globalAlpha = 1.0;
-    ctx.restore();
   }
 
   function clear(theme) {
@@ -266,10 +310,13 @@
 
   // Start
   try {
+    console.log('🎨 Starting animated background...');
     rebuild();
     last = now();
+    console.log('🎨 Animation initialized, starting RAF...');
     rafId = requestAnimationFrame(frame);
+    console.log('🎨 RAF started with ID:', rafId);
   } catch (e) {
-    console.error('Animation error:', e);
+    console.error('❌ Animation error:', e);
   }
 })();
