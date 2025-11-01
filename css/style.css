@@ -4836,3 +4836,12 @@ body.light .form-group input:-webkit-autofill:active {
   scrollbar-width: thin;
   scrollbar-color: rgba(100, 100, 100, 0.4) transparent;
 }
+
+/* =============================================
+   EXERCICE CSS
+   ============================================= */
+
+.grow {
+  transition: transform 0.2s ease;
+  transform: scale(1.1);
+}
