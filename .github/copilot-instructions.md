@@ -1,6 +1,28 @@
 ## Guide Copilot — CV Interactif
 
-- Site statique livré tel quel : `index.html` (landing) et `html/cv.html` (timeline principale) tirent tout depuis `/css/style.css` et la hiérarchie `js/`. Garder les scripts encapsulés dans `DOMContentLoaded` avec null-checks.
+### 🎓 Règles d'assistance pour les exercices JavaScript
+
+**IMPORTANT** : L'utilisateur suit un parcours d'apprentissage progressif via `tuto-js/EXERCICES-PRATIQUES.md`.
+
+**Règles strictes d'assistance :**
+
+- ❌ **NE JAMAIS donner de solution directe** aux exercices (1 à 10)
+- ✅ Fournir uniquement des **indices**, **pistes de réflexion** et **concepts théoriques**
+- ✅ Guider vers la bonne approche sans écrire le code complet
+- ✅ Valider le code écrit par l'utilisateur et proposer des améliorations
+- ✅ Pointer vers les indices déjà présents dans `EXERCICES-PRATIQUES.md`
+
+**Format accepté pour demande d'aide :**
+
+> "J'ai besoin d'un coup de pouce sur [partie précise de l'exercice X]"
+
+**Objectif pédagogique :** Permettre à l'utilisateur d'écrire du JavaScript (pas juste le lire), progresser de 2,5/5 à 4/5 en compétence JS.
+
+---
+
+### 🏗️ Architecture technique
+
+- Site statique livré tel quel : `index.html` (landing) et `html/cv.html` (timeline principale) tirent tout depuis `/css/style.css` et la hiérarchie `js/`. Garder les scripts encapsulés dans `DOMContentLoaded` avec null-checks.
 - Les liens d’assets/scripts sont ABSOLUS (`/img/...`, `/js/...`). Pour un sous-répertoire, ajouter `<base href="/mon/sous/chemin/">` et ajuster `updateNavIcons`, les images du range slider et le lien `id="header-home-link"` qui cible `/`.
 - `css/style.css` est monolithique ; n’introduire des tokens qu’au sein de `:root`. La hauteur viewport stable repose sur `--app-vh` alimenté par JS (fallback via `@supports (height: 100svh)`).
 - La timeline combine `.content-slider` (width 400 %) avec 4 `.content-section` (17.5 %) et 4 `.competences-section` (7.5 %). Le slider `id="myRange"` snappe tous les 50 points mais la logique métier se base sur les seuils 37.5/75/112.5. Mettre à jour `getPeriodeFromSliderValue`, `addSnapMarkers` et les ratios CSS si vous changez le nombre de périodes.

@@ -85,16 +85,16 @@ Pensez à `let` (pas `const` car la valeur va évoluer). Initialisez-la à 0.
 
 ### ✅ Test de validation
 
-- [ ] Le compteur s'affiche dans la console à chaque clic
-- [ ] Le compteur augmente correctement (1, 2, 3...)
-- [ ] Aucune erreur dans la console
-- [ ] Le compteur continue de fonctionner après 10 clics
+- [✅] Le compteur s'affiche dans la console à chaque clic
+- [✅] Le compteur augmente correctement (1, 2, 3...)
+- [✅] Aucune erreur dans la console
+- [✅] Le compteur continue de fonctionner après 10 clics
 
 ### 🎁 Bonus
 
-- Affichez un message différent tous les 5 clics : "🎉 5 clics !"
-- Changez la taille du logo après 10 clics
-- Sauvegardez le compteur dans localStorage
+-✅ Affichez un message différent tous les 5 clics : "🎉 5 clics !"
+-✅Changez la taille du logo après 10 clics
+-✅ Sauvegardez le compteur dans localStorage
 
 ---
 
