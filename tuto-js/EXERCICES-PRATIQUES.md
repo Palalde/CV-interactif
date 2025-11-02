@@ -168,16 +168,16 @@ Pensez à l'opérateur ternaire : `condition ? siVrai : siFaux`
 
 ### ✅ Test de validation
 
-- [ ] L'heure s'affiche correctement (format HH:MM:SS)
-- [ ] L'heure se met à jour chaque seconde
-- [ ] L'horloge ne crée pas de duplicata au rechargement
-- [ ] Le style s'intègre bien avec le reste du header
+- [✅] L'heure s'affiche correctement (format HH:MM:SS)
+- [✅] L'heure se met à jour chaque seconde
+- [✅] L'horloge ne crée pas de duplicata au rechargement
+- [✅] Le style s'intègre bien avec le reste du header
 
 ### 🎁 Bonus
 
-- Ajoutez la date (jour/mois/année)
-- Changez la couleur selon le thème (light/dark)
-- Affichez "Bonjour" ou "Bonsoir" selon l'heure
+-✅ Ajoutez la date (jour/mois/année)
+-✅ Changez la couleur selon le thème (light/dark)
+-✅ Affichez "Bonjour" ou "Bonsoir" selon l'heure
 
 ---
 
