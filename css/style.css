@@ -4845,3 +4845,77 @@ body.light .form-group input:-webkit-autofill:active {
   transition: transform 0.2s ease;
   transform: scale(1.1);
 }
+
+/* DATE & CLOCK CONTAINER */
+.date-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  margin-right: 20px;
+  padding: 4px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+body.light .date-container {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* LIVE CLOCK (inside container) */
+.live-clock {
+  font-family: "Inter", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-light);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  line-height: 1.2;
+  transition: opacity 0.5s ease;
+}
+
+body.light .live-clock {
+  color: var(--text-dark);
+}
+
+/* CURRENT DATE (inside container) */
+.current-date {
+  font-family: "Inter", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 400;
+  opacity: 0.7;
+  font-style: italic;
+  color: var(--text-light);
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  line-height: 1.2;
+  transition: opacity 1s ease;
+}
+
+body.light .current-date {
+  color: var(--text-dark);
+}
+
+/* GREETING TEXT */
+.greeting-text {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-light);
+  letter-spacing: 0.5px;
+  transition: opacity 0.5s ease;
+}
+
+body.light .greeting-text {
+  color: var(--text-dark);
+}
+
+/* Responsive: hide on tablets and mobile */
+@media (max-width: 830px) {
+  .date-container {
+    display: none;
+  }
+}
