@@ -1,0 +1,20 @@
+# GitHub Copilot instructions (local only)
+.github/
+
+# Todo lists (local only)
+todo/
+
+# Node modules
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/
