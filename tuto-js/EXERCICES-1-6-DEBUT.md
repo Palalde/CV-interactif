@@ -703,62 +703,409 @@ class FavoritesManager {
 
 ---
 
-## 🎯 Exercice 6 : Color Picker avec API Externe (fetch + async/await) ⭐⭐⭐
+## 🎯 Exercice 6 : Theme Color Generator avec API Externe (fetch + async/await) ⭐⭐⭐
+
+### 📝 Mission
+
+Créez un **générateur de couleurs de thème** qui utilise **The Color API** pour obtenir des informations sur une couleur, introduit **fetch** et **async/await**, et enrichit votre système de thèmes existant.
+
+### 🎨 Où travailler
+
+- **Fichier à créer** : `js/utility/color-theme-generator.js`
+- **Intégration** : Modal accessible depuis le theme toggle ou le header
+
+### 💡 Ce que vous devez faire
+
+1. **Créer une interface** :
+   - Input de couleur hexadécimal (ex: `#3498db`)
+   - Bouton "Analyser cette couleur"
+   - Zone d'affichage des résultats
+2. **Fetch The Color API** :
+   - URL : `https://www.thecolorapi.com/id?hex=VOTRE_COULEUR`
+   - Utiliser `async/await` (pas `.then()`)
+   - Gérer les erreurs avec `try/catch`
+3. **Afficher les informations** :
+   - Nom de la couleur
+   - Valeurs RGB, HSL, HSV
+   - Aperçu visuel de la couleur
+4. **Loading state** : Afficher un loader pendant le fetch
+5. **Bonus** : Appliquer temporairement la couleur à votre thème
+
+### 🔍 Indices disponibles
+
+<details>
+<summary>💡 Indice 0 : Les bases de async/await et fetch</summary>
+
+**Rappel Promises** :
+Les opérations asynchrones (comme récupérer des données d'une API) ne sont pas instantanées. JavaScript utilise les **Promises** pour gérer ça.
+
+**Ancien style (`.then()`)** :
 
 ```javascript
-// Sauvegarder
-const favoris = ["html-css", "javascript"];
-localStorage.setItem("favoris", JSON.stringify(favoris));
+fetch(url)
+  .then((response) => response.json())
+  .then((data) => console.log(data))
+  .catch((error) => console.error(error));
+```
 
-// Récupérer
-const saved = localStorage.getItem("favoris");
-const favoris = saved ? JSON.parse(saved) : [];
+**Nouveau style (async/await)** - Plus lisible ! :
+
+```javascript
+async function getData() {
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+```
+
+**Mot-clé `async`** : Indique qu'une fonction contient du code asynchrone
+**Mot-clé `await`** : Met la fonction en pause jusqu'à ce que la Promise soit résolue
+**`try/catch`** : Gère les erreurs (équivalent de `.catch()`)
+
+</details>
+
+<details>
+<summary>💡 Indice 1 : Structure HTML de l'interface</summary>
+
+Créez une modal ou une section dans votre page :
+
+```html
+<div class="color-theme-generator" id="color-theme-generator">
+  <h3>Générateur de couleur de thème</h3>
+
+  <div class="color-input-group">
+    <label for="color-hex-input">Entrez une couleur (hex)</label>
+    <input
+      type="text"
+      id="color-hex-input"
+      placeholder="#3498db"
+      maxlength="7"
+    />
+    <button id="analyze-color-btn">Analyser</button>
+  </div>
+
+  <div class="color-results" id="color-results" style="display: none;">
+    <div class="color-preview" id="color-preview"></div>
+    <div class="color-info" id="color-info"></div>
+  </div>
+
+  <div class="color-loader" id="color-loader" style="display: none;">
+    <span>⏳ Analyse en cours...</span>
+  </div>
+
+  <div class="color-error" id="color-error" style="display: none;"></div>
+</div>
 ```
 
 </details>
 
 <details>
-<summary>💡 Indice 3 : Toggle favori (ajouter/retirer)</summary>
-
-Pour basculer un élément dans un array :
+<summary>💡 Indice 2 : Fonction fetch avec async/await</summary>
 
 ```javascript
-const index = favoris.indexOf(id);
-if (index > -1) {
-  // Déjà présent → retirer
-  favoris.splice(index, 1);
-} else {
-  // Pas présent → ajouter
-  favoris.push(id);
+async function fetchColorInfo(hexColor) {
+  // Nettoyer le # si présent
+  const cleanHex = hexColor.replace("#", "");
+
+  // URL de l'API
+  const apiUrl = `https://www.thecolorapi.com/id?hex=${cleanHex}`;
+
+  try {
+    // 1. Faire la requête
+    const response = await fetch(apiUrl);
+
+    // 2. Vérifier si la requête a réussi
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP: ${response.status}`);
+    }
+
+    // 3. Extraire les données JSON
+    const data = await response.json();
+
+    // 4. Retourner les données
+    return data;
+  } catch (error) {
+    // Gérer les erreurs
+    console.error("Erreur lors de la récupération:", error);
+    throw error; // Re-throw pour que l'appelant puisse aussi gérer l'erreur
+  }
+}
+```
+
+**Explication** :
+
+- `await fetch()` attend que la requête soit terminée
+- `await response.json()` attend que la conversion en JSON soit faite
+- `try/catch` attrape toutes les erreurs (réseau, parsing, etc.)
+
+</details>
+
+<details>
+<summary>💡 Indice 3 : Afficher les résultats avec loading states</summary>
+
+```javascript
+async function analyzeColor() {
+  const input = document.getElementById("color-hex-input");
+  const resultsDiv = document.getElementById("color-results");
+  const loaderDiv = document.getElementById("color-loader");
+  const errorDiv = document.getElementById("color-error");
+  const previewDiv = document.getElementById("color-preview");
+  const infoDiv = document.getElementById("color-info");
+
+  const hexValue = input.value.trim();
+
+  // Validation basique
+  if (!hexValue || hexValue.length < 4) {
+    errorDiv.textContent = "❌ Entrez une couleur valide (ex: #3498db)";
+    errorDiv.style.display = "block";
+    return;
+  }
+
+  // Masquer erreurs et résultats, afficher loader
+  errorDiv.style.display = "none";
+  resultsDiv.style.display = "none";
+  loaderDiv.style.display = "block";
+
+  try {
+    // Appel asynchrone
+    const data = await fetchColorInfo(hexValue);
+
+    // Masquer le loader
+    loaderDiv.style.display = "none";
+
+    // Afficher l'aperçu de couleur
+    previewDiv.style.backgroundColor = data.hex.value;
+
+    // Afficher les informations
+    infoDiv.innerHTML = `
+      <h4>${data.name.value}</h4>
+      <p><strong>HEX:</strong> ${data.hex.value}</p>
+      <p><strong>RGB:</strong> ${data.rgb.value}</p>
+      <p><strong>HSL:</strong> ${data.hsl.value}</p>
+      <p><strong>HSV:</strong> ${data.hsv.value}</p>
+    `;
+
+    // Afficher les résultats
+    resultsDiv.style.display = "block";
+  } catch (error) {
+    // Masquer le loader
+    loaderDiv.style.display = "none";
+
+    // Afficher l'erreur
+    errorDiv.textContent = `❌ Impossible de récupérer les données: ${error.message}`;
+    errorDiv.style.display = "block";
+  }
+}
+```
+
+**Points clés** :
+
+- Loading state affiché PENDANT le fetch
+- Résultats affichés APRÈS le fetch
+- Erreur affichée SI ça échoue
+
+</details>
+
+<details>
+<summary>💡 Indice 4 : Event listener et DOMContentLoaded</summary>
+
+```javascript
+document.addEventListener("DOMContentLoaded", () => {
+  const analyzeBtn = document.getElementById("analyze-color-btn");
+  const colorInput = document.getElementById("color-hex-input");
+
+  // Analyser au clic
+  analyzeBtn.addEventListener("click", () => {
+    analyzeColor();
+  });
+
+  // Analyser sur Enter
+  colorInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      analyzeColor();
+    }
+  });
+});
+```
+
+</details>
+
+<details>
+<summary>💡 Indice 5 : CSS pour la modal/interface</summary>
+
+```css
+.color-theme-generator {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+.color-input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+#color-hex-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+#analyze-color-btn {
+  padding: 10px 20px;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+#analyze-color-btn:hover {
+  opacity: 0.9;
+}
+
+.color-preview {
+  width: 100%;
+  height: 100px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.color-info h4 {
+  margin-bottom: 10px;
+  color: var(--text-primary);
+}
+
+.color-info p {
+  margin: 5px 0;
+  color: var(--text-secondary);
+}
+
+.color-loader {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.1rem;
+}
+
+.color-error {
+  background: #ff5252;
+  color: white;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
 }
 ```
 
 </details>
 
 <details>
-<summary>💡 Indice 4 : Récupérer l'ID d'une compétence</summary>
+<summary>💡 Indice 6 : Validation du format hexadécimal</summary>
 
-Chaque compétence a un `data-competence-id` dans votre HTML.
+Ajoutez une validation plus robuste :
 
 ```javascript
-const id = competenceElement.getAttribute("data-competence-id");
-// ou : const id = competenceElement.dataset.competenceId;
+function isValidHex(hex) {
+  // Accepter avec ou sans #
+  const cleanHex = hex.replace("#", "");
+
+  // Vérifier que c'est bien 3 ou 6 caractères hexadécimaux
+  const hexRegex = /^[0-9A-Fa-f]{3}$|^[0-9A-Fa-f]{6}$/;
+
+  return hexRegex.test(cleanHex);
+}
+
+// Utilisation
+if (!isValidHex(hexValue)) {
+  errorDiv.textContent = "❌ Format invalide. Utilisez #RGB ou #RRGGBB";
+  errorDiv.style.display = "block";
+  return;
+}
+```
+
+</details>
+
+<details>
+<summary>🎁 Bonus : Appliquer temporairement la couleur au thème</summary>
+
+```javascript
+function applyColorToTheme(hexColor) {
+  // Sauvegarder la couleur d'accent actuelle
+  const root = document.documentElement;
+  const currentAccent =
+    getComputedStyle(root).getPropertyValue("--accent-color");
+
+  // Appliquer la nouvelle couleur
+  root.style.setProperty("--accent-color", hexColor);
+
+  // Afficher un message
+  window.toast?.success(`Thème temporairement modifié !`);
+
+  // Restaurer après 5 secondes (optionnel)
+  setTimeout(() => {
+    root.style.setProperty("--accent-color", currentAccent);
+    window.toast?.info("Thème restauré");
+  }, 5000);
+}
+
+// Dans analyzeColor(), après avoir reçu les données :
+const applyBtn = document.createElement("button");
+applyBtn.textContent = "Appliquer au thème";
+applyBtn.className = "apply-theme-btn";
+applyBtn.addEventListener("click", () => {
+  applyColorToTheme(data.hex.value);
+});
+infoDiv.appendChild(applyBtn);
 ```
 
 </details>
 
 ### ✅ Test de validation
 
-- [ ] L'étoile apparaît sur chaque compétence
-- [ ] Le clic change l'étoile (☆ ↔ ★)
-- [ ] Les favoris persistent après rechargement de la page
-- [ ] On peut défavoriser une compétence
-- [ ] Aucune erreur si localStorage est vide
+- [ ] L'interface s'affiche correctement
+- [ ] Le fetch fonctionne avec une couleur valide (ex: `#3498db`)
+- [ ] Le loader apparaît pendant le chargement
+- [ ] Les informations s'affichent correctement
+- [ ] Les erreurs sont bien gérées (couleur invalide, pas d'internet)
+- [ ] Le code utilise `async/await` (pas `.then()`)
+- [ ] `try/catch` gère les erreurs
 
 ### 🎁 Bonus
 
-- Créez une page "Mes favoris" qui liste uniquement les favoris
-- Ajoutez un compteur "X favoris" dans le header
-- Permettez d'exporter les favoris en JSON
+- ✅ **Couleurs aléatoires** : Bouton "Couleur surprise" qui génère un hex aléatoire
+- ✅ **Historique** : Sauvegarder les dernières couleurs analysées dans localStorage
+- ✅ **Palette complète** : Utiliser l'endpoint `/scheme` de l'API pour des palettes
+- ✅ **Color picker natif** : Ajouter `<input type="color">` en alternative
+- ✅ **Appliquer au thème** : Bouton pour changer temporairement `--accent-color`
+
+### 🎓 Concepts appris
+
+- ✅ **fetch API** : Faire des requêtes HTTP vers des APIs externes
+- ✅ **async/await** : Syntaxe moderne pour gérer l'asynchrone
+- ✅ **try/catch** : Gestion d'erreurs dans le code asynchrone
+- ✅ **Loading states** : UX pendant les opérations asynchrones
+- ✅ **API REST** : Comprendre comment consommer une API tierce
+- ✅ **JSON parsing** : Extraire et utiliser des données JSON
+- ✅ **Error handling** : Gérer les erreurs réseau et de parsing
+
+### 📚 Ressources
+
+- **The Color API** : https://www.thecolorapi.com/docs
+- **MDN fetch** : https://developer.mozilla.org/fr/docs/Web/API/Fetch_API
+- **MDN async/await** : https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Statements/async_function
 
 ---
