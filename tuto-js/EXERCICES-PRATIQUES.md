@@ -93,7 +93,7 @@ Pensez à `let` (pas `const` car la valeur va évoluer). Initialisez-la à 0.
 ### 🎁 Bonus
 
 -✅ Affichez un message différent tous les 5 clics : "🎉 5 clics !"
--✅Changez la taille du logo après 10 clics
+-✅ Changez la taille du logo après 10 clics
 -✅ Sauvegardez le compteur dans localStorage
 
 ---
@@ -246,158 +246,464 @@ navigator.clipboard
 
 ### ✅ Test de validation
 
-- [ ] Le bouton copie bien l'email (testez en le collant)
-- [ ] Le feedback "✓ Copié !" apparaît puis disparaît
-- [ ] Aucune erreur en console
-- [ ] Fonctionne sur plusieurs clics successifs
+- [✅] Le bouton copie bien l'email (testez en le collant)
+- [✅] Le feedback "✓ Copié !" apparaît puis disparaît
+- [✅] Aucune erreur en console
+- [✅] Fonctionne sur plusieurs clics successifs
 
 ### 🎁 Bonus
 
-- Ajoutez une animation CSS lors de la copie
-- Affichez un tooltip au survol
-- Gérez le cas où le clipboard est bloqué (message d'erreur)
+- ✅ Ajoutez une animation CSS lors de la copie
+- ✅ Affichez un tooltip au survol
+- ✅ Gérez le cas où le clipboard est bloqué (message d'erreur)
 
 ---
 
-## 🎯 Exercice 4 : Filtre des compétences par mot-clé ⭐⭐
+## 🎯 Exercice 4 : Filtre intelligent avec Debouncing & Modules ⭐⭐
 
 ### 📝 Mission
 
-Créez un système de filtrage en temps réel des compétences basé sur ce que l'utilisateur tape.
+Créez un système de filtrage performant en temps réel avec **debouncing** pour éviter trop d'exécutions, et structurez votre code en **modules ES6**.
 
 ### 🎨 Où travailler
 
-- **Fichier à créer** : `js/search/simple-filter.js`
-- **Éléments** : Input de recherche existant + listes de compétences
+- **Fichiers à créer** :
+  - `js/search/search-utils.js` (module utilitaires)
+  - `js/search/smart-filter.js` (module principal)
+- **Modification HTML** : Ajouter `type="module"` à vos scripts
 
 ### 💡 Ce que vous devez faire
 
-1. Récupérer l'input de recherche du header
-2. Écouter chaque frappe de clavier (`input` event)
-3. Récupérer toutes les compétences affichées (`.item-competence`)
-4. Pour chaque compétence, vérifier si le texte contient la recherche
-5. Masquer/afficher les compétences selon le résultat
-6. Afficher "Aucun résultat" si tout est masqué
+1. **Créer un module `search-utils.js`** avec :
+   - Fonction `debounce(func, delay)` pour limiter les appels
+   - Fonction `normalizeText(text)` pour nettoyer les accents/casse
+   - Fonction `highlightMatch(text, query)` pour surligner
+2. **Créer un module `smart-filter.js`** qui :
+   - Importe les fonctions de `search-utils.js`
+   - Écoute l'input de recherche avec debouncing (300ms)
+   - Filtre les compétences de `window.CV_COMPETENCES`
+   - Affiche/masque avec animation
+   - Compte les résultats
 
 ### 🔍 Indices disponibles
 
 <details>
-<summary>💡 Indice 1 : Récupérer la valeur de l'input</summary>
+<summary>💡 Indice 1 : Créer la fonction debounce</summary>
 
-Dans l'événement `input`, vous avez accès à la valeur tapée via :
+Le debouncing retarde l'exécution d'une fonction jusqu'à ce que l'utilisateur arrête de taper :
 
 ```javascript
-input.addEventListener("input", function (event) {
-  const recherche = event.target.value;
-  // ou : const recherche = input.value;
+export function debounce(func, delay) {
+  let timeoutId;
+  return function (...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func.apply(this, args), delay);
+  };
+}
+```
+
+Cette fonction utilise une **closure** pour stocker `timeoutId` entre les appels.
+
+</details>
+
+<details>
+<summary>💡 Indice 2 : Modules ES6 - export/import</summary>
+
+**Dans `search-utils.js` :**
+
+```javascript
+export function debounce(func, delay) {
+  /* ... */
+}
+
+export function normalizeText(text) {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+```
+
+**Dans `smart-filter.js` :**
+
+```javascript
+import { debounce, normalizeText } from "./search-utils.js";
+// Utilisez les fonctions importées
+```
+
+**Dans HTML :**
+
+```html
+<script type="module" src="/js/search/smart-filter.js"></script>
+```
+
+</details>
+
+<details>
+<summary>💡 Indice 3 : Utiliser debounce avec l'input</summary>
+
+```javascript
+import { debounce } from "./search-utils.js";
+
+const searchInput = document.querySelector(".search-input");
+
+const performSearch = debounce((query) => {
+  console.log("Recherche:", query);
+  // Votre logique de filtrage ici
+}, 300);
+
+searchInput.addEventListener("input", (e) => {
+  performSearch(e.target.value);
 });
 ```
 
-Pensez à convertir en minuscules pour la comparaison.
+Maintenant la recherche ne s'exécute que 300ms après la dernière frappe !
 
 </details>
 
 <details>
-<summary>💡 Indice 2 : Sélectionner toutes les compétences</summary>
-
-Utilisez `querySelectorAll()` pour obtenir tous les éléments :
+<summary>💡 Indice 4 : Filtrer window.CV_COMPETENCES</summary>
 
 ```javascript
-const competences = document.querySelectorAll(".item-competence");
-```
+function filterCompetences(query) {
+  const normalized = normalizeText(query);
 
-Cela retourne une NodeList qu'on peut parcourir avec `forEach()`.
-
-</details>
-
-<details>
-<summary>💡 Indice 3 : Vérifier si texte contient recherche</summary>
-
-La méthode `includes()` vérifie si une chaîne contient une autre :
-
-```javascript
-const texte = "JavaScript";
-const contientJS = texte.toLowerCase().includes("java"); // true
+  return window.CV_COMPETENCES.filter((comp) => {
+    const name = normalizeText(comp.name);
+    const desc = normalizeText(comp.description);
+    return name.includes(normalized) || desc.includes(normalized);
+  });
+}
 ```
 
 </details>
 
 <details>
-<summary>💡 Indice 4 : Masquer/afficher un élément</summary>
-
-Deux approches :
-
-1. Modifier `element.style.display = 'none'` ou `'block'`
-2. Ajouter/retirer une classe CSS `.hidden` (plus propre)
+<summary>💡 Indice 5 : Afficher les résultats avec compteur</summary>
 
 ```javascript
-element.classList.add("hidden"); // masquer
-element.classList.remove("hidden"); // afficher
+function displayResults(results, query) {
+  const container = document.querySelector(".competences-list");
+  const counter = document.getElementById("results-counter");
+
+  // Afficher le compteur
+  if (counter) {
+    counter.textContent = `${results.length} résultat${
+      results.length > 1 ? "s" : ""
+    }`;
+  }
+
+  // Masquer tous les items
+  const allItems = container.querySelectorAll(".item-competence");
+  allItems.forEach((item) => item.classList.add("hidden"));
+
+  // Afficher seulement les résultats
+  results.forEach((comp) => {
+    const item = container.querySelector(`[data-id="${comp.id}"]`);
+    if (item) {
+      item.classList.remove("hidden");
+    }
+  });
+}
 ```
 
 </details>
 
 ### ✅ Test de validation
 
-- [ ] La recherche filtre en temps réel (pas besoin d'appuyer sur Entrée)
-- [ ] La recherche est insensible à la casse (MAJ/min)
-- [ ] Toutes les compétences réapparaissent si on vide l'input
-- [ ] Un message s'affiche s'il n'y a aucun résultat
+- [ ] La recherche utilise le debouncing (pas d'exécution à chaque lettre)
+- [ ] Le code est structuré en modules (fichiers séparés)
+- [ ] Les imports/exports fonctionnent correctement
+- [ ] Un compteur affiche "X résultats trouvés"
+- [ ] La recherche ignore accents et majuscules
+- [ ] Performance : testez en tapant rapidement (pas de lag)
 
 ### 🎁 Bonus
 
-- Surlignez le texte correspondant dans les résultats
-- Comptez et affichez le nombre de résultats trouvés
-- Ajoutez un bouton pour effacer la recherche
+- ✅ **Surlignage** : Créez `highlightMatch(text, query)` qui entoure le match de `<mark>`
+- ✅ **Historique** : Sauvegardez les 5 dernières recherches dans localStorage
+- ✅ **Suggestions** : Proposez des suggestions pendant la frappe
+- ✅ **Keyboard navigation** : Naviguer les résultats avec ↑↓ et valider avec Enter
+
+### 🎓 Concepts appris
+
+- ✅ **Debouncing** : Performance et UX
+- ✅ **Modules ES6** : `import`/`export`, code modulaire
+- ✅ **Closures** : Comprendre comment debounce garde `timeoutId` en mémoire
+- ✅ **Array methods** : `filter()`, `forEach()`
+- ✅ **String manipulation** : `normalize()`, regex pour accents
 
 ---
 
-## 🎯 Exercice 5 : Mode "Favoris" avec localStorage ⭐⭐
+## 🎯 Exercice 5 : Système de Favoris avec POO & Classes ⭐⭐
 
 ### 📝 Mission
 
-Permettez aux utilisateurs de marquer des compétences comme "favorites" et sauvegardez leur choix.
+Créez un **système de favoris orienté objet** avec une **classe `FavoritesManager`** qui encapsule toute la logique, et utilisez l'**event delegation** pour gérer efficacement les clics.
 
 ### 🎨 Où travailler
 
-- **Fichier à créer** : `js/utility/favorites-system.js`
-- **Modification** : Ajoutez une icône ⭐ à chaque compétence
+- **Fichiers à créer** :
+  - `js/utility/FavoritesManager.js` (classe en module)
+  - `js/utility/favorites-ui.js` (interface utilisateur)
 
 ### 💡 Ce que vous devez faire
 
-1. Ajouter une icône étoile (☆) à côté de chaque compétence
-2. Au clic, basculer entre ☆ (vide) et ★ (pleine)
-3. Sauvegarder les favoris dans localStorage (array d'IDs)
-4. Au chargement, restaurer les étoiles pleines
-5. Créer une fonction pour récupérer toutes les compétences favorites
+1. **Créer une classe `FavoritesManager`** avec :
+   - `constructor()` : Charge les favoris depuis localStorage
+   - `add(id)` : Ajoute un favori
+   - `remove(id)` : Retire un favori
+   - `toggle(id)` : Bascule un favori
+   - `has(id)` : Vérifie si un ID est favori
+   - `getAll()` : Retourne tous les favoris
+   - `count()` : Nombre de favoris
+   - `save()` : Sauvegarde dans localStorage
+2. **Utiliser l'event delegation** : Un seul listener sur le parent au lieu d'un par étoile
+3. **Ajouter des étoiles** (☆/★) à chaque compétence
+4. **Badge compteur** dans le header : "X favoris"
 
 ### 🔍 Indices disponibles
 
 <details>
-<summary>💡 Indice 1 : Ajouter l'icône à chaque compétence</summary>
-
-Vous devez :
-
-1. Sélectionner toutes les compétences
-2. Pour chacune, créer un élément `<button>` ou `<span>`
-3. Lui donner le contenu "☆" et une classe CSS
-4. L'insérer dans l'élément compétence
+<summary>💡 Indice 1 : Structure de la classe FavoritesManager</summary>
 
 ```javascript
-competences.forEach((comp) => {
-  const star = document.createElement("button");
-  star.className = "favorite-star";
-  star.textContent = "☆";
-  comp.prepend(star); // ou appendChild()
-});
+// FavoritesManager.js
+export class FavoritesManager {
+  constructor(storageKey = "cv-favorites") {
+    this.storageKey = storageKey;
+    this.favorites = this.load();
+  }
+
+  load() {
+    const data = localStorage.getItem(this.storageKey);
+    return data ? JSON.parse(data) : [];
+  }
+
+  save() {
+    localStorage.setItem(this.storageKey, JSON.stringify(this.favorites));
+  }
+
+  add(id) {
+    if (!this.has(id)) {
+      this.favorites.push(id);
+      this.save();
+      return true;
+    }
+    return false;
+  }
+
+  remove(id) {
+    const index = this.favorites.indexOf(id);
+    if (index > -1) {
+      this.favorites.splice(index, 1);
+      this.save();
+      return true;
+    }
+    return false;
+  }
+
+  toggle(id) {
+    return this.has(id) ? this.remove(id) : this.add(id);
+  }
+
+  has(id) {
+    return this.favorites.includes(id);
+  }
+
+  getAll() {
+    return [...this.favorites];
+  }
+
+  count() {
+    return this.favorites.length;
+  }
+}
 ```
 
 </details>
 
 <details>
-<summary>💡 Indice 2 : localStorage - sauvegarder un array</summary>
+<summary>💡 Indice 2 : Event delegation pour les étoiles</summary>
 
-localStorage ne stocke que des strings. Pour un array :
+Au lieu d'ajouter un listener sur chaque étoile (coûteux) :
+
+```javascript
+import { FavoritesManager } from "./FavoritesManager.js";
+
+const manager = new FavoritesManager();
+const container = document.querySelector(".competences-list");
+
+// UN SEUL listener sur le conteneur parent
+container.addEventListener("click", (e) => {
+  // Vérifier si le clic est sur une étoile
+  const star = e.target.closest(".favorite-star");
+  if (!star) return;
+
+  const competenceId = star.dataset.competenceId;
+  manager.toggle(competenceId);
+
+  // Mettre à jour l'affichage de l'étoile
+  updateStarDisplay(star, manager.has(competenceId));
+
+  // Mettre à jour le badge compteur
+  updateCounterBadge(manager.count());
+});
+```
+
+**Avantage** : Même avec 1000 compétences, vous n'avez qu'UN listener !
+
+</details>
+
+<details>
+<summary>💡 Indice 3 : Créer les étoiles dynamiquement</summary>
+
+```javascript
+function addStarsToCompetences() {
+  const competences = document.querySelectorAll(".item-competence");
+
+  competences.forEach((item) => {
+    const id = item.dataset.competenceId;
+    const isFavorite = manager.has(id);
+
+    const star = document.createElement("button");
+    star.className = "favorite-star";
+    star.dataset.competenceId = id;
+    star.textContent = isFavorite ? "★" : "☆";
+    star.setAttribute("aria-label", "Marquer comme favori");
+
+    item.prepend(star);
+  });
+}
+```
+
+</details>
+
+<details>
+<summary>💡 Indice 4 : Badge compteur dans le header</summary>
+
+```javascript
+function createFavoritesBadge() {
+  const nav = document.querySelector(".navbar");
+  const badge = document.createElement("div");
+  badge.className = "favorites-badge";
+  badge.id = "favorites-badge";
+  badge.textContent = "0";
+  badge.style.display = "none"; // Masqué si 0
+
+  nav.appendChild(badge);
+  return badge;
+}
+
+function updateCounterBadge(count) {
+  const badge = document.getElementById("favorites-badge");
+  if (!badge) return;
+
+  badge.textContent = count;
+  badge.style.display = count > 0 ? "block" : "none";
+}
+```
+
+CSS pour le badge :
+
+```css
+.favorites-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--accent-color);
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+```
+
+</details>
+
+<details>
+<summary>💡 Indice 5 : Méthodes avancées de la classe</summary>
+
+Ajoutez des méthodes utiles :
+
+```javascript
+class FavoritesManager {
+  // ... méthodes de base ...
+
+  // Récupérer les objets compétences complets
+  getCompetencesObjects() {
+    return this.favorites
+      .map((id) => window.CV_COMPETENCES.find((c) => c.id === id))
+      .filter(Boolean);
+  }
+
+  // Exporter en JSON
+  exportToJSON() {
+    const data = {
+      favorites: this.favorites,
+      exportDate: new Date().toISOString(),
+      count: this.count(),
+    };
+    return JSON.stringify(data, null, 2);
+  }
+
+  // Import depuis JSON
+  importFromJSON(jsonString) {
+    try {
+      const data = JSON.parse(jsonString);
+      this.favorites = Array.isArray(data.favorites) ? data.favorites : [];
+      this.save();
+      return true;
+    } catch (e) {
+      console.error("Import error:", e);
+      return false;
+    }
+  }
+
+  // Effacer tous les favoris
+  clear() {
+    this.favorites = [];
+    this.save();
+  }
+}
+```
+
+</details>
+
+### ✅ Test de validation
+
+- [ ] La classe `FavoritesManager` fonctionne correctement
+- [ ] Les étoiles apparaissent sur chaque compétence
+- [ ] Le clic bascule entre ☆ et ★
+- [ ] Les favoris persistent après rechargement
+- [ ] Le badge compteur s'affiche et se met à jour
+- [ ] L'event delegation fonctionne (un seul listener)
+- [ ] Testez avec `manager.getAll()` dans la console
+
+### 🎁 Bonus
+
+- ✅ **Page favoris** : Créez `html/favoris.html` qui liste uniquement les favoris
+- ✅ **Export/Import** : Boutons pour télécharger/charger un fichier JSON
+- ✅ **Filtrer par favoris** : Ajouter un filtre "Mes favoris" dans la recherche
+- ✅ **Sync multi-onglets** : Utilisez `storage` event pour synchroniser
+- ✅ **Animations** : Transition smooth lors du toggle d'étoile
+
+### 🎓 Concepts appris
+
+- ✅ **Classes ES6** : `constructor`, méthodes, encapsulation
+- ✅ **POO** : Programmation orientée objet en JavaScript
+- ✅ **Event delegation** : Pattern performant pour les listeners
+- ✅ **Modules** : Exporter/importer des classes
+- ✅ **Encapsulation** : Garder la logique métier séparée de l'UI
+- ✅ **Array methods** : `map()`, `filter()`, `find()`, `includes()`
+
+---
+
+## 🎯 Exercice 6 : Color Picker avec API Externe (fetch + async/await) ⭐⭐⭐
 
 ```javascript
 // Sauvegarder
@@ -456,708 +762,3 @@ const id = competenceElement.getAttribute("data-competence-id");
 - Permettez d'exporter les favoris en JSON
 
 ---
-
-## 🎯 Exercice 6 : Thème personnalisé avec sélecteur de couleur ⭐⭐
-
-### 📝 Mission
-
-Ajoutez un color picker qui permet de changer la couleur d'accent du site.
-
-### 🎨 Où travailler
-
-- **Fichier à créer** : `js/utility/accent-color-picker.js`
-- **HTML à ajouter** : Input type="color" dans le header ou un menu settings
-
-### 💡 Ce que vous devez faire
-
-1. Créer un input `<input type="color">`
-2. Récupérer la couleur choisie
-3. Appliquer cette couleur à la variable CSS `--accent-color`
-4. Sauvegarder le choix dans localStorage
-5. Restaurer la couleur au chargement
-6. Ajouter un bouton "Réinitialiser" qui remet la couleur par défaut
-
-### 🔍 Indices disponibles
-
-<details>
-<summary>💡 Indice 1 : Input color picker</summary>
-
-HTML :
-
-```html
-<input type="color" id="accent-picker" value="#ef5350" />
-```
-
-JavaScript :
-
-```javascript
-const picker = document.getElementById("accent-picker");
-picker.addEventListener("input", (e) => {
-  const couleur = e.target.value; // format: #rrggbb
-});
-```
-
-</details>
-
-<details>
-<summary>💡 Indice 2 : Modifier une variable CSS</summary>
-
-Pour changer une variable CSS (custom property) :
-
-```javascript
-document.documentElement.style.setProperty("--accent-color", "#ff5733");
-```
-
-`documentElement` représente la balise `<html>` où sont définies les variables `:root`.
-
-</details>
-
-<details>
-<summary>💡 Indice 3 : Valeur par défaut</summary>
-
-Stockez la couleur par défaut en constante :
-
-```javascript
-const DEFAULT_COLOR = "#ef5350";
-
-function resetColor() {
-  applyColor(DEFAULT_COLOR);
-  picker.value = DEFAULT_COLOR;
-  localStorage.removeItem("accent-color");
-}
-```
-
-</details>
-
-### ✅ Test de validation
-
-- [ ] Le color picker change la couleur d'accent en direct
-- [ ] La couleur est sauvegardée et restaurée au rechargement
-- [ ] Le bouton reset remet la couleur d'origine
-- [ ] La couleur s'applique bien à tous les éléments concernés
-- [ ] Compatible avec le système light/dark mode
-
-### 🎁 Bonus
-
-- Proposez des palettes prédéfinies (boutons preset)
-- Vérifiez le contraste et alertez si trop faible
-- Sauvegardez un historique des 5 dernières couleurs
-
----
-
-## 🎯 Exercice 7 : Système de notifications toast ⭐⭐⭐
-
-### 📝 Mission
-
-Créez un système de notifications temporaires (comme les toasts Android/iOS).
-
-### 🎨 Où travailler
-
-- **Fichier à créer** : `js/utility/toast-notifications.js`
-- **CSS à ajouter** : Styles pour les toasts
-
-### 💡 Ce que vous devez faire
-
-1. Créer une fonction `showToast(message, type, duration)`
-2. Types : 'info', 'success', 'warning', 'error'
-3. Le toast apparaît en bas à droite
-4. Il s'efface automatiquement après `duration` ms
-5. Plusieurs toasts peuvent s'empiler
-6. Clic sur le toast le ferme immédiatement
-
-### 🔍 Indices disponibles
-
-<details>
-<summary>💡 Indice 1 : Structure de la fonction</summary>
-
-```javascript
-function showToast(message, type = "info", duration = 3000) {
-  // 1. Créer l'élément toast
-  // 2. Définir le contenu et les classes
-  // 3. Ajouter au body
-  // 4. Déclencher l'animation d'entrée
-  // 5. Programmer la suppression
-}
-```
-
-</details>
-
-<details>
-<summary>💡 Indice 2 : Créer le conteneur de toasts</summary>
-
-Au premier appel, créer un conteneur fixe :
-
-```javascript
-let toastContainer = document.getElementById("toast-container");
-if (!toastContainer) {
-  toastContainer = document.createElement("div");
-  toastContainer.id = "toast-container";
-  document.body.appendChild(toastContainer);
-}
-```
-
-CSS :
-
-```css
-#toast-container {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 10000;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-```
-
-</details>
-
-<details>
-<summary>💡 Indice 3 : Animation d'apparition</summary>
-
-Utilisez `requestAnimationFrame` pour forcer un reflow :
-
-```javascript
-toast.style.opacity = "0";
-toast.style.transform = "translateX(100%)";
-toastContainer.appendChild(toast);
-
-requestAnimationFrame(() => {
-  toast.style.transition = "all 0.3s ease";
-  toast.style.opacity = "1";
-  toast.style.transform = "translateX(0)";
-});
-```
-
-</details>
-
-<details>
-<summary>💡 Indice 4 : Suppression automatique</summary>
-
-```javascript
-const timeoutId = setTimeout(() => {
-  removeToast(toast);
-}, duration);
-
-// Pour annuler si clic manuel :
-toast.addEventListener("click", () => {
-  clearTimeout(timeoutId);
-  removeToast(toast);
-});
-
-function removeToast(toast) {
-  toast.style.opacity = "0";
-  toast.style.transform = "translateX(100%)";
-  setTimeout(() => toast.remove(), 300);
-}
-```
-
-</details>
-
-### ✅ Test de validation
-
-- [ ] `showToast("Test")` affiche une notification
-- [ ] Les 4 types ont des styles différents
-- [ ] Les toasts s'empilent verticalement
-- [ ] Ils disparaissent automatiquement
-- [ ] Le clic ferme immédiatement
-- [ ] Pas de fuite mémoire (pas de toasts "fantômes")
-
-### 🎁 Bonus
-
-- Ajoutez des icônes selon le type (✓ ✕ ⓘ ⚠)
-- Barre de progression pour le timer
-- Queue de toasts (max 3 visibles à la fois)
-- Exposez `window.toast()` pour utilisation globale
-
----
-
-## 🎯 Exercice 8 : Statistiques et graphique des compétences ⭐⭐⭐
-
-### 📝 Mission
-
-Analysez les données de `window.CV_COMPETENCES` et affichez des statistiques avec un graphique simple.
-
-### 🎨 Où travailler
-
-- **Fichier à créer** : `js/analytics/competences-stats.js`
-- **Nouvelle page** : Créez une section "Statistiques" ou un modal
-
-### 💡 Ce que vous devez faire
-
-1. Compter les compétences par catégorie (hard-skills, soft-skills, etc.)
-2. Compter par période (etudes, trading, leclerc, dev)
-3. Calculer le % de compétences avec un lien externe
-4. Afficher les résultats en texte
-5. Créer un graphique en barres avec des `<div>` et CSS
-
-### 🔍 Indices disponibles
-
-<details>
-<summary>💡 Indice 1 : Analyser les données avec reduce()</summary>
-
-```javascript
-const competences = window.CV_COMPETENCES || [];
-
-const parCategorie = competences.reduce((acc, comp) => {
-  comp.categories.forEach((cat) => {
-    acc[cat] = (acc[cat] || 0) + 1;
-  });
-  return acc;
-}, {});
-
-// Résultat : { 'hard-skills': 10, 'soft-skills': 8, ... }
-```
-
-</details>
-
-<details>
-<summary>💡 Indice 2 : Calculer des pourcentages</summary>
-
-```javascript
-const total = competences.length;
-const avecLien = competences.filter((c) => c.link !== null).length;
-const pourcentage = Math.round((avecLien / total) * 100);
-```
-
-</details>
-
-<details>
-<summary>💡 Indice 3 : Créer un graphique simple</summary>
-
-HTML structure :
-
-```html
-<div class="chart">
-  <div class="bar" data-category="hard-skills">
-    <span class="bar-label">Hard Skills</span>
-    <div class="bar-fill" style="width: 45%"></div>
-    <span class="bar-value">12</span>
-  </div>
-</div>
-```
-
-CSS :
-
-```css
-.bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-.bar-fill {
-  height: 24px;
-  background: var(--accent-color);
-  transition: width 0.5s ease;
-}
-```
-
-Créez ces barres dynamiquement en JS.
-
-</details>
-
-<details>
-<summary>💡 Indice 4 : Trouver le max pour calculer le %</summary>
-
-Pour que la plus grande catégorie fasse 100% de largeur :
-
-```javascript
-const valeurs = Object.values(parCategorie); // [12, 8, 5, ...]
-const max = Math.max(...valeurs);
-
-// Pour chaque catégorie :
-const largeurPourcent = (count / max) * 100;
-```
-
-</details>
-
-### ✅ Test de validation
-
-- [ ] Les statistiques sont exactes
-- [ ] Le graphique se génère dynamiquement
-- [ ] Les barres ont des tailles proportionnelles
-- [ ] Animation fluide à l'affichage
-- [ ] Responsive (fonctionne sur mobile)
-
-### 🎁 Bonus
-
-- Ajoutez un tri (par nom ou par valeur)
-- Animation progressive des barres (0% → valeur finale)
-- Graphique camembert (pie chart) en Canvas
-- Export des stats en CSV
-
----
-
-## 🎯 Exercice 9 : Historique de navigation avec back/forward ⭐⭐⭐
-
-### 📝 Mission
-
-Trackez la navigation dans la timeline et permettez de revenir en arrière / avancer.
-
-### 🎨 Où travailler
-
-- **Fichier à créer** : `js/utility/navigation-history.js`
-- **HTML à ajouter** : Boutons ← et → dans le header
-
-### 💡 Ce que vous devez faire
-
-1. Créer un array pour stocker l'historique de navigation
-2. À chaque changement de slide, enregistrer la période
-3. Ajouter deux boutons "Précédent" et "Suivant"
-4. Implémenter la navigation dans l'historique
-5. Désactiver les boutons aux extrémités
-6. Sauvegarder l'historique dans sessionStorage
-
-### 🔍 Indices disponibles
-
-<details>
-<summary>💡 Indice 1 : Structure de l'historique</summary>
-
-```javascript
-const navigationHistory = [];
-let currentIndex = -1;
-
-function addToHistory(periode) {
-  // Si on est au milieu et qu'on navigue, effacer le "futur"
-  if (currentIndex < navigationHistory.length - 1) {
-    navigationHistory.splice(currentIndex + 1);
-  }
-
-  navigationHistory.push({
-    periode: periode,
-    timestamp: Date.now(),
-  });
-
-  currentIndex = navigationHistory.length - 1;
-  updateButtons();
-}
-```
-
-</details>
-
-<details>
-<summary>💡 Indice 2 : Hook sur updateContent()</summary>
-
-Dans `main.js`, la fonction `updateContent()` est appelée à chaque changement.
-
-Vous pouvez soit :
-
-1. Modifier `updateContent()` pour appeler votre fonction
-2. Créer un MutationObserver sur le slider
-3. Écouter l'événement `input` du range slider
-
-Option 3 (la plus simple) :
-
-```javascript
-const rangeSlider = document.getElementById("myRange");
-rangeSlider.addEventListener("change", () => {
-  const periode = getPeriodeFromSliderValue(rangeSlider.value);
-  addToHistory(periode);
-});
-```
-
-</details>
-
-<details>
-<summary>💡 Indice 3 : Navigation back/forward</summary>
-
-```javascript
-function goBack() {
-  if (currentIndex > 0) {
-    currentIndex--;
-    const periode = navigationHistory[currentIndex].periode;
-    navigateToWithoutHistory(periode);
-    updateButtons();
-  }
-}
-
-function navigateToWithoutHistory(periode) {
-  // Utiliser window.navigateTimelineToPeriode()
-  // MAIS sans appeler addToHistory() pour éviter la boucle
-  // Solution : flag temporaire
-}
-```
-
-</details>
-
-<details>
-<summary>💡 Indice 4 : Activer/désactiver les boutons</summary>
-
-```javascript
-function updateButtons() {
-  const backBtn = document.getElementById("nav-back");
-  const forwardBtn = document.getElementById("nav-forward");
-
-  if (backBtn) {
-    backBtn.disabled = currentIndex <= 0;
-    backBtn.style.opacity = backBtn.disabled ? "0.3" : "1";
-  }
-
-  if (forwardBtn) {
-    forwardBtn.disabled = currentIndex >= navigationHistory.length - 1;
-    forwardBtn.style.opacity = forwardBtn.disabled ? "0.3" : "1";
-  }
-}
-```
-
-</details>
-
-### ✅ Test de validation
-
-- [ ] Chaque changement de slide est enregistré
-- [ ] Le bouton "Précédent" navigue en arrière
-- [ ] Le bouton "Suivant" navigue en avant
-- [ ] Les boutons se désactivent correctement
-- [ ] L'historique persiste pendant la session
-- [ ] Pas de doublon d'entrées consécutives identiques
-
-### 🎁 Bonus
-
-- Affichez un dropdown avec tout l'historique
-- Ajoutez des raccourcis clavier (Alt + ← / →)
-- Limitez l'historique à 50 entrées max
-- Affichez combien de fois chaque période a été visitée
-
----
-
-## 🎯 Exercice 10 : Mini-jeu "Devinez la compétence" ⭐⭐⭐⭐
-
-### 📝 Mission
-
-Créez un mini-jeu où l'utilisateur doit deviner une compétence à partir d'indices.
-
-### 🎨 Où travailler
-
-- **Fichier à créer** : `js/games/guess-competence.js`
-- **Nouvelle page** : Modal ou section dédiée au jeu
-
-### 💡 Ce que vous devez faire
-
-1. Choisir une compétence aléatoire dans `CV_COMPETENCES`
-2. Afficher sa description (indice 1)
-3. Proposer 4 choix de réponse (dont la bonne)
-4. Vérifier la réponse
-5. Compter les points (score)
-6. Proposer une nouvelle question
-7. Afficher le score final après 5 questions
-
-### 🔍 Indices disponibles
-
-<details>
-<summary>💡 Indice 1 : Choisir aléatoirement</summary>
-
-```javascript
-function getRandomCompetence() {
-  const competences = window.CV_COMPETENCES || [];
-  const randomIndex = Math.floor(Math.random() * competences.length);
-  return competences[randomIndex];
-}
-```
-
-</details>
-
-<details>
-<summary>💡 Indice 2 : Générer des mauvaises réponses</summary>
-
-```javascript
-function generateChoices(correctCompetence) {
-  const all = window.CV_COMPETENCES;
-  const wrong = all
-    .filter((c) => c.id !== correctCompetence.id)
-    .sort(() => Math.random() - 0.5) // shuffle
-    .slice(0, 3); // prendre 3
-
-  const choices = [...wrong, correctCompetence];
-  return choices.sort(() => Math.random() - 0.5); // re-shuffle
-}
-```
-
-</details>
-
-<details>
-<summary>💡 Indice 3 : Structure du jeu</summary>
-
-```javascript
-const game = {
-  score: 0,
-  currentQuestion: 0,
-  totalQuestions: 5,
-  currentCompetence: null,
-
-  start() {
-    this.score = 0;
-    this.currentQuestion = 0;
-    this.nextQuestion();
-  },
-
-  nextQuestion() {
-    if (this.currentQuestion >= this.totalQuestions) {
-      this.end();
-      return;
-    }
-
-    this.currentQuestion++;
-    this.currentCompetence = getRandomCompetence();
-    this.displayQuestion();
-  },
-
-  checkAnswer(selectedId) {
-    if (selectedId === this.currentCompetence.id) {
-      this.score++;
-      // Feedback positif
-    } else {
-      // Feedback négatif
-    }
-
-    setTimeout(() => this.nextQuestion(), 1500);
-  },
-
-  end() {
-    // Afficher le score final
-  },
-};
-```
-
-</details>
-
-<details>
-<summary>💡 Indice 4 : Interface HTML dynamique</summary>
-
-```javascript
-function displayQuestion() {
-  const container = document.getElementById("game-container");
-
-  container.innerHTML = `
-    <div class="game-header">
-      <span>Question ${game.currentQuestion}/${game.totalQuestions}</span>
-      <span>Score: ${game.score}</span>
-    </div>
-    
-    <div class="game-question">
-      <p class="description">${game.currentCompetence.description}</p>
-      <p class="hint">Période: ${game.currentCompetence.periode}</p>
-    </div>
-    
-    <div class="game-choices"></div>
-  `;
-
-  const choicesContainer = container.querySelector(".game-choices");
-  const choices = generateChoices(game.currentCompetence);
-
-  choices.forEach((comp) => {
-    const btn = document.createElement("button");
-    btn.className = "choice-btn";
-    btn.textContent = comp.name;
-    btn.addEventListener("click", () => {
-      game.checkAnswer(comp.id);
-      btn.classList.add(
-        comp.id === game.currentCompetence.id ? "correct" : "wrong"
-      );
-      // Désactiver tous les boutons
-      choicesContainer
-        .querySelectorAll("button")
-        .forEach((b) => (b.disabled = true));
-    });
-    choicesContainer.appendChild(btn);
-  });
-}
-```
-
-</details>
-
-### ✅ Test de validation
-
-- [ ] Le jeu démarre avec une première question
-- [ ] 4 choix sont proposés
-- [ ] La bonne réponse donne un point
-- [ ] Le score s'affiche correctement
-- [ ] Après 5 questions, le score final s'affiche
-- [ ] On peut rejouer
-
-### 🎁 Bonus
-
-- Ajoutez un timer (10 secondes par question)
-- Mode difficile : pas d'indice de période
-- Highscore sauvegardé dans localStorage
-- Partage du score sur les réseaux sociaux
-- Système de vie (3 erreurs = game over)
-
----
-
-## 🎮 Format de demande d'aide
-
-### ✅ Bon format
-
-> "Je bloque sur l'exercice 5. J'arrive à sauvegarder les favoris mais ils ne se restaurent pas au chargement. Peux-tu me donner une piste sur la partie 'restauration' ?"
-
-> "Exercice 7 : ma fonction showToast fonctionne mais les toasts ne s'empilent pas, ils se remplacent. Indice sur le positionnement ?"
-
-### ❌ Mauvais format
-
-> "Donne-moi la solution de l'exercice 3"
-> "Écris-moi tout le code"
-
----
-
-## 🏆 Système de progression
-
-Complétez les exercices dans l'ordre. Pour chaque exercice terminé :
-
-### Auto-évaluation
-
-1. ✅ **Le code fonctionne** (pas d'erreur console)
-2. ✅ **Je comprends chaque ligne** (pas de copier/coller aveugle)
-3. ✅ **Le code est propre** (indentation, noms explicites)
-4. ✅ **Les guards sont présents** (`if (!element) return;`)
-5. ✅ **Ça fonctionne sur mobile ET desktop**
-
-### Niveaux de maîtrise
-
-- **⭐ Débutant** : J'ai fait l'exercice avec tous les indices
-- **⭐⭐ Confirmé** : J'ai fait l'exercice avec 2-3 indices max
-- **⭐⭐⭐ Avancé** : J'ai fait l'exercice avec 1 indice ou sans
-- **⭐⭐⭐⭐ Expert** : J'ai ajouté tous les bonus + innovations perso
-
----
-
-## 📈 Objectif final
-
-À la fin de ces 10 exercices, vous serez capable de :
-
-✅ Manipuler le DOM avec aisance  
-✅ Gérer des événements complexes  
-✅ Utiliser localStorage/sessionStorage  
-✅ Créer des animations et transitions  
-✅ Structurer du code propre et maintenable  
-✅ Débugger efficacement  
-✅ Penser en termes d'architecture
-
-**Vous passerez de 2,5/5 à 4/5 en JS** 🚀
-
----
-
-## 🎯 Challenge ultime (après les 10 exercices)
-
-Créez une **toute nouvelle section interactive** pour votre CV :
-
-### Idées de projets
-
-1. **Timeline des projets** : Affichez vos projets perso avec screenshots, techs utilisées, liens GitHub
-2. **Section Blog** : Mini CMS pour écrire des articles techniques
-3. **Portfolio interactif** : Galerie de vos créations avec filtres
-4. **CV generator** : Outil pour que d'autres créent leur CV avec votre template
-5. **Dashboard analytics** : Stats en temps réel de votre site (visites, clics, etc.)
-
-### Contraintes
-
-- ✅ Utiliser au moins 5 concepts appris
-- ✅ Code structuré en module propre
-- ✅ Responsive et accessible
-- ✅ Intégré harmonieusement au reste du site
-
----
-
-**Prêt à commencer ? Lancez-vous sur l'Exercice 1 !** 🎮
-
-_Rappel : Demandez de l'aide en précisant où vous bloquez, je vous guiderai avec des indices plutôt que des solutions directes._
