@@ -59,6 +59,12 @@ function updateNavIcons(isLight) {
   ? '/img/contact/lightmode/ping-noir.png'
   : '/img/contact/darkmode/ping-blanc.png';
   });
+  // Mail
+  document.querySelectorAll('.contact-icon.social-icon[alt="Email"]').forEach(img => {
+    img.src = isLight
+  ? '/img/nav-icon/lightmode/contact-noir.png'
+  : '/img/nav-icon/darkmode/contact-blanc.png';
+  });
   // LinkedIn
   document.querySelectorAll('.contact-icon.social-icon[alt="LinkedIn"]').forEach(img => {
     img.src = isLight

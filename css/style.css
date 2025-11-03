@@ -3726,7 +3726,6 @@ body.light .search-result-link:focus-visible {
   width: 50px;
   height: 50px;
   object-fit: contain;
-  margin-right: -16px;
   flex-shrink: 0;
 }
 
@@ -3735,10 +3734,11 @@ body.light .search-result-link:focus-visible {
 }
 
 .contact-links {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 32px;
+  gap: 12px;
   margin-top: 18px;
   margin-bottom: 10px;
 }
@@ -4841,10 +4841,13 @@ body.light .form-group input:-webkit-autofill:active {
    EXERCICE CSS
    ============================================= */
 
+/* exercice 1 */
 .grow {
   transition: transform 0.2s ease;
   transform: scale(1.1);
 }
+
+/* exercice 2 */
 
 /* DATE & CLOCK CONTAINER */
 .date-container {
@@ -4918,4 +4921,113 @@ body.light .greeting-text {
   .date-container {
     display: none;
   }
+}
+
+/* exercice 3 */
+
+.email-link:hover {
+  cursor: pointer;
+}
+
+@keyframes email-copy-effect {
+  0% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.15) rotate(5deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.email-copied {
+  animation: email-copy-effect 1s ease-in-out;
+}
+
+/* TOOLTIP */
+
+/* Tooltip base - positioned above parent */
+.tooltip {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Show state with smooth fade-in */
+.tooltip.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px);
+}
+
+/* Hover variant (neutral dark) */
+.tooltip-hover {
+  background: rgba(50, 50, 50, 0.95);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Success variant (accent color) */
+.tooltip-success {
+  background: var(--background-surface-light);
+  color: var(--text-dark);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.tooltip-error {
+  background: #d32f2f; /* Rouge mat */
+  color: white;
+  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
+}
+
+/* Light mode variant */
+body.light .tooltip-error {
+  background: #c62828; /* Rouge un peu plus foncé */
+}
+
+/* Arrow pointer below tooltip */
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: inherit;
+}
+
+/* Light mode variants */
+body.light .tooltip-hover {
+  background: rgba(40, 40, 40, 0.95);
+  color: #ffffff;
+}
+
+body.light .tooltip-success {
+  background: var(--background-surface-dark);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+  color: var(--text-light);
+}
+
+/* Parent container needs relative positioning */
+.contact-links {
+  position: relative;
+}
+
+/* Ensure email link can contain tooltip */
+#email-link {
+  position: relative;
 }
