@@ -1,5 +1,11 @@
 # 🎮 Exercices 7-8 (Suite) - Version Moderne avec Concepts Avancés
 
+> **📚 Rappel :** Vous devriez avoir terminé l'**INTERLUDE 4** (Event Loop) avant de commencer ces exercices.
+>
+> Si ce n'est pas fait, retournez à la fin du fichier `EXERCICES-1-6-DEBUT.md` !
+
+---
+
 ## 🎯 Exercice 7 : Toast Notifications avec Event Delegation & Queue Management ⭐⭐⭐
 
 ### 📝 Mission
@@ -634,6 +640,40 @@ document.addEventListener("DOMContentLoaded", initDashboard);
 - ✅ **GitHub API** : Consommer une vraie API REST
 - ✅ **Dynamic charting** : Créer des visualisations en JavaScript
 - ✅ **Progressive rendering** : Afficher les données au fur et à mesure
+
+---
+
+## 📚 PAUSE PÉDAGOGIQUE : Interlude 5
+
+> **⚠️ IMPORTANT** : Avant de passer à l'exercice 9, prenez le temps de faire l'interlude suivant :
+>
+> ### 🎓 **INTERLUDE 5 : Map, Set & Immutabilité** (~25 min)
+>
+> **Fichier :** `tuto-js/interlude/INTERLUDE-5-MAP-SET.md`
+>
+> **Ce que vous allez apprendre :**
+>
+> - ✅ **Set** : Liste de valeurs uniques, lookup O(1)
+> - ✅ **Map** : Dictionnaire performant avec clés de n'importe quel type
+> - ✅ WeakMap/WeakSet (garbage collection)
+> - ✅ **Immutabilité** : Éviter les mutations dangereuses
+> - ✅ Spread operator pour copier sans muter
+> - ✅ `Object.freeze()`
+>
+> **Pourquoi maintenant ?** L'exercice 9 utilise une NavigationHistory qui stocke des périodes uniques. Set est parfait pour ça. De plus, l'immutabilité est essentielle pour éviter les bugs de state dans des applications complexes.
+>
+> **Performance + Clarté + Pas de bugs de mutation = Code professionnel**
+>
+> ---
+>
+> **📝 Checklist avant de continuer :**
+>
+> - [ ] J'ai lu et compris l'interlude 5
+> - [ ] Je comprends la différence entre Set et Array
+> - [ ] Je comprends la différence entre Map et Object
+> - [ ] Je sais éviter les mutations avec spread
+> - [ ] J'ai fait les mini-défis sur Map/Set
+> - [ ] Je suis prêt pour l'exercice 9 (navigation history) !
 
 ---
 

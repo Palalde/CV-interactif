@@ -259,6 +259,51 @@ navigator.clipboard
 
 ---
 
+## 📚 PAUSE PÉDAGOGIQUE : Interludes 1 & 2
+
+> **⚠️ IMPORTANT** : Avant de passer à l'exercice 4, prenez le temps de faire les interludes suivants :
+>
+> ### 🎓 **INTERLUDE 1 : Fondamentaux JavaScript** (~20 min)
+>
+> **Fichier :** `tuto-js/interlude/INTERLUDE-1-FONDAMENTAUX.md`
+>
+> **Ce que vous allez apprendre :**
+>
+> - ✅ Types de données (primitifs + objets)
+> - ✅ Truthy/Falsy (éviter les bugs classiques)
+> - ✅ `===` vs `==` (toujours utiliser `===`)
+> - ✅ Destructuring (objets et arrays)
+> - ✅ Spread/Rest operators (`...`)
+>
+> **Pourquoi maintenant ?** L'exercice 4 utilise ces concepts intensivement. Vous devez les maîtriser avant.
+>
+> ---
+>
+> ### 🎓 **INTERLUDE 2 : Array Methods Avancés** (~25 min)
+>
+> **Fichier :** `tuto-js/interlude/INTERLUDE-2-ARRAY-METHODS.md`
+>
+> **Ce que vous allez apprendre :**
+>
+> - ✅ `map()`, `filter()`, `reduce()`
+> - ✅ `find()`, `some()`, `every()`
+> - ✅ `sort()` (avec les pièges)
+> - ✅ **Chaînage de méthodes** (le vrai pouvoir)
+>
+> **Pourquoi maintenant ?** L'exercice 4 utilise `filter()` et les interludes suivants utilisent ces méthodes partout.
+>
+> ---
+>
+> **📝 Checklist avant de continuer :**
+>
+> - [ ] J'ai lu et compris l'interlude 1
+> - [ ] J'ai fait les mini-défis de l'interlude 1
+> - [ ] J'ai lu et compris l'interlude 2
+> - [ ] J'ai fait les mini-défis de l'interlude 2
+> - [ ] Je suis prêt pour l'exercice 4 !
+
+---
+
 ## 🎯 Exercice 4 : Filtre intelligent avec Debouncing & Modules ⭐⭐
 
 ### 📝 Mission
@@ -432,6 +477,36 @@ function displayResults(results, query) {
 - ✅ **Closures** : Comprendre comment debounce garde `timeoutId` en mémoire
 - ✅ **Array methods** : `filter()`, `forEach()`
 - ✅ **String manipulation** : `normalize()`, regex pour accents
+
+---
+
+## 📚 PAUSE PÉDAGOGIQUE : Interlude 3
+
+> **⚠️ IMPORTANT** : Avant de passer à l'exercice 5, prenez le temps de faire l'interlude suivant :
+>
+> ### 🎓 **INTERLUDE 3 : `this`, Arrow Functions & Binding** (~25 min)
+>
+> **Fichier :** `tuto-js/interlude/INTERLUDE-3-THIS-BINDING.md`
+>
+> **Ce que vous allez apprendre :**
+>
+> - ✅ Les 4 règles de `this`
+> - ✅ Le piège des event listeners
+> - ✅ Arrow functions vs fonctions normales
+> - ✅ `call()`, `apply()`, `bind()`
+> - ✅ Comment fixer `this` (3 solutions)
+>
+> **Pourquoi maintenant ?** L'exercice 5 utilise des classes et des event listeners. Sans comprendre `this`, vous allez avoir des bugs cryptiques !
+>
+> ---
+>
+> **📝 Checklist avant de continuer :**
+>
+> - [ ] J'ai lu et compris l'interlude 3
+> - [ ] J'ai fait les mini-défis sur `this`
+> - [ ] Je comprends la différence entre arrow functions et fonctions normales
+> - [ ] Je sais utiliser `bind()` quand nécessaire
+> - [ ] Je suis prêt pour l'exercice 5 (POO) !
 
 ---
 
@@ -1109,3 +1184,37 @@ infoDiv.appendChild(applyBtn);
 - **MDN async/await** : https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Statements/async_function
 
 ---
+
+## 📚 PAUSE PÉDAGOGIQUE : Interlude 4
+
+> **⚠️ IMPORTANT** : Avant de passer à l'exercice 7, prenez le temps de faire l'interlude suivant :
+>
+> ### 🎓 **INTERLUDE 4 : Event Loop & Ordre d'Exécution Asynchrone** (~30 min)
+>
+> **Fichier :** `tuto-js/interlude/INTERLUDE-4-EVENT-LOOP.md`
+>
+> **Ce que vous allez apprendre :**
+>
+> - ✅ Call stack et pile d'exécution
+> - ✅ Event Loop et ses queues
+> - ✅ **Microtasks vs Macrotasks** (Promise vs setTimeout)
+> - ✅ async/await et l'Event Loop
+> - ✅ Prédire l'ordre d'exécution de n'importe quel code async
+>
+> **Pourquoi maintenant ?** L'exercice 7 utilise des timers et des Promises. Comprendre l'Event Loop vous permettra de gérer la queue de toasts correctement et de débugger n'importe quel code async.
+>
+> **C'est LE concept qui fait la différence entre "j'utilise async" et "je COMPRENDS async".**
+>
+> ---
+>
+> **📝 Checklist avant de continuer :**
+>
+> - [ ] J'ai lu et compris l'interlude 4
+> - [ ] Je comprends la différence entre microtasks et macrotasks
+> - [ ] Je peux prédire l'ordre d'exécution de Promise vs setTimeout
+> - [ ] J'ai fait les mini-défis sur l'Event Loop
+> - [ ] Je suis prêt pour l'exercice 7 (toasts avec queue) !
+
+---
+
+**[SUITE DES EXERCICES : `EXERCICES-7-8-SUITE.md`]**

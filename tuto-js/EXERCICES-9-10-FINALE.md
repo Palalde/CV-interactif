@@ -1,5 +1,11 @@
 # 🎮 Exercices 9-10 (Finale) - Concepts Experts
 
+> **📚 Rappel :** Vous devriez avoir terminé l'**INTERLUDE 5** (Map, Set & Immutabilité) avant de commencer ces exercices.
+>
+> Si ce n'est pas fait, retournez à la fin du fichier `EXERCICES-7-8-SUITE.md` !
+
+---
+
 ## 🎯 Exercice 9 : Navigation History avec BroadcastChannel & State Machine ⭐⭐⭐
 
 ### 📝 Mission
