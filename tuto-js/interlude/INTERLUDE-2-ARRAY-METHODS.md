@@ -85,6 +85,8 @@ const people = [
 ];
 // Résultat attendu : [26, 31]
 
+const AgePlusOne = people.map((person) => person.age + 1);
+
 // 2. Transforme les compétences en objets
 const skills = ["JavaScript", "React", "CSS"];
 // Résultat attendu : [
@@ -93,12 +95,21 @@ const skills = ["JavaScript", "React", "CSS"];
 //   ...
 // ]
 
+const skillObject = skills.map((comp) => {
+  const niveau = "débutant";
+  return { nom: comp, level: niveau };
+});
+
+const skillsLevel = skills.map((level) => ({ nom: level, level: "débutant" }));
+
 // 3. Ajoute un ID à chaque compétence
 const competences = [{ nom: "JavaScript" }, { nom: "React" }];
 // Résultat attendu : [
 //   { id: 0, nom: "JavaScript" },
 //   { id: 1, nom: "React" }
 // ]
+
+const compId = competences.map((comp, index) => ({ id: index, nom: comp.nom }));
 ```
 
 <details>
@@ -116,10 +127,7 @@ const skillsObjects = skills.map((skill) => ({
 // Note : () autour de {} pour return implicite d'objet
 
 // 3. Ajouter ID
-const withIds = competences.map((comp, index) => ({
-  id: index,
-  ...comp, // spread pour garder les propriétés existantes
-}));
+const withIds = competences.map((comp, index) => ({ id: index, ...comp }));
 ```
 
 </details>
@@ -187,12 +195,16 @@ const competences = [
   { nom: "Python", periode: "etudes" },
 ];
 
+const periodeDev = competences.filter((comp) => comp.periode === "dev");
+
 // 2. Garde les compétences qui ont un lien externe
 const skills = [
   { nom: "JavaScript", lien: "https://..." },
   { nom: "CSS", lien: null },
   { nom: "React", lien: "https://..." },
 ];
+
+const skilllink = skills.filter((skill) => skill.lien !== null);
 
 // 3. Système de recherche : filtre par nom ET catégorie
 const data = [
@@ -203,6 +215,12 @@ const data = [
 const search = "java";
 const category = "Langages";
 // Résultat attendu : [{ nom: "JavaScript", categorie: "Langages" }]
+
+const results = data.filter((comp) => {
+  const matchSearch = comp.nom.toLowerCase().includes(search.toLowerCase());
+  const matchCategory = comp.categorie === category;
+  return matchSearch && matchCategory;
+});
 ```
 
 <details>
@@ -311,6 +329,8 @@ const people = [
   { name: "Luc", age: 22 },
 ];
 
+const ageTotal = people.reduce((total, person) => total + person.age, 0);
+
 // 2. Compte les compétences par période
 const competences = [
   { nom: "JS", periode: "dev" },
@@ -320,6 +340,12 @@ const competences = [
 ];
 // Résultat attendu : { dev: 2, trading: 1, etudes: 1 }
 
+const periodComp = competences.reduce((acc, comp) => {
+  const period = comp.period;
+  acc[period] = (acc[period] || 0) + 1;
+  return acc;
+}, {});
+
 // 3. Crée un index par ID (pour lookup rapide)
 const items = [
   { id: "abc", name: "Item 1" },
@@ -327,8 +353,18 @@ const items = [
 ];
 // Résultat attendu : { abc: { id: "abc", ... }, def: { id: "def", ... } }
 
+const ItemId = items.reduce((acc, item) => [
+  acc[item.id] = item;
+  return acc;
+], {});
+
 // 4. Trouve le maximum (sans Math.max)
 const scores = [45, 78, 12, 95, 34];
+
+const max = scores.reduce(
+  (max, score) => (score > max ? score : max),
+  scores[0]
+);
 ```
 
 <details>
@@ -521,13 +557,33 @@ const products = [
 // 1. Trouve les produits Electronics en stock, triés par prix décroissant
 // Résultat : ["Watch", "Laptop"]
 
+const stock = products
+  .filter((p) => p.category === "Electronics" && p.inStock)
+  .sort((a, b) => b.price - a.price)
+  .map((p) => p.name);
+
 // 2. Calcule le prix total des produits Clothing en stock
+
+const PriceTotalClothing = products
+  .filter((p) => p.category === "Clothing" && p.inStock)
+  .reduce((sum, p) => sum + p.price, 0);
 
 // 3. Crée un objet avec le nombre de produits par catégorie
 // Résultat : { Electronics: 3, Clothing: 2 }
 
+const catergoryTotal = products.reduce((acc, p) => {
+  acc[p.category] = (acc[p.category] || 0) + 1;
+  return acc;
+}, {});
+
 // 4. Trouve les 2 produits les moins chers en stock
 // Résultat : ["Shirt", "Shoes"]
+
+const lowDuoPriceProduct = products
+  .filter((p) => p.inStock)
+  .sort((a, b) => a.price - b.price)
+  .slice(0, 2)
+  .map((p) => p.name);
 ```
 
 <details>
@@ -573,18 +629,28 @@ const cheapest = products
 // Question 1 : Que retourne ce code ?
 [1, 2, 3].map((n) => n * 2).filter((n) => n > 3);
 
+// [4, 6]
+
 // Question 2 : Que retourne ce code ?
 [1, 2, 3, 4, 5].reduce((acc, n) => acc + n, 10);
+
+// 25
 
 // Question 3 : Que retourne ce code ?
 [{ id: 1 }, { id: 2 }].find((item) => item.id === 3);
 
+// undefined ?
+
 // Question 4 : Que retourne ce code ?
 [1, 2, 3].some((n) => n > 2);
+
+// true
 
 // Question 5 : Corrige ce code (il trie mal les nombres)
 const numbers = [10, 5, 40, 25];
 numbers.sort();
+
+numbers.sort((a, b) => a - b);
 
 // Question 6 : Simplifie avec chaînage
 const users = [
@@ -598,6 +664,8 @@ for (let user of users) {
     adults.push(user.name);
   }
 }
+
+const adults = users.filer((user) => user.age >= 18).map((u) => u.name);
 ```
 
 <details>

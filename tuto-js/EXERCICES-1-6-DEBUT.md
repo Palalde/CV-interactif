@@ -296,11 +296,11 @@ navigator.clipboard
 >
 > **📝 Checklist avant de continuer :**
 >
-> - [ ] J'ai lu et compris l'interlude 1
-> - [ ] J'ai fait les mini-défis de l'interlude 1
-> - [ ] J'ai lu et compris l'interlude 2
-> - [ ] J'ai fait les mini-défis de l'interlude 2
-> - [ ] Je suis prêt pour l'exercice 4 !
+> - [✅] J'ai lu et compris l'interlude 1
+> - [✅] J'ai fait les mini-défis de l'interlude 1
+> - [✅] J'ai lu et compris l'interlude 2
+> - [✅] J'ai fait les mini-défis de l'interlude 2
+> - [✅] Je suis prêt pour l'exercice 4 !
 
 ---
 

@@ -68,14 +68,14 @@ const date = new Date(); // Object
 
 ```javascript
 // Quel est le type de chacune de ces valeurs ?
-typeof "Hello"; // ?
-typeof 42; // ?
-typeof true; // ?
-typeof undefined; // ?
-typeof null; // ? (PIÈGE !)
-typeof {}; // ?
-typeof []; // ? (PIÈGE !)
-typeof (() => {}); // ?
+typeof "Hello"; // string
+typeof 42; // number
+typeof true; // boolean
+typeof undefined; // undefined
+typeof null; // object
+typeof {}; // array object
+typeof []; // object
+typeof (() => {}); // function
 ```
 
 <details>
@@ -147,22 +147,22 @@ if (items.length > 0) {
 
 ```javascript
 // Que affichent ces conditions ?
-if (0) console.log("A"); // ?
-if ("") console.log("B"); // ?
-if ([]) console.log("C"); // ?
-if ({}) console.log("D"); // ?
-if (null) console.log("E"); // ?
-if (undefined) console.log("F"); // ?
+if (0) console.log("A"); // falsy
+if ("") console.log("B"); // falsy
+if ([]) console.log("C"); // truthy
+if ({}) console.log("D"); // truthy
+if (null) console.log("E"); // falsy
+if (undefined) console.log("F"); // falsy
 
 // Cas pratiques
 const user = null;
 if (user) {
-  console.log("User connecté"); // S'affiche ?
+  console.log("User connecté"); // S'affiche pas
 }
 
 const count = 0;
 if (count) {
-  console.log(`${count} clics`); // S'affiche ?
+  console.log(`${count} clics`); // S'affiche pas
 }
 ```
 
@@ -241,10 +241,10 @@ if (input === "0") {
 ```javascript
 // Ce code a des bugs. Trouve-les et corrige avec ===
 function validateForm(input) {
-  if (input == "") {
+  if (input === "") {
     return "Champ vide";
   }
-  if (input == 0) {
+  if (input === 0) {
     return "Valeur nulle";
   }
   return "OK";
@@ -343,10 +343,7 @@ console.log(a, b); // 2, 1
 ```javascript
 // Refactore ce code avec destructuring
 function displayCompetence(comp) {
-  const nom = comp.nom;
-  const categorie = comp.categorie;
-  const periode = comp.periode;
-
+  const { nom, categorie, periode } = comp;
   console.log(`${nom} (${categorie}) - ${periode}`);
 }
 
@@ -445,18 +442,19 @@ console.log(otherProps); // { age: 25, email: "paul@email.com" }
 // 1. Créer une fonction qui fusionne plusieurs objets
 // Exemple : merge({a: 1}, {b: 2}, {c: 3}) → {a: 1, b: 2, c: 3}
 function merge(...objects) {
-  // TON CODE ICI
+  return objects.reduce((acc, obj) => ({ ...acc, ...obj }), {});
 }
 
 // 2. Créer une fonction qui retire un élément d'un array SANS le muter
 // Exemple : removeItem([1,2,3,4], 2) → [1,2,4]
 function removeItem(array, index) {
-  // TON CODE ICI (utilise slice + spread)
+  return [...array.slice(0, index), ...array.slice(index + 1)];
 }
 
 // 3. Ajouter une propriété à un objet SANS le muter
 const user = { name: "Paul" };
 // Créer newUser avec { name: "Paul", isAdmin: true }
+const updatedUser = { ...user, isAdmin: true };
 ```
 
 <details>
@@ -500,32 +498,32 @@ console.log(newUser); // { name: "Paul", isAdmin: true }
 // Question 1 : Que affiche ce code ?
 const x = 0;
 const y = "0";
-console.log(x == y); // ?
-console.log(x === y); // ?
+console.log(x == y); // truth
+console.log(x === y); // false
 
 // Question 2 : Que affiche ce code ?
 const arr = [];
 if (arr) {
-  console.log("A");
+  console.log("A"); //true
 }
 if (arr.length) {
-  console.log("B");
+  console.log("B"); //false
 }
 
 // Question 3 : Que contient `others` ?
 const [first, ...others] = [10, 20, 30, 40];
+[20, 30, 40];
 
 // Question 4 : Corrige ce code
 function update(user) {
-  user.age = user.age + 1; // MUTE l'objet original !
-  return user;
+  return { ...user, age: user.age + 1 };
 }
 
 // Question 5 : Que affiche ce code ?
 const obj1 = { a: 1, b: 2 };
 const obj2 = { b: 3, c: 4 };
 const merged = { ...obj1, ...obj2 };
-console.log(merged.b); // ?
+console.log(merged);
 ```
 
 <details>
