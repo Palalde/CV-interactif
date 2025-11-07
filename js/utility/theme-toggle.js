@@ -24,7 +24,7 @@ function updateNavIcons(isLight) {
   : '/img/nav-icon/darkmode/loupe-bleu.png';
   });
   // Contact
-  const isContactPage = window.location.pathname.includes('contact-info.html');
+  const isContactPage = window.location.pathname.includes('contact-info');
   if (isContactPage) {
     // Images spécifiques pour contact-info.html
     document.querySelectorAll('.icon-contact.main').forEach(img => {
