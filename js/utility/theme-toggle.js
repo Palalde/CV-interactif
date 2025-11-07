@@ -24,16 +24,32 @@ function updateNavIcons(isLight) {
   : '/img/nav-icon/darkmode/loupe-bleu.png';
   });
   // Contact
-  document.querySelectorAll('.icon-contact.main').forEach(img => {
-    img.src = isLight
-  ? '/img/nav-icon/lightmode/contact-noir.png'
-  : '/img/nav-icon/darkmode/contact-blanc.png';
-  });
-  document.querySelectorAll('.icon-contact.second').forEach(img => {
-    img.src = isLight
-  ? '/img/nav-icon/lightmode/contact-beige.png'
-  : '/img/nav-icon/darkmode/contact-bleu.png';
-  });
+  const isContactPage = window.location.pathname.includes('contact-info.html');
+  if (isContactPage) {
+    // Images spécifiques pour contact-info.html
+    document.querySelectorAll('.icon-contact.main').forEach(img => {
+      img.src = isLight
+     ? '/img/nav-icon/lightmode/cv-noir.png'
+     : '/img/nav-icon/darkmode/cv-blanc.png';
+    });
+    document.querySelectorAll('.icon-contact.second').forEach(img => {
+      img.src = isLight
+      ? '/img/nav-icon/darkmode/cv-blanc.png'
+      : '/img/nav-icon/darkmode/cv-bleu.png';
+    });
+  } else {
+    // Images par défaut pour les autres pages
+    document.querySelectorAll('.icon-contact.main').forEach(img => {
+      img.src = isLight
+    ? '/img/nav-icon/lightmode/contact-noir.png'
+    : '/img/nav-icon/darkmode/contact-blanc.png';
+    });
+    document.querySelectorAll('.icon-contact.second').forEach(img => {
+      img.src = isLight
+    ? '/img/nav-icon/lightmode/contact-beige.png'
+    : '/img/nav-icon/darkmode/contact-bleu.png';
+    });
+  }
   // PDF
   document.querySelectorAll('.icon-pdf.main').forEach(img => {
     img.src = isLight
