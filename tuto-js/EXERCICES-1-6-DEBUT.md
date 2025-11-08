@@ -459,7 +459,7 @@ function displayResults(results, query) {
 - [✅] La recherche utilise le debouncing (pas d'exécution à chaque lettre)
 - [✅] Le code est structuré en modules (fichiers séparés)
 - [✅] Les imports/exports fonctionnent correctement
-- [] Un compteur affiche "X résultats trouvés"
+- [✅] Un compteur affiche "X résultats trouvés"
 - [✅] La recherche ignore accents et majuscules
 - [✅] Performance : testez en tapant rapidement (pas de lag)
 
