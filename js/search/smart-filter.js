@@ -1,4 +1,4 @@
-import { debounce, normalizeText, displayResults } from "./search-util.js";   
+import { debounce, normalizeText, displayResults, highlightMatch } from "./search-util.js";   
 
 document.addEventListener("DOMContentLoaded", () => {
     // Variables 
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         // Afficher les résultats 
-        displayResults(results); //appelle la fonction displayResults
+        displayResults(results, query); //appelle displayResults (query pour surlignage)
     }
     
     // Debounce de performSearch

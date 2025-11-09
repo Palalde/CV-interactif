@@ -3386,6 +3386,14 @@ body.light .download-overlay-close {
   box-shadow: 0 16px 36px rgba(31, 80, 170, 0.25);
 }
 
+.search-result-item mark {
+  background: rgba(55, 110, 220, 0.25);
+  color: inherit;
+  border-radius: 3px;
+  padding: 2px 4px;
+  font-weight: 600;
+}
+
 .search-result-header {
   display: flex;
   align-items: baseline;
@@ -3584,6 +3592,10 @@ body.light .search-overlay-placeholder {
 body.light .search-result-item {
   background: rgba(255, 255, 255, 0.92);
   border-color: rgba(0, 0, 0, 0.08);
+}
+body.light .search-result-item mark {
+  background: rgba(55, 110, 220, 0.15);
+  color: rgba(28, 63, 144, 1);
 }
 body.light .search-result-item:hover,
 body.light .search-result-item:focus-within {
