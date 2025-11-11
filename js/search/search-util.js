@@ -22,6 +22,29 @@ export function normalizeText(text) {
     .replace(/\p{Diacritic}/gu, '');
 }
 
+// filterCompetences
+export function filterCompetences(query) { 
+    if (!query || query.trim() === '') {
+        return [];
+    } 
+    // normalize / filtrage
+    const normalizedQuery = normalizeText(query); 
+
+    const results = window.CV_COMPETENCES.filter((item) => { 
+        const normalizedItem = normalizeText(  
+            item.name + ' ' +
+            item.periode + ' ' +
+            item.description + ' ' + 
+            item.categories.join(' ') + ' ' + 
+            item['#'].join(' ')
+        );
+        
+        return normalizedItem.includes(normalizedQuery);
+    });
+    
+    return results;
+}
+
 // displayResults
 // Labels
 const CATEGORY_LABELS = {

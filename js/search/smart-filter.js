@@ -1,5 +1,6 @@
-import { debounce, normalizeText, displayResults } from "./search-util.js"; 
+import { filterCompetences, debounce, normalizeText, displayResults } from "./search-util.js"; 
 import { addToHistory } from "./search-history.js";
+import { initAutocomplete } from "./search-autocomplete.js";
 
 // main search function
 
@@ -7,27 +8,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Variables 
     const searchInput = document.querySelector('.search-input');
     if (!searchInput) return;
+
+    // listener autocomplete search
+    initAutocomplete();
     
     // Fonction de recherche principale
     function performSearch(query) {
-        if (!query || query.trim() === '') {
-            return;
-        }
-
-        // normalize / filtrage
-        const normalizedQuery = normalizeText(query); 
-
-        const results = window.CV_COMPETENCES.filter((item) => { 
-            const normalizedItem = normalizeText(  
-                item.name + ' ' +
-                item.periode + ' ' +
-                item.description + ' ' + 
-                item.categories.join(' ') + ' ' + 
-                item['#'].join(' ')
-            );
-            
-            return normalizedItem.includes(normalizedQuery);
-        });
+        // Filtrer les compétences
+        const results = filterCompetences(query); //appel filterCompetences
 
         // history
         addToHistory(query); //appel addToHistory
