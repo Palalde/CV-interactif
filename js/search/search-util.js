@@ -1,3 +1,5 @@
+import { createHistoryBlock } from './search-history.js';
+
 // debounce
 export function debounce(func, delay) {
   let timeoutId;
@@ -42,7 +44,7 @@ export function displayResults(results, query) {
   // Variables
   const container = document.querySelector('.search-overlay-results');
   
-  // check / placeholder
+  // check / reset
   if (!container) {
     console.error('❌ Conteneur de résultats non trouvé');
     return;
@@ -50,6 +52,13 @@ export function displayResults(results, query) {
 
   container.replaceChildren();
 
+  // history
+  const historyBlock = createHistoryBlock(); //appel createHistoryBlock
+  if (historyBlock) {
+    container.appendChild(historyBlock); // Ajout dans container
+  }
+
+  // placeholder
   if (results.length === 0) {
     const message = document.createElement('p');
     message.className = 'search-overlay-placeholder';
