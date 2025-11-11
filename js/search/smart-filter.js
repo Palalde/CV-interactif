@@ -1,4 +1,7 @@
-import { debounce, normalizeText, displayResults, highlightMatch } from "./search-util.js";   
+import { debounce, normalizeText, displayResults } from "./search-util.js"; 
+import { addToHistory } from "./search-history.js";
+
+// main search function
 
 document.addEventListener("DOMContentLoaded", () => {
     // Variables 
@@ -26,6 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
             return normalizedItem.includes(normalizedQuery);
         });
 
+        // history
+        addToHistory(query); //appel addToHistory
+
         // Afficher les résultats 
         displayResults(results, query); //appelle displayResults (query pour surlignage)
     }
@@ -37,5 +43,16 @@ document.addEventListener("DOMContentLoaded", () => {
     searchInput.addEventListener('input', (e) => {
         const query = e.target.value;
         debouncedSearch(query); // appelle performSearch via debouncedSearch
+    });
+
+    // listener history search
+    document.addEventListener('history-search', (e) => {
+      const query = e.detail.query;
+
+      // Remplir l'input
+      searchInput.value = query;
+      
+      //Remplir l'input et lancer la recherche
+      debouncedSearch(query); // appelle performSearch via debouncedSearch
     });
 });
