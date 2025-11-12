@@ -331,7 +331,9 @@ const timer = new Timer();
 class Counter {
   constructor() {
     this.count = 0;
-    document.getElementById("btn").addEventListener("click", this.increment);
+    document
+      .getElementById("btn")
+      .addEventListener("click", () => this.increment);
   }
 
   increment() {
@@ -346,7 +348,7 @@ const user = {
   friends: ["Marie", "Luc"],
 
   printFriends: function () {
-    this.friends.forEach(function (friend) {
+    this.friends.forEach((friends) => {
       console.log(`${this.name} est ami avec ${friend}`);
     });
   },
@@ -365,7 +367,7 @@ class Greeter {
 }
 
 const greeter = new Greeter("Paul");
-const greetFunc = greeter.greet;
+const greetFunc = greeter.greet.bind(greeter);
 greetFunc(); // undefined
 ```
 
@@ -419,11 +421,13 @@ greetFunc(); // "Bonjour Paul"
 class Button {
   constructor(selector) {
     this.clicks = 0;
-    // TON CODE : ajoute un event listener qui incrémente clicks
+    const button = document.querySelector("button");
+    button.addEventListener("click", () => this.handleClick());
   }
 
   handleClick() {
-    // TON CODE
+    this.clicks++;
+    console.log(`Cliqué ${this.clicks} fois`);
   }
 }
 
@@ -434,7 +438,9 @@ class User {
   }
 
   greetLater() {
-    // TON CODE : setTimeout qui log this.name après 1s
+    setTimeout(() => {
+      console.log(this.name);
+    }, 1000);
   }
 }
 
@@ -450,7 +456,7 @@ const calculator = {
   },
 };
 
-const addFunc = calculator.add;
+const addFunc = calculator.add.bind(calculator);
 // Faire en sorte que addFunc(5) retourne 5 (this = calculator)
 ```
 
@@ -523,21 +529,21 @@ const obj = {
   },
 };
 const func = obj.getName;
-console.log(func());
+console.log(func()); // undefined
 
 // Question 2 : Que affiche ce code ?
 const obj2 = {
   name: "Test",
   getName: () => this.name,
 };
-console.log(obj2.getName());
+console.log(obj2.getName()); // undefined
 
 // Question 3 : Que affiche ce code ?
 function Person(name) {
   this.name = name;
   this.greet = function () {
     setTimeout(function () {
-      console.log(this.name);
+      console.log(this.name); // undefined
     }, 100);
   };
 }
@@ -551,7 +557,7 @@ class Counter {
   }
 
   start() {
-    setInterval(function () {
+    setInterval(() => {
       this.count++;
       console.log(this.count);
     }, 1000);
@@ -559,6 +565,8 @@ class Counter {
 }
 
 // Question 5 : Quelle est la différence entre call() et bind() ?
+// call() : appelle la fonction IMMÉDIATEMENT avec this défini
+// bind() : retourne une NOUVELLE fonction avec this fixé (appel plus tard)
 ```
 
 <details>

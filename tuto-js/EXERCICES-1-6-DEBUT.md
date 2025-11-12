@@ -502,11 +502,11 @@ function displayResults(results, query) {
 >
 > **📝 Checklist avant de continuer :**
 >
-> - [ ] J'ai lu et compris l'interlude 3
-> - [ ] J'ai fait les mini-défis sur `this`
-> - [ ] Je comprends la différence entre arrow functions et fonctions normales
-> - [ ] Je sais utiliser `bind()` quand nécessaire
-> - [ ] Je suis prêt pour l'exercice 5 (POO) !
+> - [✅] J'ai lu et compris l'interlude 3
+> - [✅] J'ai fait les mini-défis sur `this`
+> - [✅] Je comprends la différence entre arrow functions et fonctions normales
+> - [✅] Je sais utiliser `bind()` quand nécessaire
+> - [✅] Je suis prêt pour l'exercice 5 (POO) !
 
 ---
 
