@@ -3,6 +3,7 @@ import { createHistoryBlock } from './search-history.js';
 // debounce
 export function debounce(func, delay) {
   let timeoutId;
+  
   return function (...args) {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => func.apply(this, args), delay);
@@ -10,7 +11,7 @@ export function debounce(func, delay) {
 }
 
 // normalizeText
-export function normalizeText(text) {
+function normalizeText(text) {
   if (typeof text !== 'string') {
     if (text == null) return '';
     text = String(text);
@@ -169,7 +170,6 @@ function buildResultItem(competence, query) {
 }
 
 // surlignage
-
 // regex escape 
 function escapeRegex(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -221,4 +221,4 @@ export function highlightMatch(text, query) {
   const textMark = text.replace(regex, (match) => `<mark>${match}</mark>`);
   
   return textMark;
-} 
+}
