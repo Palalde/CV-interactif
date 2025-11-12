@@ -1,4 +1,4 @@
-import { filterCompetences, debounce, normalizeText, displayResults } from "./search-util.js"; 
+import { filterCompetences, debounce, displayResults } from "./search-util.js"; 
 import { addToHistory } from "./search-history.js";
 import { initAutocomplete } from "./search-autocomplete.js";
 
@@ -8,6 +8,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Variables 
     const searchInput = document.querySelector('.search-input');
     if (!searchInput) return;
+
+    // Empêcher la soumission du formulaire 
+    const searchForm = document.querySelector('.header-search-bar');
+    if (searchForm) {
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault(); 
+        });
+    }
 
     // listener autocomplete search
     initAutocomplete();
@@ -33,14 +41,14 @@ document.addEventListener("DOMContentLoaded", () => {
         debouncedSearch(query); // appelle performSearch via debouncedSearch
     });
 
-    // listener history search
-    document.addEventListener('history-search', (e) => {
-      const query = e.detail.query;
+    // History & autocomplete selection handler
+    function handleSearchSelection(e) {
+        const query = e.detail.query;
+        searchInput.value = query;
+        performSearch(query); // Recherche immédiate 
+    }
 
-      // Remplir l'input
-      searchInput.value = query;
-      
-      //Remplir l'input et lancer la recherche
-      debouncedSearch(query); // appelle performSearch via debouncedSearch
-    });
+    // Écouter les événements de sélection
+    document.addEventListener('history-search', handleSearchSelection);
+    document.addEventListener('autocomplete-select', handleSearchSelection);
 });

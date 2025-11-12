@@ -44,7 +44,26 @@ function getOrCreateDropdown() {
     if (searchBar) {
         searchBar.appendChild(dropdownElement);
     }
-    
+
+    // click event listener
+    dropdownElement.addEventListener('click', (e) => {
+        // Trouver l'élément .autocomplete-item le plus proche
+        const clickedItem = e.target.closest('.autocomplete-item');
+        
+        if (clickedItem) {
+            const competenceName = clickedItem.dataset.name;
+            
+            const event = new CustomEvent('autocomplete-select', {  
+                detail: { query: competenceName } 
+            });
+        
+            document.dispatchEvent(event);
+
+            // Cacher le dropdown après la sélection
+            hideDropdown();
+        }
+    });
+
     return dropdownElement;
 }
 
@@ -84,19 +103,51 @@ function populateDropdown(suggestions) {
     dropdown.style.display = 'block'; 
 }
 
+// hide dropdown function
+function hideDropdown() {
+    const dropdown = getOrCreateDropdown();
+    dropdown.style.display = 'none';
+}
+
 // fonction principale d'initialisation de l'autocomplete
 export function initAutocomplete() {
-  const searchInput = document.querySelector('.search-input');
-  if (!searchInput) return;
+    const searchInput = document.querySelector('.search-input');
+    if (!searchInput) return;
   
     // Écouter les entrées utilisateur
-  searchInput.addEventListener('input', (e) => {
-    const query = e.target.value;
-    
-    // Filtrer les compétences
-    const suggestions = autocompleteFilterCompetences(query);
-    
-    // Peupler la dropdown
-    populateDropdown(suggestions);
-  });
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value;
+        
+        // Filtrer les compétences
+        const suggestions = autocompleteFilterCompetences(query);
+        
+        // Peupler la dropdown
+        populateDropdown(suggestions);
+    });
+
+    // click dehors
+    document.addEventListener('click', (e) => {
+        const dropdown = getOrCreateDropdown();
+        const searchBar = document.querySelector('.header-search-bar');
+        
+        if (searchBar && !searchBar.contains(e.target)) { 
+            hideDropdown();
+        }
+    });
+
+    // escape key
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            hideDropdown();
+            searchInput.blur(); 
+        }
+    });
+
+    // enter key
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            hideDropdown();
+            searchInput.blur(); 
+        }
+    });
 }
