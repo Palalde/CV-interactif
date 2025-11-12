@@ -2,6 +2,7 @@ import { filterCompetences } from './search-util.js';
 
 // variables
 let dropdownElement = null;
+let selectedIndex = -1; 
 
 // filter competences based on query
 function autocompleteFilterCompetences(query) {
@@ -50,6 +51,7 @@ function getOrCreateDropdown() {
         // Trouver l'élément .autocomplete-item le plus proche
         const clickedItem = e.target.closest('.autocomplete-item');
         
+        // Si un item a été cliqué
         if (clickedItem) {
             const competenceName = clickedItem.dataset.name;
             
@@ -69,11 +71,13 @@ function getOrCreateDropdown() {
 
 // populate dropdown with suggestions
 function populateDropdown(suggestions) {
-    const dropdown = getOrCreateDropdown(); // Récupère ou crée
-
-    // Vider le contenu précédent
+    const dropdown = getOrCreateDropdown(); 
     dropdown.replaceChildren(); 
 
+    // reset selected index
+    selectedIndex = -1; 
+
+    // no suggestions
     if (suggestions.length === 0) {
         dropdown.style.display = 'none'; 
         return;
@@ -84,7 +88,6 @@ function populateDropdown(suggestions) {
         const item = document.createElement('div');
         item.className = 'autocomplete-item';
         
-        // Émoji pour indiquer l'autocomplete
         const icon = document.createElement('span');
         icon.className = 'autocomplete-icon';
         icon.textContent = '⚡';
@@ -109,6 +112,21 @@ function hideDropdown() {
     dropdown.style.display = 'none';
 }
 
+// update for keyboard navigation
+function updateSelectedItem() {
+    const dropdown = getOrCreateDropdown();
+    const items = dropdown.querySelectorAll('.autocomplete-item');
+  
+    // Retirer la classe active de tous les items
+    items.forEach(item => item.classList.remove('active'));
+  
+    // Ajouter la classe active à l'index sélectionné
+    if (selectedIndex >= 0 && selectedIndex < items.length) {
+        items[selectedIndex].classList.add('active');
+        items[selectedIndex].scrollIntoView({ block: 'nearest' });
+    }
+}
+
 // fonction principale d'initialisation de l'autocomplete
 export function initAutocomplete() {
     const searchInput = document.querySelector('.search-input');
@@ -119,10 +137,10 @@ export function initAutocomplete() {
         const query = e.target.value;
         
         // Filtrer les compétences
-        const suggestions = autocompleteFilterCompetences(query);
+        const suggestions = autocompleteFilterCompetences(query); // appelle autocompleteFilterCompetences
         
         // Peupler la dropdown
-        populateDropdown(suggestions);
+        populateDropdown(suggestions); // appelle populateDropdown
     });
 
     // click dehors
@@ -131,23 +149,47 @@ export function initAutocomplete() {
         const searchBar = document.querySelector('.header-search-bar');
         
         if (searchBar && !searchBar.contains(e.target)) { 
-            hideDropdown();
+            hideDropdown(); // appelle hideDropdown
         }
     });
 
-    // escape key
+    // keyboard navigation
     searchInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
+        const dropdown = getOrCreateDropdown();
+        const isVisible = dropdown.style.display === 'block';
+        
+        if (!isVisible) return; 
+        
+        // Get all autocomplete items
+        const items = dropdown.querySelectorAll('.autocomplete-item');
+        const maxIndex = items.length - 1;
+        
+        // Handle key events
+        switch(e.key) {
+            case 'ArrowDown':
+            e.preventDefault(); 
+            selectedIndex = selectedIndex < maxIndex ? selectedIndex + 1 : 0; 
+            updateSelectedItem();
+            break;
+            
+            case 'ArrowUp':
+            e.preventDefault();
+            selectedIndex = selectedIndex > 0 ? selectedIndex - 1 : maxIndex; 
+            updateSelectedItem();
+            break;
+            
+            case 'Enter':
+            e.preventDefault();
+            if (selectedIndex >= 0 && selectedIndex < items.length) {
+                items[selectedIndex].click();
+            }
+            break;
+            
+            case 'Escape':
             hideDropdown();
-            searchInput.blur(); 
-        }
-    });
-
-    // enter key
-    searchInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            hideDropdown();
-            searchInput.blur(); 
+            selectedIndex = -1; 
+            searchInput.blur();
+            break;
         }
     });
 }
