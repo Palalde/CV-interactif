@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mes Favoris - CV Interactif</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta
+      name="description"
+      content="Compétences favorites - CV de Paul Alessandrini"
+    />
+    <meta name="author" content="Paul Alessandrini" />
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Inter:400,600,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- HEADER FIXE -->
+    <section class="fix-container">
+      <div class="header-row">
+        <!-- LOGO + TITRE -->
+        <div class="header-home-link" id="header-home-link">
+          <img
+            src="/img/nav-icon/darkmode/cv-blanc.png"
+            alt="Logo CV"
+            class="cv-logo"
+          />
+          <div class="main-title-group">
+            <span class="main-title main-title-paul">Paul</span>
+            <span class="main-title main-title-alessandrini">Alessandrini</span>
+          </div>
+        </div>
+        <!-- NAV -->
+        <nav class="navbar">
+          <a
+            href="/html/contact-info.html"
+            target="_self"
+            class="contact-info-block"
+            title="Contact / Info"
+          >
+            <img
+              src="/img/nav-icon/darkmode/contact-blanc.png"
+              alt="Contact"
+              class="nav-icon icon-contact main"
+            />
+            <img
+              src="/img/nav-icon/darkmode/contact-bleu.png"
+              alt="Contact"
+              class="nav-icon icon-contact second"
+            />
+          </a>
+          <a
+            href="cv-classique.pdf"
+            target="_blank"
+            class="classic-cv-block"
+            title="CV classique"
+          >
+            <img
+              src="/img/nav-icon/darkmode/pdf-blanc.png"
+              alt="CV PDF"
+              class="nav-icon icon-pdf main"
+            />
+            <img
+              src="/img/nav-icon/darkmode/pdf-bleu.png"
+              alt="CV PDF"
+              class="nav-icon icon-pdf second"
+            />
+          </a>
+          <label class="theme-switch">
+            <input type="checkbox" id="theme-toggle" />
+            <span class="slider">
+              <img
+                src="/img/nav-icon/lightmode/sun.png"
+                alt="Soleil"
+                class="icon sun"
+              />
+              <img
+                src="/img/nav-icon/darkmode/moon.png"
+                alt="Lune"
+                class="icon moon"
+              />
+            </span>
+          </label>
+        </nav>
+      </div>
+    </section>
+
+    <!-- CONTENU PRINCIPAL - FAVORIS -->
+    <main class="favorites-page-container">
+      <div class="favorites-page-content">
+        <header class="favorites-page-header">
+          <h1 class="favorites-page-title">
+            <span class="favorites-emoji">⭐</span>
+            Mes Compétences Favorites
+          </h1>
+          <p class="favorites-page-subtitle" id="favorites-count">
+            Aucun favori pour le moment
+          </p>
+        </header>
+
+        <!-- État vide -->
+        <div class="favorites-empty-state" id="favorites-empty">
+          <div class="empty-state-icon">☆</div>
+          <h2 class="empty-state-title">Aucune compétence favorite</h2>
+          <p class="empty-state-text">
+            Explorez le CV et cliquez sur les étoiles pour marquer vos
+            compétences préférées !
+          </p>
+          <a href="/html/cv.html" class="empty-state-btn"> Retour au CV </a>
+        </div>
+
+        <!-- Grille des favoris -->
+        <div class="favorites-grid" id="favorites-grid">
+          <!-- Les favoris seront insérés ici dynamiquement -->
+        </div>
+      </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="/js/search/competences.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/utility/theme-toggle.js"></script>
+    <script type="module" src="/js/favorites/favorite-page.js"></script>
+    <script type="module" src="/js/favorites/favorites-ui.js"></script>
+  </body>
+</html>

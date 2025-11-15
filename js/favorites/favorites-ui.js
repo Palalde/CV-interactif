@@ -91,11 +91,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!navbar) return null;
 
         // DOM
-        const badge = document.createElement("div");
+        const badge = document.createElement("a");
         badge.className = "favorites-badge";
         badge.id = "favorites-badge";
         badge.textContent = "0";
         badge.style.display = "none";
+        badge.href = '/html/favoris.html';
+        badge.setAttribute('title', 'Mes favoris');
+        badge.setAttribute('aria-label', 'Voir mes compétences favorites');
 
         navbar.appendChild(badge);
         return badge;
