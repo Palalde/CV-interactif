@@ -226,6 +226,12 @@ document.addEventListener('DOMContentLoaded', function() {
     if (shouldBeInteractive) {
       attachCompetenceItemActions(listElement);
     }
+
+    // Déclencher un événement pour que favorites-ui.js puisse ajouter les étoiles
+    const event = new CustomEvent('competences-updated', { 
+      detail: { container, periode, isDynamicPanel } 
+    });
+    document.dispatchEvent(event);
   }
 
   function populateStaticCompetenceSections() {
@@ -264,13 +270,21 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       item.addEventListener('click', (event) => {
+        // NE PAS déclencher si on clique sur l'étoile de favoris
+        if (event.target.closest('.favorite-star')) {
+          return;
+        }
         event.preventDefault();
-        event.stopPropagation();
+        // NE PAS stopPropagation() pour permettre la délégation d'événements
         triggerSearchOverlay();
       });
 
       item.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' || event.key === ' ') {
+          // NE PAS déclencher si on est focus sur l'étoile
+          if (event.target.closest('.favorite-star')) {
+            return;
+          }
           event.preventDefault();
           triggerSearchOverlay();
         }
