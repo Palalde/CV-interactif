@@ -180,9 +180,11 @@ export function initAutocomplete() {
             
             case 'Enter':
             e.preventDefault();
+            hideDropdown();
             if (selectedIndex >= 0 && selectedIndex < items.length) {
                 items[selectedIndex].click();
             }
+
             break;
             
             case 'Escape':

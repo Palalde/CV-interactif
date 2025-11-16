@@ -73,6 +73,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // update badge
             updateCounterBadge(manager.count());
+
+            // 🆕 Émettre un événement pour notifier les autres modules (search overlay)
+            document.dispatchEvent(new CustomEvent('favorites-updated', {
+                detail: { competenceId, isFavorite, count: manager.count() }
+            }));
         }
 
         // attache les écouteurs
