@@ -47,6 +47,7 @@ export class FavoritesManager {
     }
 
     getAll() {
+        this.favorites = this.load();
         return [...this.favorites]
     }
 
