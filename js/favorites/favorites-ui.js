@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const existingStar = competenceElement.querySelector('.favorite-star');
         if (existingStar) {
             const isFavorite = manager.has(competenceId);
-            existingStar.textContent = isFavorite ? '★' : '☆';
+            updateStarDisplay(existingStar, isFavorite);
             return;
         }
         
@@ -29,6 +29,11 @@ document.addEventListener("DOMContentLoaded", () => {
         star.textContent = isFavorite ? '★' : '☆';
         star.setAttribute('aria-label', 'Marquer comme favori');
         star.setAttribute('type', 'button');
+        
+        // Appliquer la classe is-favorite si nécessaire
+        if (isFavorite) {
+            star.classList.add('is-favorite');
+        }
         
         competenceElement.insertBefore(star, competenceElement.firstChild);
     }
@@ -65,16 +70,19 @@ document.addEventListener("DOMContentLoaded", () => {
             manager.toggle(competenceId);
             const isFavorite = manager.has(competenceId);
 
+            // BONUS 5 : Animation lors du toggle
+            animateStar(star, isFavorite);
+
             // CORRECTIF : Synchroniser toutes les instances d'une même compétence
             const allStarsForThisId = document.querySelectorAll(`.favorite-star[data-competence-id="${competenceId}"]`);
             allStarsForThisId.forEach(s => {
-                s.textContent = isFavorite ? '★' : '☆';
+                updateStarDisplay(s, isFavorite);
             });
 
-            // update badge
-            updateCounterBadge(manager.count());
+            // update badge avec animation
+            updateCounterBadge(manager.count(), true);
 
-            // 🆕 Émettre un événement pour notifier les autres modules (search overlay)
+            // Émettre un événement pour notifier les autres modules (search overlay)
             document.dispatchEvent(new CustomEvent('favorites-updated', {
                 detail: { competenceId, isFavorite, count: manager.count() }
             }));
@@ -109,12 +117,57 @@ document.addEventListener("DOMContentLoaded", () => {
         return badge;
     }
 
-    function updateCounterBadge(count) {
+    // BONUS 5 : Animer l'étoile lors du toggle
+    function animateStar(star, isFavorite) {
+        // Retirer les classes d'animation précédentes
+        star.classList.remove('animating', 'favoriting', 'is-favorite');
+        
+        // Force reflow pour redémarrer l'animation
+        void star.offsetWidth;
+        
+        if (isFavorite) {
+            // Animation spéciale en or pour l'ajout
+            star.classList.add('favoriting', 'is-favorite');
+        } else {
+            // Animation bounce simple pour le retrait
+            star.classList.add('animating');
+        }
+        
+        // Nettoyer les classes après l'animation
+        setTimeout(() => {
+            star.classList.remove('animating', 'favoriting');
+        }, 600);
+    }
+    
+    // Mettre à jour l'affichage d'une étoile (sans animation)
+    function updateStarDisplay(star, isFavorite) {
+        star.textContent = isFavorite ? '★' : '☆';
+        
+        // Appliquer la classe is-favorite pour la couleur dorée persistante
+        if (isFavorite) {
+            star.classList.add('is-favorite');
+        } else {
+            star.classList.remove('is-favorite');
+        }
+    }
+
+    function updateCounterBadge(count, animate = false) {
         const badge = document.getElementById("favorites-badge");
         if (!badge) return; 
 
         badge.textContent = `⭐ ${count}`;
         badge.style.display = count > 0 ? "flex" : "none";
+        
+        // BONUS 5 : Animation pulse du badge
+        if (animate) {
+            badge.classList.remove('updating');
+            void badge.offsetWidth; // Force reflow
+            badge.classList.add('updating');
+            
+            setTimeout(() => {
+                badge.classList.remove('updating');
+            }, 400);
+        }
     }
 
     // CORRECTIF : Resynchronisation après mise à jour DOM par main.js
@@ -144,6 +197,39 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 10);
         });
     }
+
+    // refresh stars
+    function refreshAllStars() {
+        const allstars = document.querySelectorAll('.favorite-star');
+
+        allstars.forEach(star => {
+            const competenceId = star.dataset.competenceId;
+            const isFavorite = manager.has(competenceId);
+            updateStarDisplay(star, isFavorite);
+        });
+    }
+
+    // CORRECTIF : Synchronisation des favoris entre onglets
+    window.addEventListener('storage', (event) => {
+        if (event.key !== manager.storageKey) return;
+
+        // Recharger les favoris depuis localStorage
+        manager.favorites = manager.load();
+
+        // Mettre à jour l'affichage des étoiles
+        refreshAllStars();
+
+        // Mettre à jour le badge
+        updateCounterBadge(manager.count());
+
+        document.dispatchEvent(new CustomEvent('favorites-updated', {
+            detail: { 
+                favorites: manager.getAll(),
+                count: manager.count(),
+                source: 'storage-sync'
+            }
+        }));
+    });
 
     // initialisation
     // création du badge
