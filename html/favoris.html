@@ -105,6 +105,21 @@
           <p class="favorites-page-subtitle" id="favorites-count">
             Aucun favori pour le moment
           </p>
+
+          <div class="favorites-actions">
+            <button id="export-favorites" class="favorites-action-btn">
+              💾 Exporter
+            </button>
+            <label for="import-favorites-input" class="favorites-action-btn">
+              📥 Importer
+              <input
+                type="file"
+                id="import-favorites-input"
+                accept=".json"
+                style="display: none"
+              />
+            </label>
+          </div>
         </header>
 
         <!-- État vide -->

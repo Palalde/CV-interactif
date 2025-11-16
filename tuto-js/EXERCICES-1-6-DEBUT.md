@@ -751,13 +751,13 @@ class FavoritesManager {
 
 ### ✅ Test de validation
 
-- [ ] La classe `FavoritesManager` fonctionne correctement
-- [ ] Les étoiles apparaissent sur chaque compétence
-- [ ] Le clic bascule entre ☆ et ★
-- [ ] Les favoris persistent après rechargement
-- [ ] Le badge compteur s'affiche et se met à jour
-- [ ] L'event delegation fonctionne (un seul listener)
-- [ ] Testez avec `manager.getAll()` dans la console
+- [✅] La classe `FavoritesManager` fonctionne correctement
+- [✅] Les étoiles apparaissent sur chaque compétence
+- [✅] Le clic bascule entre ☆ et ★
+- [✅] Les favoris persistent après rechargement
+- [✅] Le badge compteur s'affiche et se met à jour
+- [✅] L'event delegation fonctionne (un seul listener)
+- [✅] Testez avec `manager.getAll()` dans la console
 
 ### 🎁 Bonus
 

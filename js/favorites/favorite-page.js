@@ -77,6 +77,48 @@ document.addEventListener("DOMContentLoaded", () => {
         return card;
     }
 
+    // gestion des actions d'export et d'importation des favoris
+
+    // exportation
+    const exportBtn = document.getElementById('export-favorites');
+
+    // gestion de l'exportation
+    exportBtn.addEventListener('click', () => {
+        const JsonData = manager.exportToJSON();
+        const blob = new Blob([JsonData], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `favoris-${new Date().toISOString().split('T')[0]}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+    });
+
+    // importation
+    const importInput = document.getElementById('import-favorites-input');
+
+    // gestion de l'importation
+    importInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const jsonString = e.target.result;
+            const success = manager.importFromJSON(jsonString);
+
+            if (success) {
+                alert('Importation réussie ! La page va se recharger.');
+                window.location.reload();
+            } else {
+                alert('Erreur lors de l\'importation. Veuillez vérifier le fichier.');
+            }
+
+            event.target.value = '';
+        };
+        reader.readAsText(file);
+    });
+
     // initialisation de l'interface des favoris
     // affichage des favoris
     const grid = document.getElementById('favorites-grid');

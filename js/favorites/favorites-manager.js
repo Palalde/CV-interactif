@@ -53,4 +53,33 @@ export class FavoritesManager {
     count () {
         return this.favorites.length
     }
+
+    exportToJSON() {
+        const data = {
+            favorites: this.favorites,
+            exportDate: new Date().toISOString(),
+            count: this.count(),
+        };
+        
+        return JSON.stringify(data, null, 2);
+    }
+
+    importFromJSON(jsonString) {
+        try {
+            const data = JSON.parse(jsonString);
+            this.favorites = Array.isArray(data.favorites) ? data.favorites : [];
+            this.save();
+            
+            return true;
+        } catch (e) {
+            console.error("Import error:", e);
+            return false;
+        }
+    }
+
+    // Effacer tous les favoris
+    clear() {
+        this.favorites = [];
+        this.save();
+    }
 }
