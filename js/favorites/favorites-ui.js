@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const navbar = document.querySelector(".navbar");
         if (!navbar) return null;
 
-        // DOM
+        // DOM - Badge pour écrans >1000px uniquement
         const badge = document.createElement("a");
         badge.className = "favorites-badge";
         badge.id = "favorites-badge";
@@ -114,7 +114,42 @@ document.addEventListener("DOMContentLoaded", () => {
         badge.setAttribute('aria-label', 'Voir mes compétences favorites');
 
         navbar.appendChild(badge);
+        
+        // Gérer l'affichage en fonction de la largeur d'écran
+        updateBadgeVisibility();
+        
         return badge;
+    }
+    
+    // Gérer la visibilité du badge en fonction de la largeur d'écran
+    function updateBadgeVisibility() {
+        const badge = document.getElementById("favorites-badge");
+        const count = manager.count();
+        
+        if (window.innerWidth > 1000) {
+            // Desktop: afficher le badge dans la navbar
+            if (badge) {
+                badge.style.display = count > 0 ? "flex" : "none";
+            }
+        } else {
+            // Mobile/Tablet: toujours masquer le badge de la navbar
+            if (badge) {
+                badge.style.display = "none";
+            }
+        }
+    }
+    
+    // Mettre à jour aussi le badge mobile dans le menu hamburger
+    function updateMobileFavoritesBadge(count) {
+        const mobileBadge = document.getElementById('favorites-badge-mobile');
+        if (!mobileBadge) return;
+        
+        const countSpan = mobileBadge.querySelector('.favorites-count');
+        if (countSpan) {
+            countSpan.textContent = count;
+        }
+        
+        mobileBadge.style.display = count > 0 ? 'flex' : 'none';
     }
 
     // BONUS 5 : Animer l'étoile lors du toggle
@@ -153,21 +188,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateCounterBadge(count, animate = false) {
         const badge = document.getElementById("favorites-badge");
-        if (!badge) return; 
-
-        badge.textContent = `⭐ ${count}`;
-        badge.style.display = count > 0 ? "flex" : "none";
         
-        // BONUS 5 : Animation pulse du badge
-        if (animate) {
-            badge.classList.remove('updating');
-            void badge.offsetWidth; // Force reflow
-            badge.classList.add('updating');
+        if (badge) {
+            badge.textContent = `⭐ ${count}`;
             
-            setTimeout(() => {
+            // Affichage conditionnel selon la largeur d'écran
+            if (window.innerWidth > 1000) {
+                badge.style.display = count > 0 ? "flex" : "none";
+            } else {
+                badge.style.display = "none";
+            }
+            
+            // BONUS 5 : Animation pulse du badge
+            if (animate && count > 0 && window.innerWidth > 1000) {
                 badge.classList.remove('updating');
-            }, 400);
+                void badge.offsetWidth; // Force reflow
+                badge.classList.add('updating');
+                
+                setTimeout(() => {
+                    badge.classList.remove('updating');
+                }, 400);
+            }
         }
+        
+        // Mettre à jour le badge mobile aussi
+        updateMobileFavoritesBadge(count);
     }
 
     // CORRECTIF : Resynchronisation après mise à jour DOM par main.js
@@ -243,4 +288,13 @@ document.addEventListener("DOMContentLoaded", () => {
     listenToCompetencesUpdates(manager);
     // mise à jour du badge
     updateCounterBadge(manager.count());
+    
+    // Écouter les changements de taille d'écran pour ajuster la visibilité du badge
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            updateCounterBadge(manager.count());
+        }, 150);
+    });
 });
