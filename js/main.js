@@ -13,7 +13,16 @@ document.addEventListener('DOMContentLoaded', function() {
   const homeLink = document.getElementById('header-home-link');
   if (homeLink) {
     homeLink.addEventListener('click', function() {
-  window.location.href = '/';
+      // Si on est sur cv.html, rediriger vers index.html
+      // Sinon, rediriger vers cv.html
+      const currentPath = window.location.pathname;
+      const isCvPage = currentPath.includes('cv.html') || currentPath.endsWith('/cv.html');
+      
+      if (isCvPage) {
+        window.location.href = '/';
+      } else {
+        window.location.href = '/html/cv.html';
+      }
     });
   }
 

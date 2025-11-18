@@ -28,7 +28,7 @@
       src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"
     ></script>
   </head>
-  <body>
+  <body class="cv-page">
     <!-- FIXE A TOUTE LES PAGES -->
     <section class="fix-container">
       <div class="header-row">
@@ -67,6 +67,21 @@
         </form>
         <!-- NAV -->
         <nav class="navbar">
+          <!-- Bouton hamburger (visible uniquement ≤1000px) -->
+          <button
+            type="button"
+            class="hamburger-btn"
+            id="hamburger-btn"
+            aria-label="Menu de navigation"
+            aria-expanded="false"
+            aria-controls="hamburger-menu"
+          >
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+
+          <!-- Liens navbar (masqués sur ≤1000px, affichés au-dessus) -->
           <a href="" target="" class="nav-search-btn" title="Search bar">
             <img
               src="/img/nav-icon/darkmode/loupe-blanc.png"
@@ -129,6 +144,76 @@
             </span>
           </label>
         </nav>
+
+        <!-- Menu hamburger overlay (visible uniquement ≤1000px) -->
+        <div class="hamburger-menu" id="hamburger-menu" aria-hidden="true">
+          <div class="hamburger-menu-content">
+            <a
+              href=""
+              class="hamburger-menu-item nav-search-btn-mobile"
+              title="Rechercher"
+            >
+              <img
+                src="/img/nav-icon/darkmode/loupe-blanc.png"
+                alt=""
+                class="hamburger-icon icon-loupe main"
+              />
+              <img
+                src="/img/nav-icon/darkmode/loupe-bleu.png"
+                alt=""
+                class="hamburger-icon icon-loupe second"
+              />
+              <span class="hamburger-menu-label">Rechercher</span>
+            </a>
+            <a
+              href="/html/favoris.html"
+              class="hamburger-menu-item favorites-link-mobile"
+              id="favorites-badge-mobile"
+              title="Mes favoris"
+              style="display: none"
+            >
+              <span class="hamburger-icon">⭐</span>
+              <span class="hamburger-menu-label"
+                >Mes favoris (<span class="favorites-count">0</span>)</span
+              >
+            </a>
+            <a
+              href="/html/contact-info.html"
+              class="hamburger-menu-item contact-info-block-mobile"
+              title="Contact / Info"
+            >
+              <img
+                src="/img/nav-icon/darkmode/contact-blanc.png"
+                alt=""
+                class="hamburger-icon icon-contact main"
+              />
+              <img
+                src="/img/nav-icon/darkmode/contact-bleu.png"
+                alt=""
+                class="hamburger-icon icon-contact second"
+              />
+              <span class="hamburger-menu-label">Contact</span>
+            </a>
+            <a
+              href="cv-classique.pdf"
+              target="_blank"
+              class="hamburger-menu-item classic-cv-block-mobile"
+              title="CV classique"
+            >
+              <img
+                src="/img/nav-icon/darkmode/pdf-blanc.png"
+                alt=""
+                class="hamburger-icon icon-pdf main"
+              />
+              <img
+                src="/img/nav-icon/darkmode/pdf-bleu.png"
+                alt=""
+                class="hamburger-icon icon-pdf second"
+              />
+              <span class="hamburger-menu-label">CV PDF</span>
+            </a>
+          </div>
+        </div>
       </div>
       <!-- RANGE SLIDER -->
       <div class="range-slider-container">
@@ -444,6 +529,7 @@
     <!-- FIXE A TOUTE LES PAGES -->
     <script src="/js/search/competences.js"></script>
     <script src="/js/main.js"></script>
+    <script src="/js/navbar/hamburger-menu.js"></script>
     <script src="/js/utility/theme-toggle.js"></script>
     <script src="/js/utility/competences-mobile-toggle.js"></script>
     <script src="/js/trade/trade.js"></script>
