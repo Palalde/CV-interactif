@@ -27,6 +27,9 @@
   --background-surface-light: #e3dacb;
   --background-leger-light: #f0ede3;
   --background-moyen-light: #edead7;
+  /* colors */
+  --primary-color: #6c5ce7;
+  --accent-color: #ffd700;
   /* var autres */
   --background-transparent: rgba(0, 0, 0, 0);
   --radius-main: 16px;
@@ -1123,6 +1126,264 @@ body {
 .contact-info-block:hover .icon-contact.second,
 .classic-cv-block:hover .icon-pdf.second {
   opacity: 1;
+}
+
+/* =============================================
+   HAMBURGER MENU (≤1000px)
+   ============================================= */
+/* Bouton hamburger - masqué par défaut */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  width: var(--nav-block-size);
+  height: var(--nav-block-size);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-main);
+  cursor: pointer;
+  padding: 10px;
+  transition: background 0.2s;
+  position: relative;
+  z-index: 1002;
+}
+
+.hamburger-btn:hover {
+  background: var(--text-dark);
+}
+
+body.light .hamburger-btn:hover {
+  background: var(--background-general-light);
+}
+
+.hamburger-btn:hover .hamburger-line {
+  background: var(--text-light);
+}
+
+body.light .hamburger-btn:hover .hamburger-line {
+  background: var(--text-dark);
+}
+
+.hamburger-line {
+  width: 24px;
+  height: 3px;
+  background: var(--text-light);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease, background 0.2s;
+}
+
+body.light .hamburger-line {
+  background: var(--text-dark);
+}
+
+/* Animation du bouton hamburger quand le menu est ouvert */
+body.hamburger-menu-open .hamburger-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+body.hamburger-menu-open .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+body.hamburger-menu-open .hamburger-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Overlay du menu hamburger */
+.hamburger-menu {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  z-index: 1001;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+body.light .hamburger-menu {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.hamburger-menu[aria-hidden="false"] {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Contenu du menu */
+.hamburger-menu-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 90%;
+  max-width: 400px;
+  padding: 30px;
+  background: var(--background-surface-dark);
+  border-radius: var(--radius-main);
+  box-shadow: var(--shadow-main);
+}
+
+body.light .hamburger-menu-content {
+  background: var(--background-surface-light);
+}
+
+/* Items du menu */
+.hamburger-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 20px;
+  background: var(--background-general-dark);
+  border-radius: var(--radius-main);
+  text-decoration: none;
+  color: var(--text-light);
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+body.light .hamburger-menu-item {
+  background: var(--background-general-light);
+  color: var(--text-dark);
+}
+
+.hamburger-menu-item:hover {
+  background: var(--background-general-light);
+  color: var(--text-dark);
+  transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(245, 246, 250, 0.4);
+}
+
+body.light .hamburger-menu-item:hover {
+  background: var(--background-general-dark);
+  color: var(--text-light);
+  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.25);
+}
+
+/* Icônes dans le menu */
+.hamburger-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  flex-shrink: 0;
+  transition: opacity 0.15s, transform 0.2s ease;
+}
+
+/* Animation des icônes au hover */
+.hamburger-menu-item:hover .hamburger-icon {
+  transform: scale(1.1);
+}
+
+.hamburger-menu-item .icon-loupe.second,
+.hamburger-menu-item .icon-contact.second,
+.hamburger-menu-item .icon-pdf.second {
+  position: absolute;
+  left: 20px;
+  opacity: 0;
+}
+
+.hamburger-menu-item:hover .icon-loupe.main,
+.hamburger-menu-item:hover .icon-contact.main,
+.hamburger-menu-item:hover .icon-pdf.main {
+  opacity: 0;
+}
+
+.hamburger-menu-item:hover .icon-loupe.second,
+.hamburger-menu-item:hover .icon-contact.second,
+.hamburger-menu-item:hover .icon-pdf.second {
+  opacity: 1;
+}
+
+/* Theme switch dans le menu */
+.theme-switch-mobile {
+  position: relative;
+}
+
+.theme-switch-mobile .hamburger-icon {
+  transition: opacity 0.3s;
+}
+
+.theme-switch-mobile .sun {
+  opacity: 0;
+}
+
+.theme-switch-mobile .moon {
+  opacity: 1;
+}
+
+body.light .theme-switch-mobile .sun {
+  opacity: 1;
+}
+
+body.light .theme-switch-mobile .moon {
+  opacity: 0;
+}
+
+.hamburger-menu-label {
+  flex: 1;
+}
+
+.theme-label {
+  pointer-events: none;
+}
+
+/* Responsive : afficher le menu hamburger à ≤1000px */
+@media (max-width: 1000px) {
+  /* Afficher le bouton hamburger uniquement sur la page CV */
+  body.cv-page .hamburger-btn {
+    display: flex;
+  }
+
+  /* Masquer les liens navbar classiques uniquement sur la page CV */
+  body.cv-page .navbar > .nav-search-btn,
+  body.cv-page .navbar > .contact-info-block,
+  body.cv-page .navbar > .classic-cv-block,
+  body.cv-page .navbar > .favorites-badge {
+    display: none;
+  }
+
+  /* Garder le theme-switch visible mais le positionner à gauche du hamburger */
+  body.cv-page .navbar > .theme-switch {
+    order: -1;
+    margin-right: auto;
+  }
+
+  /* Positionner le hamburger à droite */
+  body.cv-page .hamburger-btn {
+    margin-left: auto;
+  }
+
+  /* Afficher le menu overlay uniquement sur la page CV */
+  body.cv-page .hamburger-menu {
+    display: block;
+  }
+}
+
+/* Adaptation pour mobile ≤430px (header en bas) */
+@media (max-width: 430px) {
+  .hamburger-btn {
+    /* Le bouton reste à sa place dans le header qui est désormais en bas */
+    position: relative;
+  }
+
+  .hamburger-menu-content {
+    /* Ajuster la position pour éviter de chevaucher le header en bas */
+    top: 45%;
+    max-height: calc(100% - 120px);
+    overflow-y: auto;
+  }
 }
 
 /* =============================================
@@ -5003,7 +5264,7 @@ body.light .greeting-text {
 }
 
 /* Responsive: hide on tablets and mobile */
-@media (max-width: 88px) {
+@media (max-width: 1000px) {
   .date-container {
     display: none;
   }
@@ -5139,18 +5400,34 @@ body.light .tooltip-success {
 
 /* Animation de bounce au toggle */
 @keyframes starBounce {
-  0% { transform: scale(1); }
-  25% { transform: scale(1.4); }
-  50% { transform: scale(0.9); }
-  75% { transform: scale(1.2); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.4);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  75% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* Animation de rotation pour l'étoile dorée */
 @keyframes starRotate {
-  0% { transform: rotate(0deg) scale(1); }
-  50% { transform: rotate(180deg) scale(1.3); }
-  100% { transform: rotate(360deg) scale(1); }
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.3);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
 }
 
 /* Classe appliquée lors du toggle */
@@ -5175,25 +5452,44 @@ body.light .tooltip-success {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
   height: var(--nav-block-size);
-  padding: 0 10px;
+  width: var(--nav-block-size);
   border-radius: var(--radius-main);
-  background: var(--accent-color);
   color: white;
   font-size: 0.75rem;
   font-weight: 700;
+  order: -1;
   transition: background 0.2s, transform 0.2s, border 0.2s;
   position: relative;
   cursor: pointer;
   white-space: nowrap;
   border: 2px solid transparent;
+  text-decoration: none;
+}
+
+/* Badge favoris mobile dans le menu hamburger */
+.favorites-link-mobile .hamburger-icon {
+  font-size: 1.5rem;
+}
+
+.favorites-count {
+  font-weight: 700;
+  color: var(--accent-color);
+}
+
+body.light .favorites-count {
+  color: var(--primary-color);
 }
 
 /* Animation pulse pour le badge */
 @keyframes badgePulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
 }
 
 .favorites-badge.updating {
