@@ -6037,7 +6037,7 @@ body.light .filter-btn[aria-pressed="true"]:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(8px);
   z-index: 10000;
   display: flex;
@@ -6049,7 +6049,7 @@ body.light .filter-btn[aria-pressed="true"]:hover {
 }
 
 body.light .color-generator-overlay {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .color-generator-overlay[aria-hidden="false"] {
@@ -6109,12 +6109,12 @@ body.light .color-generator-title {
 
 .color-generator-description {
   font-size: 0.95rem;
-  color: var(--text-light-secondary);
+  color: var(--text-light);
   margin: 0;
 }
 
 body.light .color-generator-description {
-  color: var(--text-dark-secondary);
+  color: var(--text-dark);
 }
 
 /* Close button */
@@ -6122,7 +6122,7 @@ body.light .color-generator-description {
   background: transparent;
   border: none;
   font-size: 1.8rem;
-  color: var(--text-light-secondary);
+  color: var(--text-light);
   cursor: pointer;
   padding: 0;
   width: 32px;
@@ -6180,12 +6180,12 @@ body.light .color-input-label {
 .color-input-hash {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--primary-main);
+  color: var(--text-light);
   font-family: monospace;
 }
 
 body.light .color-input-hash {
-  color: var(--primary-dark);
+  color: var(--text-dark);
 }
 
 .color-hex-input {
@@ -6227,7 +6227,7 @@ body.light .color-hex-input::placeholder {
 
 .analyze-color-btn {
   padding: 12px 24px;
-  background: var(--primary-main);
+  background: var(--background-leger-dark);
   color: white;
   border: none;
   border-radius: 8px;
@@ -6239,8 +6239,9 @@ body.light .color-hex-input::placeholder {
 }
 
 .analyze-color-btn:hover {
-  background: var(--primary-light);
+  background: var(--background-leger-light);
   transform: translateY(-2px);
+  color: var(--text-dark);
 }
 
 .analyze-color-btn:active {
@@ -6248,11 +6249,13 @@ body.light .color-hex-input::placeholder {
 }
 
 body.light .analyze-color-btn {
-  background: var(--primary-dark);
+  background: var(--background-leger-light);
+  color: var(--text-dark);
 }
 
 body.light .analyze-color-btn:hover {
-  background: var(--primary-main);
+  background: var(--background-leger-dark);
+  color: var(--text-light);
 }
 
 /* Loading state */
