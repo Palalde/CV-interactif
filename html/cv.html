@@ -128,6 +128,15 @@
               class="nav-icon icon-pdf second"
             />
           </a>
+          <button
+            type="button"
+            class="color-generator-block"
+            id="color-generator-btn"
+            title="Générateur de couleurs"
+          >
+            <span class="nav-icon icon-palette main">🎨</span>
+            <span class="nav-icon icon-palette second">🌈</span>
+          </button>
           <label class="theme-switch">
             <input type="checkbox" id="theme-toggle" />
             <span class="slider">
@@ -212,6 +221,15 @@
               />
               <span class="hamburger-menu-label">CV PDF</span>
             </a>
+            <button
+              type="button"
+              class="hamburger-menu-item color-generator-mobile"
+              id="color-generator-btn-mobile"
+              title="Générateur de couleurs"
+            >
+              <span class="hamburger-icon">🎨</span>
+              <span class="hamburger-menu-label">Générateur de couleurs</span>
+            </button>
           </div>
         </div>
       </div>
@@ -526,6 +544,106 @@
         </div>
       </div>
     </div>
+    <!-- Color Generator Modal -->
+    <div
+      class="color-generator-overlay"
+      id="color-generator-overlay"
+      aria-hidden="true"
+    >
+      <div
+        class="color-generator-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="color-generator-title"
+      >
+        <header class="color-generator-header">
+          <div class="color-generator-header-texts">
+            <h2 id="color-generator-title" class="color-generator-title">
+              🎨 Générateur de Couleurs
+            </h2>
+            <p class="color-generator-description">
+              Analysez une couleur et découvrez ses propriétés
+            </p>
+          </div>
+          <button
+            type="button"
+            class="color-generator-close"
+            title="Fermer"
+            aria-label="Fermer"
+          >
+            ✕
+          </button>
+        </header>
+
+        <div class="color-generator-body">
+          <!-- Input section -->
+          <div class="color-input-section">
+            <label for="color-hex-input" class="color-input-label">
+              Entrez une couleur (hex)
+            </label>
+            <div class="color-input-wrapper">
+              <span class="color-input-hash">#</span>
+              <input
+                type="text"
+                id="color-hex-input"
+                class="color-hex-input"
+                placeholder="3498db"
+                maxlength="6"
+                pattern="[0-9A-Fa-f]{6}"
+              />
+              <button
+                type="button"
+                id="analyze-color-btn"
+                class="analyze-color-btn"
+              >
+                Analyser
+              </button>
+            </div>
+          </div>
+
+          <!-- Loading state -->
+          <div class="color-loading" id="color-loading" style="display: none">
+            <div class="color-spinner"></div>
+            <p>Analyse en cours...</p>
+          </div>
+
+          <!-- Results section -->
+          <div class="color-results" id="color-results" style="display: none">
+            <!-- Color preview -->
+            <div class="color-preview" id="color-preview"></div>
+
+            <!-- Color info -->
+            <div class="color-info">
+              <div class="color-info-item">
+                <span class="color-info-label">Nom:</span>
+                <span class="color-info-value" id="color-name">-</span>
+              </div>
+              <div class="color-info-item">
+                <span class="color-info-label">Hex:</span>
+                <span class="color-info-value" id="color-hex">-</span>
+              </div>
+              <div class="color-info-item">
+                <span class="color-info-label">RGB:</span>
+                <span class="color-info-value" id="color-rgb">-</span>
+              </div>
+              <div class="color-info-item">
+                <span class="color-info-label">HSL:</span>
+                <span class="color-info-value" id="color-hsl">-</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Error state -->
+          <div class="color-error" id="color-error" style="display: none">
+            <span class="error-icon">⚠️</span>
+            <p class="error-message" id="error-message">
+              Une erreur est survenue
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- FIXE A TOUTE LES PAGES -->
     <script src="/js/search/competences.js"></script>
     <script src="/js/main.js"></script>
@@ -542,5 +660,6 @@
     <script src="/js/utility/live-clock.js"></script>
     <script type="module" src="/js/search/smart-filter.js"></script>
     <script type="module" src="/js/favorites/favorites-ui.js"></script>
+    <script src="/js/utility/color-theme-generator.js"></script>
   </body>
 </html>

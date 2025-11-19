@@ -125,6 +125,18 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
 
+      // For color generator button, trigger the color generator overlay
+      if (this.classList.contains('color-generator-mobile')) {
+        event.preventDefault();
+        closeMenu();
+        // Trigger the desktop button click
+        const desktopColorBtn = document.getElementById('color-generator-btn');
+        if (desktopColorBtn) {
+          desktopColorBtn.click();
+        }
+        return;
+      }
+
       // For PDF (opens in new tab) and contact page, close after a short delay
       setTimeout(() => {
         closeMenu();
