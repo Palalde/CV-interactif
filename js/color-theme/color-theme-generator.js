@@ -5,25 +5,109 @@
 // 📚 Concepts : fetch, async/await, try/catch, promises, API REST
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Sélection des éléments DOM nécessaires
-    const colorGeneratorBtn = document.getElementById('color-generator-btn');
-    const colorGeneratorBtnMobile = document.getElementById('color-generator-btn-mobile');
-    const colorGeneratorOverlay = document.getElementById('color-generator-overlay');
-    const colorGeneratorClose = document.querySelector('.color-generator-close');
-    const colorHexInput = document.getElementById('color-hex-input');
-    const analyzeColorBtn = document.getElementById('analyze-color-btn');
-    const colorLoading = document.getElementById('color-loading');
-    const colorResults = document.getElementById('color-results');
-    const colorError = document.getElementById('color-error');
-
-
+  // Sélection des éléments DOM nécessaires
+  const colorGeneratorBtn = document.getElementById('color-generator-btn');
+  const colorGeneratorBtnMobile = document.getElementById('color-generator-btn-mobile');
+  const colorGeneratorOverlay = document.getElementById('color-generator-overlay');
+  const colorGeneratorClose = document.querySelector('.color-generator-close');
+  const colorHexInput = document.getElementById('color-hex-input');
+  const analyzeColorBtn = document.getElementById('analyze-color-btn');
+  const colorLoading = document.getElementById('color-loading');
+  const colorResults = document.getElementById('color-results');
+  const colorError = document.getElementById('color-error');
+  
   // ====================================
-  // 📝 TODO : Créer les fonctions d'ouverture/fermeture de la modal
+  // ouverture/fermeture / focus management
   // ====================================
-  // Indices :
-  // - Utiliser setAttribute('aria-hidden', 'true/false')
-  // - Penser au focus trap (comme dans search-overlay)
+  // Variable pour mémoriser l'élément qui a ouvert l'overlay
+  let lastFocusedElement = null;
+  // Helper Focus management
+  function getFocusableElements() {
+    return colorGeneratorOverlay.querySelectorAll(
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    );
+  }
+  
+  // helper isOpen
+  function isColorGeneratorOpen() {
+    return colorGeneratorOverlay.getAttribute('aria-hidden') === 'false';
+  }
 
+  // open
+  function openColorGenerator() {
+    if (isColorGeneratorOpen()) return;
+    
+    // Mémoriser l'élément qui avait le focus
+    lastFocusedElement = document.activeElement;
+  
+    // aria-hidden / expanded false
+    colorGeneratorOverlay.setAttribute('aria-hidden', 'false');
+    colorGeneratorBtn.setAttribute('aria-expanded', 'true');
+    
+    // Focus first item
+    setTimeout(() => {
+      const focusable = getFocusableElements();
+      if (focusable.length > 0) {
+        focusable[0].focus();
+      }
+    }, 100);
+  }
+
+  // close
+  function closeColorGenerator() {
+    if (!isColorGeneratorOpen()) return;
+    // aria-hidden / expanded true
+    colorGeneratorOverlay.setAttribute('aria-hidden', 'true');
+    colorGeneratorBtn.setAttribute('aria-expanded', 'false');
+    // Restore focus to button
+    if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+      lastFocusedElement.focus();
+    } else {
+      colorGeneratorBtn.focus();
+    }
+  }
+
+  // focus trap
+  function trapFocus(event) {
+    if (!isColorGeneratorOpen()) return;
+
+    // escape
+    if (event.key === 'Escape') {
+      closeColorGenerator();
+      return;
+    }
+
+    // tab trap
+
+    if (event.key === 'Tab') {
+      const focusableElements = getFocusableElements();
+      if (focusableElements.length === 0) return;
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    }
+  }
+
+  // Event listeners 
+  colorGeneratorBtn.addEventListener('click', openColorGenerator);
+  colorGeneratorBtnMobile.addEventListener('click', openColorGenerator);
+  colorGeneratorClose.addEventListener('click', closeColorGenerator);
+  // Focus trap pour l'overlay
+  colorGeneratorOverlay.addEventListener('keydown', trapFocus);
+  // Click outside to close
+  colorGeneratorOverlay.addEventListener('click', function(event) {
+    if (event.target === colorGeneratorOverlay) {
+      closeColorGenerator();
+    }
+  });
 
   // ====================================
   // 📝 TODO : Créer la fonction async pour fetch l'API
