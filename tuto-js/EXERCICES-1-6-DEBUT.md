@@ -1151,13 +1151,13 @@ infoDiv.appendChild(applyBtn);
 
 ### ✅ Test de validation
 
-- [ ] L'interface s'affiche correctement
-- [ ] Le fetch fonctionne avec une couleur valide (ex: `#3498db`)
-- [ ] Le loader apparaît pendant le chargement
-- [ ] Les informations s'affichent correctement
-- [ ] Les erreurs sont bien gérées (couleur invalide, pas d'internet)
-- [ ] Le code utilise `async/await` (pas `.then()`)
-- [ ] `try/catch` gère les erreurs
+- [✅] L'interface s'affiche correctement
+- [✅] Le fetch fonctionne avec une couleur valide (ex: `#3498db`)
+- [✅] loader apparaît pendant le chargement
+- [✅] Les informations s'affichent correctement
+- [✅] Les erreurs sont bien gérées (couleur invalide, pas d'internet)
+- [✅] Le code utilise `async/await` (pas `.then()`)
+- [✅] `try/catch` gère les erreurs
 
 ### 🎁 Bonus
 
