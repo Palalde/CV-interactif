@@ -28,8 +28,9 @@
   --background-leger-light: #f0ede3;
   --background-moyen-light: #edead7;
   /* colors */
-  --primary-color: #6c5ce7;
-  --accent-color: #ffd700;
+  --count-color: #6c5ce7;
+  --badge-color: #ffd700;
+  --accent-blue: #0984e3;
   /* var autres */
   --background-transparent: rgba(0, 0, 0, 0);
   --radius-main: 16px;
@@ -3193,7 +3194,7 @@ body.download-overlay-open {
 
 .download-modal {
   width: min(460px, 92vw);
-  background: var(--bg-primary, #0a0e15);
+  background: var(--background-general-dark);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   box-shadow: 0 22px 60px rgba(0, 0, 0, 0.46);
@@ -3325,7 +3326,7 @@ body.download-overlay-open {
 }
 
 body.light .download-modal {
-  background: var(--bg-primary-light, #f5f7fb);
+  background: var(--background-general-light, #f5f7fb);
   border-color: rgba(0, 0, 0, 0.08);
   box-shadow: 0 22px 60px rgba(10, 16, 26, 0.18);
 }
@@ -3455,7 +3456,7 @@ body.light .download-overlay-close {
 .search-modal {
   width: min(1100px, 92vw);
   max-height: min(82vh, 900px);
-  background: var(--bg-primary, #0a0e15);
+  background: var(--background-general-dark);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 14px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
@@ -3957,7 +3958,7 @@ body.light .search-result-counter {
 @media (max-width: 714px) {
   .search-overlay {
     padding: 0;
-    background: var(--bg-primary, #0a0e15); /* opaque: covers header & all */
+    background: var(--background-general-dark);
   }
   .search-modal {
     width: 100%;
@@ -5420,7 +5421,7 @@ body.light .tooltip-success {
   cursor: pointer;
   padding-bottom: 5.1px;
   transition: transform 0.2s, color 0.3s ease;
-  color: var(--text-primary);
+  color: var(--text-light);
   align-items: center;
   position: relative;
 }
@@ -5505,11 +5506,11 @@ body.light .tooltip-success {
 
 .favorites-count {
   font-weight: 700;
-  color: var(--accent-color);
+  color: var(--count-color);
 }
 
 body.light .favorites-count {
-  color: var(--primary-color);
+  color: var(--count-color);
 }
 
 /* Animation pulse pour le badge */
@@ -5528,7 +5529,7 @@ body.light .favorites-count {
 }
 
 body.light .favorites-badge {
-  color: var(--accent-color);
+  color: var(--count-color);
 }
 
 .favorites-badge:hover {
@@ -6081,10 +6082,12 @@ body.light .color-generator-modal {
 
 /* Header */
 .color-generator-header {
+  position: relative;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   padding: 24px;
+  padding-right: 60px;
   border-bottom: 1px solid var(--background-general-dark);
 }
 
@@ -6119,9 +6122,12 @@ body.light .color-generator-description {
 
 /* Close button */
 .color-generator-close {
+  position: absolute;
+  top: 4px;
+  right: 4px;
   background: transparent;
   border: none;
-  font-size: 1.8rem;
+  font-size: 1.25rem;
   color: var(--text-light);
   cursor: pointer;
   padding: 0;
@@ -6132,7 +6138,7 @@ body.light .color-generator-description {
   justify-content: center;
   border-radius: 8px;
   transition: background 0.2s, color 0.2s;
-  flex-shrink: 0;
+  z-index: 1;
 }
 
 .color-generator-close:hover {
@@ -6141,7 +6147,7 @@ body.light .color-generator-description {
 }
 
 body.light .color-generator-close {
-  color: var(--text-dark-secondary);
+  color: var(--text-dark);
 }
 
 body.light .color-generator-close:hover {
@@ -6207,22 +6213,22 @@ body.light .color-hex-input {
 }
 
 .color-hex-input:focus {
-  border-color: var(--primary-main);
+  border-color: var(--background-general-light);
   box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
 }
 
 body.light .color-hex-input:focus {
-  border-color: var(--primary-dark);
+  border-color: var(--background-general-dark);
   box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.1);
 }
 
 .color-hex-input::placeholder {
-  color: var(--text-light-secondary);
+  color: var(--text-light);
   opacity: 0.6;
 }
 
 body.light .color-hex-input::placeholder {
-  color: var(--text-dark-secondary);
+  color: var(--text-dark);
 }
 
 .analyze-color-btn {
@@ -6269,27 +6275,27 @@ body.light .analyze-color-btn:hover {
 }
 
 .color-loading p {
-  color: var(--text-light-secondary);
+  color: var(--text-light);
   font-size: 0.95rem;
   margin: 0;
 }
 
 body.light .color-loading p {
-  color: var(--text-dark-secondary);
+  color: var(--text-dark);
 }
 
 .color-spinner {
   width: 40px;
   height: 40px;
   border: 4px solid var(--background-general-dark);
-  border-top-color: var(--primary-main);
+  border-top-color: var(--background-general-light);
   border-radius: 50%;
   animation: spinner-rotate 0.8s linear infinite;
 }
 
 body.light .color-spinner {
   border-color: var(--background-general-light);
-  border-top-color: var(--primary-dark);
+  border-top-color: var(--background-general-dark);
 }
 
 @keyframes spinner-rotate {
@@ -6350,14 +6356,14 @@ body.light .color-info-item {
 
 .color-info-label {
   font-size: 0.85rem;
-  color: var(--text-light-secondary);
+  color: var(--text-light);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 body.light .color-info-label {
-  color: var(--text-dark-secondary);
+  color: var(--text-dark);
 }
 
 .color-info-value {
