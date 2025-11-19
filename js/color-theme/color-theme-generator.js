@@ -5,17 +5,16 @@
 // 📚 Concepts : fetch, async/await, try/catch, promises, API REST
 
 document.addEventListener('DOMContentLoaded', function() {
-  // ====================================
-  // 📝 TODO : Sélectionner les éléments du DOM
-  // ====================================
-  // Indices :
-  // - Le bouton principal : '#color-generator-btn'
-  // - Le bouton mobile : '#color-generator-btn-mobile'
-  // - L'overlay : '#color-generator-overlay'
-  // - Le bouton fermer : '.color-generator-close'
-  // - L'input couleur : '#color-hex-input'
-  // - Le bouton analyser : '#analyze-color-btn'
-  // - Les sections loading/results/error : '#color-loading', '#color-results', '#color-error'
+    // Sélection des éléments DOM nécessaires
+    const colorGeneratorBtn = document.getElementById('color-generator-btn');
+    const colorGeneratorBtnMobile = document.getElementById('color-generator-btn-mobile');
+    const colorGeneratorOverlay = document.getElementById('color-generator-overlay');
+    const colorGeneratorClose = document.querySelector('.color-generator-close');
+    const colorHexInput = document.getElementById('color-hex-input');
+    const analyzeColorBtn = document.getElementById('analyze-color-btn');
+    const colorLoading = document.getElementById('color-loading');
+    const colorResults = document.getElementById('color-results');
+    const colorError = document.getElementById('color-error');
 
 
   // ====================================
@@ -64,4 +63,97 @@ document.addEventListener('DOMContentLoaded', function() {
   // - Copier les valeurs au clic
   // - Historique des couleurs recherchées
 
+    // ====================================
+  // Exemple de réponse API pour tests hors ligne
+const sampleApiResponse = {
+  "hex": {
+    "value": "#3498DB",
+    "clean": "3498DB"
+  },
+  "rgb": {
+    "fraction": {
+      "r": 0.203921568627451,
+      "g": 0.596078431372549,
+      "b": 0.858823529411765
+    },
+    "r": 52,
+    "g": 152,
+    "b": 219,
+    "value": "rgb(52, 152, 219)"
+  },
+  "hsl": {
+    "fraction": {
+      "h": 0.56686626746507,
+      "s": 0.698744769874477,
+      "l": 0.531372549019608
+    },
+    "h": 204,
+    "s": 70,
+    "l": 53,
+    "value": "hsl(204, 70%, 53%)"
+  },
+  "hsv": {
+    "fraction": {
+      "h": 0.56686626746507,
+      "s": 0.762557077625571,
+      "v": 0.858823529411765
+    },
+    "value": "hsv(204, 76%, 86%)",
+    "h": 204,
+    "s": 76,
+    "v": 86
+  },
+  "name": {
+    "value": "Curious Blue",
+    "closest_named_hex": "#2596D1",
+    "exact_match_name": false,
+    "distance": 625
+  },
+  "cmyk": {
+    "fraction": {
+      "c": 0.762557077625571,
+      "m": 0.305936073059361,
+      "y": 0,
+      "k": 0.141176470588235
+    },
+    "value": "cmyk(76, 31, 0, 14)",
+    "c": 76,
+    "m": 31,
+    "y": 0,
+    "k": 14
+  },
+  "XYZ": {
+    "fraction": {
+      "X": 0.452272549019608,
+      "Y": 0.531676078431372,
+      "Z": 0.8913
+    },
+    "value": "XYZ(45, 53, 89)",
+    "X": 45,
+    "Y": 53,
+    "Z": 89
+  },
+  "image": {
+    "bare": "https://www.thecolorapi.com/id?format=svg&named=false&hex=3498DB",
+    "named": "https://www.thecolorapi.com/id?format=svg&hex=3498DB"
+  },
+  "contrast": {
+    "value": "#000000"
+  },"_links": {
+    "self": {
+      "href": "/id?hex=3498DB"
+    }
+  },
+  "_embedded": {
+
+  }
+}
+
+// console log pour vérifier l'objet de test
+console.log('Sample API Response:', sampleApiResponse);
+console.log('Sample Color Name:', sampleApiResponse.name.value);
+console.log('Sample Color Hex:', sampleApiResponse.hex.value);
+
 });
+
+
