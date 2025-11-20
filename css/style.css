@@ -5430,6 +5430,10 @@ body.light .tooltip-success {
   transform: scale(1.2);
 }
 
+body.light .favorite-star {
+  color: var(--text-dark);
+}
+
 /* Animation de bounce au toggle */
 @keyframes starBounce {
   0% {
@@ -6084,19 +6088,19 @@ body.light .color-generator-modal {
 .color-generator-header {
   position: relative;
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: 24px;
+  justify-content: center;
+  padding: 12px;
   padding-right: 60px;
-  border-bottom: 1px solid var(--background-general-dark);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 body.light .color-generator-header {
-  border-bottom: 1px solid var(--background-general-light);
+  border-bottom-color: rgba(0, 0, 0, 0.1);
 }
 
 .color-generator-header-texts {
   flex: 1;
+  text-align: center;
 }
 
 .color-generator-title {
@@ -6111,7 +6115,8 @@ body.light .color-generator-title {
 }
 
 .color-generator-description {
-  font-size: 0.95rem;
+  font-size: 0.8rem;
+  font-style: italic;
   color: var(--text-light);
   margin: 0;
 }
@@ -6157,7 +6162,7 @@ body.light .color-generator-close:hover {
 
 /* Body */
 .color-generator-body {
-  padding: 24px;
+  padding: 20px 24px;
 }
 
 /* Input section */
@@ -6242,6 +6247,10 @@ body.light .color-hex-input::placeholder {
   cursor: pointer;
   transition: background 0.2s, transform 0.1s;
   white-space: nowrap;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .analyze-color-btn:hover {
@@ -6262,6 +6271,47 @@ body.light .analyze-color-btn {
 body.light .analyze-color-btn:hover {
   background: var(--background-leger-dark);
   color: var(--text-light);
+}
+
+/* Random color button */
+.random-color-btn {
+  width: 100%;
+  padding: 12px 24px;
+  background: rgba(155, 89, 182, 0.1);
+  border: 2px solid rgba(155, 89, 182, 0.3);
+  border-radius: 8px;
+  color: #9b59b6;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+}
+
+.random-color-btn:hover {
+  background: rgba(155, 89, 182, 0.2);
+  border-color: #9b59b6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
+}
+
+.random-color-btn:active {
+  transform: translateY(0);
+}
+
+body.light .random-color-btn {
+  background: rgba(155, 89, 182, 0.08);
+  border-color: rgba(155, 89, 182, 0.25);
+  color: #8e44ad;
+}
+
+body.light .random-color-btn:hover {
+  background: rgba(155, 89, 182, 0.15);
+  border-color: #8e44ad;
+  box-shadow: 0 4px 12px rgba(155, 89, 182, 0.2);
 }
 
 /* Loading state */
