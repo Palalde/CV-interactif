@@ -4,6 +4,7 @@
 // 🎯 Mission : Créer un générateur de couleurs qui utilise The Color API
 // 📚 Concepts : fetch, async/await, try/catch, promises, API REST
 import { addToColorHistory, displayColorHistory, clearColorHistory } from './color-history.js';
+import { generatePalette } from './color-palette.js';
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -42,14 +43,11 @@ document.addEventListener('DOMContentLoaded', function() {
   // open
   function openColorGenerator() {
     if (isColorGeneratorOpen()) return;
-    
     // Mémoriser l'élément qui avait le focus
     lastFocusedElement = document.activeElement;
-  
     // aria-hidden / expanded false
     colorGeneratorOverlay.setAttribute('aria-hidden', 'false');
     colorGeneratorBtn.setAttribute('aria-expanded', 'true');
-    
     // Focus first item
     setTimeout(() => {
       const focusable = getFocusableElements();
@@ -76,21 +74,18 @@ document.addEventListener('DOMContentLoaded', function() {
   // focus trap
   function trapFocus(event) {
     if (!isColorGeneratorOpen()) return;
-
     // escape
     if (event.key === 'Escape') {
       closeColorGenerator();
       return;
     }
-
     // tab trap
     if (event.key === 'Tab') {
       const focusableElements = getFocusableElements();
       if (focusableElements.length === 0) return;
-
+      // loop focus
       const firstElement = focusableElements[0];
       const lastElement = focusableElements[focusableElements.length - 1];
-
       if (event.shiftKey && document.activeElement === firstElement) {
         event.preventDefault();
         lastElement.focus();
@@ -136,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
    
   // ====================================
-  // fonction async pour fetch l'API
+  // fonction async and results display
   // ====================================
   // loading state
   function showLoading () {
@@ -157,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
     colorLoading.style.display = 'none';
     colorResults.style.display = 'none';
     colorError.style.display = 'flex';
-    
+    // set message
     const errorMessage = document.getElementById('error-message');
     errorMessage.textContent = message;
   }
@@ -165,27 +160,34 @@ document.addEventListener('DOMContentLoaded', function() {
   // fetch function
   async function fetchColorData(hexColor) {
     const apiUrl = `https://www.thecolorapi.com/id?hex=${hexColor}`;
-
+    // fetch data
     const response = await fetch(apiUrl);
     const data = await response.json();
-
+    // return data
     return data;
   }
+
+  // Variables stock couleur actuelle
+  let currentColorHex = null;
 
   // analyze color function
   async function analyzeColor(hexColor) {
     const hexInput = hexColor || colorHexInput.value;
-
+    // mettre à jour la couleur actuelle 
+    currentColorHex = hexInput;
     // Show loading state
     showLoading();
-
+    
+    // fetch data with try/catch
     try {
       const colorData = await fetchColorData(hexInput);
       // display results
       displayColorResults(colorData);
-      // Ajouter à l'historique des couleurs
+      // History
       addToColorHistory(colorData);
       displayColorHistory();
+      // Generate Palette async
+      await generatePalette(colorData.hex.clean);
       // refresh UI
       showResults();
     } catch (error) {
@@ -199,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Color preview (background)
     const colorPreview = document.getElementById('color-preview');
     colorPreview.style.backgroundColor = colorData.hex.value;
-  
+   
     // Infos
     document.getElementById('color-name').textContent = colorData.name.value;
     document.getElementById('color-hex').textContent = colorData.hex.value;
@@ -216,6 +218,14 @@ document.addEventListener('DOMContentLoaded', function() {
       analyzeColor();
     }
   });
+ 
+  // event listener palette mode change
+  const paletteSelect = document.getElementById('palette-mode');
+  paletteSelect.addEventListener('change', async function() {
+    if (currentColorHex) {
+      await generatePalette(currentColorHex);
+    }
+  });
 
   // ====================================
   // History
@@ -228,9 +238,20 @@ document.addEventListener('DOMContentLoaded', function() {
       clearColorHistory();
       displayColorHistory();
   });
-
-  // event listener pour le custom event
+  // ===================================
+  // event listener pour les custom event
+  // ====================================
+  // history custom event listener
   document.addEventListener('color-history-select', function(event) {
+    // Récupérer le hex depuis event.detail
+    const hexColor = event.detail.hex.replace('#', '');
+    // Mettre à jour l'input visuel (sans le #)
+    colorHexInput.value = hexColor;
+    // Analyser la couleur
+    analyzeColor();
+  });
+  // palette custom event listener
+  document.addEventListener('palette-color-select', function(event) {
     // Récupérer le hex depuis event.detail
     const hexColor = event.detail.hex.replace('#', '');
     // Mettre à jour l'input visuel (sans le #)

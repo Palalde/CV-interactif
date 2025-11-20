@@ -16,39 +16,39 @@ export function addToColorHistory(colorData) {
         hex: colorData.hex.value,
         name: colorData.name.value,
     }
-
+    // add to history
     return addToHistory(colorItem, STORAGE_KEY, MAX_HISTORY_SIZE);
 }
 
+// get history
 function getColorHistory() {
     return getHistory(STORAGE_KEY);
 }
 
+// clear history
 export function clearColorHistory() {
    return clearHistory(STORAGE_KEY);
 }
 
+// create history item
 function createHistoryItem(colorObj) {
     // contenair
     const item = document.createElement('div');
     item.className = 'color-history-item';
     // couleur de fond
     item.style.backgroundColor = colorObj.hex;
-
     // label hex
     const hexLabel = document.createElement('span');
     hexLabel.className = 'color-history-item-hex';
     hexLabel.textContent = colorObj.hex;
-    
     // label name
     const nameLabel = document.createElement('span');
     nameLabel.className = 'color-history-item-name';
     nameLabel.textContent = colorObj.name;
-    
     // ajouter au contenair
     item.appendChild(hexLabel);
     item.appendChild(nameLabel);
-
+   
     // Event listener pour appliquer la couleur au clic
     item.addEventListener('click', function() {
         // custom event pour informer analyzeColor
@@ -60,17 +60,17 @@ function createHistoryItem(colorObj) {
         });
         document.dispatchEvent(event);
     });
-
+    // create history item
     return item;
 }
 
+// display history
 export function displayColorHistory() {
     // obtenir l'historique
     const history = getColorHistory();
-    
     // vider
     historyList.innerHTML = '';
-
+    
     // checker si vide
     if (history.length === 0) {
         // afficher message vide
@@ -80,13 +80,13 @@ export function displayColorHistory() {
         // remplir la liste
         historyEmpty.style.display = 'none';
         historyList.style.display = 'grid';
-
+        // ajouter chaque item
         history.forEach( color => {
             const item = createHistoryItem(color); // Passer l'objet complet
             historyList.appendChild(item);
         });
     }
-
+    
     // afficher le container
     historyContainer.style.display = 'block';
 }
