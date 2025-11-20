@@ -20,7 +20,7 @@ function showPaletteLoading () {
 // results state
 function showPaletteResults () {
     colorsLoading.style.display = 'none';
-    paletteColors.style.display = 'block';
+    paletteColors.style.display = 'grid';
     colorError.style.display = 'none';
 }
 
@@ -72,10 +72,7 @@ function createPaletteColorCard(colorData) {
     // container
     const card = document.createElement('div');
     card.className = 'palette-color-item';
-    // swatch (carré de couleur)
-    const swatch = document.createElement('div');
-    swatch.className = 'palette-color-swatch';
-    swatch.style.backgroundColor = colorData.hex.value;
+    card.style.backgroundColor = colorData.hex.value;
     // info container
     const info = document.createElement('div');
     info.className = 'palette-color-info';
@@ -91,7 +88,6 @@ function createPaletteColorCard(colorData) {
     // append
     info.appendChild(hexLabel);
     info.appendChild(nameLabel);
-    card.appendChild(swatch);
     card.appendChild(info);
 
     // event listener custom event
