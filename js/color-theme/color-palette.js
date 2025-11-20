@@ -34,8 +34,27 @@ function showPaletteError (message) {
     errorMessage.textContent = message;
 }
 
+// Helper function pour déterminer le nombre optimal de couleurs selon le mode
+function getOptimalColorCount(mode) {
+    const colorCounts = {
+        'complement': 2,           // Base + complémentaire
+        'triad': 3,               // bases + couleurs espacées de 120°
+        'quad': 4,                // 4 couleurs espacées de 90°
+        'analogic': 3,            // Couleurs adjacentes
+        'analogic-complement': 4, // Analogique + complémentaire
+        'monochrome': 5,          // Variations de luminosité
+        'monochrome-dark': 5,     // Variations sombres
+        'monochrome-light': 5     // Variations claires
+    };
+    
+    return colorCounts[mode] || 5; // Par défaut 5 si mode inconnu
+}
+
 // fetch function
-async function fetchColorPalette(hexColor, mode = 'monochrome', count = 5) {
+async function fetchColorPalette(hexColor, mode = 'monochrome') {
+    // Déterminer le nombre optimal de couleurs pour ce mode
+    const count = getOptimalColorCount(mode);
+    
     // Construire l'URL avec les paramètres
     const apiUrl = `https://www.thecolorapi.com/scheme?hex=${hexColor}&mode=${mode}&count=${count}`;
     
@@ -55,7 +74,7 @@ export async function generatePalette(hexColor) {
     showPaletteLoading();
     // Fetch la palette
     try {
-        const colors = await fetchColorPalette(hexColor, mode, 5);
+        const colors = await fetchColorPalette(hexColor, mode);
         // Afficher les couleurs
         displayPalette(colors);
         // refresh ui
