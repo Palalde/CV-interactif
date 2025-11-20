@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const colorLoading = document.getElementById('color-loading');
   const colorResults = document.getElementById('color-results');
   const colorError = document.getElementById('color-error');
+  // couleur aléatoire 
+  const randomColorBtn = document.getElementById('random-color-btn');
   
   // ====================================
   // ouverture/fermeture / focus management
@@ -108,17 +110,31 @@ document.addEventListener('DOMContentLoaded', function() {
       closeColorGenerator();
     }
   });
+  
+  // ====================================
+  // Random Color
+  // ====================================
+  // Variables
+  const hexChars = '0123456789ABCDEF';
 
+  // random color generator
+  function getRandomHexColor() {
+    return Array(6)
+    .fill(0)
+    .map(() => hexChars[Math.floor(Math.random() * hexChars.length)])
+    .join('');
+  }
+
+  // Event listener
+  randomColorBtn.addEventListener('click', function() {
+    const randomHex = getRandomHexColor();
+    colorHexInput.value = randomHex;
+    analyzeColor();
+  });
+   
   // ====================================
   // fonction async pour fetch l'API
   // ====================================
-  // Indices :
-  // - URL de l'API : https://www.thecolorapi.com/id?hex=VOTRE_COULEUR
-  // - Utiliser async/await
-  // - Gérer les erreurs avec try/catch
-  // - Afficher le loading state pendant le fetch
-
-  // function container state
   // loading state
   function showLoading () {
     colorLoading.style.display = 'block';
