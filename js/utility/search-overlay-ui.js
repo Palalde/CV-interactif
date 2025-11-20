@@ -8,6 +8,7 @@
     const modal = overlay.querySelector('.search-modal');
     const closeBtn = overlay.querySelector('.search-overlay-close');
     const overlaySearchSlot = overlay.querySelector('.search-overlay-search-slot');
+    const resultsContainer = overlay.querySelector('.search-overlay-results');
 
     // Existing search bar in header
     const headerSearchForm = document.querySelector('.header-search-bar');
@@ -45,6 +46,20 @@
       }
     }
 
+    function showInitialHistory() {
+      // Import dynamically to access createHistoryBlock
+      import('../search/search-history.js').then(module => {
+        const historyBlock = module.createHistoryBlock();
+        if (historyBlock && resultsContainer) {
+          // Clear previous content and show history
+          resultsContainer.innerHTML = '';
+          resultsContainer.appendChild(historyBlock);
+        }
+      }).catch(err => {
+        console.warn('Could not load search history:', err);
+      });
+    }
+
     function openOverlay(trigger) {
       if (overlay.getAttribute('aria-hidden') === 'false') return; // already open
       if (!overlay || !headerSearchForm) return;
@@ -62,6 +77,11 @@
 
       overlay.setAttribute('aria-hidden', 'false');
       document.body.classList.add('search-overlay-open');
+
+      // Show history if input is empty
+      if (!headerSearchInput || !headerSearchInput.value.trim()) {
+        showInitialHistory();
+      }
 
       // Focus input
       setTimeout(() => headerSearchInput && headerSearchInput.focus(), 0);
@@ -111,6 +131,17 @@
       headerSearchForm.addEventListener('mousedown', (e) => {
         if (!isMobile()) openOverlay(headerSearchForm);
       });
+      // Clear history when user starts typing
+      headerSearchInput.addEventListener('input', () => {
+        if (overlay.getAttribute('aria-hidden') === 'false' && headerSearchInput.value.trim()) {
+          // If overlay is open and user is typing, remove history display
+          // (results will be shown by smart-filter.js)
+          const historyBlock = resultsContainer?.querySelector('.search-history-block');
+          if (historyBlock) {
+            historyBlock.remove();
+          }
+        }
+      });
     }
     if (navSearchBtn) {
       navSearchBtn.addEventListener('click', (e) => {
@@ -129,5 +160,14 @@
     window.addEventListener('resize', () => {
       // no-op for now; layout is CSS-driven
     });
+
+    // Expose global API for opening overlay with a specific query
+    window.openSearchOverlayWithQuery = function(query, options = {}) {
+      openOverlay(options.trigger || null);
+      if (headerSearchInput && query) {
+        headerSearchInput.value = query;
+        headerSearchInput.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    };
   });
 })();

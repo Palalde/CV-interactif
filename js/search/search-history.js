@@ -1,42 +1,20 @@
-// Value
-const STORAGE_KEY = 'searchHistory';
+import { getHistory, addToHistory } from "../utility/history.js";
+
+// Storage constants
+const STORAGE_KEY = 'search-history';
 const MAX_HISTORY_SIZE = 8;
 
-// Functions
-// get history from localStorage
-export function getHistory() {
-    const historyJson = localStorage.getItem(STORAGE_KEY);
-    return historyJson ? JSON.parse(historyJson) : [];
+export function addToSearchHistory(query) {
+    return addToHistory(query, STORAGE_KEY, MAX_HISTORY_SIZE); //appel addToHistory
 }
 
-// add query to history
-export function addToHistory(query) {
-    if (!query || query.trim() === '') return;
-    let history = getHistory(); //appel getHistory
-
-    // remove duplicates
-    history = history.filter(item => item.toLowerCase() !== query.toLowerCase());
-
-    // add to the beginning
-    history.unshift(query);
-
-    // limit size
-    if (history.length > MAX_HISTORY_SIZE) {
-        history = history.slice(0, MAX_HISTORY_SIZE);
-    }
-
-    // save to localStorage
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
-}
-
-// clear history
-export function clearHistory() {
-    localStorage.removeItem(STORAGE_KEY);
+function getSearchHistory() {
+    return getHistory(STORAGE_KEY); //appel getHistory
 }
 
 // create history block element
 export function createHistoryBlock() {
-    const history = getHistory(); //appel getHistory
+    const history = getSearchHistory(); //appel getSearchHistory
     
     if (history.length === 0) return null;
 

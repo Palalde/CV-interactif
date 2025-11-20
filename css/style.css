@@ -29,7 +29,6 @@
   --background-moyen-light: #edead7;
   /* colors */
   --count-color: #6c5ce7;
-  --badge-color: #ffd700;
   --accent-blue: #0984e3;
   /* var autres */
   --background-transparent: rgba(0, 0, 0, 0);
@@ -5474,13 +5473,6 @@ body.light .favorite-star {
 /* Animation spéciale quand on passe en favori (★) */
 .favorite-star.favoriting {
   animation: starRotate 0.5s ease-in-out;
-  color: #ffd700; /* Doré */
-}
-
-/* Couleur dorée pour les étoiles favorites */
-.favorite-star.is-favorite {
-  color: #ffd700;
-  filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.5));
 }
 
 /* Badge compteur favoris - s'intègre dans la navbar comme les autres items */
@@ -6407,9 +6399,9 @@ body.light .color-history-item:hover {
 
 .color-history-item-hex {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  top: 0px;
+  left: 0px;
+  right: 0px;
   padding: 4px;
   background: rgba(0, 0, 0, 0.7);
   color: white;
@@ -6422,6 +6414,20 @@ body.light .color-history-item:hover {
 
 .color-history-item:hover .color-history-item-hex {
   opacity: 1;
+}
+
+.color-history-item-name {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-size: 10px;
+  text-align: center;
+  font-weight: 500;
+  border-radius: 4px;
 }
 
 .color-history-empty {
