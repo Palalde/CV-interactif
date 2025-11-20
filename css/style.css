@@ -6314,6 +6314,141 @@ body.light .random-color-btn:hover {
   box-shadow: 0 4px 12px rgba(155, 89, 182, 0.2);
 }
 
+/* Color History Section */
+.color-history {
+  margin-top: 24px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.light .color-history {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.color-history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.color-history-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-light);
+  margin: 0;
+}
+
+body.light .color-history-title {
+  color: var(--text-dark);
+}
+
+.clear-history-btn {
+  padding: 6px 12px;
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  border-radius: 6px;
+  color: #e74c3c;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.clear-history-btn:hover {
+  background: rgba(231, 76, 60, 0.2);
+  border-color: #e74c3c;
+  transform: translateY(-1px);
+}
+
+.clear-history-btn:active {
+  transform: translateY(0);
+}
+
+body.light .clear-history-btn {
+  background: rgba(231, 76, 60, 0.08);
+  border-color: rgba(231, 76, 60, 0.25);
+}
+
+body.light .clear-history-btn:hover {
+  background: rgba(231, 76, 60, 0.15);
+  border-color: #c0392b;
+}
+
+.color-history-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 12px;
+}
+
+.color-history-item {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  overflow: hidden;
+}
+
+.color-history-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+body.light .color-history-item:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.color-history-item-hex {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 11px;
+  text-align: center;
+  font-weight: 500;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.color-history-item:hover .color-history-item-hex {
+  opacity: 1;
+}
+
+.color-history-empty {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 14px;
+  padding: 20px;
+  font-style: italic;
+}
+
+body.light .color-history-empty {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .color-history-list {
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 8px;
+  }
+
+  .color-history-item-hex {
+    font-size: 10px;
+    padding: 3px;
+  }
+}
+
 /* Loading state */
 .color-loading {
   display: flex;
