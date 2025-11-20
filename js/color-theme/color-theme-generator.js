@@ -3,8 +3,10 @@
 // =============================================
 // 🎯 Mission : Créer un générateur de couleurs qui utilise The Color API
 // 📚 Concepts : fetch, async/await, try/catch, promises, API REST
+import { addToColorHistory, displayColorHistory, clearColorHistory } from './color-history.js';
 
 document.addEventListener('DOMContentLoaded', function() {
+
   // Sélection des éléments DOM nécessaires
   const colorGeneratorBtn = document.getElementById('color-generator-btn');
   const colorGeneratorBtnMobile = document.getElementById('color-generator-btn-mobile');
@@ -17,7 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const colorError = document.getElementById('color-error');
   // couleur aléatoire 
   const randomColorBtn = document.getElementById('random-color-btn');
-  
+  // bouton clear history
+  const clearHistoryBtn = document.getElementById('clear-history-btn');
+
   // ====================================
   // ouverture/fermeture / focus management
   // ====================================
@@ -80,7 +84,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // tab trap
-
     if (event.key === 'Tab') {
       const focusableElements = getFocusableElements();
       if (focusableElements.length === 0) return;
@@ -170,15 +173,20 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // analyze color function
-  async function analyzeColor() {
-    const hexInput = colorHexInput.value;
+  async function analyzeColor(hexColor) {
+    const hexInput = hexColor || colorHexInput.value;
 
     // Show loading state
     showLoading();
 
     try {
       const colorData = await fetchColorData(hexInput);
+      // display results
       displayColorResults(colorData);
+      // Ajouter à l'historique des couleurs
+      addToColorHistory(colorData);
+      displayColorHistory();
+      // refresh UI
       showResults();
     } catch (error) {
       console.error('Error fetching color data:', error);
@@ -205,6 +213,28 @@ document.addEventListener('DOMContentLoaded', function() {
     if (event.key === 'Enter') {
       analyzeColor();
     }
+  });
+
+  // ====================================
+  // History
+  // ===================================
+  // afficher l'historique au chargement
+  displayColorHistory();
+  // clear history event listener
+  clearHistoryBtn.addEventListener('click', function() {
+      // clear history
+      clearColorHistory();
+      displayColorHistory();
+  });
+
+  // event listener pour le custom event
+  document.addEventListener('color-history-select', function(event) {
+    // Récupérer le hex depuis event.detail
+    const hexColor = event.detail.hex.replace('#', '');
+    // Mettre à jour l'input visuel (sans le #)
+    colorHexInput.value = hexColor;
+    // Analyser la couleur
+    analyzeColor();
   });
 });
 

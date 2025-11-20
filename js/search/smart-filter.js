@@ -1,5 +1,5 @@
 import { filterCompetences, debounce, displayResults } from "./search-util.js"; 
-import { addToHistory } from "./search-history.js";
+import { addToSearchHistory } from "./search-history.js";
 import { initAutocomplete } from "./search-autocomplete.js";
 import { initFavoritesFilter } from "../favorites/filter-favorites.js";
 import { FavoritesManager } from "../favorites/favorites-manager.js";
@@ -66,8 +66,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // history (seulement si query non vide)
-        if (query && query.trim() !== '') {
-            addToHistory(query);
+        if (query.length >= 3) {
+            addToSearchHistory(query);
         }
 
         // Afficher les résultats 
