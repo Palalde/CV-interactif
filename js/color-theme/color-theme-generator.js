@@ -208,7 +208,9 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Event listeners
-  analyzeColorBtn.addEventListener('click', analyzeColor);
+  analyzeColorBtn.addEventListener('click', function() {
+    analyzeColor();
+  });
   colorHexInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
       analyzeColor();
