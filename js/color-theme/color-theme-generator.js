@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const colorLoading = document.getElementById('color-loading');
   const colorResults = document.getElementById('color-results');
   const colorError = document.getElementById('color-error');
+  // color picker
+  const colorPicker = document.getElementById('color-picker');
   // couleur aléatoire 
   const randomColorBtn = document.getElementById('random-color-btn');
   // bouton clear history
@@ -55,6 +57,11 @@ document.addEventListener('DOMContentLoaded', function() {
         focusable[0].focus();
       }
     }, 100);
+    // synchroniser le color picker
+    const currentHex = colorHexInput.value.trim();
+    if (/^[0-9A-Fa-f]{6}$/.test(currentHex)) {
+      colorPicker.value = '#' + currentHex;
+    }
   }
 
   // close
@@ -127,8 +134,26 @@ document.addEventListener('DOMContentLoaded', function() {
   randomColorBtn.addEventListener('click', function() {
     const randomHex = getRandomHexColor();
     colorHexInput.value = randomHex;
+    colorPicker.value = `#` + randomHex;
     analyzeColor();
   });
+
+  // ====================================
+  // Color picker
+  // =================================
+  // Event listener
+  // value 
+  // input color picker
+  colorPicker.addEventListener('input', function() {
+    colorHexInput.value = colorPicker.value.substring(1);
+  });
+  // change color picker
+  colorPicker.addEventListener('change', function() {
+    colorHexInput.value = colorPicker.value.substring(1);
+    // analyze color
+    analyzeColor();
+  });
+
    
   // ====================================
   // fonction async and results display
@@ -210,12 +235,22 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Event listeners
+  // analyze button
   analyzeColorBtn.addEventListener('click', function() {
     analyzeColor();
   });
+  // enter
   colorHexInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
       analyzeColor();
+    }
+  });
+  // input for color picker
+  colorHexInput.addEventListener('input', function() {
+    const hexValue = colorHexInput.value.trim();
+
+    if (/^[0-9A-Fa-f]{6}$/.test(hexValue)) {
+      colorPicker.value = `#` + hexValue;
     }
   });
  
@@ -247,6 +282,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const hexColor = event.detail.hex.replace('#', '');
     // Mettre à jour l'input visuel (sans le #)
     colorHexInput.value = hexColor;
+    // Mettre à jour le color picker
+    colorPicker.value = event.detail.hex;
     // Analyser la couleur
     analyzeColor();
   });
@@ -256,6 +293,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const hexColor = event.detail.hex.replace('#', '');
     // Mettre à jour l'input visuel (sans le #)
     colorHexInput.value = hexColor;
+    // Mettre à jour le color picker
+    colorPicker.value = event.detail.hex;
     // Analyser la couleur
     analyzeColor();
   });
