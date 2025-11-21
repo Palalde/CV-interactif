@@ -40,8 +40,8 @@ function getOptimalColorCount(mode) {
         'complement': 2,           // Base + complémentaire
         'triad': 3,               // bases + couleurs espacées de 120°
         'quad': 4,                // 4 couleurs espacées de 90°
-        'analogic': 3,            // Couleurs adjacentes
-        'analogic-complement': 4, // Analogique + complémentaire
+        'analogic': 5,            // Couleurs adjacentes
+        'analogic-complement': 5, // Analogique + complémentaire
         'monochrome': 5,          // Variations de luminosité
         'monochrome-dark': 5,     // Variations sombres
         'monochrome-light': 5     // Variations claires

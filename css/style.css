@@ -6059,8 +6059,8 @@ body.light .color-generator-overlay {
   background: var(--background-surface-dark);
   border-radius: 16px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-  width: 90%;
-  max-width: 600px;
+  width: 95%;
+  max-width: 800px;
   max-height: 90vh;
   overflow-y: auto;
   transform: scale(0.9);
@@ -6228,6 +6228,55 @@ body.light .color-hex-input::placeholder {
   color: var(--text-dark);
 }
 
+/* Native Color Picker */
+.color-picker {
+  height: 48px;
+  padding: 4px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: var(--background-general-dark);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.color-picker:hover {
+  border-color: var(--primary-main);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.color-picker:focus {
+  border-color: var(--primary-main);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.color-picker::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.color-picker::-webkit-color-swatch {
+  border: none;
+  border-radius: 6px;
+}
+
+.color-picker::-moz-color-swatch {
+  border: none;
+  border-radius: 6px;
+}
+
+body.light .color-picker {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+body.light .color-picker:hover {
+  border-color: var(--primary-main);
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+}
+
 .analyze-color-btn {
   padding: 12px 24px;
   background: var(--background-leger-dark);
@@ -6267,7 +6316,6 @@ body.light .analyze-color-btn:hover {
 
 /* Random color button */
 .random-color-btn {
-  width: 100%;
   padding: 12px 24px;
   background: rgba(155, 89, 182, 0.1);
   border: 2px solid rgba(155, 89, 182, 0.3);
@@ -6380,7 +6428,7 @@ body.light .palette-mode-select:hover {
 
 .palette-color-item {
   position: relative;
-  aspect-ratio: 1;
+  aspect-ratio: 1 / 1;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -6544,13 +6592,13 @@ body.light .clear-history-btn:hover {
 
 .color-history-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   gap: 12px;
 }
 
 .color-history-item {
   position: relative;
-  aspect-ratio: 1;
+  aspect-ratio: 1 / 1;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -6778,11 +6826,38 @@ body.light .color-info-value {
   }
 
   .color-input-wrapper {
-    flex-direction: column;
-    align-items: stretch;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    gap: 8px;
+  }
+
+  .color-input-hash {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: center;
+  }
+
+  .color-hex-input {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .color-picker {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    width: 100%;
   }
 
   .analyze-color-btn {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    width: 100%;
+  }
+
+  .random-color-btn {
+    grid-column: 1 / -1;
+    grid-row: 4;
     width: 100%;
   }
 

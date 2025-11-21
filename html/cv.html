@@ -579,9 +579,16 @@
           <!-- Input section -->
           <div class="color-input-section">
             <label for="color-hex-input" class="color-input-label">
-              Entrez une couleur (hex)
+              Choisissez une couleur ou entrez son code hex:
             </label>
             <div class="color-input-wrapper">
+              <input
+                type="color"
+                id="color-picker"
+                class="color-picker"
+                value="#3498db"
+                title="Choisir une couleur visuellement"
+              />
               <span class="color-input-hash">#</span>
               <input
                 type="text"
