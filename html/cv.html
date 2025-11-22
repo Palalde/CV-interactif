@@ -132,7 +132,7 @@
             type="button"
             class="color-generator-block"
             id="color-generator-btn"
-            title="Générateur de couleurs"
+            title="Theme Color"
           >
             <span class="nav-icon icon-palette main">🎨</span>
             <span class="nav-icon icon-palette second">🌈</span>
@@ -559,10 +559,10 @@
         <header class="color-generator-header">
           <div class="color-generator-header-texts">
             <h2 id="color-generator-title" class="color-generator-title">
-              🎨 Générateur de Couleurs
+              🎨 Theme Color
             </h2>
             <p class="color-generator-description">
-              Analysez une couleur et découvrez ses propriétés
+              Rentrez une couleur pour l'analyser et générer un palette de theme
             </p>
           </div>
           <button
@@ -667,6 +667,24 @@
             </div>
             <div class="palette-colors" id="palette-colors">
               <!-- Les couleurs de la palette seront insérées ici dynamiquement -->
+            </div>
+            <div class="palette-theme-actions">
+              <button
+                type="button"
+                id="apply-theme-btn"
+                class="palette-theme-btn apply-theme-btn"
+                title="Appliquer cette palette comme thème dark mode"
+              >
+                ✨ Appliquer au thème
+              </button>
+              <button
+                type="button"
+                id="reset-theme-btn"
+                class="palette-theme-btn reset-theme-btn"
+                title="Réinitialiser le thème par défaut"
+              >
+                🔄 Réinitialiser
+              </button>
             </div>
           </div>
 
