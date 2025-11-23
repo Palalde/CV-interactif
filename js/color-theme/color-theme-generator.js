@@ -1,14 +1,17 @@
 // =============================================
 // Color Theme Generator (Exercice 6)
 // =============================================
-// 🎯 Mission : Créer un générateur de couleurs qui utilise The Color API
-// 📚 Concepts : fetch, async/await, try/catch, promises, API REST
+// Import history functions
 import { addToColorHistory, displayColorHistory, clearColorHistory } from './color-history.js';
-import { generatePalette } from './color-palette.js';
+// Import palette functions
+import { generatePalette, fetchColorPalette } from './color-palette.js';
+// Import theme functions
+import { applyColorTheme, resetColorTheme } from './color-theme.js';
 
 document.addEventListener('DOMContentLoaded', function() {
-
-  // Sélection des éléments DOM nécessaires
+  // ====================================
+  // Sélection des éléments DOM
+  // ====================================
   const colorGeneratorBtn = document.getElementById('color-generator-btn');
   const colorGeneratorBtnMobile = document.getElementById('color-generator-btn-mobile');
   const colorGeneratorOverlay = document.getElementById('color-generator-overlay');
@@ -24,12 +27,25 @@ document.addEventListener('DOMContentLoaded', function() {
   const randomColorBtn = document.getElementById('random-color-btn');
   // bouton clear history
   const clearHistoryBtn = document.getElementById('clear-history-btn');
+  // Original Theme Button 
+  const applyThemeBtn = document.getElementById('apply-theme-btn');
+  const resetThemeBtn = document.getElementById('reset-theme-btn');
+  // theme toggle
+  const themeToggle = document.getElementById('theme-switch');
+  
+  // ===================================
+  // Variables state
+  // ==================================
+  const state = {
+    colorData: null,
+    monochromeColors: null,
+    currentColorHex: null,
+    lastFocusedElement: null
+  };
 
   // ====================================
   // ouverture/fermeture / focus management
   // ====================================
-  // Variable pour mémoriser l'élément qui a ouvert l'overlay
-  let lastFocusedElement = null;
   // Helper Focus management
   function getFocusableElements() {
     return colorGeneratorOverlay.querySelectorAll(
@@ -46,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function openColorGenerator() {
     if (isColorGeneratorOpen()) return;
     // Mémoriser l'élément qui avait le focus
-    lastFocusedElement = document.activeElement;
+    state.lastFocusedElement = document.activeElement;
     // aria-hidden / expanded false
     colorGeneratorOverlay.setAttribute('aria-hidden', 'false');
     colorGeneratorBtn.setAttribute('aria-expanded', 'true');
@@ -71,8 +87,8 @@ document.addEventListener('DOMContentLoaded', function() {
     colorGeneratorOverlay.setAttribute('aria-hidden', 'true');
     colorGeneratorBtn.setAttribute('aria-expanded', 'false');
     // Restore focus to button
-    if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
-      lastFocusedElement.focus();
+    if (state.lastFocusedElement && typeof state.lastFocusedElement.focus === 'function') {
+      state.lastFocusedElement.focus();
     } else {
       colorGeneratorBtn.focus();
     }
@@ -154,7 +170,29 @@ document.addEventListener('DOMContentLoaded', function() {
     analyzeColor();
   });
 
-   
+  // ===============================
+  // Original Theme 
+  // =============================
+  // event listener apply original theme
+  applyThemeBtn.addEventListener('click', function() {
+    // check
+    if (!state.colorData || !state.monochromeColors) {
+      showError('Veuillez analyser une couleur avant d\'appliquer un thème.');
+      return;
+    }
+    // apply original theme
+    applyColorTheme(state.colorData, state.monochromeColors);
+    // hide theme toggles
+    themeToggle.style.display = 'none';
+  });
+
+  // event listener reset original theme
+  resetThemeBtn.addEventListener('click', function() {
+    resetColorTheme();
+    // show theme toggles
+    themeToggle.style.display = 'flex';
+  });
+
   // ====================================
   // fonction async and results display
   // ====================================
@@ -192,27 +230,26 @@ document.addEventListener('DOMContentLoaded', function() {
     return data;
   }
 
-  // Variables stock couleur actuelle
-  let currentColorHex = null;
-
   // analyze color function
   async function analyzeColor(hexColor) {
     const hexInput = hexColor || colorHexInput.value;
     // mettre à jour la couleur actuelle 
-    currentColorHex = hexInput;
+    state.currentColorHex = hexInput;
     // Show loading state
     showLoading();
     
     // fetch data with try/catch
     try {
-      const colorData = await fetchColorData(hexInput);
+      state.colorData = await fetchColorData(hexInput);
       // display results
-      displayColorResults(colorData);
+      displayColorResults(state.colorData);
       // History
-      addToColorHistory(colorData);
+      addToColorHistory(state.colorData);
       displayColorHistory();
       // Generate Palette async
-      await generatePalette(colorData.hex.clean);
+      await generatePalette(state.colorData.hex.clean);
+      // themes variables
+      state.monochromeColors = await fetchColorPalette(hexInput, 'monochrome', 5);
       // refresh UI
       showResults();
     } catch (error) {
@@ -257,8 +294,8 @@ document.addEventListener('DOMContentLoaded', function() {
   // event listener palette mode change
   const paletteSelect = document.getElementById('palette-mode');
   paletteSelect.addEventListener('change', async function() {
-    if (currentColorHex) {
-      await generatePalette(currentColorHex);
+    if (state.currentColorHex) {
+      await generatePalette(state.currentColorHex);
     }
   });
 
@@ -273,8 +310,9 @@ document.addEventListener('DOMContentLoaded', function() {
       clearColorHistory();
       displayColorHistory();
   });
+
   // ===================================
-  // event listener pour les custom event
+  // event listener custom events
   // ====================================
   // history custom event listener
   document.addEventListener('color-history-select', function(event) {

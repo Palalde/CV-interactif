@@ -51,7 +51,7 @@ function getOptimalColorCount(mode) {
 }
 
 // fetch function
-async function fetchColorPalette(hexColor, mode = 'monochrome') {
+export async function fetchColorPalette(hexColor, mode = 'monochrome') {
     // Déterminer le nombre optimal de couleurs pour ce mode
     const count = getOptimalColorCount(mode);
     
@@ -123,7 +123,7 @@ function createPaletteColorCard(colorData) {
     return card;
 }
 
-// 3. Fonction pour afficher la palette
+// Fonction pour afficher la palette
 function displayPalette(colors) {
     // Vider le conteneur
     paletteColors.innerHTML = '';
