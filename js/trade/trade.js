@@ -245,6 +245,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	const mo = new MutationObserver(applyTheme);
 	mo.observe(body, { attributes: true, attributeFilter: ['class'] });
 
+	// Expose applyTheme globally for custom theme updates
+	window.updateTradingChartTheme = applyTheme;
+
 	chart.timeScale().fitContent();
 
     // ================= MARKERS (API v5 strict) =================

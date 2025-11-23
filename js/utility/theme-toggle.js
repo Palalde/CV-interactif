@@ -91,6 +91,9 @@ function applyTheme(isLight) {
   if (themeToggleMock) themeToggleMock.checked = isLight;
 }
 
+// Expose updateNavIcons globally for custom theme updates
+window.updateNavIcons = updateNavIcons;
+
 // Function to save theme preference
 function saveThemePreference(isLight) {
   localStorage.setItem('theme-preference', isLight ? 'light' : 'dark');

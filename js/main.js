@@ -491,7 +491,7 @@ document.addEventListener('DOMContentLoaded', function() {
         width: 15px;
         height: 15px;
         border-radius: 50%;
-        background: var(--background-general-light);
+        background: var(--text-light);
         border: 2px solid var(--background-surface-dark);
         pointer-events: none;
         transition: opacity 0.2s ease;
@@ -534,10 +534,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const isLight = document.body.classList.contains('light');
       markerElements.forEach(marker => {
         if (isLight) {
-          marker.element.style.background = 'var(--background-general-dark)';
+          marker.element.style.background = 'var(--text-dark)';
           marker.element.style.borderColor = 'var(--background-surface-light)';
         } else {
-          marker.element.style.background = 'var(--background-general-light)';
+          marker.element.style.background = 'var(--text-light)';
           marker.element.style.borderColor = 'var(--background-surface-dark)';
         }
       });

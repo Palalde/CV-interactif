@@ -394,14 +394,14 @@ body.light .mock {
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background: var(--background-general-light);
+  background: var(--text-light);
   border: 2px solid var(--background-surface-dark);
   pointer-events: none;
   transition: opacity 0.2s ease;
   opacity: 1;
 }
 body.light .range-slider-mock-marker {
-  background: var(--background-general-dark);
+  background: var(--text-dark);
   border-color: var(--background-surface-light);
 }
 .range-slider-mock-marker:nth-child(1) {
@@ -935,7 +935,7 @@ body {
   display: flex;
   align-items: center;
   margin: 0 18px 0 12px;
-  background: var(--background-general-light);
+  background: var(--text-light);
   border-radius: var(--radius-main);
   box-shadow: var(--shadow-main);
   height: 38px;
@@ -1440,7 +1440,7 @@ body.light .theme-switch-mobile .moon {
   width: 100%;
   height: 10px;
   border-radius: 5px;
-  background: var(--background-general-light);
+  background: var(--text-light);
   outline: none;
   opacity: 0.85;
   transition: opacity 0.2s;
@@ -1460,7 +1460,7 @@ body.light .theme-switch-mobile .moon {
   width: 70px;
   height: 38px;
   border-radius: 19px;
-  background: var(--background-general-light)
+  background: var(--text-light)
     var(--thumb-img, url("../img/rangeslider/darkmode/etudes-bleu.png")) center
     center no-repeat;
   background-size: 50px 50px !important;
@@ -1483,6 +1483,7 @@ body.light .theme-switch-mobile .moon {
     var(--thumb-img, url("../img/rangeslider/darkmode/etudes-blanc.png")) center
     center no-repeat;
   background-size: 56px 56px !important;
+  border: 3px solid var(--text-light);
 }
 
 /* Firefox */
@@ -1490,7 +1491,7 @@ body.light .theme-switch-mobile .moon {
   width: 70px;
   height: 38px;
   border-radius: 19px;
-  background: var(--background-general-light)
+  background: var(--text-light)
     var(--thumb-img, url("../img/rangeslider/darkmode/etudes-bleu.png")) center
     center no-repeat;
   border: 3px solid var(--background-surface-dark);
@@ -1504,7 +1505,7 @@ body.light .theme-switch-mobile .moon {
   width: 70px;
   height: 38px;
   border-radius: 19px;
-  background: var(--background-general-light)
+  background: var(--text-light)
     var(--thumb-img, url("../img/rangeslider/darkmode/etudes-bleu.png")) center
     center no-repeat;
   border: 3px solid var(--background-surface-dark);
@@ -4357,13 +4358,13 @@ body.light .range-slider-container {
 }
 
 body.light .range-slider {
-  background: var(--background-general-dark);
+  background: var(--text-dark);
   --thumb-img: url("../img/rangeslider/lightmode/etudes-beige.png");
 }
 
 /* Thumb light mode */
 body.light .range-slider::-webkit-slider-thumb {
-  background: var(--background-general-dark)
+  background: var(--text-dark)
     var(--thumb-img, url("../img/rangeslider/lightmode/etudes-beige.png"))
     center center no-repeat;
   border: 3px solid var(--background-surface-light);
@@ -4374,7 +4375,7 @@ body.light .range-slider:focus::-webkit-slider-thumb {
   background: var(--background-surface-light)
     var(--thumb-img, url("../img/rangeslider/lightmode/etudes-noir.png")) center
     center no-repeat;
-  border: 3px solid var(--background-general-dark);
+  border: 3px solid var(--text-dark);
   background-size: 56px 56px !important;
 }
 
@@ -4388,27 +4389,27 @@ body.light .range-slider::-ms-thumb {
 
 /* Firefox lightmode*/
 body.light .range-slider::-moz-range-thumb {
-  background: var(--background-general-dark);
+  background: var(--text-dark);
   border: 3px solid var(--background-surface-light);
   background-size: 50px 50px !important;
 }
 
 body.light .range-slider:focus::-moz-range-thumb {
   background: var(--background-surface-light);
-  border: 3px solid var(--background-general-dark);
+  border: 3px solid var(--text-dark);
   background-size: 56px 56px !important;
 }
 
 /* Edge/IE lightmode*/
 body.light .range-slider::-ms-thumb {
-  background: var(--background-general-dark);
+  background: var(--text-dark);
   border: 3px solid var(--background-surface-light);
   background-size: 50px 50px !important;
 }
 
 body.light .range-slider:focus::-ms-thumb {
   background: var(--background-surface-light);
-  border: 3px solid var(--background-general-dark);
+  border: 3px solid var(--text-dark);
   background-size: 56px 56px !important;
 }
 
