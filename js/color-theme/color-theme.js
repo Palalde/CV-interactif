@@ -25,6 +25,28 @@ function isContrastLight(hexColor) {
     return luminance > 0.5;
 }
 
+// Update theme UI (checkboxes, nav icons, trading chart)
+function updateThemeUI(shouldBeLightMode) {
+    // Update body class
+    document.body.classList.toggle('light', shouldBeLightMode);
+    
+    // Update theme toggle checkboxes
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleMock = document.getElementById('theme-toggle-mock');
+    if (themeToggle) themeToggle.checked = shouldBeLightMode;
+    if (themeToggleMock) themeToggleMock.checked = shouldBeLightMode;
+    
+    // Update nav icons
+    if (typeof window.updateNavIcons === 'function') {
+        window.updateNavIcons(shouldBeLightMode);
+    }
+
+    // Update trading chart theme if available
+    if (typeof window.updateTradingChartTheme === 'function') {
+        window.updateTradingChartTheme();
+    }
+}
+
 // ==============================
 // Original value 
 // ==============================
@@ -83,24 +105,8 @@ export function applyColorTheme(colorData, monochromeColors) {
     // If contrast is dark (black), force light mode
     const shouldBeLightMode = !contrastIsLight;
     
-    // Update body class
-    document.body.classList.toggle('light', shouldBeLightMode);
-    
-    // Update theme toggle checkboxes
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeToggleMock = document.getElementById('theme-toggle-mock');
-    if (themeToggle) themeToggle.checked = shouldBeLightMode;
-    if (themeToggleMock) themeToggleMock.checked = shouldBeLightMode;
-    
-    // Update nav icons
-    if (typeof window.updateNavIcons === 'function') {
-        window.updateNavIcons(shouldBeLightMode);
-    }
-
-    // Update trading chart theme if available
-    if (typeof window.updateTradingChartTheme === 'function') {
-        window.updateTradingChartTheme();
-    }
+    // Update all theme UI components
+    updateThemeUI(shouldBeLightMode);
 }
 
 // reset theme function
@@ -117,24 +123,8 @@ export function resetColorTheme() {
     const shouldBeLightMode = savedThemePreference === 'light' || 
         (savedThemePreference === null && window.matchMedia('(prefers-color-scheme: light)').matches);
     
-    // Update body class
-    document.body.classList.toggle('light', shouldBeLightMode);
-    
-    // Update theme toggle checkboxes
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeToggleMock = document.getElementById('theme-toggle-mock');
-    if (themeToggle) themeToggle.checked = shouldBeLightMode;
-    if (themeToggleMock) themeToggleMock.checked = shouldBeLightMode;
-    
-    // Update nav icons
-    if (typeof window.updateNavIcons === 'function') {
-        window.updateNavIcons(shouldBeLightMode);
-    }
-
-    // Update trading chart theme if available
-    if (typeof window.updateTradingChartTheme === 'function') {
-        window.updateTradingChartTheme();
-    }
+    // Update all theme UI components
+    updateThemeUI(shouldBeLightMode);
 }
 
 // ==============================
@@ -184,28 +174,11 @@ export function loadSavedTheme() {
         
         // Force theme toggle based on contrast color
         const contrastIsLight = isContrastLight(themeData.contrastHex);
-        // If contrast is light (white), force dark mode
-        // If contrast is dark (black), force light mode
+        // If contrast is light (white), force dark mode and vice versa
         const shouldBeLightMode = !contrastIsLight;
         
-        // Update body class
-        document.body.classList.toggle('light', shouldBeLightMode);
-        
-        // Update theme toggle checkboxes
-        const themeToggle = document.getElementById('theme-toggle');
-        const themeToggleMock = document.getElementById('theme-toggle-mock');
-        if (themeToggle) themeToggle.checked = shouldBeLightMode;
-        if (themeToggleMock) themeToggleMock.checked = shouldBeLightMode;
-        
-        // Update nav icons
-        if (typeof window.updateNavIcons === 'function') {
-            window.updateNavIcons(shouldBeLightMode);
-        }
-        
-        // Update trading chart theme if available
-        if (typeof window.updateTradingChartTheme === 'function') {
-            window.updateTradingChartTheme();
-        }
+        // Update all theme UI components
+        updateThemeUI(shouldBeLightMode);
         
         return themeData;
         
