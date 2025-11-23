@@ -6,7 +6,7 @@ import { addToColorHistory, displayColorHistory, clearColorHistory } from './col
 // Import palette functions
 import { generatePalette, fetchColorPalette } from './color-palette.js';
 // Import theme functions
-import { applyColorTheme, resetColorTheme } from './color-theme.js';
+import { applyColorTheme, resetColorTheme, loadSavedTheme } from './color-theme.js'
 
 document.addEventListener('DOMContentLoaded', function() {
   // ====================================
@@ -32,6 +32,17 @@ document.addEventListener('DOMContentLoaded', function() {
   const resetThemeBtn = document.getElementById('reset-theme-btn');
   // theme toggle
   const themeToggle = document.getElementById('theme-switch');
+  
+  // ===================================
+  // Load saved theme on page load
+  // ==================================
+  const savedTheme = loadSavedTheme();
+  if (savedTheme) {
+    // hide theme toggle if custom theme is active
+    themeToggle.style.display = 'none';
+    // overlay
+    colorHexInput.value = savedTheme.baseColorHex.replace('#', '');
+  }
   
   // ===================================
   // Variables state
@@ -310,6 +321,13 @@ document.addEventListener('DOMContentLoaded', function() {
       clearColorHistory();
       displayColorHistory();
   });
+
+  // ====================================
+  // Load saved theme UI
+  // ====================================
+  if (savedTheme) {
+    analyzeColor(savedTheme.baseColorHex.replace('#', ''));
+  }
 
   // ===================================
   // event listener custom events
