@@ -1616,7 +1616,7 @@ body.light .theme-switch-mobile .moon {
 }
 
 #etudes .titre-section {
-  color: #90caf9;
+  color: var(--text-light);
   font-size: 1.3rem;
   font-weight: 600;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
@@ -1641,7 +1641,11 @@ body.light .theme-switch-mobile .moon {
   bottom: 2px;
   height: 3px;
   width: 80%;
-  background: linear-gradient(90deg, rgba(144, 202, 249, 0.7), transparent);
+  background: linear-gradient(
+    90deg,
+    var(--background-surface-light),
+    transparent
+  );
 }
 
 #etudes .texte-etudes {
