@@ -1209,11 +1209,11 @@ infoDiv.appendChild(applyBtn);
 >
 > **📝 Checklist avant de continuer :**
 >
-> - [ ] J'ai lu et compris l'interlude 4
-> - [ ] Je comprends la différence entre microtasks et macrotasks
-> - [ ] Je peux prédire l'ordre d'exécution de Promise vs setTimeout
-> - [ ] J'ai fait les mini-défis sur l'Event Loop
-> - [ ] Je suis prêt pour l'exercice 7 (toasts avec queue) !
+> - [✅] J'ai lu et compris l'interlude 4
+> - [✅] Je comprends la différence entre microtasks et macrotasks
+> - [✅] Je peux prédire l'ordre d'exécution de Promise vs setTimeout
+> - [✅] J'ai fait les mini-défis sur l'Event Loop
+> - [✅] Je suis prêt pour l'exercice 7 (toasts avec queue) !
 
 ---
 

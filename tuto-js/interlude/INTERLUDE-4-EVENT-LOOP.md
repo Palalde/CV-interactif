@@ -215,7 +215,7 @@ Promise.resolve().then(() => {
 
 console.log("D");
 
-// Ordre : ?
+// Ordre : A D C B
 
 // Question 2
 console.log("1");
@@ -236,7 +236,7 @@ Promise.resolve().then(() => {
 
 console.log("6");
 
-// Ordre : ?
+// Ordre : 1 6 4 2 3 5
 
 // Question 3
 Promise.resolve()
@@ -253,7 +253,7 @@ Promise.resolve().then(() => {
 
 console.log("D");
 
-// Ordre : ?
+// Ordre : D A C B
 ```
 
 <details>
@@ -356,7 +356,7 @@ console.log("1");
 test();
 console.log("2");
 
-// Ordre : ?
+// Ordre : 1 A 2 B
 
 // Question 2
 async function func1() {
@@ -378,7 +378,7 @@ func1();
 func2();
 console.log("F");
 
-// Ordre : ?
+// Ordre : A B D F C E
 
 // Question 3 (PIÈGE)
 async function test() {
@@ -396,7 +396,7 @@ async function test() {
 test();
 console.log("D");
 
-// Ordre : ?
+// Ordre : A D C B
 ```
 
 <details>
@@ -506,7 +506,7 @@ setTimeout(() => {
 
 console.log("end");
 
-// Ordre : ?
+// Ordre : start, end, promise 2, promise 3, setTimeout 1, promise 1, setTimeout 3, setTimeout 2
 ```
 
 <details>
@@ -641,7 +641,7 @@ console.log("A");
 queueMicrotask(() => console.log("B"));
 setTimeout(() => console.log("C"), 0);
 console.log("D");
-// Ordre : ?
+// Ordre : A D B C
 
 // Question 2
 async function test() {
@@ -652,7 +652,7 @@ async function test() {
 test();
 test();
 console.log("3");
-// Ordre : ?
+// Ordre : 1, 1, 3, 2, 2
 
 // Question 3
 Promise.resolve()
@@ -665,7 +665,7 @@ queueMicrotask(() => {
 });
 
 console.log("E");
-// Ordre : ?
+// Ordre : E A C B D
 
 // Question 4 : Vrai ou Faux ?
 // - setTimeout(fn, 0) s'exécute immédiatement après le code synchrone
