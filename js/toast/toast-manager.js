@@ -18,22 +18,11 @@ export class ToastManager {
 
     // Initialize the toast container
     init() {
-        // container exist
-        this.container = document.getElementById('toast-container');
-
-        // Create container if it doesn't exist
-        if (!this.container) {
-            this.container = document.createElement('div');
-            this.container.id = 'toast-container';
-            this.container.className = 'toast-container';
-            document.body.appendChild(this.container);
-        }
-
-        // BONUS 3: Appliquer la position au conteneur
-        this.setPosition(this.position);
-
-        // event delegation
-        this.container.addEventListener('click', (event) => {
+        // BONUS 3: Utiliser des conteneurs multiples pour supporter différentes positions
+        this.containers = {};
+        
+        // Event delegation globale sur le body pour tous les conteneurs
+        document.body.addEventListener('click', (event) => {
             const toastElement = event.target.closest('.toast');
             if (!toastElement) return;
             
@@ -47,11 +36,30 @@ export class ToastManager {
                 return;
             }
             
-            // Clic sur le bouton de fermeture ou ailleurs dans le toast
+            // Clic sur le bouton de fermeture
             if (event.target.closest('.toast-close')) {
                 this.dismissToast(id);
             }
         });
+    }
+    
+    // BONUS 3: Obtenir ou créer un conteneur pour une position donnée
+    getOrCreateContainer(position) {
+        // Si le conteneur pour cette position existe déjà, le retourner
+        if (this.containers[position]) {
+            return this.containers[position];
+        }
+        
+        // Créer un nouveau conteneur pour cette position
+        const container = document.createElement('div');
+        container.id = `toast-container-${position}`;
+        container.className = `toast-container toast-position-${position}`;
+        document.body.appendChild(container);
+        
+        // Stocker dans le cache
+        this.containers[position] = container;
+        
+        return container;
     }
 
     // Show a new toast
@@ -133,6 +141,11 @@ export class ToastManager {
     // Display toast
     displayToast(toastData) {
         const { id, message, type, duration, position, actions } = toastData;
+        
+        // BONUS 3: Utiliser le conteneur approprié pour cette position
+        const targetPosition = position || this.position;
+        const container = this.getOrCreateContainer(targetPosition);
+        
         // create toast element
         const toastElement = this.createToastElement(id, message, type, actions);
         // toast progress bar
@@ -169,7 +182,7 @@ export class ToastManager {
         });
         
         // append to container
-        this.container.appendChild(toastElement);
+        container.appendChild(toastElement);
         
         // animation d'entrée
         requestAnimationFrame(() => {
