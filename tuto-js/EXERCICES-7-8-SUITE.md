@@ -316,13 +316,13 @@ if (isFavorite) {
 
 ### ✅ Test de validation
 
-- [ ] La classe `ToastManager` gère la queue correctement
-- [ ] Maximum 3 toasts visibles simultanément
-- [ ] Event delegation fonctionne (un seul listener)
-- [ ] Les 4 types ont des styles différents
-- [ ] Animations d'entrée/sortie fluides
-- [ ] `window.toast()` accessible globalement
-- [ ] Le clic ferme le toast immédiatement
+- [✅] La classe `ToastManager` gère la queue correctement
+- [✅] Maximum 3 toasts visibles simultanément
+- [✅] Event delegation fonctionne (un seul listener)
+- [✅] Les 4 types ont des styles différents
+- [✅] Animations d'entrée/sortie fluides
+- [✅] `window.toast()` accessible globalement
+- [✅] Le clic ferme le toast immédiatement
 
 ### 🎁 Bonus
 

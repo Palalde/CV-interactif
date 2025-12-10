@@ -7001,13 +7001,32 @@ body.light .color-info-value {
    ============================================= */
 .toast-container {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
   z-index: 10000;
   display: flex;
   flex-direction: column;
   gap: 10px;
   pointer-events: none;
+}
+
+/* BONUS 3: Positions personnalisables */
+.toast-position-top-right {
+  top: 20px;
+  right: 20px;
+}
+
+.toast-position-top-left {
+  top: 20px;
+  left: 20px;
+}
+
+.toast-position-bottom-right {
+  bottom: 20px;
+  right: 20px;
+}
+
+.toast-position-bottom-left {
+  bottom: 20px;
+  left: 20px;
 }
 
 .toast {
@@ -7016,10 +7035,10 @@ body.light .color-info-value {
   padding: 16px;
   border-radius: 8px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
+  cursor: default;
   pointer-events: all;
   transition: all 0.3s ease;
   will-change: transform, opacity;
@@ -7028,6 +7047,13 @@ body.light .color-info-value {
 .toast:hover {
   transform: translateX(-5px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* BONUS 4: Wrapper pour le contenu principal (sans les actions) */
+.toast-content-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .toast-info {
@@ -7081,6 +7107,53 @@ body.light .color-info-value {
 
 .toast-close:hover {
   opacity: 1;
+}
+
+/* BONUS 4: Actions (boutons dans les toasts) */
+.toast-actions {
+  display: flex;
+  gap: 8px;
+  padding-top: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.toast-action-btn {
+  flex: 1;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.toast-action-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.toast-action-primary {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.toast-action-primary:hover {
+  background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.3);
+  transition: width linear; /* La durée sera définie en JS */
 }
 
 /* Responsive : adapter position sur mobile */

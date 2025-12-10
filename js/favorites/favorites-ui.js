@@ -70,11 +70,80 @@ document.addEventListener("DOMContentLoaded", () => {
             manager.toggle(competenceId);
             const isFavorite = manager.has(competenceId);
 
-            // Afficher un toast de confirmation
+            // Afficher un toast de confirmation avec actions
             if (isFavorite) {
-                window.toast.success('Compétence ajoutée aux favoris !');
+                // Toast avec action "Annuler" pour retirer immédiatement des favoris
+                window.toast.success('⭐ Compétence ajoutée aux favoris !', 4000, {
+                    position: 'bottom-left',
+                    actions: [
+                        {
+                            label: 'Annuler',
+                            onClick: (toastId) => {
+                                // Annuler l'ajout aux favoris
+                                manager.remove(competenceId);
+                                
+                                // Mettre à jour toutes les étoiles
+                                const allStarsForThisId = document.querySelectorAll(`.favorite-star[data-competence-id="${competenceId}"]`);
+                                allStarsForThisId.forEach(s => {
+                                    updateStarDisplay(s, false);
+                                    animateStar(s, false);
+                                });
+                                
+                                // Mettre à jour le badge
+                                updateCounterBadge(manager.count(), true);
+                                
+                                // Toast de confirmation de l'annulation
+                                window.toast.info('Favori annulé');
+                                
+                                // Émettre un événement
+                                document.dispatchEvent(new CustomEvent('favorites-updated', {
+                                    detail: { competenceId, isFavorite: false, count: manager.count() }
+                                }));
+                            }
+                        },
+                        {
+                            label: 'Voir mes favoris',
+                            primary: true,
+                            onClick: (toastId) => {
+                                // Rediriger vers la page des favoris
+                                window.location.href = '/html/favoris.html';
+                            }
+                        }
+                    ]
+                });
             } else {
-                window.toast.info('Compétence retirée des favoris');
+                // Toast avec action "Annuler" pour réajouter aux favoris
+                window.toast.info('Compétence retirée des favoris', 4000, {
+                    position: 'bottom-left',
+                    actions: [
+                        {
+                            label: 'Annuler',
+                            primary: true,
+                            onClick: (toastId) => {
+                                // Annuler la suppression (réajouter)
+                                manager.add(competenceId);
+                                
+                                // Mettre à jour toutes les étoiles
+                                const allStarsForThisId = document.querySelectorAll(`.favorite-star[data-competence-id="${competenceId}"]`);
+                                allStarsForThisId.forEach(s => {
+                                    updateStarDisplay(s, true);
+                                    animateStar(s, true);
+                                });
+                                
+                                // Mettre à jour le badge
+                                updateCounterBadge(manager.count(), true);
+                                
+                                // Toast de confirmation
+                                window.toast.success('⭐ Réajouté aux favoris !');
+                                
+                                // Émettre un événement
+                                document.dispatchEvent(new CustomEvent('favorites-updated', {
+                                    detail: { competenceId, isFavorite: true, count: manager.count() }
+                                }));
+                            }
+                        }
+                    ]
+                });
             }
 
             // BONUS 5 : Animation lors du toggle
