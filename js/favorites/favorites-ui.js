@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 // Toast avec action "Annuler" pour réajouter aux favoris
                 window.toast.info('Compétence retirée des favoris', 4000, {
-                    position: 'bottom-left',
+                    position: 'bottom-right',
                     actions: [
                         {
                             label: 'Annuler',
