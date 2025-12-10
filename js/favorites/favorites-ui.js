@@ -70,6 +70,13 @@ document.addEventListener("DOMContentLoaded", () => {
             manager.toggle(competenceId);
             const isFavorite = manager.has(competenceId);
 
+            // Afficher un toast de confirmation
+            if (isFavorite) {
+                window.toast.success('Compétence ajoutée aux favoris !');
+            } else {
+                window.toast.info('Compétence retirée des favoris');
+            }
+
             // BONUS 5 : Animation lors du toggle
             animateStar(star, isFavorite);
 
