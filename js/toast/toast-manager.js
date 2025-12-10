@@ -45,19 +45,23 @@ export class ToastManager {
     
     // BONUS 3: Obtenir ou créer un conteneur pour une position donnée
     getOrCreateContainer(position) {
+        // MOBILE (≤715px) : Forcer tous les toasts à utiliser la même position pour éviter la superposition
+        const isMobile = window.innerWidth <= 715;
+        const actualPosition = isMobile ? 'bottom-right' : position;
+        
         // Si le conteneur pour cette position existe déjà, le retourner
-        if (this.containers[position]) {
-            return this.containers[position];
+        if (this.containers[actualPosition]) {
+            return this.containers[actualPosition];
         }
         
         // Créer un nouveau conteneur pour cette position
         const container = document.createElement('div');
-        container.id = `toast-container-${position}`;
-        container.className = `toast-container toast-position-${position}`;
+        container.id = `toast-container-${actualPosition}`;
+        container.className = `toast-container toast-position-${actualPosition}`;
         document.body.appendChild(container);
         
         // Stocker dans le cache
-        this.containers[position] = container;
+        this.containers[actualPosition] = container;
         
         return container;
     }
