@@ -7191,6 +7191,15 @@ body.light .color-info-value {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
+  padding-top: 100px;
+  min-height: 100vh;
+  background: var(--background-general-dark);
+  color: var(--text-light);
+}
+
+body.light .stats-dashboard {
+  background: var(--background-general-light);
+  color: var(--text-dark);
 }
 
 .stats-header {
@@ -7201,12 +7210,21 @@ body.light .color-info-value {
 .stats-header h1 {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
-  color: var(--text-color);
+  color: var(--text-light);
+}
+
+body.light .stats-header h1 {
+  color: var(--text-dark);
 }
 
 .stats-subtitle {
   font-size: 1.1rem;
   opacity: 0.7;
+  color: var(--text-light);
+}
+
+body.light .stats-subtitle {
+  color: var(--text-dark);
 }
 
 /* Loading state */
@@ -7217,15 +7235,25 @@ body.light .color-info-value {
   justify-content: center;
   min-height: 400px;
   gap: 1rem;
+  color: var(--text-light);
+}
+
+body.light .stats-loading {
+  color: var(--text-dark);
 }
 
 .loading-spinner {
   width: 50px;
   height: 50px;
-  border: 4px solid rgba(255, 255, 255, 0.1);
-  border-top-color: var(--primary-color, #4a9eff);
+  border: 4px solid var(--background-surface-dark);
+  border-top-color: var(--background-surface-light);
   border-radius: 50%;
   animation: spin 1s linear infinite;
+}
+
+body.light .loading-spinner {
+  border-color: var(--background-surface-light);
+  border-top-color: var(--background-surface-dark);
 }
 
 @keyframes spin {
@@ -7237,23 +7265,64 @@ body.light .color-info-value {
 /* Stats grid */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 2rem;
   margin-bottom: 3rem;
 }
 
-/* Stat card */
-.stat-card {
-  background: var(--bg-secondary, rgba(255, 255, 255, 0.05));
-  border-radius: 12px;
+/* Chart section (card container) */
+.chart-section {
+  background: var(--background-moyen-dark);
+  border-radius: var(--radius-main);
   padding: 1.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-main);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chart-section:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+body.light .chart-section {
+  background: var(--background-moyen-light);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+body.light .chart-section:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Chart titles */
+.chart-section h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--background-surface-dark);
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+body.light .chart-section h3 {
+  border-bottom-color: var(--background-surface-light);
+  color: var(--text-dark);
+}
+
+/* Stat card (if used) */
+.stat-card {
+  background: var(--background-moyen-dark);
+  border-radius: var(--radius-main);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-main);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .stat-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
 .stat-card-header {
@@ -7262,7 +7331,7 @@ body.light .color-info-value {
   justify-content: space-between;
   margin-bottom: 1rem;
   padding-bottom: 0.75rem;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 2px solid var(--background-surface-dark);
 }
 
 .stat-card-title {
@@ -7271,6 +7340,7 @@ body.light .color-info-value {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  color: var(--text-light);
 }
 
 .stat-card-icon {
@@ -7280,7 +7350,7 @@ body.light .color-info-value {
 .stat-card-value {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--primary-color, #4a9eff);
+  color: var(--background-surface-light);
 }
 
 .stat-card-body {
@@ -7298,7 +7368,7 @@ body.light .color-info-value {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .bar-label {
@@ -7308,47 +7378,79 @@ body.light .color-info-value {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: var(--text-light);
+  text-transform: capitalize;
+}
+
+body.light .bar-label {
+  color: var(--text-dark);
 }
 
 .bar-wrapper {
   flex: 1;
-  height: 28px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 14px;
+  height: 26px;
+  background: var(--background-leger-dark);
+  border-radius: 13px;
   overflow: hidden;
   position: relative;
+}
+
+body.light .bar-wrapper {
+  background: var(--background-leger-light);
 }
 
 .bar-fill {
   height: 100%;
   background: linear-gradient(
     90deg,
-    var(--primary-color, #4a9eff),
-    var(--secondary-color, #7b61ff)
+    var(--background-surface-dark),
+    var(--background-surface-light)
   );
-  border-radius: 14px;
+  border-radius: 13px;
   transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
   width: 0; /* Animation starts from 0 */
+}
+
+body.light .bar-fill {
+  background: linear-gradient(
+    90deg,
+    var(--background-surface-light),
+    var(--background-surface-dark)
+  );
 }
 
 .bar-value {
   min-width: 40px;
   text-align: right;
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-light);
+}
+
+body.light .bar-value {
+  color: var(--text-dark);
 }
 
 /* GitHub section */
 .github-section {
   margin-top: 3rem;
   padding-top: 2rem;
-  border-top: 2px solid rgba(255, 255, 255, 0.1);
+  border-top: 2px solid var(--background-surface-dark);
+}
+
+body.light .github-section {
+  border-top-color: var(--background-surface-light);
 }
 
 .github-section h2 {
   font-size: 2rem;
   margin-bottom: 1.5rem;
   text-align: center;
+  color: var(--text-light);
+}
+
+body.light .github-section h2 {
+  color: var(--text-dark);
 }
 
 .github-stats {
@@ -7357,32 +7459,33 @@ body.light .color-info-value {
   gap: 1.5rem;
 }
 
-/* Light mode adjustments */
+/* Light mode adjustments for stat-card */
 body.light .stat-card {
-  background: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background: var(--background-moyen-light);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 body.light .stat-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
 body.light .stat-card-header {
-  border-bottom-color: rgba(0, 0, 0, 0.1);
+  border-bottom-color: var(--background-surface-light);
 }
 
-body.light .bar-wrapper {
-  background: rgba(0, 0, 0, 0.05);
+body.light .stat-card-title {
+  color: var(--text-dark);
 }
 
-body.light .github-section {
-  border-top-color: rgba(0, 0, 0, 0.1);
+body.light .stat-card-value {
+  color: var(--background-surface-dark);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .stats-dashboard {
     padding: 1rem;
+    padding-top: 90px;
   }
 
   .stats-header h1 {
@@ -7391,11 +7494,19 @@ body.light .github-section {
 
   .stats-grid {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 1.25rem;
   }
 
   .bar-label {
-    min-width: 80px;
+    min-width: 90px;
     font-size: 0.85rem;
+  }
+
+  .bar-wrapper {
+    height: 22px;
+  }
+
+  .chart-section {
+    padding: 1.25rem;
   }
 }
