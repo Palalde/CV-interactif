@@ -21,6 +21,12 @@ addEventListener("DOMContentLoaded", async () => {
     createBarChart(report.byPeriod, grid, "Compétences par Période");
     createBarChart(report.percentages, grid, "Pourcentage de Compétences avec/sans Lien");
 
+    // fetch et afficher les languages GitHub
+    const githubLanguages = await fetchGitHubLanguages("Palalde");
+    if (Object.keys(githubLanguages).length > 0) {
+        createBarChart(githubLanguages, grid, "Langages GitHub Utilisés");
+    }
+
     // conftion des graphiques (placeholders)
     function createBarChart(data, container, title) {
         // chart container
@@ -72,5 +78,38 @@ addEventListener("DOMContentLoaded", async () => {
         });
 
         container.appendChild(chartDiv);
+    }
+
+    // github api languages 
+    async function fetchGitHubLanguages(username) {
+        const url = `https://api.github.com/users/${username}/repos`;
+
+        try {
+            const response = await fetch(url);
+            
+            // verifier la reponse
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            // Json data
+            const repos = await response.json();
+            
+            // filtrer les repos qui ont des languages definis
+            const reposWithLanguages = repos.filter(repo => repo.language);
+
+            // compter les occurrences des languages
+            const languageCount = reposWithLanguages.reduce((acc, repo) => {
+                const lang = repo.language;
+                acc[lang] = (acc[lang] || 0) + 1;
+                return acc;
+            }, {});
+
+            return languageCount;
+        
+        } catch (error) {
+            console.error('Error fetching GitHub languages:', error);
+            return {};
+        }
     }
 });
