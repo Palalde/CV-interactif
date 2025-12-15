@@ -616,13 +616,13 @@ document.addEventListener("DOMContentLoaded", initDashboard);
 
 ### ✅ Test de validation
 
-- [ ] Les statistiques sont calculées correctement
-- [ ] Traitement asynchrone fonctionne (delay simulé)
-- [ ] Graphiques générés dynamiquement
-- [ ] Animations progressives des barres
-- [ ] GitHub API fetch fonctionne
-- [ ] Loading state visible pendant le traitement
-- [ ] `Promise.all()` utilisé pour paralléliser
+- [✅] Les statistiques sont calculées correctement
+- [✅] Traitement asynchrone fonctionne (delay simulé)
+- [✅] Graphiques générés dynamiquement
+- [✅] Animations progressives des barres
+- [✅] GitHub API fetch fonctionne
+- [✅] Loading state visible pendant le traitement
+- [✅] `Promise.all()` utilisé pour paralléliser
 
 ### 🎁 Bonus
 

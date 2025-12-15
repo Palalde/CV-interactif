@@ -7227,6 +7227,46 @@ body.light .stats-subtitle {
   color: var(--text-dark);
 }
 
+/* Stats actions (export buttons) */
+.stats-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.export-btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-small);
+  background: var(--background-surface-dark);
+  color: var(--text-light);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s, opacity 0.2s;
+}
+
+.export-btn:hover:not(:disabled) {
+  background: var(--background-moyen-dark);
+  transform: translateY(-2px);
+}
+
+.export-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+body.light .export-btn {
+  background: var(--background-surface-light);
+  color: var(--text-dark);
+}
+
+body.light .export-btn:hover:not(:disabled) {
+  background: var(--background-moyen-light);
+}
+
 /* Loading state */
 .stats-loading {
   display: flex;
