@@ -27,6 +27,14 @@ addEventListener("DOMContentLoaded", async () => {
         createBarChart(githubLanguages, grid, "Langages GitHub Utilisés");
     }
 
+    // activer le bouton d'export CSV
+    const exportBtn = document.getElementById("export-csv-btn");
+    exportBtn.disabled = false;
+    // ajouter l'event listener
+    exportBtn.addEventListener("click", () => {
+        exportToCSV(report.byCategory, "competences_by_category.csv");
+    });
+
     // conftion des graphiques (placeholders)
     function createBarChart(data, container, title) {
         // chart container
@@ -112,4 +120,31 @@ addEventListener("DOMContentLoaded", async () => {
             return {};
         }
     }
+
+    // export to CSV function
+    function exportToCSV(data, filename = 'stats.csv') {
+        // en-têtes CSV
+        let csvContent = "label,value\n";
+
+        // ajouter les données
+        Object.entries(data).forEach(([label, value]) => {
+            csvContent += `${label},${value}\n`;
+        });
+
+        // créer un blob et un lien de téléchargement
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        // url temporaire
+        const url = URL.createObjectURL(blob);
+        // lien invisible
+        const link = document.createElement("a");
+        link.href = url
+        link.download = filename;
+        // ajouter au DOM et cliquer
+        document.body.appendChild(link);
+        link.click();
+        // nettoyer
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    }
+
 });
