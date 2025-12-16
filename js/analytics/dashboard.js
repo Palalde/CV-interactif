@@ -35,6 +35,12 @@ addEventListener("DOMContentLoaded", async () => {
         exportToCSV(report.byCategory, "competences_by_category.csv");
     });
 
+    // canvas pie chart
+    const pieSection = document.getElementById("pie-chart-section");
+    pieSection.style.display = "block";
+    // camembert
+    createPieChart(report.byCategory, "pie-chart-canvas", "pie-chart-legend");
+
     // conftion des graphiques (placeholders)
     function createBarChart(data, container, title) {
         // chart container
@@ -147,4 +153,59 @@ addEventListener("DOMContentLoaded", async () => {
         URL.revokeObjectURL(url);
     }
 
+    // canvas camembert
+
+    function createPieChart(data, canvasId, legendId) {
+        const canvas = document.getElementById(canvasId);
+        const ctx = canvas.getContext("2d");
+        const legend = document.getElementById(legendId);
+
+        // dimensions et centre du cercle
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = Math.min(centerX, centerY) - 10;
+
+        // palette de couleurs
+        const colors = [
+            "#6c5ce7", "#00b894", "#fdcb6e", "#e17055", 
+            "#0984e3", "#d63031", "#00cec9", "#e84393"
+        ];
+
+        // calculer le total
+        const total = Object.values(data).reduce((sum, val) => sum + val, 0);
+
+        // dessiner les portions
+        let currentAngle = -Math.PI / 2;
+
+        Object.entries(data).forEach(([label, value], index) => {
+            // angle de la portion
+            const sliceAngle = (value / total) * 2 * Math.PI;
+
+            // colors
+            const color = colors[index % colors.length];
+
+            // dessiner la portion
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + sliceAngle);
+            ctx.closePath();
+            ctx.fill();
+
+            // mettre à jour l'angle courant
+            currentAngle += sliceAngle;
+            
+            // ajouter à la légende
+            const legendItem = document.createElement("div");
+            legendItem.className = "legend-item";
+            legendItem.innerHTML =`
+                <span class="legend-color" style="background: ${color}"></span>
+                <span class="legend-label">${label}</span>
+                <span class="legend-value">${value}</span>
+            `;
+          
+            legend.appendChild(legendItem);
+
+        });    
+    }
 });
