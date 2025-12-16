@@ -7550,3 +7550,73 @@ body.light .stat-card-value {
     padding: 1.25rem;
   }
 }
+
+/* Pie Chart Section */
+.pie-chart-section {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: var(--background-moyen-dark);
+  border-radius: var(--radius-main);
+  box-shadow: var(--shadow-main);
+}
+
+body.light .pie-chart-section {
+  background: var(--background-moyen-light);
+}
+
+.pie-chart-section h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--text-light);
+}
+
+body.light .pie-chart-section h2 {
+  color: var(--text-dark);
+}
+
+.pie-chart-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+#pie-chart-canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+.pie-chart-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  color: var(--text-light);
+}
+
+body.light .legend-item {
+  color: var(--text-dark);
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.legend-label {
+  text-transform: capitalize;
+}
+
+.legend-value {
+  font-weight: 600;
+  margin-left: auto;
+}
