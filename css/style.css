@@ -4326,6 +4326,7 @@ body.light .search-result-counter {
 /* =============================================
    LIGHTMODE
    ============================================= */
+html.light,
 body.light {
   background-color: var(--background-general-light);
 }
@@ -7671,4 +7672,277 @@ body.light .legend-item {
 .legend-value {
   font-weight: 600;
   margin-left: auto;
+}
+
+/* =============================================
+   GITHUB COMPARE SECTION
+   ============================================= */
+.github-compare-section {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: var(--background-moyen-dark);
+  border-radius: var(--radius-main);
+  box-shadow: var(--shadow-main);
+}
+
+body.light .github-compare-section {
+  background: var(--background-moyen-light);
+}
+
+.github-compare-section h2 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+  color: var(--text-light);
+}
+
+body.light .github-compare-section h2 {
+  color: var(--text-dark);
+}
+
+.compare-subtitle {
+  text-align: center;
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  opacity: 0.8;
+}
+
+body.light .compare-subtitle {
+  color: var(--text-dark);
+}
+
+/* Inputs container */
+.compare-inputs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.compare-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.compare-input-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-light);
+  text-align: center;
+}
+
+body.light .compare-input-group label {
+  color: var(--text-dark);
+}
+
+.compare-input {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background: var(--background-leger-dark);
+  color: var(--text-light);
+  font-size: 1rem;
+  width: 180px;
+  text-align: center;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+body.light .compare-input {
+  background: var(--background-leger-light);
+  color: var(--text-dark);
+}
+
+.compare-input:focus {
+  outline: none;
+  border-color: var(--count-color);
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+}
+
+.compare-input::placeholder {
+  color: var(--text-light);
+  opacity: 0.5;
+}
+
+body.light .compare-input::placeholder {
+  color: var(--text-dark);
+  opacity: 0.5;
+}
+
+/* VS separator */
+.compare-vs {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--count-color);
+  padding: 0.5rem;
+}
+
+/* Compare button */
+.compare-btn {
+  display: block;
+  margin: 0 auto 1.5rem;
+  padding: 0.875rem 2rem;
+  border-radius: 8px;
+  border: none;
+  background: var(--count-color);
+  color: var(--text-light);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.compare-btn:hover:not(:disabled) {
+  background: var(--accent-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+}
+
+.compare-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Compare results */
+.compare-results {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.compare-profile {
+  padding: 1.25rem;
+  background: var(--background-leger-dark);
+  border-radius: 12px;
+  border: 2px solid transparent;
+}
+
+body.light .compare-profile {
+  background: var(--background-leger-light);
+}
+
+.compare-profile.user1 {
+  border-color: var(--count-color);
+}
+
+.compare-profile.user2 {
+  border-color: var(--leclerc-accent);
+}
+
+.compare-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--text-light);
+}
+
+body.light .compare-profile-header {
+  border-bottom-color: var(--text-dark);
+}
+
+.compare-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.compare-username {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--text-light);
+}
+
+body.light .compare-username {
+  color: var(--text-dark);
+}
+
+.compare-lang-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.compare-lang-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.compare-lang-name {
+  min-width: 80px;
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+body.light .compare-lang-name {
+  color: var(--text-dark);
+}
+
+.compare-lang-bar {
+  flex: 1;
+  height: 20px;
+  background: var(--background-surface-dark);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+body.light .compare-lang-bar {
+  background: var(--background-surface-light);
+}
+
+.compare-lang-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.8s ease;
+}
+
+.compare-profile.user1 .compare-lang-fill {
+  background: var(--count-color);
+}
+
+.compare-profile.user2 .compare-lang-fill {
+  background: var(--leclerc-accent);
+}
+
+.compare-lang-count {
+  min-width: 30px;
+  text-align: right;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+body.light .compare-lang-count {
+  color: var(--text-dark);
+}
+
+/* Loading state for compare */
+.compare-loading {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-light);
+}
+
+body.light .compare-loading {
+  color: var(--text-dark);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .compare-inputs {
+    flex-direction: column;
+  }
+
+  .compare-vs {
+    margin: 0.5rem 0;
+  }
+
+  .compare-results {
+    grid-template-columns: 1fr;
+  }
 }

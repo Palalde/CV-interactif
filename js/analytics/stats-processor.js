@@ -77,4 +77,50 @@ export class StatsProcessor {
             timestamp: new Date().toISOString(),
         };
     }
+
+    // fetch GitHub languages
+    static async fetchGitHubLanguages(username) {
+        const url = `https://api.github.com/users/${username}/repos`;
+
+        try {
+            const response = await fetch(url);
+            
+            // verifier la reponse
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            // Json data
+            const repos = await response.json();
+            
+            // filtrer les repos qui ont des languages definis
+            const reposWithLanguages = repos.filter(repo => repo.language);
+
+            // compter les occurrences des languages
+            const languageCount = reposWithLanguages.reduce((acc, repo) => {
+                const lang = repo.language;
+                acc[lang] = (acc[lang] || 0) + 1;
+                return acc;
+            }, {});
+
+            return languageCount;
+        
+        } catch (error) {
+            console.error('Error fetching GitHub languages:', error);
+            return {};
+        }
+    }
+
+    // comperer des profils GitHub
+    static async compareGitHubProfiles(user1, user2) {
+        const [langs1, langs2] = await Promise.all([
+            StatsProcessor.fetchGitHubLanguages(user1),
+            StatsProcessor.fetchGitHubLanguages(user2),
+        ]);
+
+        return { 
+            user1 : { username: user1, languages: langs1 },
+            user2 : { username: user2, languages: langs2 }
+        };
+    }
 }
