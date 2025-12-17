@@ -78,12 +78,12 @@ export class StatsProcessor {
         };
     }
 
-    // fetch GitHub languages
+    // fetch GitHub languages (avec répartition détaillée par bytes)
     static async fetchGitHubLanguages(username) {
-        const url = `https://api.github.com/users/${username}/repos`;
+        const reposUrl = `https://api.github.com/users/${username}/repos`;
 
         try {
-            const response = await fetch(url);
+            const response = await fetch(reposUrl);
             
             // verifier la reponse
             if (!response.ok) {
@@ -93,17 +93,25 @@ export class StatsProcessor {
             // Json data
             const repos = await response.json();
             
-            // filtrer les repos qui ont des languages definis
-            const reposWithLanguages = repos.filter(repo => repo.language);
+            // Pour chaque repo, fetch les langages détaillés
+            const languagePromises = repos.map(repo => 
+                fetch(repo.languages_url)
+                    .then(res => res.ok ? res.json() : {})
+                    .catch(() => ({}))
+            );
 
-            // compter les occurrences des languages
-            const languageCount = reposWithLanguages.reduce((acc, repo) => {
-                const lang = repo.language;
-                acc[lang] = (acc[lang] || 0) + 1;
+            // Attendre toutes les réponses
+            const languagesArrays = await Promise.all(languagePromises);
+
+            // Agréger tous les bytes de tous les langages
+            const languageBytes = languagesArrays.reduce((acc, repoLangs) => {
+                Object.entries(repoLangs).forEach(([lang, bytes]) => {
+                    acc[lang] = (acc[lang] || 0) + bytes;
+                });
                 return acc;
             }, {});
 
-            return languageCount;
+            return languageBytes;
         
         } catch (error) {
             console.error('Error fetching GitHub languages:', error);

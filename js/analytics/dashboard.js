@@ -74,7 +74,13 @@ addEventListener("DOMContentLoaded", async () => {
          // fetch et afficher les languages GitHub (méthode static)
         const githubLanguages = await StatsProcessor.fetchGitHubLanguages("Palalde");
         if (Object.keys(githubLanguages).length > 0) {
-            createBarChart(githubLanguages, grid, "Langages GitHub Utilisés");
+            // Convertir les bytes en pourcentages
+            const totalBytes = Object.values(githubLanguages).reduce((sum, bytes) => sum + bytes, 0);
+            const languagePercentages = Object.entries(githubLanguages).reduce((acc, [lang, bytes]) => {
+                acc[lang] = Math.round((bytes / totalBytes) * 1000) / 10; // 1 décimale
+                return acc;
+            }, {});
+            createBarChart(languagePercentages, grid, "Langages GitHub Utilisés (%)");
         }
 
         // activer le bouton d'export CSV
@@ -334,9 +340,18 @@ addEventListener("DOMContentLoaded", async () => {
     });
 
     function displayComparisonResults(comparison) {
-        // trouver le max pour les barres 
-        const allLanguages = { ...comparison.user1.languages, ...comparison.user2.languages };
-        const maxCount = Math.max(...Object.values(allLanguages));
+        // Convertir les bytes en pourcentages pour chaque utilisateur
+        const convertToPercentages = (languageBytes) => {
+            const totalBytes = Object.values(languageBytes).reduce((sum, bytes) => sum + bytes, 0);
+            if (totalBytes === 0) return {};
+            return Object.entries(languageBytes).reduce((acc, [lang, bytes]) => {
+                acc[lang] = Math.round((bytes / totalBytes) * 1000) / 10; // 1 décimale
+                return acc;
+            }, {});
+        };
+
+        const user1Percentages = convertToPercentages(comparison.user1.languages);
+        const user2Percentages = convertToPercentages(comparison.user2.languages);
 
         // construire le HTML des résultats
         resultsContainer.innerHTML = `
@@ -350,7 +365,7 @@ addEventListener("DOMContentLoaded", async () => {
                     <span class="compare-username">${comparison.user1.username}</span>
                 </div>
                 <div class="compare-lang-list">
-                    ${createLanguageBars(comparison.user1.languages, maxCount)}
+                    ${createLanguageBars(user1Percentages)}
                 </div>
             </div>
             <div class="compare-profile user2">
@@ -363,25 +378,31 @@ addEventListener("DOMContentLoaded", async () => {
                     <span class="compare-username">${comparison.user2.username}</span>
                 </div>
                 <div class="compare-lang-list">
-                    ${createLanguageBars(comparison.user2.languages, maxCount)}
+                    ${createLanguageBars(user2Percentages)}
                 </div>
             </div>
         `;
     }
 
     // helper pour creer les barres de langages
-    function createLanguageBars(languages, maxCount) {
-        return Object.entries(languages)
-        .sort((a, b) => b[1] - a[1])  // Trier par count décroissant
-        .map(([lang, count]) => {
-            const percentage = (count / maxCount) * 100;
+    function createLanguageBars(languagePercentages) {
+        if (Object.keys(languagePercentages).length === 0) {
+            return '<p class="no-languages">Aucun langage détecté</p>';
+        }
+
+        const maxPercentage = Math.max(...Object.values(languagePercentages));
+
+        return Object.entries(languagePercentages)
+        .sort((a, b) => b[1] - a[1])  // Trier par pourcentage décroissant
+        .map(([lang, percentage]) => {
+            const barWidth = (percentage / maxPercentage) * 100;
             return `
                 <div class="compare-lang-item">
                     <span class="compare-lang-name">${lang}</span>
                         <div class="compare-lang-bar">
-                            <div class="compare-lang-fill" style="width: ${percentage}%"></div>
+                            <div class="compare-lang-fill" style="width: ${barWidth}%"></div>
                         </div>
-                    <span class="compare-lang-count">${count}</span>
+                    <span class="compare-lang-count">${percentage}%</span>
                 </div>
             `;
         })
