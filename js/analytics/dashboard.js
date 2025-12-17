@@ -1,10 +1,7 @@
-// import the StatsProcessor if needed
-// import { StatsProcessor } from "./stats-processor.js"; 
+// import StatsProcessor pour utiliser la méthode static fetchGitHubLanguages
+import { StatsProcessor } from "./stats-processor.js"; 
 
 addEventListener("DOMContentLoaded", async () => {
-    // DOM elements
-    const loading = document.getElementById("stats-loading");
-    const grid = document.getElementById("stats-grid");
 
     // ========================================================================
     // REMPLACEMENT DU WORKER PAR LE PROCESSOR DIRECTEMENT DANS LE MAIN THREAD
@@ -60,6 +57,10 @@ addEventListener("DOMContentLoaded", async () => {
     statsWorker.onmessage = async function(event) {
         const report = event.data;
         console.log("Report from Worker:", report);
+        
+        // DOM elements
+        const loading = document.getElementById("stats-loading");
+        const grid = document.getElementById("stats-grid");
 
         // masquer le chargement et afficher la grille
         loading.style.display = "none";
@@ -70,8 +71,8 @@ addEventListener("DOMContentLoaded", async () => {
         createBarChart(report.byPeriod, grid, "Compétences par Période");
         createBarChart(report.percentages, grid, "Pourcentage de Compétences avec/sans Lien");
         
-         // fetch et afficher les languages GitHub
-        const githubLanguages = await fetchGitHubLanguages("Palalde");
+         // fetch et afficher les languages GitHub (méthode static)
+        const githubLanguages = await StatsProcessor.fetchGitHubLanguages("Palalde");
         if (Object.keys(githubLanguages).length > 0) {
             createBarChart(githubLanguages, grid, "Langages GitHub Utilisés");
         }
@@ -151,7 +152,6 @@ addEventListener("DOMContentLoaded", async () => {
             createPieChart(filteredReport.byCategory, "pie-chart-canvas", "pie-chart-legend");
         
         });
-
     };
 
     // confection des graphiques (placeholders)
@@ -205,39 +205,6 @@ addEventListener("DOMContentLoaded", async () => {
         });
 
         container.appendChild(chartDiv);
-    }
-
-    // github api languages 
-    async function fetchGitHubLanguages(username) {
-        const url = `https://api.github.com/users/${username}/repos`;
-
-        try {
-            const response = await fetch(url);
-            
-            // verifier la reponse
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            // Json data
-            const repos = await response.json();
-            
-            // filtrer les repos qui ont des languages definis
-            const reposWithLanguages = repos.filter(repo => repo.language);
-
-            // compter les occurrences des languages
-            const languageCount = reposWithLanguages.reduce((acc, repo) => {
-                const lang = repo.language;
-                acc[lang] = (acc[lang] || 0) + 1;
-                return acc;
-            }, {});
-
-            return languageCount;
-        
-        } catch (error) {
-            console.error('Error fetching GitHub languages:', error);
-            return {};
-        }
     }
 
     // export to CSV function
@@ -320,5 +287,104 @@ addEventListener("DOMContentLoaded", async () => {
             legend.appendChild(legendItem);
 
         });    
+    }
+
+    // comparer deux profils github
+    // DOM elements
+    const compareBtn = document.getElementById("compare-btn");
+    const User1Input = document.getElementById("compare-user1")
+    const User2Input = document.getElementById("compare-user2")
+
+    // compare button state update
+    function updateCompareButtonState() {
+        const user1 = User1Input.value.trim();
+        const user2 = User2Input.value.trim();
+        compareBtn.disabled = (user1 === "" || user2 === "");
+    }
+
+    // input event listeners
+    User1Input.addEventListener("input", updateCompareButtonState);
+    User2Input.addEventListener("input", updateCompareButtonState);
+
+    // initial state
+    updateCompareButtonState();
+
+    // Comparaison et affichage des résultats
+    const resultsContainer = document.getElementById("compare-results");
+
+    compareBtn.addEventListener("click", async () => {
+        // recuperer les usernames
+        const user1 = User1Input.value.trim();
+        const user2 = User2Input.value.trim();
+
+        // afficher un etat de chargement
+        compareBtn.disabled = true;
+        compareBtn.textContent = "⏳ Chargement...";
+        resultsContainer.style.display = "grid";
+        resultsContainer.innerHTML = '<div class="compare-loading">Récupération des données...</div>';
+
+        // appeler la méthode static de comparaison
+        const comparison = await StatsProcessor.compareGitHubProfiles(user1, user2);
+
+        // restaurer le bouton
+        compareBtn.disabled = false;
+        compareBtn.textContent = "🔍 Comparer les profils"
+        // afficher les résultats
+        displayComparisonResults(comparison);
+    });
+
+    function displayComparisonResults(comparison) {
+        // trouver le max pour les barres 
+        const allLanguages = { ...comparison.user1.languages, ...comparison.user2.languages };
+        const maxCount = Math.max(...Object.values(allLanguages));
+
+        // construire le HTML des résultats
+        resultsContainer.innerHTML = `
+            <div class="compare-profile user1">
+                <div class="compare-profile-header">
+                    <img 
+                        class="compare-avatar" 
+                        src="https://github.com/${comparison.user1.username}.png" 
+                        alt="Avatar"
+                    />
+                    <span class="compare-username">${comparison.user1.username}</span>
+                </div>
+                <div class="compare-lang-list">
+                    ${createLanguageBars(comparison.user1.languages, maxCount)}
+                </div>
+            </div>
+            <div class="compare-profile user2">
+                <div class="compare-profile-header">
+                    <img 
+                        class="compare-avatar" 
+                        src="https://github.com/${comparison.user2.username}.png" 
+                        alt="Avatar"
+                    />
+                    <span class="compare-username">${comparison.user2.username}</span>
+                </div>
+                <div class="compare-lang-list">
+                    ${createLanguageBars(comparison.user2.languages, maxCount)}
+                </div>
+            </div>
+        `;
+    }
+
+    // helper pour creer les barres de langages
+    function createLanguageBars(languages, maxCount) {
+        return Object.entries(languages)
+        .sort((a, b) => b[1] - a[1])  // Trier par count décroissant
+        .map(([lang, count]) => {
+            const percentage = (count / maxCount) * 100;
+            return `
+                <div class="compare-lang-item">
+                    <span class="compare-lang-name">${lang}</span>
+                        <div class="compare-lang-bar">
+                            <div class="compare-lang-fill" style="width: ${percentage}%"></div>
+                        </div>
+                    <span class="compare-lang-count">${count}</span>
+                </div>
+            `;
+        })
+        .join("");
     }
 });

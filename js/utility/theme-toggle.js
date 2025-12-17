@@ -86,6 +86,7 @@ const themeToggleMock = document.getElementById('theme-toggle-mock');
 // Function to apply theme
 function applyTheme(isLight) {
   document.body.classList.toggle('light', isLight);
+  document.documentElement.classList.toggle('light', isLight);
   updateNavIcons(isLight);
   if (themeToggle) themeToggle.checked = isLight;
   if (themeToggleMock) themeToggleMock.checked = isLight;
