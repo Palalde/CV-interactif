@@ -5604,11 +5604,13 @@ body.light .favorites-badge:hover {
    FAVORITES PAGE
    ============================================= */
 
-/* Stable viewport height */
+/* Stable viewport height - flex pour occuper l'espace restant sans forcer le scroll */
 .favorites-page-container {
-  min-height: calc(var(--app-vh, 1vh) * 100);
-  padding-top: 10px;
-  padding-bottom: 3rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 100px; /* Espace pour le header fixe */
+  padding-bottom: 2rem;
   background: var(--background-general-dark);
   transition: background 0.3s ease;
 }
@@ -5618,9 +5620,13 @@ body.light .favorites-page-container {
 }
 
 .favorites-page-content {
+  flex: 1;
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Header section */
@@ -5962,7 +5968,7 @@ body.light .favorite-card-link:hover {
 /* Responsive adjustments */
 @media (max-width: 715px) {
   .favorites-page-container {
-    padding-top: 120px;
+    padding-top: 80px;
   }
 
   .favorites-page-title {
@@ -5985,7 +5991,7 @@ body.light .favorite-card-link:hover {
 
 @media (max-width: 430px) {
   .favorites-page-container {
-    padding-top: 100px;
+    padding-top: 70px;
   }
 
   .favorites-page-title {

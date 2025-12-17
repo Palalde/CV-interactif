@@ -149,6 +149,17 @@ addEventListener("DOMContentLoaded", async () => {
             createBarChart(filteredReport.byCategory, grid, "Compétences par Catégorie");
             createBarChart(filteredReport.byPeriod, grid, "Compétences par Période");
             createBarChart(filteredReport.percentages, grid, "Pourcentage de Compétences avec/sans Lien");
+            // recréer le graphique des langages GitHub
+            if (Object.keys(githubLanguages).length > 0) {
+                // Convertir les bytes en pourcentages
+                const totalBytes = Object.values(githubLanguages).reduce((sum, bytes) => sum + bytes, 0);
+                const languagePercentages = Object.entries(githubLanguages).reduce((acc, [lang, bytes]) => {
+                    acc[lang] = Math.round((bytes / totalBytes) * 1000) / 10; // 1 décimale
+                    return acc;
+                }, {});
+            
+                createBarChart(languagePercentages, grid, "Langages GitHub Utilisés (%)");
+            }
             // camembert mis a jour
             // vider le canvas
             const canvas = document.getElementById("pie-chart-canvas");
