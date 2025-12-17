@@ -65,6 +65,16 @@
             📥 Exporter en CSV
           </button>
         </div>
+
+        <!-- Filtres par période -->
+        <div class="stats-filters" id="stats-filters">
+          <span class="filter-label">Filtrer par période :</span>
+          <button class="filter-btn active" data-period="all">Toutes</button>
+          <button class="filter-btn" data-period="etudes">Études</button>
+          <button class="filter-btn" data-period="trading">Trading</button>
+          <button class="filter-btn" data-period="leclerc">Leclerc</button>
+          <button class="filter-btn" data-period="dev">Dev</button>
+        </div>
       </header>
 
       <!-- Zone de chargement -->
@@ -79,7 +89,11 @@
       </div>
 
       <!-- Section Pie Chart -->
-      <section class="pie-chart-section" id="pie-chart-section" style="display: none">
+      <section
+        class="pie-chart-section"
+        id="pie-chart-section"
+        style="display: none"
+      >
         <h2>🥧 Répartition des compétences</h2>
         <div class="pie-chart-container">
           <canvas id="pie-chart-canvas" width="300" height="300"></canvas>

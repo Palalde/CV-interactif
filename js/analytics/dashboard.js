@@ -1,47 +1,160 @@
-import { StatsProcessor } from "./stats-processor.js";
+// import the StatsProcessor if needed
+// import { StatsProcessor } from "./stats-processor.js"; 
 
 addEventListener("DOMContentLoaded", async () => {
     // DOM elements
     const loading = document.getElementById("stats-loading");
     const grid = document.getElementById("stats-grid");
 
-    // processor instance de window global competences
-    const processor = new StatsProcessor(window.CV_COMPETENCES || []);
+    // ========================================================================
+    // REMPLACEMENT DU WORKER PAR LE PROCESSOR DIRECTEMENT DANS LE MAIN THREAD
+    // ========================================================================
+    // // processor instance de window global competences 
+    // const processor = new StatsProcessor(window.CV_COMPETENCES || []);
 
-    // generer le rapport
-    const report = await processor.generateFullReport();
-    console.log("Generated Report:", report);
+    // // generer le rapport
+    // const report = await processor.generateFullReport();
+    // console.log("Generated Report:", report);
 
-    // masquer le chargement et afficher la grille
-    loading.style.display = "none";
-    grid.style.display = "grid";
+    // // masquer le chargement et afficher la grille
+    // loading.style.display = "none";
+    // grid.style.display = "grid";
 
-    // creer les graphiques
-    createBarChart(report.byCategory, grid, "Compétences par Catégorie");
-    createBarChart(report.byPeriod, grid, "Compétences par Période");
-    createBarChart(report.percentages, grid, "Pourcentage de Compétences avec/sans Lien");
+    // // creer les graphiques
+    // createBarChart(report.byCategory, grid, "Compétences par Catégorie");
+    // createBarChart(report.byPeriod, grid, "Compétences par Période");
+    // createBarChart(report.percentages, grid, "Pourcentage de Compétences avec/sans Lien");
 
-    // fetch et afficher les languages GitHub
-    const githubLanguages = await fetchGitHubLanguages("Palalde");
-    if (Object.keys(githubLanguages).length > 0) {
-        createBarChart(githubLanguages, grid, "Langages GitHub Utilisés");
-    }
+    // // fetch et afficher les languages GitHub
+    // const githubLanguages = await fetchGitHubLanguages("Palalde");
+    // if (Object.keys(githubLanguages).length > 0) {
+    //     createBarChart(githubLanguages, grid, "Langages GitHub Utilisés");
+    // }
 
-    // activer le bouton d'export CSV
-    const exportBtn = document.getElementById("export-csv-btn");
-    exportBtn.disabled = false;
-    // ajouter l'event listener
-    exportBtn.addEventListener("click", () => {
-        exportToCSV(report.byCategory, "competences_by_category.csv");
-    });
+    // // activer le bouton d'export CSV
+    // const exportBtn = document.getElementById("export-csv-btn");
+    // exportBtn.disabled = false;
+    // // ajouter l'event listener
+    // exportBtn.addEventListener("click", () => {
+    //     exportToCSV(report.byCategory, "competences_by_category.csv");
+    // });
 
-    // canvas pie chart
-    const pieSection = document.getElementById("pie-chart-section");
-    pieSection.style.display = "block";
-    // camembert
-    createPieChart(report.byCategory, "pie-chart-canvas", "pie-chart-legend");
+    // // canvas pie chart
+    // const pieSection = document.getElementById("pie-chart-section");
+    // pieSection.style.display = "block";
+    // // camembert
+    // createPieChart(report.byCategory, "pie-chart-canvas", "pie-chart-legend");
 
-    // conftion des graphiques (placeholders)
+    // // filtrer par periodes
+    // // recuperer le conteneur des filtres
+    // const periodFilterContainer = document.getElementById("stats-filters");
+    // ========================================================================
+
+    // creer le worker
+    const statsWorker = new Worker("../js/analytics/stats-worker.js", { type: "module" });
+
+    // envoyer les competences au worker
+    statsWorker.postMessage(window.CV_COMPETENCES || []);
+
+    // attendre la reponse du worker
+    statsWorker.onmessage = async function(event) {
+        const report = event.data;
+        console.log("Report from Worker:", report);
+
+        // masquer le chargement et afficher la grille
+        loading.style.display = "none";
+        grid.style.display = "grid";
+
+        // creer les graphiques
+        createBarChart(report.byCategory, grid, "Compétences par Catégorie");
+        createBarChart(report.byPeriod, grid, "Compétences par Période");
+        createBarChart(report.percentages, grid, "Pourcentage de Compétences avec/sans Lien");
+        
+         // fetch et afficher les languages GitHub
+        const githubLanguages = await fetchGitHubLanguages("Palalde");
+        if (Object.keys(githubLanguages).length > 0) {
+            createBarChart(githubLanguages, grid, "Langages GitHub Utilisés");
+        }
+
+        // activer le bouton d'export CSV
+        const exportBtn = document.getElementById("export-csv-btn");
+        exportBtn.disabled = false;
+        // ajouter l'event listener
+        exportBtn.addEventListener("click", () => {
+            exportToCSV(report.byCategory, "competences_by_category.csv");
+        });
+
+        // canvas pie chart
+        const pieSection = document.getElementById("pie-chart-section");
+        pieSection.style.display = "block";
+        // camembert
+        createPieChart(report.byCategory, "pie-chart-canvas", "pie-chart-legend");
+
+        // filtrer par periodes
+        // recuperer le conteneur des filtres
+        const periodFilterContainer = document.getElementById("stats-filters");
+
+        // event delegation sur le conteneur 
+        periodFilterContainer.addEventListener("click", async (event) => {
+            // verifier si c'est une checkbox
+            if (!event.target.classList.contains("filter-btn")) return;
+
+            // recuperer la periode depuis data-period
+            const period= event.target.dataset.period;
+
+            // mettre a jour la periode active
+            document.querySelectorAll(".filter-btn").forEach(btn => {
+                btn.classList.remove("active");
+            });
+            event.target.classList.add("active");
+
+            // filtrer les competences
+            let filteredCompetences;
+            if (period === "all") {
+                filteredCompetences = window.CV_COMPETENCES;
+            } else {
+                filteredCompetences = window.CV_COMPETENCES.filter(comp => comp.periode === period);
+            }
+
+            // ====================================================================
+            // REPLACEMENT DU PROCESSOR DIRECTEMENT DANS LE MAIN THREAD
+            // ====================================================================
+            // // recalculer avec un nouveau processor 
+            // const filteredProcessor = new StatsProcessor(filteredCompetences);
+            // const filteredReport = await filteredProcessor.generateFullReport();
+            // ====================================================================
+
+            // recalculer avec le worker
+            // envoyer les competences filtrées au worker
+            statsWorker.postMessage(filteredCompetences);
+            // attendre la reponse du worker
+            const filteredReport = await new Promise((resolve) => {
+                statsWorker.onmessage = function(event) {
+                    resolve(event.data);
+                };
+            });
+
+            // vider les conteneurs
+            grid.innerHTML = "";
+            document.getElementById("pie-chart-legend").innerHTML = "";
+
+            // recréer les graphiques
+            createBarChart(filteredReport.byCategory, grid, "Compétences par Catégorie");
+            createBarChart(filteredReport.byPeriod, grid, "Compétences par Période");
+            createBarChart(filteredReport.percentages, grid, "Pourcentage de Compétences avec/sans Lien");
+            // camembert mis a jour
+            // vider le canvas
+            const canvas = document.getElementById("pie-chart-canvas");
+            const ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // recreer le camembert
+            createPieChart(filteredReport.byCategory, "pie-chart-canvas", "pie-chart-legend");
+        
+        });
+
+    };
+
+    // confection des graphiques (placeholders)
     function createBarChart(data, container, title) {
         // chart container
         const chartDiv = document.createElement("div");
