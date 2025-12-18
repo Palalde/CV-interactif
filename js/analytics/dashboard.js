@@ -56,7 +56,6 @@ addEventListener("DOMContentLoaded", async () => {
     // attendre la reponse du worker
     statsWorker.onmessage = async function(event) {
         const report = event.data;
-        console.log("Report from Worker:", report);
         
         // DOM elements
         const loading = document.getElementById("stats-loading");
