@@ -87,7 +87,14 @@ export class StatsProcessor {
             
             // verifier la reponse
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                // Déterminer le type d'erreur
+                let errorMessage = `Erreur ${response.status}`;
+                if (response.status === 403) {
+                    errorMessage = `Limite API GitHub atteinte. Réessayez dans quelques minutes.`;
+                } else if (response.status === 404) {
+                    errorMessage = `Utilisateur "${username}" introuvable.`;
+                }
+                return { data: {}, error: { status: response.status, message: errorMessage } };
             }
 
             // Json data
@@ -111,24 +118,30 @@ export class StatsProcessor {
                 return acc;
             }, {});
 
-            return languageBytes;
+            return { data: languageBytes, error: null };
         
         } catch (error) {
             console.error('Error fetching GitHub languages:', error);
-            return {};
+            return { data: {}, error: { status: 0, message: 'Erreur réseau. Vérifiez votre connexion.' } };
         }
     }
 
     // comperer des profils GitHub
     static async compareGitHubProfiles(user1, user2) {
-        const [langs1, langs2] = await Promise.all([
+        const [result1, result2] = await Promise.all([
             StatsProcessor.fetchGitHubLanguages(user1),
             StatsProcessor.fetchGitHubLanguages(user2),
         ]);
 
+        // Collecter les erreurs
+        const errors = [];
+        if (result1.error) errors.push(result1.error);
+        if (result2.error) errors.push(result2.error);
+
         return { 
-            user1 : { username: user1, languages: langs1 },
-            user2 : { username: user2, languages: langs2 }
+            user1: { username: user1, languages: result1.data },
+            user2: { username: user2, languages: result2.data },
+            errors: errors
         };
     }
 }

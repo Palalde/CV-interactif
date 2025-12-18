@@ -71,11 +71,17 @@ addEventListener("DOMContentLoaded", async () => {
         createBarChart(report.percentages, grid, "Pourcentage de Compétences avec/sans Lien");
         
          // fetch et afficher les languages GitHub (méthode static)
-        const githubLanguages = await StatsProcessor.fetchGitHubLanguages("Palalde");
-        if (Object.keys(githubLanguages).length > 0) {
+        const githubResult = await StatsProcessor.fetchGitHubLanguages("Palalde");
+        
+        // Afficher erreur si présente
+        if (githubResult.error) {
+            window.toast?.error(githubResult.error.message, 5000);
+        }
+        
+        if (Object.keys(githubResult.data).length > 0) {
             // Convertir les bytes en pourcentages
-            const totalBytes = Object.values(githubLanguages).reduce((sum, bytes) => sum + bytes, 0);
-            const languagePercentages = Object.entries(githubLanguages).reduce((acc, [lang, bytes]) => {
+            const totalBytes = Object.values(githubResult.data).reduce((sum, bytes) => sum + bytes, 0);
+            const languagePercentages = Object.entries(githubResult.data).reduce((acc, [lang, bytes]) => {
                 acc[lang] = Math.round((bytes / totalBytes) * 1000) / 10; // 1 décimale
                 return acc;
             }, {});
@@ -341,6 +347,13 @@ addEventListener("DOMContentLoaded", async () => {
 
         // appeler la méthode static de comparaison
         const comparison = await StatsProcessor.compareGitHubProfiles(user1, user2);
+
+        // Afficher les erreurs via toast
+        if (comparison.errors && comparison.errors.length > 0) {
+            comparison.errors.forEach(err => {
+                window.toast?.error(err.message, 5000);
+            });
+        }
 
         // restaurer le bouton
         compareBtn.disabled = false;
