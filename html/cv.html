@@ -146,6 +146,29 @@
             <span class="nav-icon icon-stats main">📊</span>
             <span class="nav-icon icon-stats second">📈</span>
           </a>
+          <!-- Navigation History Controls -->
+          <div class="nav-history-controls">
+            <button
+              type="button"
+              class="nav-history-btn"
+              id="nav-back"
+              title="Précédent (Alt+←)"
+              aria-label="Retour à la période précédente"
+              disabled
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              class="nav-history-btn"
+              id="nav-forward"
+              title="Suivant (Alt+→)"
+              aria-label="Aller à la période suivante"
+              disabled
+            >
+              →
+            </button>
+          </div>
           <label class="theme-switch" id="theme-switch">
             <input type="checkbox" id="theme-toggle" />
             <span class="slider">
@@ -248,6 +271,33 @@
               <span class="hamburger-icon">📊</span>
               <span class="hamburger-menu-label">Statistiques</span>
             </a>
+            <!-- Navigation History Controls (Mobile) -->
+            <div class="hamburger-menu-item nav-history-controls-mobile">
+              <span class="hamburger-icon">🕐</span>
+              <span class="hamburger-menu-label">Historique</span>
+              <div class="nav-history-btns-mobile">
+                <button
+                  type="button"
+                  class="nav-history-btn-mobile"
+                  id="nav-back-mobile"
+                  title="Précédent"
+                  aria-label="Retour à la période précédente"
+                  disabled
+                >
+                  ←
+                </button>
+                <button
+                  type="button"
+                  class="nav-history-btn-mobile"
+                  id="nav-forward-mobile"
+                  title="Suivant"
+                  aria-label="Aller à la période suivante"
+                  disabled
+                >
+                  →
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

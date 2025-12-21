@@ -7952,3 +7952,122 @@ body.light .compare-loading {
     grid-template-columns: 1fr;
   }
 }
+
+/* =============================================
+   EXERCICE 9 : NAVIGATION HISTORY CONTROLS
+   ============================================= */
+
+/* Desktop: Boutons ← → dans la navbar */
+.nav-history-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: 8px;
+}
+
+.nav-history-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--radius-small);
+  background: var(--background-surface-dark);
+  color: var(--text-light);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, opacity 0.2s, transform 0.15s;
+}
+
+.nav-history-btn:hover:not(:disabled) {
+  background: var(--accent-color);
+  color: white;
+  transform: scale(1.05);
+}
+
+.nav-history-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.nav-history-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Light mode */
+body.light .nav-history-btn {
+  background: var(--background-surface-light);
+  color: var(--text-dark);
+}
+
+body.light .nav-history-btn:hover:not(:disabled) {
+  background: var(--accent-color);
+  color: white;
+}
+
+/* Masquer sur mobile (≤1000px) - on utilise la version hamburger */
+@media (max-width: 1000px) {
+  .nav-history-controls {
+    display: none;
+  }
+}
+
+/* Mobile: Version hamburger menu */
+.nav-history-controls-mobile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  width: 100%;
+  background: transparent;
+  border: none;
+  cursor: default;
+}
+
+.nav-history-btns-mobile {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.nav-history-btn-mobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: var(--radius-small);
+  background: var(--background-surface-dark);
+  color: var(--text-light);
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, opacity 0.2s, transform 0.15s;
+}
+
+.nav-history-btn-mobile:hover:not(:disabled) {
+  background: var(--accent-color);
+  color: white;
+}
+
+.nav-history-btn-mobile:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.nav-history-btn-mobile:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+body.light .nav-history-btn-mobile {
+  background: var(--background-surface-light);
+  color: var(--text-dark);
+}
+
+body.light .nav-history-btn-mobile:hover:not(:disabled) {
+  background: var(--accent-color);
+  color: white;
+}
