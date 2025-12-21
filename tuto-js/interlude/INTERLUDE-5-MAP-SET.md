@@ -111,30 +111,38 @@ function isValid(id) {
 // 1. Crée une fonction qui retourne les éléments uniques de 2 arrays combinés
 function union(arr1, arr2) {
   // TON CODE
+  return [...new Set([...arr1, ...arr2])];
   // Exemple : union([1,2,3], [3,4,5]) → [1,2,3,4,5]
 }
 
 // 2. Crée une fonction qui retourne les éléments communs à 2 arrays
 function intersection(arr1, arr2) {
   // TON CODE
+  const set1 = new Set(arr1);
+  return arr2.filter((item) => set1.has(item));
   // Exemple : intersection([1,2,3], [2,3,4]) → [2,3]
 }
 
 // 3. Créer un système de favoris avec Set
 class FavoritesManager {
   constructor() {
-    this.favorites = /* TON CODE */;
+    this.favorites = new Set();
   }
 
   toggle(id) {
     // Si présent → retirer, sinon → ajouter
+    return this.favorites.has(id)
+      ? this.favorites.delete(id)
+      : this.favorites.add(id);
   }
 
   has(id) {
+    return this.favorites.has(id);
     // Vérifier si l'id est dans les favoris
   }
 
   getAll() {
+    return [...this.favorites];
     // Retourner un array de tous les favoris
   }
 }
@@ -333,37 +341,56 @@ expensiveCalculation(5); // "Cache hit!" → 25
 // 1. Créer un compteur de mots
 function wordCount(text) {
   // Utilise une Map pour compter chaque mot
-  // Exemple : wordCount("hello world hello") → Map { "hello" => 2, "world" => 1 }
+  const words = text.toLowerCase().split(" ");
+  const countMap = new Map();
+  for (const word of words) {
+    countMap.set(word, (countMap.get(word) || 0) + 1);
+  }
+  return countMap;
 }
 
 // 2. Grouper des items par catégorie (avec Map)
 const items = [
   { name: "JS", category: "Langages" },
   { name: "React", category: "Frameworks" },
-  { name: "CSS", category: "Langages" }
+  { name: "CSS", category: "Langages" },
 ];
 // Résultat : Map {
 //   "Langages" => [{ name: "JS", ... }, { name: "CSS", ... }],
 //   "Frameworks" => [{ name: "React", ... }]
 // }
+function groupByCategory(items) {
+  const categoryMap = new Map();
+  for (const item of items) {
+    const category = item.category;
+    if (!categoryMap.has(category)) {
+      categoryMap.set(category, []);
+    }
+    categoryMap.get(category).push(item);
+  }
+  return categoryMap;
+}
 
 // 3. Créer un index bidirectionnel (id → user et email → user)
 class UserIndex {
   constructor() {
-    this.byId = /* TON CODE */;
-    this.byEmail = /* TON CODE */;
+    this.byId = new Map();
+    this.byEmail = new Map();
   }
 
   add(user) {
-    // Ajouter dans les 2 Maps
+    this.byId.set(user.id, user);
+    this.byEmail.set(user.email, user);
   }
 
   getById(id) {
     // Récupérer par ID
+    return this.byId.get(id);
   }
 
   getByEmail(email) {
     // Récupérer par email
+    return this.byEmail.get(email);
   }
 }
 ```
@@ -586,10 +613,12 @@ const reversed = [...arr].reverse(); // [3, 2, 1] (copie puis reverse)
 // 1. Ajouter une propriété à un objet SANS le muter
 const user = { name: "Paul", age: 25 };
 // Crée newUser avec { name: "Paul", age: 25, city: "Paris" }
+const newUser = { ...user, city: "Paris" };
 
 // 2. Retirer une propriété d'un objet SANS le muter
 const product = { id: 1, name: "Laptop", price: 1000 };
 // Crée productWithoutPrice sans la propriété price
+const { price, ...productWithoutPrice } = product;
 
 // 3. Mettre à jour un élément dans un array SANS le muter
 const users = [
@@ -598,10 +627,13 @@ const users = [
   { id: 3, name: "Luc" },
 ];
 // Change le nom de l'utilisateur id=2 en "Maria"
+const updatedUsers = users.map((u) =>
+  u.id === 2 ? { ...u, name: "Maria" } : u
+);
 
 // 4. Toggle un élément dans un array (ajouter si absent, retirer si présent)
 function toggleInArray(arr, item) {
-  // TON CODE (sans muter arr)
+  return arr.includes(item) ? arr.filter((x) => x !== item) : [...arr, item];
 }
 console.log(toggleInArray([1, 2, 3], 2)); // [1, 3]
 console.log(toggleInArray([1, 2, 3], 4)); // [1, 2, 3, 4]
@@ -725,9 +757,11 @@ const uniqueCompetences = [...new Set(window.CV_COMPETENCES.map((c) => c.nom))];
 
 ```javascript
 // Question 1 : Quelle est la différence entre Set et Array ?
+// un set ne contient que des valeurs uniques, pas d'index
 
 // Question 2 : Quelle est la taille de ce Set ?
 const set = new Set([1, 2, 2, 3, 3, 3]);
+// 1 2 3 => 3
 
 // Question 3 : Que retourne ce code ?
 const map = new Map([
@@ -735,20 +769,25 @@ const map = new Map([
   [2, "b"],
 ]);
 console.log(map.get(2));
+// b
 
 // Question 4 : Ce code mute-t-il l'objet original ?
 const obj = { a: 1 };
 const newObj = { ...obj, b: 2 };
 console.log(obj);
+// Non, { a: 1 } (obj n'est pas muté)
 
 // Question 5 : Comment convertir un Set en Array ?
+const mySet = new Set([1, 2, 3]);
+// [...set] ou Array.from(set)
 
 // Question 6 : Quel est l'avantage de WeakMap sur Map ?
+// WeakMap permet au garbage collector de nettoyer les clés malgré leur présence dans la map mais ne permet pas l'itération ni la connaissance de la taille. il est donc utile pour stocker des données privées associées à des objets sans empêcher leur collecte par le garbage collector.
 
 // Question 7 : Corrige ce code pour éviter la mutation
 const numbers = [1, 2, 3];
-numbers.push(4);
-console.log(numbers); // Ne doit pas être muté
+const newNumbers = [...numbers, 4];
+console.log(newNumbers); // Ne doit pas être muté
 ```
 
 <details>
@@ -789,6 +828,12 @@ console.log(newNumbers); // [1, 2, 3, 4]
 | Données privées d'objets DOM | **WeakMap**     | Garbage collection automatique |
 | Liste ordonnée               | **Array**       | Ordre important                |
 | Objet simple                 | **Object `{}`** | JSON sérialisable              |
+
+pourquoi on utilise plus souvent array et objet ? :
+
+- Array est simple et intuitif pour les listes ordonnées
+- Objet est facile à utiliser pour des structures simples et sérialisables en JSON
+- il faudrait cependant privilégier Set et Map quand les besoins spécifiques se présentent (unicité, performance, clarté)
 
 ---
 
