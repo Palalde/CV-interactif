@@ -392,13 +392,13 @@ window.navigateTimelineToPeriode = function (periode) {
 
 ### ✅ Test de validation
 
-- [ ] Chaque navigation est enregistrée
-- [ ] Boutons ← → fonctionnent correctement
-- [ ] Les boutons se désactivent aux extrémités
-- [ ] Pas de doublons consécutifs
-- [ ] sessionStorage persiste pendant la session
-- [ ] BroadcastChannel synchronise entre onglets
-- [ ] State machine gère les états correctement
+- [✅] Chaque navigation est enregistrée
+- [✅] Boutons ← → fonctionnent correctement
+- [✅] Les boutons se désactivent aux extrémités
+- [✅] Pas de doublons consécutifs
+- [✅] sessionStorage persiste pendant la session
+- [✅] BroadcastChannel synchronise entre onglets
+- [✅] State machine gère les états correctement
 
 ### 🎁 Bonus
 
