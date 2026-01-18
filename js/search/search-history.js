@@ -1,54 +1,56 @@
 import { getHistory, addToHistory } from "../utility/history.js";
 
 // Storage constants
-const STORAGE_KEY = 'search-history';
+const STORAGE_KEY = "search-history";
 const MAX_HISTORY_SIZE = 8;
 
 export function addToSearchHistory(query) {
-    return addToHistory(query, STORAGE_KEY, MAX_HISTORY_SIZE); //appel addToHistory
+  return addToHistory(query, STORAGE_KEY, MAX_HISTORY_SIZE); //appel addToHistory
 }
 
 function getSearchHistory() {
-    return getHistory(STORAGE_KEY); //appel getHistory
+  return getHistory(STORAGE_KEY); //appel getHistory
 }
 
 // create history block element
 export function createHistoryBlock() {
-    const history = getSearchHistory(); //appel getSearchHistory
-    
-    if (history.length === 0) return null;
+  const history = getSearchHistory(); //appel getSearchHistory
 
-    // block
-    const block = document.createElement('div');
-    block.className = 'search-history-block';
+  if (history.length === 0) return null;
 
-    //content
-    const title = document.createElement('h4');
-    title.className = 'search-history-title';
-    title.textContent = 'Recherches récentes';
-    block.appendChild(title);
+  // block
+  const block = document.createElement("div");
+  block.className = "search-history-block";
 
-    const list = document.createElement('ul');
-    list.className = 'search-history-list';
+  //content
+  const title = document.createElement("h4");
+  title.className = "search-history-title";
+  title.textContent = "Recherches récentes";
+  block.appendChild(title);
 
-    // terms
-    history.forEach(term => {
-        const item = document.createElement('li');
-        item.className = 'search-history-item';
-        item.textContent = term;
-        item.setAttribute('role', 'button');
-        item.setAttribute('tabindex', '0');
+  const list = document.createElement("ul");
+  list.className = "search-history-list";
 
-        // click event 
-        item.addEventListener('click', () => {
-            const event = new CustomEvent('history-search', { detail: { query: term } });
-            document.dispatchEvent(event);
-        });
+  // terms
+  history.forEach((term) => {
+    const item = document.createElement("li");
+    item.className = "search-history-item";
+    item.textContent = term;
+    item.setAttribute("role", "button");
+    item.setAttribute("tabindex", "0");
 
-        list.appendChild(item);
+    // click event
+    item.addEventListener("click", () => {
+      const event = new CustomEvent("history-search", {
+        detail: { query: term },
+      });
+      document.dispatchEvent(event);
     });
 
-    block.appendChild(list);
+    list.appendChild(item);
+  });
 
-    return block;       
+  block.appendChild(list);
+
+  return block;
 }

@@ -4,12 +4,12 @@
 // - Non-blocking: runs only on index (body.landing) and pauses when tab hidden
 
 (function () {
-  if (!document.body.classList.contains('landing')) return;
+  if (!document.body.classList.contains("landing")) return;
   // Force animations to work on all devices (removed prefers-reduced-motion check)
   const prefersReduced = false;
-  const canvas = document.getElementById('animated-bg');
+  const canvas = document.getElementById("animated-bg");
   if (!canvas) return;
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
 
   // DPR-aware sizing
   function sizeCanvas() {
@@ -17,43 +17,43 @@
     const rect = { w: window.innerWidth, h: window.innerHeight };
     canvas.width = Math.max(1, Math.floor(rect.w * dpr));
     canvas.height = Math.max(1, Math.floor(rect.h * dpr));
-    canvas.style.width = rect.w + 'px';
-    canvas.style.height = rect.h + 'px';
+    canvas.style.width = rect.w + "px";
+    canvas.style.height = rect.h + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // reset and scale to dpr
   }
 
   // Colors based on theme
   function getTheme() {
-    const light = document.body.classList.contains('light');
+    const light = document.body.classList.contains("light");
     return light
       ? {
-          bg: '#ecf0f7',
-          code: 'rgba(26,26,46,0.45)',
-          codeStrong: 'rgba(26,26,46,0.65)',
-          grid: 'rgba(0,0,0,0.06)',
-          chartUp: 'rgba(59,130,246,0.7)',
-          chartDown: 'rgba(239,68,68,0.6)',
-          fruit: 'rgba(34,139,34,0.45)'
+          bg: "#ecf0f7",
+          code: "rgba(26,26,46,0.45)",
+          codeStrong: "rgba(26,26,46,0.65)",
+          grid: "rgba(0,0,0,0.06)",
+          chartUp: "rgba(59,130,246,0.7)",
+          chartDown: "rgba(239,68,68,0.6)",
+          fruit: "rgba(34,139,34,0.45)",
         }
       : {
-          bg: '#151b2d',
-          code: 'rgba(231,231,231,0.4)',
-          codeStrong: 'rgba(231,231,231,0.65)',
-          grid: 'rgba(255,255,255,0.07)',
-          chartUp: 'rgba(99,179,237,0.8)',
-          chartDown: 'rgba(239,83,80,0.75)',
-          fruit: 'rgba(191,219,139,0.55)'
+          bg: "#151b2d",
+          code: "rgba(231,231,231,0.4)",
+          codeStrong: "rgba(231,231,231,0.65)",
+          grid: "rgba(255,255,255,0.07)",
+          chartUp: "rgba(99,179,237,0.8)",
+          chartDown: "rgba(239,83,80,0.75)",
+          fruit: "rgba(191,219,139,0.55)",
         };
   }
 
   // Motif A: typing code lines
   const codeSnippets = [
     'const slider = document.getElementById("myRange");',
-    'function snap(v){ return Math.round(v/50)*50; }',
+    "function snap(v){ return Math.round(v/50)*50; }",
     'updateNavIcons(document.body.classList.contains("light"));',
     'createTradingChart("#trading-live-chart");',
-    'window.setTradingPhaseTexts([...]);',
-    'cloneCompetencesToMobile();'
+    "window.setTradingPhaseTexts([...]);",
+    "cloneCompetencesToMobile();",
   ];
   let codeLines = [];
   function initCode() {
@@ -62,7 +62,7 @@
       y: 60 + i * 28,
       text: codeSnippets[i % codeSnippets.length],
       progress: Math.random(),
-      speed: 2 + Math.random() * 0.6
+      speed: 2 + Math.random() * 0.6,
     }));
   }
 
@@ -82,13 +82,18 @@
     }
     return pts;
   }
-  let chartPtsUp = [], chartPtsDown = [], chartProgress = 0;
+  let chartPtsUp = [],
+    chartPtsDown = [],
+    chartProgress = 0;
 
   // Motif C: floating emojis (fruits/veggies)
-  const fruitSet = ['🍎', '🍌', '🍇', '🍓', '🥑', '🥕', '🍊'];
+  const fruitSet = ["🍎", "🍌", "🍇", "🍓", "🥑", "🥕", "🍊"];
   let floaters = [];
   function initFloaters() {
-    const count = Math.max(6, Math.floor((window.innerWidth * window.innerHeight) / 160000));
+    const count = Math.max(
+      6,
+      Math.floor((window.innerWidth * window.innerHeight) / 160000),
+    );
     const used = [];
     floaters = new Array(count).fill(0).map(() => {
       const emoji = fruitSet[Math.floor(Math.random() * fruitSet.length)];
@@ -124,20 +129,25 @@
   function drawCode(theme, dt) {
     const t = theme;
     ctx.save();
-    ctx.font = '12px ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace';
-    ctx.textBaseline = 'top';
+    ctx.font =
+      '12px ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace';
+    ctx.textBaseline = "top";
     codeLines.forEach((line, idx) => {
       if (!prefersReduced) {
         line.progress += line.speed * dt * 0.5;
         if (line.progress > line.text.length + 12) {
-          line.text = codeSnippets[(Math.floor(Math.random() * codeSnippets.length))];
+          line.text =
+            codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
           line.progress = 0;
         }
       } else {
         // Static lines in reduced motion mode
         line.progress = line.text.length;
       }
-      const shown = Math.max(0, Math.min(line.text.length, Math.floor(line.progress)));
+      const shown = Math.max(
+        0,
+        Math.min(line.text.length, Math.floor(line.progress)),
+      );
       const x = 24 + (idx % 2) * 14;
       const text = line.text.slice(0, shown);
       ctx.fillStyle = t.code;
@@ -155,7 +165,7 @@
   function drawChart(theme, dt) {
     chartProgress += dt * 0.6;
     if (chartProgress > 1.2) chartProgress = 0;
-  const t = theme;
+    const t = theme;
     const maxIndex = Math.floor(chartPtsUp.length * Math.min(1, chartProgress));
     ctx.save();
     // up trend
@@ -171,7 +181,9 @@
     // down trend
     ctx.strokeStyle = t.chartDown;
     ctx.beginPath();
-    const maxIdx2 = Math.floor(chartPtsDown.length * Math.max(0, Math.min(1, chartProgress - 0.2)));
+    const maxIdx2 = Math.floor(
+      chartPtsDown.length * Math.max(0, Math.min(1, chartProgress - 0.2)),
+    );
     for (let i = 0; i < maxIdx2; i++) {
       const p = chartPtsDown[i];
       if (i === 0) ctx.moveTo(p.x, p.y);
@@ -183,8 +195,8 @@
 
   function drawFloaters(theme, dt) {
     ctx.save();
-    floaters.forEach(f => {
-      f.y -= (f.speed * dt);
+    floaters.forEach((f) => {
+      f.y -= f.speed * dt;
       f.x += Math.sin((f.y + f.phase) * 0.02) * 0.6; // gentle horizontal sway
       if (f.y < -20) {
         f.y = window.innerHeight + 20;
@@ -225,7 +237,9 @@
     sizeCanvas();
     initCode();
     chartPtsUp = makeChartPts(window.innerWidth, window.innerHeight);
-    chartPtsDown = makeChartPts(window.innerWidth, window.innerHeight).map(p => ({ x: p.x, y: window.innerHeight - p.y }));
+    chartPtsDown = makeChartPts(window.innerWidth, window.innerHeight).map(
+      (p) => ({ x: p.x, y: window.innerHeight - p.y }),
+    );
     initFloaters();
   }
 
@@ -233,10 +247,13 @@
   const themeObserver = new MutationObserver(() => {
     // No need to rebuild; colors come from getTheme(); just repaint next frame
   });
-  themeObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  themeObserver.observe(document.body, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
 
   // Pause when hidden
-  document.addEventListener('visibilitychange', () => {
+  document.addEventListener("visibilitychange", () => {
     if (document.hidden) cancelAnimationFrame(rafId);
     else {
       last = performance.now();
@@ -248,13 +265,13 @@
   let resizeTimeout;
   let lastWidth = window.innerWidth;
   let lastHeight = window.innerHeight;
-  
-  window.addEventListener('resize', () => {
+
+  window.addEventListener("resize", () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
       const widthChanged = Math.abs(window.innerWidth - lastWidth) > 100;
       const heightChanged = Math.abs(window.innerHeight - lastHeight) > 150;
-      
+
       // Only rebuild if significant size change (not just mobile/tablet URL bar or keyboard)
       if (widthChanged || heightChanged) {
         lastWidth = window.innerWidth;
