@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Stats - Paul Alessandrini</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta
+      name="description"
+      content="Statistiques de Paul Alessandrini, développeur web."
+    />
+    <meta name="author" content="Paul Alessandrini" />
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Inter:400,600,700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- HEADER FIXE -->
+    <section class="fix-container">
+      <div class="header-row">
+        <!-- LOGO + TITRE -->
+        <div class="header-home-link" id="header-home-link">
+          <img
+            src="/img/nav-icon/darkmode/cv-blanc.png"
+            alt="Logo CV"
+            class="cv-logo"
+          />
+          <div class="main-title-group">
+            <span class="main-title main-title-paul">Paul</span>
+            <span class="main-title main-title-alessandrini">Alessandrini</span>
+          </div>
+        </div>
+        <!-- NAV -->
+        <nav class="navbar">
+          <label class="theme-switch" id="theme-switch">
+            <input type="checkbox" id="theme-toggle" />
+            <span class="slider">
+              <img
+                src="/img/nav-icon/lightmode/sun.png"
+                alt="Soleil"
+                class="icon sun"
+              />
+              <img
+                src="/img/nav-icon/darkmode/moon.png"
+                alt="Lune"
+                class="icon moon"
+              />
+            </span>
+          </label>
+        </nav>
+      </div>
+    </section>
+    <!-- Dashboard principal -->
+    <main class="stats-dashboard" id="stats-dashboard">
+      <header class="stats-header">
+        <h1>📊 Tableau de bord des compétences</h1>
+        <p class="stats-subtitle">
+          Analyse détaillée de votre parcours professionnel
+        </p>
+        <div class="stats-actions">
+          <button class="export-btn" id="export-csv-btn" disabled>
+            📥 Exporter en CSV
+          </button>
+        </div>
+
+        <!-- Filtres par période -->
+        <div class="stats-filters" id="stats-filters">
+          <span class="filter-label">Filtrer par période :</span>
+          <button class="filter-btn active" data-period="all">Toutes</button>
+          <button class="filter-btn" data-period="etudes">Études</button>
+          <button class="filter-btn" data-period="trading">Trading</button>
+          <button class="filter-btn" data-period="leclerc">Leclerc</button>
+          <button class="filter-btn" data-period="dev">Dev</button>
+        </div>
+      </header>
+
+      <!-- Zone de chargement -->
+      <div class="stats-loading" id="stats-loading">
+        <div class="loading-spinner"></div>
+        <p>Analyse des données en cours...</p>
+      </div>
+
+      <!-- Conteneur pour les statistiques -->
+      <div class="stats-grid" id="stats-grid" style="display: none">
+        <!-- Les stats seront injectées ici par JavaScript -->
+      </div>
+
+      <!-- Section Pie Chart -->
+      <section
+        class="pie-chart-section"
+        id="pie-chart-section"
+        style="display: none"
+      >
+        <h2>Répartition des compétences</h2>
+        <div class="pie-chart-container">
+          <canvas id="pie-chart-canvas" width="300" height="300"></canvas>
+          <div class="pie-chart-legend" id="pie-chart-legend"></div>
+        </div>
+      </section>
+
+      <!-- Section GitHub (optionnelle) -->
+      <section class="github-section" id="github-section" style="display: none">
+        <h2>Statistiques GitHub</h2>
+        <div class="github-stats" id="github-stats">
+          <!-- Stats GitHub injectées ici -->
+        </div>
+      </section>
+
+      <!-- Section Comparaison GitHub -->
+      <section class="github-compare-section" id="github-compare-section">
+        <h2>Comparer des profils GitHub</h2>
+        <p class="compare-subtitle">
+          Compare les langages utilisés entre deux développeurs
+        </p>
+
+        <div class="compare-inputs">
+          <!-- Input utilisateur 1 (toi, pré-rempli) -->
+          <div class="compare-input-group">
+            <label for="compare-user1">Profil 1</label>
+            <input
+              type="text"
+              id="compare-user1"
+              class="compare-input"
+              value="Palalde"
+              placeholder="Username GitHub"
+            />
+          </div>
+
+          <!-- VS -->
+          <span class="compare-vs">VS</span>
+
+          <!-- Input utilisateur 2 -->
+          <div class="compare-input-group">
+            <label for="compare-user2">Profil 2</label>
+            <input
+              type="text"
+              id="compare-user2"
+              class="compare-input"
+              placeholder="Username GitHub"
+            />
+          </div>
+        </div>
+
+        <!-- Bouton comparer -->
+        <button class="compare-btn" id="compare-btn" disabled>
+          🔍 Comparer les profils
+        </button>
+
+        <!-- Résultats de comparaison -->
+        <div class="compare-results" id="compare-results" style="display: none">
+          <!-- Résultats injectés par JS -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="/js/search/competences.js"></script>
+    <script src="/js/utility/theme-toggle.js"></script>
+    <script src="/js/main.js"></script>
+    <script type="module" src="/js/toast/toast-ui.js"></script>
+    <script
+      type="module"
+      src="/js/color-theme/color-theme-generator.js"
+    ></script>
+    <script type="module" src="/js/analytics/dashboard.js"></script>
+  </body>
+</html>

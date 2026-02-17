@@ -1,13 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <title>CV Interactif - Paul Alessandrini</title>
+    <title>Contact - info - Paul Alessandrini</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <meta
       name="description"
-      content="CV interactif de Paul Alessandrini, développeur web."
+      content="Contact de Paul Alessandrini, développeur web."
     />
     <meta name="author" content="Paul Alessandrini" />
     <!-- CSS -->
@@ -35,41 +35,7 @@
         </div>
         <!-- NAV -->
         <nav class="navbar">
-          <a
-            href="/html/cv.html"
-            target="_self"
-            class="contact-info-block"
-            title="CV"
-          >
-            <img
-              src="/img/nav-icon/darkmode/cv-blanc.png"
-              alt="Cv"
-              class="nav-icon icon-contact main"
-            />
-            <img
-              src="/img/nav-icon/lightmode/cv-noir.png"
-              alt="Cv"
-              class="nav-icon icon-contact second"
-            />
-          </a>
-          <a
-            href="cv-classique.pdf"
-            target="_blank"
-            class="classic-cv-block"
-            title="CV classique"
-          >
-            <img
-              src="/img/nav-icon/darkmode/pdf-blanc.png"
-              alt="CV PDF"
-              class="nav-icon icon-pdf main"
-            />
-            <img
-              src="/img/nav-icon/darkmode/pdf-bleu.png"
-              alt="CV PDF"
-              class="nav-icon icon-pdf second"
-            />
-          </a>
-          <label class="theme-switch">
+          <label class="theme-switch" id="theme-switch">
             <input type="checkbox" id="theme-toggle" />
             <span class="slider">
               <img
@@ -161,6 +127,12 @@
             </li>
           </ul>
           <div class="contact-links">
+            <img
+              src="/img/nav-icon/darkmode/contact-blanc.png"
+              alt="Email"
+              class="contact-icon social-icon email-link"
+              id="email-link"
+            />
             <a
               href="https://linkedin.com/in/paul-a-268a55339"
               target="_blank"
@@ -245,5 +217,10 @@
     <!-- FIXE A TOUTE LES PAGES -->
     <script src="/js/main.js"></script>
     <script src="/js/utility/theme-toggle.js"></script>
+    <script src="/js/utility/copy-email.js"></script>
+    <script
+      type="module"
+      src="/js/color-theme/color-theme-generator.js"
+    ></script>
   </body>
 </html>
