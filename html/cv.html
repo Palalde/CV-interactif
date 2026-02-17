@@ -28,7 +28,7 @@
       src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"
     ></script>
   </head>
-  <body>
+  <body class="cv-page">
     <!-- FIXE A TOUTE LES PAGES -->
     <section class="fix-container">
       <div class="header-row">
@@ -67,6 +67,21 @@
         </form>
         <!-- NAV -->
         <nav class="navbar">
+          <!-- Bouton hamburger (visible uniquement ≤1000px) -->
+          <button
+            type="button"
+            class="hamburger-btn"
+            id="hamburger-btn"
+            aria-label="Menu de navigation"
+            aria-expanded="false"
+            aria-controls="hamburger-menu"
+          >
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+
+          <!-- Liens navbar (masqués sur ≤1000px, affichés au-dessus) -->
           <a href="" target="" class="nav-search-btn" title="Search bar">
             <img
               src="/img/nav-icon/darkmode/loupe-blanc.png"
@@ -113,7 +128,48 @@
               class="nav-icon icon-pdf second"
             />
           </a>
-          <label class="theme-switch">
+          <button
+            type="button"
+            class="color-generator-block"
+            id="color-generator-btn"
+            title="Theme Color"
+          >
+            <span class="nav-icon icon-palette main">🎨</span>
+            <span class="nav-icon icon-palette second">🌈</span>
+          </button>
+          <a
+            href="/html/stats.html"
+            target="_self"
+            class="stats-block"
+            title="Statistiques"
+          >
+            <span class="nav-icon icon-stats main">📊</span>
+            <span class="nav-icon icon-stats second">📈</span>
+          </a>
+          <!-- Navigation History Controls -->
+          <div class="nav-history-controls">
+            <button
+              type="button"
+              class="nav-history-btn"
+              id="nav-back"
+              title="Précédent (Alt+←)"
+              aria-label="Retour à la période précédente"
+              disabled
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              class="nav-history-btn"
+              id="nav-forward"
+              title="Suivant (Alt+→)"
+              aria-label="Aller à la période suivante"
+              disabled
+            >
+              →
+            </button>
+          </div>
+          <label class="theme-switch" id="theme-switch">
             <input type="checkbox" id="theme-toggle" />
             <span class="slider">
               <img
@@ -129,6 +185,121 @@
             </span>
           </label>
         </nav>
+
+        <!-- Menu hamburger overlay (visible uniquement ≤1000px) -->
+        <div class="hamburger-menu" id="hamburger-menu" aria-hidden="true">
+          <div class="hamburger-menu-content">
+            <a
+              href=""
+              class="hamburger-menu-item nav-search-btn-mobile"
+              title="Rechercher"
+            >
+              <img
+                src="/img/nav-icon/darkmode/loupe-blanc.png"
+                alt=""
+                class="hamburger-icon icon-loupe main"
+              />
+              <img
+                src="/img/nav-icon/darkmode/loupe-bleu.png"
+                alt=""
+                class="hamburger-icon icon-loupe second"
+              />
+              <span class="hamburger-menu-label">Rechercher</span>
+            </a>
+            <a
+              href="/html/favoris.html"
+              class="hamburger-menu-item favorites-link-mobile"
+              id="favorites-badge-mobile"
+              title="Mes favoris"
+              style="display: none"
+            >
+              <span class="hamburger-icon">⭐</span>
+              <span class="hamburger-menu-label"
+                >Mes favoris (<span class="favorites-count">0</span>)</span
+              >
+            </a>
+            <a
+              href="/html/contact-info.html"
+              class="hamburger-menu-item contact-info-block-mobile"
+              title="Contact / Info"
+            >
+              <img
+                src="/img/nav-icon/darkmode/contact-blanc.png"
+                alt=""
+                class="hamburger-icon icon-contact main"
+              />
+              <img
+                src="/img/nav-icon/darkmode/contact-bleu.png"
+                alt=""
+                class="hamburger-icon icon-contact second"
+              />
+              <span class="hamburger-menu-label">Contact</span>
+            </a>
+            <a
+              href="cv-classique.pdf"
+              target="_blank"
+              class="hamburger-menu-item classic-cv-block-mobile"
+              title="CV classique"
+            >
+              <img
+                src="/img/nav-icon/darkmode/pdf-blanc.png"
+                alt=""
+                class="hamburger-icon icon-pdf main"
+              />
+              <img
+                src="/img/nav-icon/darkmode/pdf-bleu.png"
+                alt=""
+                class="hamburger-icon icon-pdf second"
+              />
+              <span class="hamburger-menu-label">CV PDF</span>
+            </a>
+            <button
+              type="button"
+              class="hamburger-menu-item color-generator-mobile"
+              id="color-generator-btn-mobile"
+              title="Générateur de couleurs"
+            >
+              <span class="hamburger-icon">🎨</span>
+              <span class="hamburger-menu-label">Générateur de couleurs</span>
+            </button>
+            <a
+              href="/html/stats.html"
+              target="_self"
+              class="hamburger-menu-item stats-block-mobile"
+              title="Statistiques"
+            >
+              <span class="hamburger-icon">📊</span>
+              <span class="hamburger-menu-label">Statistiques</span>
+            </a>
+            <!-- Navigation History Controls (Mobile) -->
+            <div class="hamburger-menu-item nav-history-controls-mobile">
+              <span class="hamburger-icon">🕐</span>
+              <span class="hamburger-menu-label">Historique</span>
+              <div class="nav-history-btns-mobile">
+                <button
+                  type="button"
+                  class="nav-history-btn-mobile"
+                  id="nav-back-mobile"
+                  title="Précédent"
+                  aria-label="Retour à la période précédente"
+                  disabled
+                >
+                  ←
+                </button>
+                <button
+                  type="button"
+                  class="nav-history-btn-mobile"
+                  id="nav-forward-mobile"
+                  title="Suivant"
+                  aria-label="Aller à la période suivante"
+                  disabled
+                >
+                  →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <!-- RANGE SLIDER -->
       <div class="range-slider-container">
@@ -420,52 +591,17 @@
           </button>
         </header>
         <div class="search-overlay-body">
-          <div
-            class="search-overlay-filters"
-            aria-label="Filtres de catégories"
-          >
-            <div class="search-filter-list" role="list">
-              <button
-                type="button"
-                class="search-filter-pill"
-                data-filter="soft-skills"
-                role="listitem"
-              >
-                Soft skills
-              </button>
-              <button
-                type="button"
-                class="search-filter-pill"
-                data-filter="hard-skills"
-                role="listitem"
-              >
-                Hard skills
-              </button>
-              <button
-                type="button"
-                class="search-filter-pill"
-                data-filter="frontend"
-                role="listitem"
-              >
-                Frontend
-              </button>
-              <button
-                type="button"
-                class="search-filter-pill"
-                data-filter="backend"
-                role="listitem"
-              >
-                Backend
-              </button>
-              <button
-                type="button"
-                class="search-filter-pill"
-                data-filter="projets"
-                role="listitem"
-              >
-                Projets
-              </button>
-            </div>
+          <!-- NOUVEAU : Section filtres -->
+          <div class="search-overlay-filters">
+            <button
+              type="button"
+              id="filter-favorites-only"
+              class="filter-btn"
+              aria-pressed="false"
+              title="Afficher uniquement les favoris"
+            >
+              ⭐ Favoris
+            </button>
           </div>
           <div class="search-overlay-results" aria-live="polite">
             <!-- TODO futur: grille de résultats -->
@@ -476,15 +612,203 @@
         </div>
       </div>
     </div>
+    <!-- Color Generator Modal -->
+    <div
+      class="color-generator-overlay"
+      id="color-generator-overlay"
+      aria-hidden="true"
+    >
+      <div
+        class="color-generator-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="color-generator-title"
+      >
+        <header class="color-generator-header">
+          <div class="color-generator-header-texts">
+            <h2 id="color-generator-title" class="color-generator-title">
+              🎨 Theme Color
+            </h2>
+            <p class="color-generator-description">
+              Rentrez une couleur pour l'analyser et générer un palette de theme
+            </p>
+          </div>
+          <button
+            type="button"
+            class="color-generator-close"
+            title="Fermer"
+            aria-label="Fermer"
+          >
+            ✕
+          </button>
+        </header>
+
+        <div class="color-generator-body">
+          <!-- Input section -->
+          <div class="color-input-section">
+            <label for="color-hex-input" class="color-input-label">
+              Choisissez une couleur ou entrez son code hex:
+            </label>
+            <div class="color-input-wrapper">
+              <input
+                type="color"
+                id="color-picker"
+                class="color-picker"
+                value="#3498db"
+                title="Choisir une couleur visuellement"
+              />
+              <span class="color-input-hash">#</span>
+              <input
+                type="text"
+                id="color-hex-input"
+                class="color-hex-input"
+                placeholder="3498db"
+                maxlength="6"
+                pattern="[0-9A-Fa-f]{6}"
+                autocomplete="off"
+              />
+              <button
+                type="button"
+                id="analyze-color-btn"
+                class="analyze-color-btn"
+              >
+                Analyser
+              </button>
+              <button
+                type="button"
+                id="random-color-btn"
+                class="random-color-btn"
+                title="Générer une couleur aléatoire"
+              >
+                🎲 Random
+              </button>
+            </div>
+          </div>
+          <!-- Loading state -->
+          <div class="color-loading" id="color-loading" style="display: none">
+            <div class="color-spinner"></div>
+            <p>Analyse en cours...</p>
+          </div>
+
+          <!-- Results section -->
+          <div class="color-results" id="color-results" style="display: none">
+            <!-- Color preview -->
+            <div class="color-preview" id="color-preview"></div>
+
+            <!-- Color info -->
+            <div class="color-info">
+              <div class="color-info-item">
+                <span class="color-info-label">Nom:</span>
+                <span class="color-info-value" id="color-name">-</span>
+              </div>
+              <div class="color-info-item">
+                <span class="color-info-label">Hex:</span>
+                <span class="color-info-value" id="color-hex">-</span>
+              </div>
+              <div class="color-info-item">
+                <span class="color-info-label">RGB:</span>
+                <span class="color-info-value" id="color-rgb">-</span>
+              </div>
+              <div class="color-info-item">
+                <span class="color-info-label">HSL:</span>
+                <span class="color-info-value" id="color-hsl">-</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Color Palette Section -->
+          <div class="color-palette" id="color-palette" style="display: none">
+            <div class="color-palette-header">
+              <h3 class="color-palette-title">🎨 Palette</h3>
+              <select id="palette-mode" class="palette-mode-select">
+                <option value="monochrome">Monochrome</option>
+                <option value="monochrome-dark">Monochrome sombre</option>
+                <option value="monochrome-light">Monochrome clair</option>
+                <option value="analogic">Analogique</option>
+                <option value="complement">Complémentaire</option>
+                <option value="analogic-complement">
+                  Analogique + Complément
+                </option>
+                <option value="triad">Triadique</option>
+                <option value="quad">Quadratique</option>
+              </select>
+            </div>
+            <div class="palette-colors" id="palette-colors">
+              <!-- Les couleurs de la palette seront insérées ici dynamiquement -->
+            </div>
+            <div class="palette-theme-actions">
+              <button
+                type="button"
+                id="apply-theme-btn"
+                class="palette-theme-btn apply-theme-btn"
+                title="Appliquer cette palette comme thème dark mode"
+              >
+                ✨ Appliquer au thème
+              </button>
+              <button
+                type="button"
+                id="reset-theme-btn"
+                class="palette-theme-btn reset-theme-btn"
+                title="Réinitialiser le thème par défaut"
+              >
+                🔄 Réinitialiser
+              </button>
+            </div>
+          </div>
+
+          <!-- Color History Section -->
+          <div class="color-history" id="color-history" style="display: none">
+            <div class="color-history-header">
+              <h3 class="color-history-title">📜 Historique</h3>
+              <button
+                type="button"
+                id="clear-history-btn"
+                class="clear-history-btn"
+                title="Effacer l'historique"
+              >
+                🗑️ Effacer
+              </button>
+            </div>
+            <div class="color-history-list" id="color-history-list">
+              <!-- Les couleurs de l'historique seront insérées ici dynamiquement -->
+            </div>
+            <p class="color-history-empty" id="color-history-empty">
+              Aucune couleur dans l'historique
+            </p>
+          </div>
+
+          <!-- Error state -->
+          <div class="color-error" id="color-error" style="display: none">
+            <span class="error-icon">⚠️</span>
+            <p class="error-message" id="error-message">
+              Une erreur est survenue
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- FIXE A TOUTE LES PAGES -->
     <script src="/js/search/competences.js"></script>
     <script src="/js/main.js"></script>
+    <script src="/js/navbar/hamburger-menu.js"></script>
     <script src="/js/utility/theme-toggle.js"></script>
     <script src="/js/utility/competences-mobile-toggle.js"></script>
     <script src="/js/trade/trade.js"></script>
     <script src="/js/leclerc/leclerc.js"></script>
-    <script src="/js/search/search-overlay.js"></script>
+    <script src="/js/utility/search-overlay-ui.js"></script>
     <!-- Loader for the Xterm console bundle (built via npm) -->
     <script src="/js/dev/console-loader.js"></script>
+    <!-- Exercices -->
+    <script src="/js/utility/click-counter.js"></script>
+    <script src="/js/utility/live-clock.js"></script>
+    <script type="module" src="/js/search/smart-filter.js"></script>
+    <script type="module" src="/js/favorites/favorites-ui.js"></script>
+    <script
+      type="module"
+      src="/js/color-theme/color-theme-generator.js"
+    ></script>
+    <script type="module" src="/js/toast/toast-ui.js"></script>
+    <script type="module" src="/js/nav-history/navigation-ui.js"></script>
   </body>
 </html>
