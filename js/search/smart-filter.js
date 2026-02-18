@@ -2,6 +2,7 @@ import { filterCompetences, debounce, displayResults } from "./search-util.js";
 import { addToSearchHistory } from "./search-history.js";
 import { initAutocomplete } from "./search-autocomplete.js";
 import { initFavoritesFilter } from "../favorites/filter-favorites.js";
+import { initCompetenceFilters } from "./filter-competences.js";
 import { FavoritesManager } from "../favorites/favorites-manager.js";
 
 // main search function
@@ -32,6 +33,12 @@ document.addEventListener("DOMContentLoaded", () => {
     performSearch(query); //appel performSearch
   });
 
+  // FILTRES PAR PÉRIODE / CATÉGORIE
+  const competenceFilters = initCompetenceFilters(() => {
+    const query = searchInput.value;
+    performSearch(query);
+  });
+
   // Si le filtre est actif, relancer la recherche quand on ajoute/retire un favori
   document.addEventListener("favorites-updated", (event) => {
     if (favoritesFilter && favoritesFilter.isActive()) {
@@ -44,25 +51,32 @@ document.addEventListener("DOMContentLoaded", () => {
   function performSearch(query) {
     let results;
 
-    // Si le filtre favoris est actif
-    if (favoritesFilter && favoritesFilter.isActive()) {
-      const favoritesIds = favoritesManager.getAll();
+    const hasCompetenceFilters =
+      competenceFilters && competenceFilters.isActive();
+    const hasFavoritesFilter = favoritesFilter && favoritesFilter.isActive();
 
-      // Si pas de query : afficher TOUS les favoris
-      if (!query || query.trim() === "") {
-        results = window.CV_COMPETENCES.filter((comp) =>
-          favoritesIds.includes(comp.id),
-        );
+    // Déterminer la base de résultats
+    if (!query || query.trim() === "") {
+      // Pas de query : afficher tout si un filtre est actif, sinon rien
+      if (hasFavoritesFilter || hasCompetenceFilters) {
+        results = [...window.CV_COMPETENCES];
+      } else {
+        results = [];
       }
-      // Si query présente : filtrer d'abord par texte, puis par favoris
-      else {
-        results = filterCompetences(query);
-        results = results.filter((comp) => favoritesIds.includes(comp.id));
-      }
-    }
-    // Sinon, recherche normale
-    else {
+    } else {
+      // Query présente : filtrer par texte
       results = filterCompetences(query);
+    }
+
+    // Appliquer filtre favoris
+    if (hasFavoritesFilter) {
+      const favoritesIds = favoritesManager.getAll();
+      results = results.filter((comp) => favoritesIds.includes(comp.id));
+    }
+
+    // Appliquer filtres période / catégorie
+    if (hasCompetenceFilters) {
+      results = competenceFilters.applyFilters(results);
     }
 
     // history (seulement si query non vide)

@@ -196,7 +196,9 @@ body.landing .header-row .header-home-link.brand-placeholder {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  transition: background 0.25s, transform 0.2s;
+  transition:
+    background 0.25s,
+    transform 0.2s;
   line-height: 1.1;
 }
 .landing-cta-link:hover {
@@ -293,7 +295,10 @@ body.light .landing-block.hero h1 {
   letter-spacing: 0.5px;
   cursor: pointer;
   text-decoration: none;
-  transition: background 0.3s, color 0.3s, transform 0.25s;
+  transition:
+    background 0.3s,
+    color 0.3s,
+    transform 0.25s;
   box-shadow: var(--shadow-main);
   border: 2px solid transparent;
 }
@@ -871,7 +876,9 @@ body {
   box-shadow: var(--shadow-main);
   margin-bottom: 10px;
   gap: 12px;
-  transition: padding 0.2s, min-height 0.2s;
+  transition:
+    padding 0.2s,
+    min-height 0.2s;
   position: relative;
   z-index: 1000;
 }
@@ -882,7 +889,9 @@ body {
   align-items: center;
   cursor: pointer;
   border-radius: var(--radius-main);
-  transition: background 0.15s, transform 0.18s cubic-bezier(0.4, 1.4, 0.6, 1);
+  transition:
+    background 0.15s,
+    transform 0.18s cubic-bezier(0.4, 1.4, 0.6, 1);
   flex-direction: row;
   will-change: transform;
 }
@@ -1040,7 +1049,9 @@ body {
   height: 24px;
   background: var(--background-surface-dark);
   border-radius: 50%;
-  transition: transform 0.3s, background 0.3s;
+  transition:
+    transform 0.3s,
+    background 0.3s;
   z-index: 1;
 }
 
@@ -1068,7 +1079,9 @@ body {
   font-size: 1rem;
   border-radius: var(--radius-small);
   padding: 7px 14px;
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
 }
 
 .header-row nav a:hover {
@@ -1210,7 +1223,10 @@ body.light .hamburger-btn:hover .hamburger-line {
   height: 3px;
   background: var(--text-light);
   border-radius: 2px;
-  transition: transform 0.3s ease, opacity 0.3s ease, background 0.2s;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease,
+    background 0.2s;
 }
 
 body.light .hamburger-line {
@@ -1243,7 +1259,9 @@ body.hamburger-menu-open .hamburger-line:nth-child(3) {
   z-index: 1001;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
 }
 
 body.light .hamburger-menu {
@@ -1288,7 +1306,10 @@ body.light .hamburger-menu-content {
   color: var(--text-light);
   font-weight: 600;
   font-size: 1.1rem;
-  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  transition:
+    background 0.3s ease,
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
   cursor: pointer;
   position: relative;
   border: none;
@@ -1320,7 +1341,9 @@ body.light .hamburger-menu-item:hover {
   height: 28px;
   object-fit: contain;
   flex-shrink: 0;
-  transition: opacity 0.15s, transform 0.2s ease;
+  transition:
+    opacity 0.15s,
+    transform 0.2s ease;
 }
 
 /* Animation des icônes au hover */
@@ -1480,7 +1503,10 @@ body.light .theme-switch-mobile .moon {
   border: 3px solid var(--background-surface-dark);
   box-shadow: 0 2px 6px rgba(30, 30, 60, 0.15);
   cursor: pointer;
-  transition: background 0.2s, border 0.2s, transform 0.15s;
+  transition:
+    background 0.2s,
+    border 0.2s,
+    transform 0.15s;
   position: relative;
 }
 
@@ -1510,7 +1536,10 @@ body.light .theme-switch-mobile .moon {
   border: 3px solid var(--background-surface-dark);
   box-shadow: 0 2px 6px rgba(30, 30, 60, 0.15);
   cursor: pointer;
-  transition: background 0.2s, border 0.2s, transform 0.15s;
+  transition:
+    background 0.2s,
+    border 0.2s,
+    transform 0.15s;
 }
 
 /* Edge/IE */
@@ -1524,7 +1553,10 @@ body.light .theme-switch-mobile .moon {
   border: 3px solid var(--background-surface-dark);
   box-shadow: 0 2px 6px rgba(30, 30, 60, 0.15);
   cursor: pointer;
-  transition: background 0.2s, border 0.2s, transform 0.15s;
+  transition:
+    background 0.2s,
+    border 0.2s,
+    transform 0.15s;
 }
 
 /* =============================================
@@ -1583,18 +1615,18 @@ body.light .theme-switch-mobile .moon {
 /* etudes */
 #etudes {
   background-color: var(--background-moyen-dark);
-  background-image: linear-gradient(
-      rgba(144, 202, 249, 0.2) 1px,
-      transparent 1px
-    ),
+  background-image:
+    linear-gradient(rgba(144, 202, 249, 0.2) 1px, transparent 1px),
     linear-gradient(90deg, rgba(144, 202, 249, 0.2) 1px, transparent 1px);
   background-size: 32px 32px;
   background-attachment: local;
   border-radius: var(--radius-main);
-  box-shadow: var(--shadow-main), 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    var(--shadow-main),
+    0 5px 15px rgba(0, 0, 0, 0.1);
   padding: 39px 20px;
-  font-family: "Indie Flower", cursive, "Comic Sans MS", "Segoe Script",
-    sans-serif;
+  font-family:
+    "Indie Flower", cursive, "Comic Sans MS", "Segoe Script", sans-serif;
   color: var(--text-light);
   line-height: 1.19;
   position: relative;
@@ -1767,7 +1799,9 @@ body.light .theme-switch-mobile .moon {
   top: auto;
   transform: translate(-50%, 50%);
   opacity: 0;
-  transition: opacity 0.28s ease, transform 0.28s ease;
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease;
   pointer-events: none;
   z-index: 5;
   padding: 10px 16px 12px;
@@ -2058,7 +2092,8 @@ body.light .trading-live-chart .press-hint {
     rgba(0, 0, 0, 0.12)
   );
   border: 2px dashed rgba(255, 255, 255, 0.2);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
     inset 0 -8px 16px rgba(0, 0, 0, 0.15);
   position: relative;
 }
@@ -2084,7 +2119,8 @@ body.light .trading-live-chart .press-hint {
 #leclerc .balance-plate.dropzone:hover,
 #leclerc .balance-plate.dropzone:focus-within {
   border-color: var(--leclerc-accent);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
     0 0 0 3px rgba(60, 140, 60, 0.15);
 }
 
@@ -2101,8 +2137,10 @@ body.light .trading-live-chart .press-hint {
   gap: 4px;
   padding: 10px 12px;
   color: var(--text-light);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    inset 0 -2px 8px rgba(0, 0, 0, 0.5), 0 4px 10px rgba(0, 0, 0, 0.25);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -2px 8px rgba(0, 0, 0, 0.5),
+    0 4px 10px rgba(0, 0, 0, 0.25);
   position: relative;
   overflow: hidden;
 }
@@ -2112,7 +2150,8 @@ body.light .trading-live-chart .press-hint {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(
+  background:
+    radial-gradient(
       120% 120% at 50% 0%,
       rgba(255, 255, 255, 0.08),
       rgba(255, 255, 255, 0) 60%
@@ -2141,7 +2180,9 @@ body.light .trading-live-chart .press-hint {
     #3ab83a 60%,
     #0a300a 100%
   );
-  box-shadow: 0 0 6px #68ff68, 0 0 12px rgba(104, 255, 104, 0.4);
+  box-shadow:
+    0 0 6px #68ff68,
+    0 0 12px rgba(104, 255, 104, 0.4);
 }
 
 #leclerc .balance-readout .balance-label {
@@ -2151,7 +2192,9 @@ body.light .trading-live-chart .press-hint {
   opacity: 0.8;
   color: #9ed39e;
   text-shadow: 0 0 3px rgba(152, 255, 152, 0.35);
-  font-feature-settings: "tnum" 1, "zero" 1;
+  font-feature-settings:
+    "tnum" 1,
+    "zero" 1;
 }
 
 #leclerc .balance-readout .balance-experience {
@@ -2160,10 +2203,14 @@ body.light .trading-live-chart .press-hint {
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: #bfffbf;
-  text-shadow: 0 0 6px #86ff86, 0 0 14px rgba(43, 229, 43, 0.45),
+  text-shadow:
+    0 0 6px #86ff86,
+    0 0 14px rgba(43, 229, 43, 0.45),
     0 0 24px rgba(43, 229, 43, 0.25);
   font-variant-numeric: tabular-nums;
-  font-feature-settings: "tnum" 1, "zero" 1;
+  font-feature-settings:
+    "tnum" 1,
+    "zero" 1;
 }
 
 #leclerc .balance-base {
@@ -2175,7 +2222,8 @@ body.light .trading-live-chart .press-hint {
     rgba(255, 255, 255, 0.18),
     rgba(0, 0, 0, 0.2)
   );
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25),
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
     inset 0 -2px 6px rgba(0, 0, 0, 0.3);
 }
 
@@ -2213,7 +2261,8 @@ body.light .trading-live-chart .press-hint {
   width: var(--ticket-w);
   margin: 6px auto 12px auto;
   padding: 14px 14px 46px 14px; /* bottom space for barcode */
-  background: repeating-linear-gradient(
+  background:
+    repeating-linear-gradient(
       90deg,
       rgba(0, 0, 0, 0.03) 0 1px,
       transparent 1px 5px
@@ -2221,9 +2270,11 @@ body.light .trading-live-chart .press-hint {
     linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
   color: #222;
   border-radius: 6px 6px 10px 10px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25),
+  box-shadow:
+    0 3px 10px rgba(0, 0, 0, 0.25),
     inset 0 0 0 1px rgba(0, 0, 0, 0.05);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono",
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono",
     "Courier New", monospace;
   line-height: 1.35;
   position: relative;
@@ -2254,7 +2305,8 @@ body.light .trading-live-chart .press-hint {
   right: 12px;
   bottom: 10px;
   height: 26px;
-  background: repeating-linear-gradient(
+  background:
+    repeating-linear-gradient(
       90deg,
       rgba(0, 0, 0, 0.88) 0 2px,
       transparent 2px 4px
@@ -2331,14 +2383,16 @@ body.light .trading-live-chart .press-hint {
 
 /* Light mode: keep paper white, maintain same contrast */
 body.light #leclerc .ticket {
-  background: repeating-linear-gradient(
+  background:
+    repeating-linear-gradient(
       90deg,
       rgba(0, 0, 0, 0.035) 0 1px,
       transparent 1px 5px
     ),
     linear-gradient(180deg, #ffffff 0%, #f7f7f7 100%);
   color: #222;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18),
+  box-shadow:
+    0 3px 10px rgba(0, 0, 0, 0.18),
     inset 0 0 0 1px rgba(0, 0, 0, 0.06);
 }
 #leclerc .fruit-list-container {
@@ -2436,7 +2490,9 @@ body.light #leclerc .balance-readout {
 
 body.light #leclerc .balance-readout .balance-experience {
   color: #1b5e1b;
-  text-shadow: 0 0 2px rgba(27, 94, 27, 0.25), 0 0 8px rgba(27, 94, 27, 0.15);
+  text-shadow:
+    0 0 2px rgba(27, 94, 27, 0.25),
+    0 0 8px rgba(27, 94, 27, 0.15);
 }
 
 body.light #leclerc .balance-base {
@@ -2462,7 +2518,9 @@ body.light #leclerc .ticket-output {
 #leclerc .fruit-item {
   background: var(--background-leger-dark);
   border-radius: 10px;
-  box-shadow: var(--shadow-main), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  box-shadow:
+    var(--shadow-main),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
   width: var(--fruit-size);
   height: var(--fruit-size); /* enforce square */
   display: flex;
@@ -2470,7 +2528,10 @@ body.light #leclerc .ticket-output {
   justify-content: center;
   cursor: grab;
   user-select: none;
-  transition: transform 0.16s ease, background 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.16s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
   flex: 0 0 auto; /* prevent shrinking/wrapping */
 }
 
@@ -2563,7 +2624,9 @@ body.light #leclerc .fruit-list-container {
 /* Lightmode variants for fruit list */
 body.light #leclerc .fruit-item {
   background: var(--background-leger-light);
-  box-shadow: var(--shadow-main), inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    var(--shadow-main),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.05);
 }
 
 /* Small accent dot + gentle underline for a clean, branded cue */
@@ -2792,7 +2855,8 @@ body.light #leclerc .fruit-item {
       rgba(255, 255, 255, 0.18),
       rgba(0, 0, 0, 0.2)
     );
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.25),
       inset 0 -2px 6px rgba(0, 0, 0, 0.3);
   }
 
@@ -2881,7 +2945,8 @@ body.light #leclerc .fruit-item {
   width: 100%;
   box-sizing: border-box;
   background: var(--background-general-dark, #0b0d16);
-  box-shadow: var(--shadow-main, 0 6px 24px rgba(0, 0, 0, 0.4)),
+  box-shadow:
+    var(--shadow-main, 0 6px 24px rgba(0, 0, 0, 0.4)),
     inset 0 0 0 1px rgba(255, 255, 255, 0.06);
   overflow: hidden;
 }
@@ -2899,7 +2964,8 @@ body.light #leclerc .fruit-item {
 /* Harmonize with theme toggle if body.light */
 body.light #dev-terminal {
   background: var(--background-general-light, #f7f7fb);
-  box-shadow: var(--shadow-main, 0 6px 24px rgba(0, 0, 0, 0.18)),
+  box-shadow:
+    var(--shadow-main, 0 6px 24px rgba(0, 0, 0, 0.18)),
     inset 0 0 0 1px rgba(0, 0, 0, 0.06);
 }
 
@@ -2913,7 +2979,9 @@ body.light #dev-terminal {
   background: var(--background-leger-dark);
   border: none;
   border-radius: var(--radius-main);
-  box-shadow: var(--shadow-main), inset 0 0 0 1px rgba(255, 255, 255, 0.07),
+  box-shadow:
+    var(--shadow-main),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.07),
     8px 8px 0 0 var(--background-general-dark);
   position: relative;
   display: flex;
@@ -2986,7 +3054,9 @@ body.light #dev-terminal {
   position: relative;
   background: var(--background-moyen-dark);
   border-radius: var(--radius-small);
-  transition: transform 0.2s, background-color 0.2s;
+  transition:
+    transform 0.2s,
+    background-color 0.2s;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -3034,7 +3104,9 @@ body.light #dev-terminal {
   padding: 2px 2px 0 2px;
   background: rgba(30, 30, 54, 0.98);
   border-radius: var(--radius-main) var(--radius-main) 0 0;
-  box-shadow: var(--shadow-main), inset 0 0 0 1px rgba(255, 255, 255, 0.07),
+  box-shadow:
+    var(--shadow-main),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.07),
     8px 8px 0 0 var(--background-general-dark);
   /* Slide animation: start closed (only le grab handle + titre visible) */
   --panel-collapsed-height: 44px; /* handle + titre approx */
@@ -3086,7 +3158,10 @@ body.light #dev-terminal {
   letter-spacing: 0.5px;
   color: var(--text-light);
   margin: 6px 0 4px 0;
-  transition: font-size 0.25s ease, padding 0.25s ease, opacity 0.25s ease;
+  transition:
+    font-size 0.25s ease,
+    padding 0.25s ease,
+    opacity 0.25s ease;
   /* Empêcher la sélection de texte sur la zone bouton / handle (mobile) */
   -webkit-user-select: none;
   -ms-user-select: none;
@@ -3130,7 +3205,9 @@ body.light #dev-terminal {
   padding-top: 0;
   padding-bottom: 0;
   overflow: hidden;
-  transition: opacity 0.25s ease 0.05s, max-height 0.3s ease;
+  transition:
+    opacity 0.25s ease 0.05s,
+    max-height 0.3s ease;
 }
 
 .competences-mobile-btn.open #competences-dynamiques {
@@ -3609,7 +3686,9 @@ body.light .download-overlay-close {
   gap: 0.6rem;
   padding: 0.75rem 1rem;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   color: var(--text-light);
   opacity: 0.85;
@@ -3704,7 +3783,10 @@ body.light .download-overlay-close {
   flex-direction: column;
   gap: 0.55rem;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
-  transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.15s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
   cursor: pointer;
 }
 
@@ -3787,7 +3869,10 @@ body.light .download-overlay-close {
   border: 1px solid rgba(94, 162, 255, 0.4);
   color: var(--text-light);
   text-decoration: none;
-  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .search-result-link:hover,
@@ -3909,7 +3994,8 @@ body.light .search-overlay-results {
   opacity: 0.86;
 }
 body.light .search-overlay-results::after {
-  box-shadow: inset 0 12px 18px -12px rgba(0, 0, 0, 0.18),
+  box-shadow:
+    inset 0 12px 18px -12px rgba(0, 0, 0, 0.18),
     inset 0 -12px 18px -12px rgba(0, 0, 0, 0.18);
 }
 body.light .search-overlay-placeholder {
@@ -4212,7 +4298,9 @@ body.light .search-result-counter {
   font-size: 1rem;
   padding: 8px 8px;
   outline: none;
-  transition: border 0.18s, background 0.18s;
+  transition:
+    border 0.18s,
+    background 0.18s;
   resize: none;
 }
 
@@ -4236,7 +4324,10 @@ body.light .search-result-counter {
   padding: 9px 0;
   cursor: pointer;
   box-shadow: var(--shadow-main);
-  transition: background 0.18s, color 0.18s, transform 0.18s;
+  transition:
+    background 0.18s,
+    color 0.18s,
+    transform 0.18s;
   margin-top: 4px;
   width: 50%;
 }
@@ -4438,7 +4529,8 @@ body.light .content-section {
 /* etudes lightmode*/
 body.light #etudes {
   background-color: var(--background-general-light);
-  background-image: linear-gradient(
+  background-image:
+    linear-gradient(
       color-mix(in srgb, var(--background-surface-dark) 15%, transparent) 1px,
       transparent 1px
     ),
@@ -4540,7 +4632,9 @@ body.light .competences-section {
   border-left-color: var(--background-surface-light);
   border-right-color: var(--background-surface-light);
   border-bottom-color: var(--background-surface-light);
-  box-shadow: var(--shadow-main), inset 0 0 0 1px rgba(0, 0, 0, 0.05),
+  box-shadow:
+    var(--shadow-main),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.05),
     0 0 0 1px var(--background-surface-light);
 }
 
@@ -4579,7 +4673,9 @@ body.light .item-competence::before {
 body.light .competences-mobile-btn {
   background: var(--background-leger-light);
   opacity: 0.98;
-  box-shadow: var(--shadow-main), inset 0 0 0 1px rgba(0, 0, 0, 0.05),
+  box-shadow:
+    var(--shadow-main),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.05),
     8px 8px 0 0 var(--background-general-light);
 }
 
@@ -4829,7 +4925,10 @@ body.light .form-group input:-webkit-autofill:active {
     border-radius: 14px;
     background-size: 36px 36px;
     transform-origin: center;
-    transition: background 0.2s, border 0.2s, transform 0.15s;
+    transition:
+      background 0.2s,
+      border 0.2s,
+      transform 0.15s;
   }
 
   .range-slider:hover::-webkit-slider-thumb,
@@ -4849,7 +4948,10 @@ body.light .form-group input:-webkit-autofill:active {
     border-radius: 14px;
     background-size: 36px 36px;
     transform-origin: center;
-    transition: background 0.2s, border 0.2s, transform 0.15s;
+    transition:
+      background 0.2s,
+      border 0.2s,
+      transform 0.15s;
   }
 
   .range-slider:hover::-moz-range-thumb,
@@ -4865,7 +4967,10 @@ body.light .form-group input:-webkit-autofill:active {
     border-radius: 14px;
     background-size: 36px 36px;
     transform-origin: center;
-    transition: background 0.2s, border 0.2s, transform 0.15s;
+    transition:
+      background 0.2s,
+      border 0.2s,
+      transform 0.15s;
   }
 
   .range-slider:hover::-ms-thumb,
@@ -5404,7 +5509,9 @@ body.light .greeting-text {
   pointer-events: none;
   z-index: 1000;
   opacity: 0;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
 /* Show state with smooth fade-in */
@@ -5480,7 +5587,9 @@ body.light .tooltip-success {
   font-size: 1.2rem;
   cursor: pointer;
   padding-bottom: 5.1px;
-  transition: transform 0.2s, color 0.3s ease;
+  transition:
+    transform 0.2s,
+    color 0.3s ease;
   color: var(--text-light);
   align-items: center;
   position: relative;
@@ -5548,7 +5657,10 @@ body.light .favorite-star {
   font-size: 0.75rem;
   font-weight: 700;
   order: -1;
-  transition: background 0.2s, transform 0.2s, border 0.2s;
+  transition:
+    background 0.2s,
+    transform 0.2s,
+    border 0.2s;
   position: relative;
   cursor: pointer;
   white-space: nowrap;
@@ -6018,7 +6130,20 @@ body.light .favorite-card-link:hover {
   padding-bottom: 0.5rem;
   display: flex;
   flex-wrap: wrap;
+  gap: 0.4rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.filter-separator {
+  width: 1px;
+  align-self: stretch;
+  margin: 0.15rem 0.25rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 1px;
+}
+
+body.light .filter-separator {
+  background: rgba(0, 0, 0, 0.12);
 }
 
 .filter-btn {
@@ -6078,6 +6203,23 @@ body.light .filter-btn[aria-pressed="true"]:hover {
   background: rgba(67, 56, 202, 0.2);
 }
 
+/* Mobile: boutons filtres plus compacts */
+@media (max-width: 714px) {
+  .search-overlay-filters {
+    gap: 0.3rem;
+    padding-bottom: 0.35rem;
+  }
+
+  .filter-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.78rem;
+  }
+
+  .filter-separator {
+    margin: 0.1rem 0.15rem;
+  }
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -6109,7 +6251,9 @@ body.light .filter-btn[aria-pressed="true"]:hover {
   justify-content: center;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
 }
 
 body.light .color-generator-overlay {
@@ -6201,7 +6345,9 @@ body.light .color-generator-description {
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
   z-index: 1;
 }
 
@@ -6267,7 +6413,9 @@ body.light .color-input-hash {
   border: 2px solid transparent;
   border-radius: 8px;
   color: var(--text-light);
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
   outline: none;
 }
 
@@ -6353,7 +6501,9 @@ body.light .color-picker:hover {
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
+  transition:
+    background 0.2s,
+    transform 0.1s;
   white-space: nowrap;
   height: 48px;
   display: flex;
@@ -7252,7 +7402,10 @@ body.light .stats-subtitle {
   background: var(--background-surface-dark);
   color: var(--text-light);
   cursor: pointer;
-  transition: background 0.2s, transform 0.2s, opacity 0.2s;
+  transition:
+    background 0.2s,
+    transform 0.2s,
+    opacity 0.2s;
 }
 
 .export-btn:hover:not(:disabled) {
@@ -7375,7 +7528,9 @@ body.light .loading-spinner {
   border-radius: var(--radius-main);
   padding: 1.5rem;
   box-shadow: var(--shadow-main);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .chart-section:hover {
@@ -7416,7 +7571,9 @@ body.light .chart-section h3 {
   border-radius: var(--radius-main);
   padding: 1.5rem;
   box-shadow: var(--shadow-main);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .stat-card:hover {
@@ -7753,7 +7910,9 @@ body.light .compare-input-group label {
   font-size: 1rem;
   width: 180px;
   text-align: center;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 body.light .compare-input {
@@ -7978,7 +8137,11 @@ body.light .compare-loading {
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s, opacity 0.2s, transform 0.15s;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    opacity 0.2s,
+    transform 0.15s;
 }
 
 .nav-history-btn:hover:not(:disabled) {
@@ -8045,7 +8208,11 @@ body.light .nav-history-btn:hover:not(:disabled) {
   font-size: 1.2rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s, opacity 0.2s, transform 0.15s;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    opacity 0.2s,
+    transform 0.15s;
 }
 
 .nav-history-btn-mobile:hover:not(:disabled) {
