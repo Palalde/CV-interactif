@@ -176,13 +176,13 @@ addEventListener("DOMContentLoaded", async () => {
         "Pourcentage de Compétences avec/sans Lien",
       );
       // recréer le graphique des langages GitHub
-      if (Object.keys(githubLanguages).length > 0) {
+      if (Object.keys(githubResult.data).length > 0) {
         // Convertir les bytes en pourcentages
-        const totalBytes = Object.values(githubLanguages).reduce(
+        const totalBytes = Object.values(githubResult.data).reduce(
           (sum, bytes) => sum + bytes,
           0,
         );
-        const languagePercentages = Object.entries(githubLanguages).reduce(
+        const languagePercentages = Object.entries(githubResult.data).reduce(
           (acc, [lang, bytes]) => {
             acc[lang] = Math.round((bytes / totalBytes) * 1000) / 10; // 1 décimale
             return acc;

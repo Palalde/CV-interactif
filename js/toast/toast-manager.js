@@ -332,16 +332,16 @@ export class ToastManager {
   setPosition(position) {
     this.position = position;
 
-    // Retirer toutes les classes de position existantes
-    this.container.classList.remove(
-      "toast-position-top-right",
-      "toast-position-top-left",
-      "toast-position-bottom-right",
-      "toast-position-bottom-left",
-    );
-
-    // Ajouter la nouvelle classe de position
-    this.container.classList.add(`toast-position-${position}`);
+    // Mettre à jour tous les conteneurs existants
+    Object.values(this.containers).forEach((container) => {
+      container.classList.remove(
+        "toast-position-top-right",
+        "toast-position-top-left",
+        "toast-position-bottom-right",
+        "toast-position-bottom-left",
+      );
+      container.classList.add(`toast-position-${position}`);
+    });
   }
 
   // BONUS 3: Get animation transform based on position

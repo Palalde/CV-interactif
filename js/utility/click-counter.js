@@ -9,9 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("clickCount", clickCount);
 
     if (clickCount % 5 === 0) {
-      console.log(`🎉 ${clickCount} clics !`);
-    } else {
-      console.log(`Trading chart clicked ${clickCount} times`);
+      // milestone atteint
     }
 
     if (clickCount % 10 === 0) {
@@ -20,7 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (clickCount >= 20) {
       localStorage.removeItem("clickCount");
-      console.log(`Compteur réinitialisé après ${clickCount} clics.`);
       clickCount = 0;
     }
   });

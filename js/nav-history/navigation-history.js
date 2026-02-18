@@ -120,7 +120,7 @@ export class NavigationHistory {
       try {
         const parsedData = JSON.parse(data);
         this.history = parsedData.history || [];
-        this.currentIndex = parsedData.currentIndex || -1;
+        this.currentIndex = parsedData.currentIndex ?? -1;
       } catch (e) {
         console.error(
           "Failed to parse navigation history from sessionStorage:",
