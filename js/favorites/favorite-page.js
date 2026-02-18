@@ -4,9 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // variables
   const manager = new FavoritesManager();
   const favoriteIds = manager.getAll();
-  const favoritesObjects = favoriteIds.map((id) =>
-    window.CV_COMPETENCES.find((comp) => comp.id === id),
-  );
+  const favoritesObjects = favoriteIds
+    .map((id) => window.CV_COMPETENCES.find((comp) => comp.id === id))
+    .filter(Boolean);
 
   // éléments du DOM
   // met à jour l'interface utilisateur en fonction des favoris
