@@ -36,7 +36,7 @@
       periode: "etudes",
       categories: ["soft-skills"],
       "#": ["organisation", "rigueur", "fac"],
-      description: "methode d'organisation du travail et gestion du temps.",
+      description: "Méthode d'organisation du travail et gestion du temps.",
       link: null,
     },
     {
@@ -45,8 +45,7 @@
       periode: "etudes",
       categories: ["hard-skills"],
       "#": ["langue", "communication", "fac"],
-      description:
-        'Compétences en communication écrite et orale en anglais. niveau "fluent".',
+      description: "Communication écrite et orale en anglais, niveau C1.",
       link: null,
     },
     {
@@ -180,6 +179,46 @@
       link: null,
     },
     {
+      id: "typescript",
+      name: "TypeScript",
+      periode: "dev",
+      categories: ["hard-skills", "frontend"],
+      "#": ["typescript", "types", "strict"],
+      description:
+        "Typage strict des composants et de la logique métier (ChefPlanning, Trait d'architecture).",
+      link: null,
+    },
+    {
+      id: "react",
+      name: "React",
+      periode: "dev",
+      categories: ["hard-skills", "frontend"],
+      "#": ["react", "hooks", "composants"],
+      description:
+        "Interfaces en composants, hooks personnalisés, état avec useReducer + Context (ChefPlanning) ; îlots React sur Trait d'architecture.",
+      link: null,
+    },
+    {
+      id: "astro",
+      name: "Astro",
+      periode: "dev",
+      categories: ["hard-skills", "frontend"],
+      "#": ["astro", "ssg", "islands"],
+      description:
+        "Sites pré-rendus avec îlots React ciblés ; SEO technique et Lighthouse 90+ (Trait d'architecture).",
+      link: "https://trait-darchitecture.vercel.app",
+    },
+    {
+      id: "vite",
+      name: "Vite",
+      periode: "dev",
+      categories: ["hard-skills", "frontend"],
+      "#": ["vite", "build", "tooling"],
+      description:
+        "Serveur de développement et build des projets React (ChefPlanning).",
+      link: null,
+    },
+    {
       id: "npm",
       name: "npm",
       periode: "dev",
@@ -187,6 +226,16 @@
       "#": ["npm", "packages", "nodejs"],
       description:
         "Gestion des dépendances, scripts de build et publication de packages avec NPM.",
+      link: null,
+    },
+    {
+      id: "vercel",
+      name: "Vercel",
+      periode: "dev",
+      categories: ["hard-skills"],
+      "#": ["vercel", "deploiement", "ci"],
+      description:
+        "Déploiement continu : build à chaque push, aperçus par branche (ce site, Trait d'architecture).",
       link: null,
     },
     {
@@ -207,6 +256,16 @@
       "#": ["responsive", "css", "mobile-first"],
       description:
         "Conception d'interfaces adaptatives optimisées pour mobile, tablette et desktop.",
+      link: null,
+    },
+    {
+      id: "accessibilite-web",
+      name: "Accessibilité web",
+      periode: "dev",
+      categories: ["hard-skills", "frontend"],
+      "#": ["a11y", "aria", "clavier"],
+      description:
+        "Focus trap, rôles et attributs ARIA, navigation clavier — mis en œuvre sur ce site.",
       link: null,
     },
   ];
