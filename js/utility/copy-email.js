@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   // variables
   const emailButton = document.getElementById("email-link");
-  const emailAddress = "paul.alessandrini@email.com";
+  const emailAddress = "palessandrini13@gmail.com";
   let hoverTooltip = null;
   let successTooltip = null;
   let errorTooltip = null;
