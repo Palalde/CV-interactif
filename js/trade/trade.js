@@ -442,21 +442,21 @@ document.addEventListener("DOMContentLoaded", function () {
       end: "2023-07",
       title: "Interdiction",
       description:
-        "À ce moment, ma stratégie est en grande partie basée sur les contrats futures qui deviennent interdits en France.",
+        "À ce moment, ma stratégie est en grande partie basée sur un type de contrat qui devient interdit en France.",
     },
     {
       start: "2023-08",
       end: "2024-08",
       title: "Adaptation",
       description:
-        "Je me réinvente pour essayer de réobtenir un revenu stable grâce aux avantages de l'USDT sur Binance.",
+        "Je me réadapte et cherche une nouvelle approche pour retrouver un revenu stable.",
     },
     {
       start: "2024-09",
       end: "2025-04",
       title: "Fin",
       description:
-        "L'USDT devient interdit en France ; j'ai du mal à me réinventer, je suis contraint d'arrêter le trading pour trouver un emploi alimentaire.",
+        "Nouvelle interdiction : malgré mes tentatives d'adaptation, j'arrête le trading pour me tourner vers un emploi alimentaire.",
     },
   ];
 
