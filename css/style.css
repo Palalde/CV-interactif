@@ -2991,6 +2991,15 @@ body.light #dev-terminal {
   overflow: hidden;
 }
 
+.competences-section .competences-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  padding-right: 4px;
+}
+
 .competences-section .competence-titre {
   align-self: flex-start;
 }
