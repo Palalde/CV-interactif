@@ -1,39 +1,39 @@
 // Xterm console source (bundled by esbuild into js/dev/console.bundle.js)
-import { Terminal } from 'xterm';
-import { FitAddon } from 'xterm-addon-fit';
-import 'xterm/css/xterm.css';
+import { Terminal } from "xterm";
+import { FitAddon } from "xterm-addon-fit";
+import "xterm/css/xterm.css";
 
 // Console banner (sobre): séparateurs discrets en dim + titre et rappel help
 const BANNER = [
-  '\x1b[2m───────────────────────────────\x1b[22m',
-  '\x1b[1mConsole CV\x1b[22m',
-  '(tapez \x1b[1mhelp\x1b[22m pour l\'aide et naviguer dans la suite du CV)',
-  '\x1b[2m───────────────────────────────\x1b[22m',
-  ''
-].join('\r\n');
+  "\x1b[2m───────────────────────────────\x1b[22m",
+  "\x1b[1mConsole CV\x1b[22m",
+  "(tapez \x1b[1mhelp\x1b[22m pour l'aide et naviguer dans la suite du CV)",
+  "\x1b[2m───────────────────────────────\x1b[22m",
+  "",
+].join("\r\n");
 
-function makePrompt(path = '~') {
+function makePrompt(path = "~") {
   return `paul@cv:${path}$ `;
 }
 
 function getCurrentTheme() {
-  return document.body.classList.contains('light') ? 'light' : 'dark';
+  return document.body.classList.contains("light") ? "light" : "dark";
 }
 
 function themeOptions(theme) {
-  if (theme === 'light') {
+  if (theme === "light") {
     return {
-      background: '#f7f7fb',
-      foreground: '#0b0d16',
-      cursor: '#2c2c34',
-      selectionBackground: '#cde0ffaa',
+      background: "#f7f7fb",
+      foreground: "#0b0d16",
+      cursor: "#2c2c34",
+      selectionBackground: "#cde0ffaa",
     };
   }
   return {
-    background: '#0b0d16',
-    foreground: '#e5e7eb',
-    cursor: '#93c5fd',
-    selectionBackground: '#1f4277aa',
+    background: "#0b0d16",
+    foreground: "#e5e7eb",
+    cursor: "#93c5fd",
+    selectionBackground: "#1f4277aa",
   };
 }
 
@@ -47,10 +47,12 @@ function fitOnResize(term, fit) {
 }
 
 // Write text with word-boundary wrapping to avoid cutting words at EOL
-function writeLn(term, text = '') {
+function writeLn(term, text = "") {
   const cols = Math.max(1, term?.cols || 80);
   // Normalize EOL, then wrap each logical line by spaces
-  const rawLines = String(text).replace(/\r\n|\r/g, '\n').split('\n');
+  const rawLines = String(text)
+    .replace(/\r\n|\r/g, "\n")
+    .split("\n");
   const wrapped = [];
   for (const line of rawLines) {
     if (line.length <= cols) {
@@ -58,9 +60,9 @@ function writeLn(term, text = '') {
       continue;
     }
     const words = line.split(/(\s+)/); // keep spaces as tokens
-    let cur = '';
+    let cur = "";
     for (const tok of words) {
-      if (tok === '') continue;
+      if (tok === "") continue;
       // If adding token would exceed width, flush current line
       if (cur.length > 0 && cur.length + tok.length > cols) {
         wrapped.push(cur);
@@ -76,9 +78,9 @@ function writeLn(term, text = '') {
             }
             i += cols;
           }
-          if (typeof cur !== 'string') cur = '';
+          if (typeof cur !== "string") cur = "";
         } else {
-          cur = tok.replace(/^\s+/, '');
+          cur = tok.replace(/^\s+/, "");
         }
       } else {
         cur += tok;
@@ -90,18 +92,18 @@ function writeLn(term, text = '') {
 }
 
 function openUrl(url) {
-  window.open(url, '_blank', 'noopener,noreferrer');
+  window.open(url, "_blank", "noopener,noreferrer");
 }
 
 function gotoSection(id) {
-  const slider = document.getElementById('myRange');
-  const order = ['etudes', 'trading', 'leclerc', 'dev'];
+  const slider = document.getElementById("myRange");
+  const order = ["etudes", "trading", "leclerc", "dev"];
   const idx = order.indexOf(id);
   if (slider && idx >= 0) {
     const snap = [1, 50, 100, 150][idx];
     slider.value = String(snap);
-    slider.dispatchEvent(new Event('input', { bubbles: true }));
-    slider.dispatchEvent(new Event('change', { bubbles: true }));
+    slider.dispatchEvent(new Event("input", { bubbles: true }));
+    slider.dispatchEvent(new Event("change", { bubbles: true }));
   }
 }
 
@@ -109,75 +111,92 @@ function installThemeSync(term) {
   const mo = new MutationObserver(() => {
     term.options.theme = themeOptions(getCurrentTheme());
   });
-  mo.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  mo.observe(document.body, { attributes: true, attributeFilter: ["class"] });
   return mo;
 }
 
 function createShell(term) {
-  let cwd = '~';
-  let input = '';
+  let cwd = "~";
+  let input = "";
 
   const commands = {
     help() {
       return [
-        '',
-        '\x1b[1mCommandes disponibles:\x1b[22m',
-        '  \x1b[1mdev\x1b[22m : Mon parcours',
-        '  \x1b[1mprojet\x1b[22m : Les projets prévus',
-        '  \x1b[1mclear\x1b[22m : Efface l\'écran',
-        '  \x1b[1mcontact\x1b[22m : Ouvre la page Contact',
-        '  \x1b[1mpdf\x1b[22m : Ouvre le CV PDF',
-        '  \x1b[1mgoto\x1b[22m <section> : etudes|trading|leclerc',
-      ].join('\r\n');
+        "",
+        "\x1b[1mCommandes disponibles:\x1b[22m",
+        "  \x1b[1mdev\x1b[22m : Mon parcours",
+        "  \x1b[1mprojet\x1b[22m : Mes projets",
+        "  \x1b[1mclear\x1b[22m : Efface l'écran",
+        "  \x1b[1mcontact\x1b[22m : Ouvre la page Contact",
+        "  \x1b[1mpdf\x1b[22m : Ouvre le CV PDF",
+        "  \x1b[1mgoto\x1b[22m <section> : etudes|trading|leclerc|dev",
+        "  \x1b[1mopen\x1b[22m <cible> : trait|chefplanning|cv|github|linkedin",
+      ].join("\r\n");
     },
     clear() {
       term.clear();
-      return '';
+      return "";
     },
     contact() {
-      openUrl('/html/contact-info.html');
-      return 'Ouverture de la page Contact…';
+      openUrl("/html/contact-info.html");
+      return "Ouverture de la page Contact…";
     },
     pdf() {
-      openUrl('/html/cv-classique.pdf');
-      return 'Ouverture du CV PDF…';
+      openUrl("/html/cv-classique.pdf");
+      return "Ouverture du CV PDF…";
     },
     dev() {
       return [
-        '',
-        '',
-        'Je me forme en autodidacte de manière intensive sur mon temps libre.',
-        'Je suis la roadmap Fullstack de roadmap.sh étape par étape en m\'appuyant sur des vidéos et des articles.',
-        'J\'utilise les agents IA pour accélérer la pratique tout en comprenant précisément chaque portion de code générée.',
-        'But : consolider des bases solides avant d\'avancer vers la suite du programme.',
-      ].join('\r\n');
+        "",
+        "",
+        "Le développement m'a toujours fasciné, je l'ai longtemps regardé de loin : dans les jeux vidéo, dans le trading, sans jamais oser m'y plonger.",
+        "Le jour où je m'y suis mis pour de bon, j'ai retrouvé ce plaisir simple : celui de voir une logique s'articuler, pièce par pièce.",
+        "Aujourd'hui, développeur web JavaScript/TypeScript — React, Astro.",
+        "Méthode : la plateforme web d'abord (DOM, Web APIs, accessibilité, performance), les frameworks ensuite.",
+        "Tapez `projet` pour voir mes réalisations, `open linkedin` ou `contact` pour me joindre.",
+      ].join("\r\n");
     },
     projet() {
       return [
-        '',
-        '',
-        'Ma validation des compétences passe par trois projets phares :',
-        '- Projet 1 — CV interactif : maîtriser HTML/CSS/JS sur un site statique soigné.',
-        '- Projet 2 — Créateur de planning : passer sur React + Tailwind CSS et renforcer le backend.',
-        '- Projet 3 — Classement & planning sportif : bâtir une application complète, publiable et potentiellement commercialisable.',
-        'Si ce dernier projet fonctionne, j\'en vis ; sinon il devient la vitrine de ma formation pour décrocher mon premier poste de développeur junior.',
-      ].join('\r\n');
+        "",
+        "",
+        "Mes projets :",
+        "- Trait d'architecture — site vitrine d'un atelier d'architecture — Astro 6 · React islands · TypeScript · Tailwind CSS 4",
+        "- ChefPlanning — planning hebdomadaire des équipes pour petits commerces, pensé pour un manager de rayon qui perdait 3 à 4 heures par semaine sur un planning Excel — React 19 · TypeScript · Vite · Tailwind CSS 4 · ESLint",
+        "- CV interactif — ce site — JavaScript vanilla · esbuild",
+        "Tapez `open <cible>` (trait, chefplanning, cv ou github) pour ouvrir un projet directement.",
+      ].join("\r\n");
     },
     goto(arg) {
-      const valid = ['etudes', 'trading', 'leclerc', 'dev'];
+      const valid = ["etudes", "trading", "leclerc", "dev"];
       if (!arg || !valid.includes(arg)) {
-        return 'Usage: goto etudes|trading|leclerc|dev';
+        return "Usage: goto etudes|trading|leclerc|dev";
       }
       gotoSection(arg);
       return `Navigation vers ${arg}…`;
+    },
+    open(arg) {
+      const targets = {
+        trait: "https://trait-darchitecture.vercel.app",
+        chefplanning: "https://github.com/Palalde/ChefPlanning",
+        cv: "https://github.com/Palalde/CV-interactif",
+        github: "https://github.com/Palalde",
+        linkedin: "https://www.linkedin.com/in/paul-alessandrini",
+      };
+      if (!arg || !Object.prototype.hasOwnProperty.call(targets, arg)) {
+        return "Usage: open trait|chefplanning|cv|github|linkedin";
+      }
+      openUrl(targets[arg]);
+      return `Ouverture de ${arg}…`;
     },
   };
 
   commands.Dev = commands.dev;
   commands.Projet = commands.projet;
+  commands.Open = commands.open;
 
   function printPrompt() {
-    term.write('\r\n' + makePrompt(cwd));
+    term.write("\r\n" + makePrompt(cwd));
   }
 
   function runCommand(line) {
@@ -200,21 +219,21 @@ function createShell(term) {
       // Enter
       if (code === 13) {
         runCommand(input);
-        input = '';
+        input = "";
         continue;
       }
       // Backspace
       if (code === 127 || code === 8) {
         if (input.length > 0) {
           input = input.slice(0, -1);
-          term.write('\b \b');
+          term.write("\b \b");
         }
         continue;
       }
       // Ctrl+C
       if (code === 3) {
-        writeLn(term, '^C');
-        input = '';
+        writeLn(term, "^C");
+        input = "";
         term.write(makePrompt(cwd));
         continue;
       }
@@ -256,17 +275,23 @@ export function initConsole(container) {
     const target = Math.max(11, Math.min(16, Math.round(w / 28)));
     if (term.options.fontSize !== target) {
       term.options.fontSize = target;
-      try { fitAddon.fit(); } catch {}
+      try {
+        fitAddon.fit();
+      } catch {}
     }
   }
   const roFont = new ResizeObserver(updateFontSize);
   roFont.observe(container);
-  window.addEventListener('resize', () => {
-    try { fitAddon.fit(); } catch {}
+  window.addEventListener("resize", () => {
+    try {
+      fitAddon.fit();
+    } catch {}
     updateFontSize();
   });
-  window.addEventListener('orientationchange', updateFontSize);
-  try { fitAddon.fit(); } catch {}
+  window.addEventListener("orientationchange", updateFontSize);
+  try {
+    fitAddon.fit();
+  } catch {}
   updateFontSize();
 
   // Sync with body theme
@@ -279,9 +304,13 @@ export function initConsole(container) {
   let isClosing = false;
   function toggleMobileKeyboard(e) {
     // Only on touch devices
-    if (!('ontouchstart' in window) && window.matchMedia('(pointer: fine)').matches) return;
-    
-    const textarea = container.querySelector('textarea.xterm-helper-textarea');
+    if (
+      !("ontouchstart" in window) &&
+      window.matchMedia("(pointer: fine)").matches
+    )
+      return;
+
+    const textarea = container.querySelector("textarea.xterm-helper-textarea");
     if (!textarea) return;
 
     // If keyboard is open (textarea has focus), close it
@@ -291,21 +320,39 @@ export function initConsole(container) {
       isClosing = true;
       textarea.blur();
       // Prevent immediate reopen
-      setTimeout(() => { isClosing = false; }, 300);
+      setTimeout(() => {
+        isClosing = false;
+      }, 300);
     }
   }
 
   // Use touchstart with capture to intercept before Xterm handles it
-  container.addEventListener('touchstart', toggleMobileKeyboard, { capture: true });
+  container.addEventListener("touchstart", toggleMobileKeyboard, {
+    capture: true,
+  });
 
   // Cleanup hook
   return () => {
-    try { ro.disconnect(); } catch {}
-    try { roFont.disconnect(); } catch {}
-    try { mo.disconnect(); } catch {}
-    try { window.removeEventListener('orientationchange', updateFontSize); } catch {}
-    try { container.removeEventListener('touchstart', toggleMobileKeyboard, { capture: true }); } catch {}
-    try { term.dispose(); } catch {}
+    try {
+      ro.disconnect();
+    } catch {}
+    try {
+      roFont.disconnect();
+    } catch {}
+    try {
+      mo.disconnect();
+    } catch {}
+    try {
+      window.removeEventListener("orientationchange", updateFontSize);
+    } catch {}
+    try {
+      container.removeEventListener("touchstart", toggleMobileKeyboard, {
+        capture: true,
+      });
+    } catch {}
+    try {
+      term.dispose();
+    } catch {}
   };
 }
 

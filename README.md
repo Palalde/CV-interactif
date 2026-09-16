@@ -16,7 +16,7 @@ First personal project (2025), used both as a public CV and as a hands-on lab fo
 | **Trading chart**      | Interactive candlestick chart (Lightweight Charts v5 API: `addSeries`, `createSeriesMarkers`) with crosshair and event markers            |
 | **Search**             | Full-text search over the skills dataset with autocomplete, period/category filters, localStorage history and an accessible modal overlay |
 | **Drag & drop**        | HTML5 Drag and Drop with a Pointer Events fallback for touch devices, scroll locking while dragging, live-region feedback                 |
-| **Embedded terminal**  | xterm.js console bundled with esbuild — `help`, `dev`, `projet`, `contact`, `pdf`, `goto <section>`                                       |
+| **Embedded terminal**  | xterm.js console bundled with esbuild — `help`, `dev`, `projet`, `contact`, `pdf`, `goto <section>`, `open <target>`                      |
 | **Stats dashboard**    | Skills analytics computed in a Web Worker, plus GitHub language breakdown and two-profile comparison via the GitHub REST API              |
 | **Favourites**         | Bookmark skills, dedicated page, JSON export/import, persisted in localStorage                                                            |
 | **Light / dark theme** | Full theme switch with adaptive icons, persisted across pages                                                                             |
