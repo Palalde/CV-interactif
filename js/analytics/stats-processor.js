@@ -80,7 +80,7 @@ export class StatsProcessor {
 
   // fetch GitHub languages (avec répartition détaillée par bytes)
   static async fetchGitHubLanguages(username) {
-    const reposUrl = `https://api.github.com/users/${username}/repos`;
+    const reposUrl = `https://api.github.com/users/${encodeURIComponent(username)}/repos`;
 
     try {
       const response = await fetch(reposUrl);
