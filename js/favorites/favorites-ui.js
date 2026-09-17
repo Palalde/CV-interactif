@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      // BONUS 5 : Animation lors du toggle
+      // Animation lors du toggle
       animateStar(star, isFavorite);
 
       // CORRECTIF : Synchroniser toutes les instances d'une même compétence
@@ -250,7 +250,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mobileBadge.style.display = count > 0 ? "flex" : "none";
   }
 
-  // BONUS 5 : Animer l'étoile lors du toggle
+  // Animer l'étoile lors du toggle
   function animateStar(star, isFavorite) {
     // Retirer les classes d'animation précédentes
     star.classList.remove("animating", "favoriting", "is-favorite");
@@ -297,7 +297,7 @@ document.addEventListener("DOMContentLoaded", () => {
         badge.style.display = "none";
       }
 
-      // BONUS 5 : Animation pulse du badge
+      // Animation pulse du badge
       if (animate && count > 0 && window.innerWidth > 1000) {
         badge.classList.remove("updating");
         void badge.offsetWidth; // Force reflow

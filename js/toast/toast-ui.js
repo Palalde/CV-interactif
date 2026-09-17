@@ -34,7 +34,7 @@ window.toast.dismissAll = () => {
   manager.dismissAll();
 };
 
-// BONUS 3: Change position of toast container
+// Change position of toast container
 window.toast.setPosition = (position) => {
   manager.setPosition(position);
 };

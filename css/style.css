@@ -5414,16 +5414,16 @@ body.light .form-group input:-webkit-autofill:active {
 }
 
 /* =============================================
-   EXERCICE CSS
+   HEADER WIDGETS & FAVORITES
    ============================================= */
 
-/* exercice 1 */
+/* Compteur de clics (image trading) */
 .grow {
   transition: transform 0.2s ease;
   transform: scale(1.1);
 }
 
-/* exercice 2 */
+/* Horloge et date du header */
 
 /* DATE & CLOCK CONTAINER */
 .date-container {
@@ -5499,7 +5499,7 @@ body.light .greeting-text {
   }
 }
 
-/* exercice 3 */
+/* Copie de l'email au clic */
 
 .email-link:hover {
   cursor: pointer;
@@ -5610,7 +5610,7 @@ body.light .tooltip-success {
   position: relative;
 }
 
-/* EXERCICE 5 */
+/* FAVORIS */
 
 /* Bouton étoile de favori */
 .favorite-star {
@@ -6265,7 +6265,7 @@ body.light .filter-btn[aria-pressed="true"]:hover {
 }
 
 /* =============================================
-   COLOR GENERATOR MODAL (Exercice 6)
+   COLOR GENERATOR MODAL
    ============================================= */
 
 /* Overlay (fond semi-transparent) */
@@ -7210,7 +7210,7 @@ body.light .color-info-value {
   pointer-events: none;
 }
 
-/* BONUS 3: Positions personnalisables */
+/* Positions personnalisables */
 .toast-position-top-right {
   top: 20px;
   right: 20px;
@@ -7251,7 +7251,7 @@ body.light .color-info-value {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* BONUS 4: Wrapper pour le contenu principal (sans les actions) */
+/* Wrapper pour le contenu principal (sans les actions) */
 .toast-content-wrapper {
   display: flex;
   align-items: center;
@@ -7311,7 +7311,7 @@ body.light .color-info-value {
   opacity: 1;
 }
 
-/* BONUS 4: Actions (boutons dans les toasts) */
+/* Actions (boutons dans les toasts) */
 .toast-actions {
   display: flex;
   gap: 8px;
@@ -8145,7 +8145,7 @@ body.light .compare-loading {
 }
 
 /* =============================================
-   EXERCICE 9 : NAVIGATION HISTORY CONTROLS
+   NAVIGATION HISTORY CONTROLS
    ============================================= */
 
 /* Desktop: Boutons ← → dans la navbar */

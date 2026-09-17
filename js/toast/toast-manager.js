@@ -10,14 +10,14 @@ export class ToastManager {
     this.toastId = 0;
     // container element for toasts
     this.container = null;
-    // BONUS 3: position du conteneur (top-right, top-left, bottom-right, bottom-left)
+    // position du conteneur (top-right, top-left, bottom-right, bottom-left)
     this.position = position;
     this.init();
   }
 
   // Initialize the toast container
   init() {
-    // BONUS 3: Utiliser des conteneurs multiples pour supporter différentes positions
+    // Utiliser des conteneurs multiples pour supporter différentes positions
     this.containers = {};
 
     // Event delegation globale sur le body pour tous les conteneurs
@@ -27,7 +27,7 @@ export class ToastManager {
 
       const id = toastElement.dataset.toastId;
 
-      // BONUS 4: Gérer les clics sur les boutons d'action
+      // Gérer les clics sur les boutons d'action
       const actionBtn = event.target.closest(".toast-action-btn");
       if (actionBtn) {
         const actionIndex = parseInt(actionBtn.dataset.actionIndex);
@@ -42,7 +42,7 @@ export class ToastManager {
     });
   }
 
-  // BONUS 3: Obtenir ou créer un conteneur pour une position donnée
+  // Obtenir ou créer un conteneur pour une position donnée
   getOrCreateContainer(position) {
     // MOBILE (≤715px) : Forcer tous les toasts à utiliser la même position pour éviter la superposition
     const isMobile = window.innerWidth <= 715;
@@ -71,10 +71,10 @@ export class ToastManager {
     const id = `toast-${this.toastId}`;
     this.toastId++;
 
-    // BONUS 3: Supporter position personnalisée par toast
+    // Supporter position personnalisée par toast
     const position = options.position || this.position;
 
-    // BONUS 4: Supporter actions (boutons) dans le toast
+    // Supporter actions (boutons) dans le toast
     const actions = options.actions || [];
 
     // object
@@ -102,7 +102,7 @@ export class ToastManager {
     // accessible text
     toast.setAttribute("role", "alert");
 
-    // BONUS 4: Générer le HTML des actions
+    // Générer le HTML des actions
     let actionsHTML = "";
     if (actions.length > 0) {
       actionsHTML = '<div class="toast-actions">';
@@ -149,7 +149,7 @@ export class ToastManager {
   displayToast(toastData) {
     const { id, message, type, duration, position, actions } = toastData;
 
-    // BONUS 3: Utiliser le conteneur approprié pour cette position
+    // Utiliser le conteneur approprié pour cette position
     const targetPosition = position || this.position;
     const container = this.getOrCreateContainer(targetPosition);
 
@@ -167,14 +167,14 @@ export class ToastManager {
       startTime: Date.now(),
       remainingTime: duration,
       timeoutId: null, // sera rempli plus bas
-      position: position || this.position, // BONUS 3: stocker la position
-      actions: actions || [], // BONUS 4: stocker les actions
+      position: position || this.position, // stocker la position
+      actions: actions || [], // stocker les actions
     };
 
     // ajouter à this.toasts
     this.toasts.push(toastObj);
 
-    // BONUS 3: déterminer la direction d'animation selon la position
+    // déterminer la direction d'animation selon la position
     const animationTransform = this.getAnimationTransform(
       position || this.position,
     );
@@ -209,7 +209,7 @@ export class ToastManager {
       }, duration);
     }
 
-    // BONUS 2: ajouter les listeners pause/resume
+    // ajouter les listeners pause/resume
     toastElement.addEventListener("mouseenter", () => {
       this.pauseToast(id);
     });
@@ -237,7 +237,7 @@ export class ToastManager {
     // IMPORTANT : Retirer du tableau IMMÉDIATEMENT pour éviter les doubles suppressions
     this.toasts.splice(toastIndex, 1);
 
-    // BONUS 3: animation de sortie selon la position
+    // animation de sortie selon la position
     const animationTransform = this.getAnimationTransform(toastObj.position);
     toastElement.style.opacity = "0";
     toastElement.style.transform = animationTransform.initial;
@@ -254,7 +254,7 @@ export class ToastManager {
     }, 300);
   }
 
-  // BONUS 2: Pause toast on hover
+  // Pause toast on hover
   pauseToast(id) {
     const toast = this.toasts.find((t) => t.id === id);
     if (!toast) return;
@@ -279,7 +279,7 @@ export class ToastManager {
     progressBar.style.width = `${widthPercent}%`; // Figer à la position actuelle
   }
 
-  // BONUS 2: Resume toast when mouse leaves
+  // Resume toast when mouse leaves
   resumeToast(id) {
     const toast = this.toasts.find((t) => t.id === id);
     if (!toast || toast.remainingTime <= 0) return;
@@ -299,7 +299,7 @@ export class ToastManager {
     }, toast.remainingTime);
   }
 
-  // BONUS 4: Handle action button click
+  // Handle action button click
   handleActionClick(toastId, actionIndex) {
     const toast = this.toasts.find((t) => t.id === toastId);
     if (!toast || !toast.actions || !toast.actions[actionIndex]) return;
@@ -330,7 +330,7 @@ export class ToastManager {
     this.queue = [];
   }
 
-  // BONUS 3: Set position of toast container
+  // Set position of toast container
   setPosition(position) {
     this.position = position;
 
@@ -346,7 +346,7 @@ export class ToastManager {
     });
   }
 
-  // BONUS 3: Get animation transform based on position
+  // Get animation transform based on position
   getAnimationTransform(position) {
     const transforms = {
       "top-right": {
