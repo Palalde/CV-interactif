@@ -2,50 +2,6 @@
 import { StatsProcessor } from "./stats-processor.js";
 
 addEventListener("DOMContentLoaded", async () => {
-  // ========================================================================
-  // REMPLACEMENT DU WORKER PAR LE PROCESSOR DIRECTEMENT DANS LE MAIN THREAD
-  // ========================================================================
-  // // processor instance de window global competences
-  // const processor = new StatsProcessor(window.CV_COMPETENCES || []);
-
-  // // generer le rapport
-  // const report = await processor.generateFullReport();
-  // console.log("Generated Report:", report);
-
-  // // masquer le chargement et afficher la grille
-  // loading.style.display = "none";
-  // grid.style.display = "grid";
-
-  // // creer les graphiques
-  // createBarChart(report.byCategory, grid, "Compétences par Catégorie");
-  // createBarChart(report.byPeriod, grid, "Compétences par Période");
-  // createBarChart(report.percentages, grid, "Pourcentage de Compétences avec/sans Lien");
-
-  // // fetch et afficher les languages GitHub
-  // const githubLanguages = await fetchGitHubLanguages("Palalde");
-  // if (Object.keys(githubLanguages).length > 0) {
-  //     createBarChart(githubLanguages, grid, "Langages GitHub Utilisés");
-  // }
-
-  // // activer le bouton d'export CSV
-  // const exportBtn = document.getElementById("export-csv-btn");
-  // exportBtn.disabled = false;
-  // // ajouter l'event listener
-  // exportBtn.addEventListener("click", () => {
-  //     exportToCSV(report.byCategory, "competences_by_category.csv");
-  // });
-
-  // // canvas pie chart
-  // const pieSection = document.getElementById("pie-chart-section");
-  // pieSection.style.display = "block";
-  // // camembert
-  // createPieChart(report.byCategory, "pie-chart-canvas", "pie-chart-legend");
-
-  // // filtrer par periodes
-  // // recuperer le conteneur des filtres
-  // const periodFilterContainer = document.getElementById("stats-filters");
-  // ========================================================================
-
   // creer le worker
   const statsWorker = new Worker("../js/analytics/stats-worker.js", {
     type: "module",
