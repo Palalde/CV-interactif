@@ -59,6 +59,20 @@ addEventListener("DOMContentLoaded", async () => {
     const report = event.data;
 
     // DOM elements
+
+    function escapeHtml(value) {
+      return String(value).replace(
+        /[&<>"']/g,
+        (character) =>
+          ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;",
+          })[character],
+      );
+    }
     const loading = document.getElementById("stats-loading");
     const grid = document.getElementById("stats-grid");
 
@@ -431,10 +445,10 @@ addEventListener("DOMContentLoaded", async () => {
                 <div class="compare-profile-header">
                     <img 
                         class="compare-avatar" 
-                        src="https://github.com/${comparison.user1.username}.png" 
+                      src="https://github.com/${encodeURIComponent(comparison.user1.username)}.png" 
                         alt="Avatar"
                     />
-                    <span class="compare-username">${comparison.user1.username}</span>
+                    <span class="compare-username">${escapeHtml(comparison.user1.username)}</span>
                 </div>
                 <div class="compare-lang-list">
                     ${createLanguageBars(user1Percentages)}
@@ -444,10 +458,10 @@ addEventListener("DOMContentLoaded", async () => {
                 <div class="compare-profile-header">
                     <img 
                         class="compare-avatar" 
-                        src="https://github.com/${comparison.user2.username}.png" 
+                      src="https://github.com/${encodeURIComponent(comparison.user2.username)}.png" 
                         alt="Avatar"
                     />
-                    <span class="compare-username">${comparison.user2.username}</span>
+                    <span class="compare-username">${escapeHtml(comparison.user2.username)}</span>
                 </div>
                 <div class="compare-lang-list">
                     ${createLanguageBars(user2Percentages)}
@@ -470,7 +484,7 @@ addEventListener("DOMContentLoaded", async () => {
         const barWidth = (percentage / maxPercentage) * 100;
         return `
                 <div class="compare-lang-item">
-                    <span class="compare-lang-name">${lang}</span>
+                    <span class="compare-lang-name">${escapeHtml(lang)}</span>
                         <div class="compare-lang-bar">
                             <div class="compare-lang-fill" style="width: ${barWidth}%"></div>
                         </div>
