@@ -7,6 +7,9 @@ todo/
 # Node modules
 node_modules/
 
+# Generated console bundle
+js/dev/dist/
+
 # Logs
 *.log
 npm-debug.log*
