@@ -120,12 +120,14 @@ export class ToastManager {
     toast.innerHTML = `
             <div class="toast-content-wrapper">
                 <span class="toast-icon">${icon}</span>
-                <span class="toast-message">${message}</span>
+                <span class="toast-message"></span>
                 <button class="toast-close" aria-label="Fermer">✕</button>
             </div>
             ${actionsHTML}
             <div class="toast-progress"></div>  
         `;
+    // message may echo user input (e.g. a GitHub username): never parse it as HTML
+    toast.querySelector(".toast-message").textContent = message;
 
     return toast;
   }
