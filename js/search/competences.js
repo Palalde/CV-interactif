@@ -206,7 +206,7 @@
       "#": ["astro", "ssg", "islands"],
       description:
         "Sites pré-rendus avec îlots React ciblés ; SEO technique et Lighthouse 90+ (Trait d'architecture).",
-      link: "https://trait-darchitecture.vercel.app",
+      link: "https://traitdarchitecture.com",
     },
     {
       id: "vite",

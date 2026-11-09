@@ -177,7 +177,7 @@ function createShell(term) {
     },
     open(arg) {
       const targets = {
-        trait: "https://trait-darchitecture.vercel.app",
+        trait: "https://traitdarchitecture.com",
         chefplanning: "https://github.com/Palalde/ChefPlanning",
         cv: "https://github.com/Palalde/CV-interactif",
         github: "https://github.com/Palalde",
